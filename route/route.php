@@ -21,9 +21,9 @@ Route::any('up', '\app\v1\file\controller\index@up');
 Route::any('upfull', '\app\v1\file\controller\index@upfull');
 
 Route::any(':any', function () {
-    return \think\facade\Request::url();
+    return request()::url();
 });
 
 Route::any('', function () {
-    return \think\facade\Request::url();
+    return request()::url();
 });
