@@ -5,17 +5,19 @@ namespace app\v1\file\controller;
 
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
+use BaseController\CommonController;
 use SendFile\SendFile;
 use think\Request;
 use think\response\Json;
 
-class index
+class index extends CommonController
 {
 
     public $token;
 
-    public function __construct()
+    public function initialize()
     {
+        parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
             \Ret::fail('token');
