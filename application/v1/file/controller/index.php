@@ -5,9 +5,7 @@ namespace app\v1\file\controller;
 
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
-use OSS\AliyunOSS;
 use SendFile\SendFile;
-use think\facade\Validate;
 use think\Request;
 
 class index
@@ -33,42 +31,39 @@ class index
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
         if (!$proc) {
-            \Ret::fail('项目不可用');
+            $this->fail('项目不可用');
         }
+
         $file = $request->file('file');
         if (!$file) {
-            \Ret::fail('file字段没有用文件提交');
+            $this->fail('file字段没有用文件提交');
         }
         $hash = $file->hash('md5');
         // 判断附件格式是否符合
-        $file_name = $file->getFilename();
-        if ($file_exists = AttachmentModel::where(['token' => $token, 'md5' => $file->hash('md5')])->find()) {
+        $file_name = $file->getInfo('name');
+
+
+        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $file->hash('md5')])) {
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
-            return \Ret::succ($sav);
+            return $this->succ($sav);
         }
-        if (!Validate::fileExt($file, $proc['ext'])) {
-            \Ret::fail("ext not allow");
+        $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
+        if (!$info) {
+            $this->fail($file->getError());
             return;
         }
-        if (!Validate::fileSize($file, (float)$proc['size'] * 1024)) {
-            \Ret::fail("size too big");
-            return;
-        }
-
-        $savePath = date('Ymd', time());
-
-        $info = $file->move('upload/' . $this->token . "/" . $savePath, $hash . "." . $file->getOriginalExtension());
-        $fileName = $this->token . "/" . $savePath . "/" . $info->getFilename();
+        $fileName = $proc['name'] . '/' . $info->getSaveName();
         $file_info = [
             'token' => $token,
-            'name' => $file->getOriginalName(),
-            'mime' => $file->getOriginalMime(),
+            'name' => $file->getInfo('name'),
+            'mime' => $file->getInfo('type'),
             'path' => $fileName,
-            'ext' => $file->getOriginalExtension(),
+            'ext' => $info->getExtension(),
             'size' => $info->getSize(),
-            'md5' => $info->md5(),
+            'md5' => $info->hash('md5'),
         ];
+
         if ($proc["type"] == "local" || $proc["type"] == "all") {
             if ($proc['main_type'] == 'local') {
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
@@ -76,13 +71,13 @@ class index
         }
         if ($proc["type"] == "remote" || $proc["type"] == "all") {
             $sf = new SendFile();
-            $ret = $sf->send('http://' . $proc["endpoint"] . '/up?token=' . $proc["bucket"], realpath('upload/' . $fileName), $file->getType(), $file->getFilename());
+            $ret = $sf->send('http://' . $proc["endpoint"] . '/up?token=' . $proc["bucket"], realpath('./upload/' . $fileName), $file->getInfo('type'), $file->getInfo('name'));
             $json = json_decode($ret, 1);
             $sav = ($full ? $proc['url'] . '/' : '') . $json["data"];
         }
         if ($proc["type"] == "oss" || $proc["type"] == "all") {
-            $oss = new AliyunOSS($proc);
-            $oss->uploadFile($proc["bucket"],$info->getPathname(),$fileName);
+            $oss = new \OSS\AliyunOSS($proc);
+            $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
             if ($proc['main_type'] == 'oss') {
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
             }
@@ -94,12 +89,12 @@ class index
 //        AttachmentModel::create($file_info);
         if ($info) {
             if ($ue) {
-                \Ret::succ(['src' => $sav]);
+                $this->succ(['src' => $sav]);
             } else {
-                \Ret::succ($sav);
+                $this->succ($sav);
             }
         } else {
-            \Ret::fail($file->getError());
+            $this->fail($file->getError());
         }
     }
 
