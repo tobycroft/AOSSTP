@@ -14,7 +14,7 @@ class index extends CommonController
 
     public $token;
 
-    public function initialize()
+    public function __construct()
     {
         parent::initialize();
         $this->token = input('get.token');
