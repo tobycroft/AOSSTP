@@ -18,6 +18,7 @@
     "require": {
         "php": ">=5.6.0",
         "topthink/framework": "^5.1",
+        "phpoffice/phpspreadsheet": "^1.23",
         "aliyuncs/oss-sdk-php": "^2.5"
     },
     "autoload": {
