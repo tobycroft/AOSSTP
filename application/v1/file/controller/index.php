@@ -31,12 +31,12 @@ class index
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
         if (!$proc) {
-            $this->fail('项目不可用');
+            \Ret::fail('项目不可用');
         }
 
         $file = $request->file('file');
         if (!$file) {
-            $this->fail('file字段没有用文件提交');
+            \Ret::fail('file字段没有用文件提交');
         }
         $hash = $file->hash('md5');
         // 判断附件格式是否符合
@@ -46,11 +46,11 @@ class index
         if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $file->hash('md5')])) {
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
-            return $this->succ($sav);
+            return \Ret::succ($sav);
         }
         $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
         if (!$info) {
-            $this->fail($file->getError());
+            \Ret::fail($file->getError());
             return;
         }
         $fileName = $proc['name'] . '/' . $info->getSaveName();
@@ -89,12 +89,12 @@ class index
 //        AttachmentModel::create($file_info);
         if ($info) {
             if ($ue) {
-                $this->succ(['src' => $sav]);
+                \Ret::succ(['src' => $sav]);
             } else {
-                $this->succ($sav);
+                \Ret::succ($sav);
             }
         } else {
-            $this->fail($file->getError());
+            \Ret::fail($file->getError());
         }
     }
 
