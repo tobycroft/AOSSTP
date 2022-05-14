@@ -4,17 +4,19 @@ namespace app\v1\excel\controller;
 
 
 use app\v1\project\model\ProjectModel;
+use BaseController\CommonController;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use think\facade\Request;
 use think\facade\Validate;
 
-class index
+class index extends CommonController
 {
 
     public $token;
 
-    public function __construct()
+    public function initialize()
     {
+        parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
             \Ret::fail('token');
