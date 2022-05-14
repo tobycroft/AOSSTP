@@ -8,7 +8,6 @@ use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use SendFile\SendFile;
 use think\Request;
-use think\response\Json;
 
 class index extends CommonController
 {
