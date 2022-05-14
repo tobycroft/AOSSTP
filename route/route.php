@@ -27,3 +27,4 @@ Route::any(':any', function () {
 Route::any('', function () {
     return request()::url();
 });
+
