@@ -79,7 +79,7 @@ class index
             $oss = new \OSS\AliyunOSS($proc);
             $ret = $oss->uploadFile($proc['bucket'], $info->getSaveName(), $info->getPathname());
             if ($proc['main_type'] == 'oss') {
-                $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
+                $sav = ($full ? $proc['url'] . '/' : '') . $info->getSaveName();
             }
             if ($proc["type"] != "all") {
                 unlink($info->getPathname());
