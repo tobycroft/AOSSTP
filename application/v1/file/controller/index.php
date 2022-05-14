@@ -7,6 +7,7 @@ use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use SendFile\SendFile;
 use think\Request;
+use think\response\Json;
 
 class index
 {
@@ -77,9 +78,9 @@ class index
         }
         if ($proc["type"] == "oss" || $proc["type"] == "all") {
             $oss = new \OSS\AliyunOSS($proc);
-            $ret = $oss->uploadFile($proc['bucket'], $info->getSaveName(), $info->getPathname());
+            $ret = $oss->uploadFile($proc['bucket'], str_replace("\\", "/", $info->getSaveName()), $info->getPathname());
             if ($proc['main_type'] == 'oss') {
-                $sav = ($full ? $proc['url'] . '/' : '') . $info->getSaveName();
+                $sav = $ret->getData()["info"]["url"];
             }
             if ($proc["type"] != "all") {
                 unlink($info->getPathname());

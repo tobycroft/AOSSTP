@@ -8,6 +8,8 @@
 
 namespace OSS;
 
+use think\response\Json;
+
 class AliyunOSS {
 
 	public $oss;
@@ -40,7 +42,7 @@ class AliyunOSS {
 	 * @param string $Path 本地文件路径
 	 * @return null
 	 */
-	public function uploadFile($bucket, $object, $Path) {
+	public function uploadFile($bucket, $object, $Path):Json {
 		//try 要执行的代码,如果代码执行过程中某一条语句发生异常,则程序直接跳转到CATCH块中,由$e收集错误信息和显示
 		try {
 			//没忘吧，new_oss()是我们上一步所写的自定义函数
