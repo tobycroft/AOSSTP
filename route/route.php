@@ -13,7 +13,10 @@
     return 'hello,ThinkPHP5!';
 });
 
-\think\facade\Route::any(':version/:module/:controller/:function', '\app\:version\:module\controller\:controller@:function');
+\think\facade\Route::any(':version/:module/:controller/:function', '\app\:version\:module\controller\:controller@:function')
+    ->header('Access-Control-Allow-Origin', '*')
+    ->header('Access-Control-Allow-Credentials', 'true')
+    ->allowCrossDomain();;
 
 
 \think\facade\Route::any('up', '\app\v1\file\controller\index@up');
