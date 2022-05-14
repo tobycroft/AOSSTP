@@ -9,13 +9,14 @@ use BaseController\CommonController;
 use SendFile\SendFile;
 use think\Request;
 
-class index
+class index extends CommonController
 {
 
     public $token;
 
-    public function __construct()
+    public function initialize()
     {
+        parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
             \Ret::fail('token');
