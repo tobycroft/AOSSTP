@@ -16,11 +16,17 @@
 \think\facade\Route::any(':version/:module/:controller/:function', '\app\:version\:module\controller\:controller@:function')
     ->header('Access-Control-Allow-Origin', '*')
     ->header('Access-Control-Allow-Credentials', 'true')
-    ->allowCrossDomain();;
+    ->allowCrossDomain();
 
 
-\think\facade\Route::any('up', '\app\v1\file\controller\index@up');
-\think\facade\Route::any('upfull', '\app\v1\file\controller\index@upfull');
+\think\facade\Route::any('up', '\app\v1\file\controller\index@up')
+    ->header('Access-Control-Allow-Origin', '*')
+    ->header('Access-Control-Allow-Credentials', 'true')
+    ->allowCrossDomain();
+\think\facade\Route::any('upfull', '\app\v1\file\controller\index@upfull')
+    ->header('Access-Control-Allow-Origin', '*')
+    ->header('Access-Control-Allow-Credentials', 'true')
+    ->allowCrossDomain();
 
 
 \think\facade\Route::any(':any', function () {
