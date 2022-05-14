@@ -9,23 +9,22 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-Route::get('think', function () {
+\think\facade\Route::get('think', function () {
     return 'hello,ThinkPHP5!';
 });
 
-
-Route::any(':version/:module/:controller/:function', '\app\:version\:module\controller\:controller@:function');
-
-
-Route::any('up', '\app\v1\file\controller\index@up');
-Route::any('upfull', '\app\v1\file\controller\index@upfull');
+\think\facade\Route::any(':version/:module/:controller/:function', '\app\:version\:module\controller\:controller@:function');
 
 
-Route::any(':any', function () {
+\think\facade\Route::any('up', '\app\v1\file\controller\index@up');
+\think\facade\Route::any('upfull', '\app\v1\file\controller\index@upfull');
+
+
+\think\facade\Route::any(':any', function () {
     return request()::url();
 });
 
-Route::any('', function () {
+\think\facade\Route::any('', function () {
     return request()::url();
 });
 

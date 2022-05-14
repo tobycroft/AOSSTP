@@ -2,7 +2,9 @@
 
 namespace BaseController;
 
-class CommonController
+use think\Controller;
+
+class CommonController extends Controller
 {
     public function initialize()
     {
