@@ -23,6 +23,7 @@
     ->header('Access-Control-Allow-Origin', '*')
     ->header('Access-Control-Allow-Credentials', 'true')
     ->allowCrossDomain();
+
 \think\facade\Route::any('upfull', '\app\v1\file\controller\index@upfull')
     ->header('Access-Control-Allow-Origin', '*')
     ->header('Access-Control-Allow-Credentials', 'true')
