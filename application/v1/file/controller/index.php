@@ -79,15 +79,19 @@ class index
         if ($proc["type"] == "oss" || $proc["type"] == "all") {
             $oss = new \OSS\AliyunOSS($proc);
             $ret = $oss->uploadFile($proc['bucket'], str_replace("\\", "/", $info->getSaveName()), $info->getPathname());
+            if (empty($ret->getData()["info"]["url"])) {
+                \Ret::fail("OSS不正常");
+            }
             if ($proc['main_type'] == 'oss') {
                 $sav = $ret->getData()["info"]["url"];
+                $file_info["path"] = $ret->getData()["info"]["url"];
             }
             if ($proc["type"] != "all") {
                 unlink($info->getPathname());
             }
         }
 
-//        AttachmentModel::create($file_info);
+        AttachmentModel::create($file_info);
         if ($info) {
             if ($ue) {
                 \Ret::succ(['src' => $sav]);
