@@ -22,7 +22,7 @@
 
 
 \think\facade\Route::any(':any', function () {
-    return \think\facade\Route::url();
+    return \think\facade\Request::url();
 });
 
 \think\facade\Route::any('', function () {
