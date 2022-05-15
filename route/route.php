@@ -22,10 +22,10 @@
 
 
 \think\facade\Route::any(':any', function () {
-    return request()::url();
+    return \think\facade\Route::url();
 });
 
 \think\facade\Route::any('', function () {
-    return request()::url();
+    return \think\facade\Route::url();
 });
 

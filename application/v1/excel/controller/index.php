@@ -25,6 +25,7 @@ class index extends CommonController
 
     public function index()
     {
+        exit();
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
         if (!$proc) {
@@ -105,7 +106,6 @@ class index extends CommonController
             \Ret::fail("size too big");
             return;
         }
-
         $info = $file->move('./upload/excel', $hash . "." . $file->getOriginalExtension());
         $reader = IOFactory::load($info->getPathname());
         unlink($info->getPathname());
