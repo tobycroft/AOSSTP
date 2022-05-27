@@ -85,7 +85,6 @@ class index extends CommonController
                 \Ret::fail("OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
-//                $sav = $ret->getData()["info"]["url"];
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
             }
             if ($proc["type"] != "all") {
