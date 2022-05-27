@@ -86,7 +86,7 @@ class index extends CommonController
             }
             if ($proc['main_type'] == 'oss') {
 //                $sav = $ret->getData()["info"]["url"];
-                $sav = ($full ? $proc['url'] . '/' : '') . $json["data"];
+                $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
             }
             if ($proc["type"] != "all") {
                 unlink($info->getPathname());
