@@ -6,6 +6,7 @@ namespace app\v1\file\controller;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use OSS\Core\OssException;
 use SendFile\SendFile;
 use think\Request;
 
@@ -79,8 +80,12 @@ class index extends CommonController
             $sav = ($full ? $proc['url'] . '/' : '') . $json["data"];
         }
         if ($proc["type"] == "oss" || $proc["type"] == "all") {
-            $oss = new \OSS\AliyunOSS($proc);
-            $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
+            try {
+                $oss = new \OSS\AliyunOSS($proc);
+                $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
+            } catch (OssException $e) {
+                \Ret::fail($e->getMessage(), 200);
+            }
             if (empty($ret->getData()["info"]["url"])) {
                 \Ret::fail("OSS不正常");
             }
