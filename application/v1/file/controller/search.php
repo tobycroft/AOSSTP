@@ -17,6 +17,9 @@ class search extends index
             \Ret::fail("需要md5字段");
         }
         $file_exists = AttachmentModel::where("md5", $md5)->find();
+        if (empty($file_exists)) {
+            \Ret::fail("未找到文件，请先上传");
+        }
         $file_exists["src"] = $file_exists['path'];
         $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
         $file_exists["surl"] = $file_exists['path'];
