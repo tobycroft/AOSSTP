@@ -49,7 +49,22 @@ class index extends CommonController
         if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $file->hash('md5')])) {
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
-            return \Ret::succ($sav);
+            switch ($type) {
+                case "ue":
+                    \Ret::succ(['src' => $sav]);
+                    break;
+
+                case "complete":
+                    $file_exists["src"] = $sav;
+                    $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
+                    $file_exists["surl"] = $file_exists['path'];
+                    \Ret::succ($file_exists);
+                    break;
+
+                default:
+                    \Ret::succ($sav);
+                    break;
+            }
         }
         $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
         if (!$info) {
@@ -85,12 +100,12 @@ class index extends CommonController
         }
         $file_info = [
             'token' => $token,
-            'name' => $file->getInfo('name'),
+            'name' => $file_name,
             'mime' => $file->getInfo('type'),
             'path' => $fileName,
             'ext' => $ext,
             'size' => $info->getSize(),
-            'md5' => $info->hash('md5'),
+            'md5' => $hash,
             'duration' => $duration,
             'duration_str' => $duration_str,
             'bitrate' => $bitrate,
@@ -134,7 +149,8 @@ class index extends CommonController
 
                 case "complete":
                     $file_info["src"] = $sav;
-                    $file_info["url"] = $sav;
+                    $file_info["url"] = $proc['url'] . '/' . $file_info['path'];
+                    $file_info["surl"] = $file_info['path'];
                     \Ret::succ($file_info);
                     break;
 
