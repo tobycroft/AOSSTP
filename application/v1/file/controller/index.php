@@ -73,7 +73,7 @@ class index extends CommonController
             case "ogg":
             case "aac":
                 $ana = $getId3->analyze($info->getPathname());
-                json_encode($ana, 320);
+                echo json_encode($ana, 320);
                 exit();
                 break;
 
@@ -82,7 +82,7 @@ class index extends CommonController
             case "wmv":
             case "asf":
                 $ana = $getId3->analyze($info->getPathname());
-                json_encode($ana, 320);
+            echo json_encode($ana, 320);
                 exit();
 
 
