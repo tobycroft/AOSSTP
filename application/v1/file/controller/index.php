@@ -65,7 +65,6 @@ class index extends CommonController
         $bitrate = 0;
 
         $ext = $info->getExtension();
-        $getId3 = new \getID3();
 
         switch ($ext) {
             case "mp3":
@@ -76,11 +75,12 @@ class index extends CommonController
             case "avi":
             case "mp4":
             case "aac":
-                $ana = $getId3->analyze($info->getPathname());
-                $duration = $ana["playtime_seconds"];
-                $bitrate = $ana["bitrate"];
-                $duration_str = $ana["playtime_string"];
-                break;
+            $getId3 = new \getID3();
+            $ana = $getId3->analyze($info->getPathname());
+            $duration = $ana["playtime_seconds"];
+            $bitrate = $ana["bitrate"];
+            $duration_str = $ana["playtime_string"];
+            break;
 
         }
         $file_info = [
