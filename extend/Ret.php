@@ -4,6 +4,7 @@ class Ret
 {
     public static function succ($data = '成功', $code = 0)
     {
+        header('Content-type: application/json');
         echo json_encode([
             'code' => $code,
             'data' => $data,
