@@ -59,9 +59,37 @@ class index extends CommonController
 
         $fileName = $proc['name'] . '/' . $info->getSaveName();
         $fileName = str_replace("\\", "/", $fileName);
+
+        $duration = 0;
+        $duration_str = "00:00";
+        $bitrate = 0;
+
         $ext = $info->getExtension();
         $getId3 = new \getID3();
-        $getId3->analyze($fileName);
+
+        switch ($ext) {
+            case "mp3":
+            case "wav":
+            case "ogg":
+            case "aac":
+                $ana = $getId3->analyze($info->getPathname());
+                json_encode($ana, 320);
+                exit();
+                break;
+
+            case "mp4":
+            case "avi":
+            case "wmv":
+            case "asf":
+                $ana = $getId3->analyze($info->getPathname());
+                json_encode($ana, 320);
+                exit();
+
+
+                break;
+
+
+        }
         $file_info = [
             'token' => $token,
             'name' => $file->getInfo('name'),
@@ -70,7 +98,9 @@ class index extends CommonController
             'ext' => $ext,
             'size' => $info->getSize(),
             'md5' => $info->hash('md5'),
-            'duration' => 0,
+            'duration' => $duration,
+            'duration_str' => $duration_str,
+            'bitrate' => $bitrate,
         ];
 
         if ($proc["type"] == "local" || $proc["type"] == "all") {
