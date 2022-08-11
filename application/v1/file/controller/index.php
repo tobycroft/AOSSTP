@@ -71,26 +71,16 @@ class index extends CommonController
             case "mp3":
             case "wav":
             case "ogg":
+            case "asf":
+            case "wmv":
+            case "avi":
+            case "mp4":
             case "aac":
                 $ana = $getId3->analyze($info->getPathname());
-            $duration = $ana["playtime_seconds"];
-            $bitrate = $ana["bitrate"];
-            $duration_str = $ana["playtime_string"];
-            echo json_encode($ana, 320);
-            exit();
-            break;
-
-            case "mp4":
-            case "avi":
-            case "wmv":
-            case "asf":
-                $ana = $getId3->analyze($info->getPathname());
-            echo json_encode($ana, 320);
-                exit();
-
-
+                $duration = $ana["playtime_seconds"];
+                $bitrate = $ana["bitrate"];
+                $duration_str = $ana["playtime_string"];
                 break;
-
 
         }
         $file_info = [
