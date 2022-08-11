@@ -29,7 +29,7 @@ class index extends CommonController
         dump(config('aliyun.'));
     }
 
-    public function upload_file(Request $request, $full = 0, $ue = 0)
+    public function upload_file(Request $request, $full = 0, $type = null)
     {
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
@@ -56,16 +56,21 @@ class index extends CommonController
             \Ret::fail($file->getError());
             return;
         }
+
         $fileName = $proc['name'] . '/' . $info->getSaveName();
         $fileName = str_replace("\\", "/", $fileName);
+        $ext = $info->getExtension();
+        $getId3 = new \getID3();
+        $getId3->analyze($fileName);
         $file_info = [
             'token' => $token,
             'name' => $file->getInfo('name'),
             'mime' => $file->getInfo('type'),
             'path' => $fileName,
-            'ext' => $info->getExtension(),
+            'ext' => $ext,
             'size' => $info->getSize(),
             'md5' => $info->hash('md5'),
+            'duration' => 0,
         ];
 
         if ($proc["type"] == "local" || $proc["type"] == "all") {
@@ -99,10 +104,18 @@ class index extends CommonController
 
         AttachmentModel::create($file_info);
         if ($info) {
-            if ($ue) {
-                \Ret::succ(['src' => $sav]);
-            } else {
-                \Ret::succ($sav);
+            switch ($type) {
+                case "ue":
+                    \Ret::succ(['src' => $sav]);
+                    break;
+
+                case "complete":
+
+                    break;
+
+                default:
+                    \Ret::succ($sav);
+                    break;
             }
         } else {
             \Ret::fail($file->getError());
@@ -113,9 +126,9 @@ class index extends CommonController
     {
         $file = $request->file('file');
         if ($file) {
-            return $this->upload_file($request);
+            $this->upload_file($request);
         } else {
-            return $this->upload_base64($request);
+            $this->upload_base64($request);
         }
     }
 
@@ -123,9 +136,9 @@ class index extends CommonController
     {
         $file = $request->file('file');
         if ($file) {
-            return $this->upload_file($request, 1);
+            $this->upload_file($request, 1);
         } else {
-            return $this->upload_base64($request, 1);
+            $this->upload_base64($request, 1);
         }
     }
 
@@ -133,9 +146,19 @@ class index extends CommonController
     {
         $file = $request->file('file');
         if ($file) {
-            return $this->upload_file($request, 1, 1);
+            $this->upload_file($request, 1, "ue");
         } else {
-            return $this->upload_base64($request, 1, 1);
+            $this->upload_base64($request, 1, 1);
+        }
+    }
+
+    public function up_complete(Request $request)
+    {
+        $file = $request->file('file');
+        if ($file) {
+            $this->upload_file($request, 1, "complete");
+        } else {
+            $this->upload_base64($request, 1, 1);
         }
     }
 
