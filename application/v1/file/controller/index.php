@@ -73,9 +73,12 @@ class index extends CommonController
             case "ogg":
             case "aac":
                 $ana = $getId3->analyze($info->getPathname());
-                echo json_encode($ana, 320);
-                exit();
-                break;
+            $duration = $ana["playtime_seconds"];
+            $bitrate = $ana["bitrate"];
+            $duration_str = $ana["playtime_string"];
+            echo json_encode($ana, 320);
+            exit();
+            break;
 
             case "mp4":
             case "avi":
