@@ -9,7 +9,7 @@ class search extends index
 {
 
 
-    public function md5(Request $request)
+    public function md5()
     {
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
