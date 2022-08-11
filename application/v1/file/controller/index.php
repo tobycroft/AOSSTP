@@ -55,7 +55,7 @@ class index extends CommonController
                     break;
 
                 case "complete":
-                    $file_exists["src"] = $sav;
+                    $file_exists["src"] = $file_exists['path'];
                     $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
                     $file_exists["surl"] = $file_exists['path'];
                     \Ret::succ($file_exists);
