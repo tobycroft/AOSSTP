@@ -8,7 +8,6 @@ use app\v1\project\model\ProjectModel;
 class search extends index
 {
 
-
     public function md5()
     {
         $token = $this->token;
