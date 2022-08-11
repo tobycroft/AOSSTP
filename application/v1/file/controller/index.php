@@ -75,12 +75,12 @@ class index extends CommonController
             case "avi":
             case "mp4":
             case "aac":
-            $getId3 = new \getID3();
-            $ana = $getId3->analyze($info->getPathname());
-            $duration = $ana["playtime_seconds"];
-            $bitrate = $ana["bitrate"];
-            $duration_str = $ana["playtime_string"];
-            break;
+                $getId3 = new \getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                $duration = $ana["playtime_seconds"];
+                $bitrate = $ana["bitrate"];
+                $duration_str = $ana["playtime_string"];
+                break;
 
         }
         $file_info = [
@@ -133,6 +133,8 @@ class index extends CommonController
                     break;
 
                 case "complete":
+                    $file_info["src"] = $sav;
+                    $file_info["url"] = $sav;
                     \Ret::succ($file_info);
                     break;
 
