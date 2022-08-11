@@ -140,7 +140,7 @@ class index extends CommonController
                     break;
 
                 case "complete":
-
+                    \Ret::succ($file_info);
                     break;
 
                 default:
