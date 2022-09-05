@@ -14,6 +14,13 @@ class index
 
     public function __construct()
     {
+        header("Content-Type: image/jpeg");
+
+        header("Access-Control-Allow-Origin: *", true);
+        header("Access-Control-Max-Age: 86400", true);
+        header("Access-Control-Allow-Credentials: true", true);
+        header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE", true);
+        header("Access-Control-Allow-Headers: *", true);
         header("bbb: bbb");
 
         $this->token = input('get.token');
@@ -33,7 +40,7 @@ class index
     public function qrcode()
     {
         header("ccc: ccc");
-        header("Content-Type: image/jpeg;");
+        header("Content-Type: image/jpeg");
 
         $data = input('get.data');
         $prog = new MiniProgram(new ProgramConfig($this->config));
