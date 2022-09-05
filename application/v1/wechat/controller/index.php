@@ -12,7 +12,7 @@ class index
     public string $token;
     public array $config;
 
-    public function initialize()
+    public function __construct()
     {
         header("bbb: bbb");
 
