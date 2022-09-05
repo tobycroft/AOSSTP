@@ -21,8 +21,7 @@
       "phpoffice/phpspreadsheet": "^1.23",
       "aliyuncs/oss-sdk-php": "^2.5",
       "james-heinrich/getid3": "^1.9",
-      "ext-curl": "*",
-        "w7corp/easywechat": "^6.7"
+      "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {
