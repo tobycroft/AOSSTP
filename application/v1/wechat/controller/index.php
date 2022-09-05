@@ -36,6 +36,8 @@ class index extends CommonController
     public function qrcode()
     {
         $data = input('get.data');
+        echo "1";
+        return;
         $this->app = new Application($this->config);
         $ret = $this->app->getClient()->postJson("wxa/getwxacodeunlimit", [
             'scene' => '123',
