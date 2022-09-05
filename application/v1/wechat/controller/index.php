@@ -4,7 +4,6 @@ namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
 use BaseController\CommonController;
-use WeMini\Crypt;
 use Yingou\MiniProgram\MiniProgram;
 
 class index extends CommonController
@@ -35,7 +34,16 @@ class index extends CommonController
     public function qrcode()
     {
         $data = input('get.data');
-        $prog = new MiniProgram($this->config);
+        $prog = new MiniProgram(new ProgramConfig());
         $prog->createQrCode->create("/test?", 480);
+    }
+}
+
+class ProgramConfig extends \Yingou\MiniProgram\Config
+{
+
+    public function setAccessToken($token, $expires = 0)
+    {
+        //覆盖写入 如 redis
     }
 }
