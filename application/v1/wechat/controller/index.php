@@ -15,6 +15,7 @@ class index extends CommonController
 
     public function initialize()
     {
+        header("content-type: image/jpeg");
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
