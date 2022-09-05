@@ -13,7 +13,6 @@ class CommonController extends Controller
         header("Access-Control-Allow-Credentials: true", true);
         header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE", true);
         header("Access-Control-Allow-Headers: *", true);
-        header("aaa: aaa");
         // 服务启动
     }
 }

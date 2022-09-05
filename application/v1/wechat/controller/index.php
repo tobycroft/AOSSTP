@@ -15,6 +15,8 @@ class index extends CommonController
 
     public function initialize()
     {
+        header("bbb: bbb");
+
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
@@ -32,6 +34,7 @@ class index extends CommonController
 
     public function qrcode()
     {
+        header("ccc: ccc");
         $data = input('get.data');
         $prog = new MiniProgram(new ProgramConfig($this->config));
         $ret = $prog->createQrCode->create("/test?", 480);
