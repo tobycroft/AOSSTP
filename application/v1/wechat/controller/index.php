@@ -3,10 +3,9 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
-use BaseController\CommonController;
 use Yingou\MiniProgram\MiniProgram;
 
-class index extends CommonController
+class index
 {
 
     public $app;
@@ -17,7 +16,6 @@ class index extends CommonController
     {
         header("bbb: bbb");
 
-        parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
             \Ret::fail('token');
