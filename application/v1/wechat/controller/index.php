@@ -34,10 +34,10 @@ class index extends CommonController
 
     public function qrcode()
     {
-        header("Content-type:image/jpeg");
         $data = input('get.data');
         $prog = new MiniProgram(new ProgramConfig($this->config));
         $ret = $prog->createQrCode->create("/test?", 480);
+        header("content-type: image/jpeg");
         return $ret;
     }
 }
