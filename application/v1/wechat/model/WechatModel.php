@@ -6,7 +6,7 @@ use think\Model;
 
 class WechatModel extends Model
 {
-    protected $table = 'ao_attachment';
+    protected $table = 'ao_wechat';
 
 
 }
