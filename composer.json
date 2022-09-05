@@ -22,7 +22,7 @@
       "aliyuncs/oss-sdk-php": "^2.5",
       "james-heinrich/getid3": "^1.9",
       "ext-curl": "*",
-      "w7corp/easywechat": "^6.7"
+        "zoujingli/wechat-developer": "^1.2"
     },
     "autoload": {
         "psr-4": {
