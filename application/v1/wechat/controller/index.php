@@ -15,7 +15,6 @@ class index extends CommonController
 
     public function initialize()
     {
-        header("content-type: image/jpeg");
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
@@ -29,9 +28,6 @@ class index extends CommonController
             'appId' => $wechat["app_id"],
             'secret' => $wechat["secret"],
         ];
-        header("content-type: image/jpeg");
-        header("asd: dsad");
-
     }
 
     public function qrcode()
