@@ -45,7 +45,8 @@ class index
         $ret = $prog->createQrCode->create("/test?", 480);
         header_remove("content-type");
         header("content-type: image/jpeg", true);
-        return $ret;
+        var_dump(getallheaders());
+//        return $ret;
     }
 }
 
