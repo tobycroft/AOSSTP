@@ -3,7 +3,6 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
-use think\Response;
 use Yingou\MiniProgram\MiniProgram;
 
 class index
@@ -41,12 +40,11 @@ class index
     public function qrcode()
     {
         header("ccc: ccc");
-
         $data = input('get.data');
         $prog = new MiniProgram(new ProgramConfig($this->config));
         $ret = $prog->createQrCode->create("/test?", 480);
         header("content-type: image/jpeg");
-        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
+        return $ret;
     }
 }
 
