@@ -44,11 +44,7 @@ class ProgramConfig extends \Yingou\MiniProgram\Config
 
     public function getAccessToken()
     {
-        $fileName = input('get.token') . '/';
-        $data = json_decode($fileName . $this->tmpFile, true);
-        if ($data['expire'] > time()) {
-            return $data['token'];
-        }
+
     }
 
     public function setAccessToken($token, $expires = 0)
