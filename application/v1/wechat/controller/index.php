@@ -42,6 +42,17 @@ class index extends CommonController
 class ProgramConfig extends \Yingou\MiniProgram\Config
 {
 
+    public function getAccessToken()
+    {
+        if (!file_exists(sys_get_temp_dir() . $this->tmpFile)) {
+            return null;
+        }
+        $data = json_decode(file_get_contents(sys_get_temp_dir() . $this->tmpFile), true);
+        if ($data['expire'] > time()) {
+            return $data['token'];
+        }
+    }
+
     public function setAccessToken($token, $expires = 0)
     {
         //覆盖写入 如 redis
