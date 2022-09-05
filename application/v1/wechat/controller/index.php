@@ -28,6 +28,7 @@ class index extends CommonController
             'appId' => $wechat["app_id"],
             'secret' => $wechat["secret"],
         ];
+        header("Content-type:image/jpeg");
 
     }
 
