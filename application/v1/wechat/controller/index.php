@@ -3,6 +3,7 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
+use think\Response;
 use Yingou\MiniProgram\MiniProgram;
 
 class index
@@ -14,14 +15,11 @@ class index
 
     public function __construct()
     {
-        header("Content-Type: image/jpeg");
-
         header("Access-Control-Allow-Origin: *", true);
         header("Access-Control-Max-Age: 86400", true);
         header("Access-Control-Allow-Credentials: true", true);
         header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE", true);
         header("Access-Control-Allow-Headers: *", true);
-        header("bbb: bbb");
 
         $this->token = input('get.token');
         if (!$this->token) {
@@ -39,13 +37,11 @@ class index
 
     public function qrcode()
     {
-        header("ccc: ccc");
         $data = input('get.data');
         $prog = new MiniProgram(new ProgramConfig($this->config));
         $ret = $prog->createQrCode->create("/test?", 480);
-        header("Content-Type: image/jpeg", false);
-        var_dump(getallheaders());
-//        return $ret;
+        header("content-type: image/jpeg");
+        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
     }
 }
 
