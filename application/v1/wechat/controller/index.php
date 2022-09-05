@@ -30,6 +30,7 @@ class index extends CommonController
             'secret' => $wechat["secret"],
         ];
         header("content-type: image/jpeg");
+        header("asd: dsad");
 
     }
 
