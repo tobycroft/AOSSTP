@@ -39,7 +39,8 @@ class index extends CommonController
         $ret = $prog->createQrCode->create("/test?", 480);
 
         $str = imagecreatefromstring($ret);
-        imagepng($str);
+        echo $str;
+//        imagepng($str);
     }
 }
 
