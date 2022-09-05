@@ -35,7 +35,8 @@ class index extends CommonController
     {
         $data = input('get.data');
         $prog = new MiniProgram(new ProgramConfig($this->config));
-        $prog->createQrCode->create("/test?", 480);
+        $ret = $prog->createQrCode->create("/test?", 480);
+        echo $ret;
     }
 }
 
