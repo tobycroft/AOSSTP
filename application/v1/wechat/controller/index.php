@@ -43,8 +43,7 @@ class index
         $data = input('get.data');
         $prog = new MiniProgram(new ProgramConfig($this->config));
         $ret = $prog->createQrCode->create("/test?", 480);
-        header_remove("content-type");
-        header("content-type: image/jpeg", true);
+        header("Content-Type: image/jpeg", false);
         var_dump(getallheaders());
 //        return $ret;
     }
