@@ -21,8 +21,7 @@
       "phpoffice/phpspreadsheet": "^1.23",
       "aliyuncs/oss-sdk-php": "^2.5",
       "james-heinrich/getid3": "^1.9",
-      "ext-curl": "*",
-        "zoujingli/wechat-developer": "^1.2"
+      "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +34,8 @@
     "config": {
         "preferred-install": "dist",
         "allow-plugins": {
-            "topthink/think-installer": true
+            "topthink/think-installer": true,
+            "easywechat-composer/easywechat-composer": true
         }
     }
 }

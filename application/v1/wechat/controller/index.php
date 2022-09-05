@@ -4,7 +4,7 @@ namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
 use BaseController\CommonController;
-use EasyWeChat\MiniApp\Application;
+use WeMini\Crypt;
 
 class index extends CommonController
 {
@@ -25,10 +25,10 @@ class index extends CommonController
             \Ret::fail("未找到项目");
         }
         $this->config = [
-            'app_id' => $wechat["app_id"],
-            'secret' => $wechat["secret"],
+            'appid' => $wechat["app_id"],
+            'appsecret' => $wechat["secret"],
             'token' => $wechat["token"],
-            'aes_key' => $wechat["aes_key"]
+            'encodingaeskey' => $wechat["aes_key"]
         ];
 
     }
@@ -36,9 +36,7 @@ class index extends CommonController
     public function qrcode()
     {
         $data = input('get.data');
-        echo "1";
-        return;
-        $this->app = new Application($this->config);
+        $this->app = Crypt::instance();
         $ret = $this->app->getClient()->postJson("wxa/getwxacodeunlimit", [
             'scene' => '123',
             'page' => 'pages/index/index',
