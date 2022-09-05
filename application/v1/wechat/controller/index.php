@@ -16,7 +16,7 @@ class index extends CommonController
         }
     }
 
-    public function ()
+    public function index()
     {
 
     }
