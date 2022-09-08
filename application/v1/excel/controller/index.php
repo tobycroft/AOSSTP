@@ -106,7 +106,7 @@ class index extends CommonController
             return;
         }
         echo $hash;
-        return
+        return;
             $info = $file->move('./upload/excel', $hash . "." . $file->getOriginalExtension());
         echo $info->getPathname();
         return;
