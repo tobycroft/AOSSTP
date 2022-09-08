@@ -107,6 +107,7 @@ class index extends CommonController
         }
         $info = $file->move('./upload/excel');
         $reader = IOFactory::load($info->getPathname());
+        unlink($info->getPathname());
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
             \Ret::fail("表格长度不足");
@@ -131,6 +132,5 @@ class index extends CommonController
             $colums[] = $arr;
         }
         echo json_encode($colums);
-        unlink($info->getPathname());
     }
 }
