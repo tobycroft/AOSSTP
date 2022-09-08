@@ -105,9 +105,9 @@ class index extends CommonController
             \Ret::fail("size too big");
             return;
         }
+        return;
         $info = $file->move('./upload/excel', $hash . "." . $file->getOriginalExtension());
         echo $info->getPathname();
-        return;
         $reader = IOFactory::load($info->getPathname());
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
