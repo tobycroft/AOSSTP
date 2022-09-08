@@ -6,8 +6,8 @@ namespace app\v1\excel\controller;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use think\facade\Request;
 use think\facade\Validate;
+use think\Request;
 
 class index extends CommonController
 {
