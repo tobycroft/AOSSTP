@@ -107,6 +107,7 @@ class index extends CommonController
         }
         $info = $file->move('./upload/excel', $hash . "." . $file->getOriginalExtension());
         echo $info->getPathname();
+        return;
         $reader = IOFactory::load($info->getPathname());
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
