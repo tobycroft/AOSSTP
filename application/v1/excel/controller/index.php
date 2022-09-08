@@ -83,7 +83,7 @@ class index extends CommonController
         echo json_encode($colums);
     }
 
-    public function force()
+    public function force(Request $request)
     {
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
@@ -91,7 +91,7 @@ class index extends CommonController
             \Ret::fail('项目不可用');
             return;
         }
-        $file = Request::file("file");
+        $file = $request->file("file");
         if (!$file) {
             \Ret::fail('file字段没有用文件提交');
             return;
@@ -105,7 +105,7 @@ class index extends CommonController
             \Ret::fail("size too big");
             return;
         }
-        echo $file->getOriginalExtension();
+        echo $file;
         return;
         $info = $file->move('./upload/excel', $hash . "." . $file->getOriginalExtension());
         echo $info->getPathname();
