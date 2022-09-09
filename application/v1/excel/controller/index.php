@@ -23,7 +23,7 @@ class index extends CommonController
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
@@ -31,7 +31,7 @@ class index extends CommonController
             \Ret::fail('项目不可用');
             return;
         }
-        $file = Request::file("file");
+        $file = $request->file("file");
         if (!$file) {
             \Ret::fail('file字段没有用文件提交');
             return;
