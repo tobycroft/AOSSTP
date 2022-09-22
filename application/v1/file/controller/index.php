@@ -115,7 +115,7 @@ class index extends search
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
             }
         }
-        if ($proc["type"] == "remote" || $proc["type"] == "all") {
+        if ($proc["type"] == "dp" || $proc["type"] == "all") {
             $sf = new SendFile();
             $ret = $sf->send('http://' . $proc["endpoint"] . '/up?token=' . $proc["bucket"], realpath('./upload/' . $fileName), $file->getInfo('type'), $file->getInfo('name'));
             $json = json_decode($ret, 1);
