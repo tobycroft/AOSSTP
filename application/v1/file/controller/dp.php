@@ -82,12 +82,13 @@ class dp extends CommonController
         if (!$file) {
             return $this->uploadError($from, "请先上传文件", $callback);
         }
-        $hash = $file->hash('md5');
+        $md5 = $file->hash('md5');
+        $sha1 = $file->hash("sha1");
         $mime = $file->getInfo('type');
         // 判断附件格式是否符合
         $file_name = $file->getInfo('name');
 
-        if ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $hash])) {
+        if ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
             $sav = $proc['url'] . '/' . $file_info['path'];
             return $this->uploadSuccess($from, $sav, $file_info['name'], $sav, $callback, $file_info);
         }
@@ -133,7 +134,8 @@ class dp extends CommonController
             'path' => $fileName,
             'ext' => $ext,
             'size' => $info->getSize(),
-            'md5' => $hash,
+            'md5' => $md5,
+            'sha1' => $sha1,
             'duration' => $duration,
             'duration_str' => $duration_str,
             'bitrate' => $bitrate,

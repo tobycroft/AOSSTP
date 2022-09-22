@@ -40,13 +40,14 @@ class index extends search
         if (!$file) {
             \Ret::fail('file字段没有用文件提交');
         }
-        $hash = $file->hash('md5');
+        $md5 = $file->hash('md5');
+        $sha1 = $file->hash("sha1");
         $mime = $file->getInfo('type');
         // 判断附件格式是否符合
         $file_name = $file->getInfo('name');
 
 
-        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $hash])) {
+        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
             switch ($type) {
@@ -78,6 +79,8 @@ class index extends search
         $duration = 0;
         $duration_str = "00:00";
         $bitrate = 0;
+        $width = 0;
+        $height = 0;
 
         $ext = $info->getExtension();
 
@@ -97,6 +100,18 @@ class index extends search
                 $duration_str = $ana["playtime_string"];
                 break;
 
+            case "png":
+            case "jpg":
+            case "jpeg":
+            case "bmp":
+            case "gif":
+            case "tiff":
+                $getId3 = new \getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                $width = $ana["width"];
+                $height = $ana["height"];
+                break;
+
         }
         $file_info = [
             'token' => $token,
@@ -105,7 +120,10 @@ class index extends search
             'path' => $fileName,
             'ext' => $ext,
             'size' => $info->getSize(),
-            'md5' => $hash,
+            'md5' => $md5,
+            'sha1' => $sha1,
+            'width' => $width,
+            'height' => $height,
             'duration' => $duration,
             'duration_str' => $duration_str,
             'bitrate' => $bitrate,
