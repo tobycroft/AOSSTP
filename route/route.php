@@ -26,6 +26,6 @@
 });
 
 \think\facade\Route::any('', function () {
-    return 'hello,AOSS!';
+    return 'AOSS!';
 });
 
