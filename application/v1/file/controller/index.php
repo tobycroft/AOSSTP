@@ -47,7 +47,27 @@ class index extends search
         // 判断附件格式是否符合
 
 
-        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
+        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5, 'sha1' => $sha1])) {
+            $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
+            // 附件已存在
+            switch ($type) {
+                case "ue":
+                    \Ret::succ(['src' => $sav]);
+                    break;
+
+                case "complete":
+                    $file_exists["src"] = $file_exists['path'];
+                    $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
+                    $file_exists["surl"] = $file_exists['path'];
+                    \Ret::succ($file_exists);
+                    break;
+
+                default:
+                    \Ret::succ($sav);
+                    break;
+            }
+        } elseif ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
+            AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5]);
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
             switch ($type) {
@@ -67,6 +87,7 @@ class index extends search
                     break;
             }
         }
+
         $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
         if (!$info) {
             \Ret::fail($file->getError());
@@ -106,7 +127,7 @@ class index extends search
             case "bmp":
             case "gif":
             case "tiff":
-                $getId3 = new \getID3();
+            $getId3 = new \getID3();
             $ana = $getId3->analyze($info->getPathname());
             $width = $ana["video"]["resolution_x"];
             $height = $ana["video"]["resolution_y"];
