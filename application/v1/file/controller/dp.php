@@ -205,6 +205,7 @@ class dp extends CommonController
 
     private function uploadError($from, $msg = '', $callback = '')
     {
+        parent::initialize();
         switch ($from) {
             case 'wangeditor':
                 return "error|" . $msg;
@@ -229,6 +230,7 @@ class dp extends CommonController
 
     private function uploadSuccess($from, $file_path = '', $file_name = '', $file_id = '', $callback = '', $data = [])
     {
+        parent::initialize();
         switch ($from) {
             case 'wangeditor':
                 return $file_path;
