@@ -48,46 +48,12 @@ class index extends search
 
 
         if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5, 'sha1' => $sha1])) {
-            $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
-            // 附件已存在
-            switch ($type) {
-                case "ue":
-                    \Ret::succ(['src' => $sav]);
-                    break;
-
-                case "complete":
-                    $file_exists["src"] = $file_exists['path'];
-                    $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
-                    $file_exists["surl"] = $file_exists['path'];
-                    \Ret::succ($file_exists);
-                    break;
-
-                default:
-                    \Ret::succ($sav);
-                    break;
-            }
+            $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         } elseif ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
             if (!AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5])) {
                 \Ret::fail("sha1更新失败", "500");
             }
-            $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
-            // 附件已存在
-            switch ($type) {
-                case "ue":
-                    \Ret::succ(['src' => $sav]);
-                    break;
-
-                case "complete":
-                    $file_exists["src"] = $file_exists['path'];
-                    $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
-                    $file_exists["surl"] = $file_exists['path'];
-                    \Ret::succ($file_exists);
-                    break;
-
-                default:
-                    \Ret::succ($sav);
-                    break;
-            }
+            $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         }
 
         $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
@@ -332,6 +298,36 @@ class index extends search
                 'data' => '图片格式编码错误'
             ];
         }
+    }
+
+    /**
+     * @param mixed $full
+     * @param $url
+     * @param AttachmentModel $file_exists
+     * @param mixed $type
+     * @return string
+     */
+    public function getStr(mixed $full, $url, AttachmentModel $file_exists, mixed $type): string
+    {
+        $sav = ($full ? $url . '/' : '') . $file_exists['path'];
+        // 附件已存在
+        switch ($type) {
+            case "ue":
+                \Ret::succ(['src' => $sav]);
+                break;
+
+            case "complete":
+                $file_exists["src"] = $file_exists['path'];
+                $file_exists["url"] = $url . '/' . $file_exists['path'];
+                $file_exists["surl"] = $file_exists['path'];
+                \Ret::succ($file_exists);
+                break;
+
+            default:
+                \Ret::succ($sav);
+                break;
+        }
+        return $sav;
     }
 
 
