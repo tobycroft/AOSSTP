@@ -134,13 +134,13 @@ class dp extends CommonController
             case "bmp":
             case "gif":
             case "tiff":
-            $getId3 = new \getID3();
-            $ana = $getId3->analyze($info->getPathname());
-            $width = $ana["video"]["resolution_x"];
-            $height = $ana["video"]["resolution_y"];
-            $bitrate = $ana["video"]["bits_per_sample"];
-            $duration_str = $ana["video"]["compression_ratio"];
-            break;
+                $getId3 = new \getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                $width = $ana["video"]["resolution_x"];
+                $height = $ana["video"]["resolution_y"];
+                $bitrate = $ana["video"]["bits_per_sample"];
+                $duration_str = $ana["video"]["compression_ratio"];
+                break;
         }
 
         $file_info = [
