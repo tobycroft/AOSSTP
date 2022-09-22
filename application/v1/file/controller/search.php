@@ -9,6 +9,11 @@ use BaseController\CommonController;
 class search extends CommonController
 {
 
+    public function initialize()
+    {
+        parent::initialize();
+    }
+
     public function md5()
     {
         $token = $this->token;
