@@ -87,7 +87,11 @@ class dp extends CommonController
         $mime = $file->getInfo('type');
         // 判断附件格式是否符合
 
-        if ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
+        if ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $md5, 'sha1' => $sha1])) {
+            $sav = $proc['url'] . '/' . $file_info['path'];
+            return $this->uploadSuccess($from, $sav, $file_info['name'], $sav, $callback, $file_info);
+        } elseif ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
+            AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5]);
             $sav = $proc['url'] . '/' . $file_info['path'];
             return $this->uploadSuccess($from, $sav, $file_info['name'], $sav, $callback, $file_info);
         }
@@ -121,7 +125,7 @@ class dp extends CommonController
             case "avi":
             case "mp4":
             case "aac":
-                $getId3 = new \getID3();
+            $getId3 = new \getID3();
             $ana = $getId3->analyze($info->getPathname());
             $duration = $ana["playtime_seconds"];
             $bitrate = $ana["bitrate"];
