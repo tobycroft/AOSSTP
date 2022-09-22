@@ -67,7 +67,9 @@ class index extends search
                     break;
             }
         } elseif ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
-            AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5]);
+            if (!AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5])) {
+                \Ret::fail("sha1更新失败", "500");
+            }
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
             switch ($type) {
@@ -127,13 +129,13 @@ class index extends search
             case "bmp":
             case "gif":
             case "tiff":
-            $getId3 = new \getID3();
-            $ana = $getId3->analyze($info->getPathname());
-            $width = $ana["video"]["resolution_x"];
-            $height = $ana["video"]["resolution_y"];
-            $bitrate = $ana["video"]["bits_per_sample"];
-            $duration_str = $ana["video"]["compression_ratio"];
-            break;
+                $getId3 = new \getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                $width = $ana["video"]["resolution_x"];
+                $height = $ana["video"]["resolution_y"];
+                $bitrate = $ana["video"]["bits_per_sample"];
+                $duration_str = $ana["video"]["compression_ratio"];
+                break;
         }
 
         $file_info = [

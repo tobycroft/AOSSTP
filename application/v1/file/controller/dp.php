@@ -91,7 +91,9 @@ class dp extends CommonController
             $sav = $proc['url'] . '/' . $file_info['path'];
             return $this->uploadSuccess($from, $sav, $file_info['name'], $sav, $callback, $file_info);
         } elseif ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
-            AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5]);
+            if (!AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5])) {
+                $this->uploadError($from, "sha更新失败", $callback);
+            }
             $sav = $proc['url'] . '/' . $file_info['path'];
             return $this->uploadSuccess($from, $sav, $file_info['name'], $sav, $callback, $file_info);
         }
@@ -125,12 +127,12 @@ class dp extends CommonController
             case "avi":
             case "mp4":
             case "aac":
-            $getId3 = new \getID3();
-            $ana = $getId3->analyze($info->getPathname());
-            $duration = $ana["playtime_seconds"];
-            $bitrate = $ana["bitrate"];
-            $duration_str = $ana["playtime_string"];
-            break;
+                $getId3 = new \getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                $duration = $ana["playtime_seconds"];
+                $bitrate = $ana["bitrate"];
+                $duration_str = $ana["playtime_string"];
+                break;
 
             case "png":
             case "jpg":
