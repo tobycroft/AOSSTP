@@ -82,25 +82,9 @@ class dp extends search
         // 判断附件格式是否符合
         $file_name = $file->getInfo('name');
 
-        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $hash])) {
-            $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
-            // 附件已存在
-            switch ($type) {
-                case "ue":
-                    \Ret::succ(['src' => $sav]);
-                    break;
-
-                case "complete":
-                    $file_exists["src"] = $file_exists['path'];
-                    $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
-                    $file_exists["surl"] = $file_exists['path'];
-                    \Ret::succ($file_exists);
-                    break;
-
-                default:
-                    \Ret::succ($sav);
-                    break;
-            }
+        if ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $hash])) {
+            $sav = $proc['url'] . '/' . $file_info['path'];
+            return $this->uploadSuccess($from, $sav, $file_info['name'], $sav, $callback, $file_info);
         }
         $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
         if (!$info) {
@@ -108,7 +92,7 @@ class dp extends search
         }
 
         if ($file->getMime() == 'text/x-php' || $file->getMime() == 'text/html') {
-            $error_msg = '禁止上传非法文件！';
+            return $this->uploadError($from, "禁止上传非法文件", $callback);
         }
 
         $fileName = $proc['name'] . '/' . $info->getSaveName();
