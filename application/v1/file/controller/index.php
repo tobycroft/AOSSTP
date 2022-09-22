@@ -48,6 +48,8 @@ class index extends search
 
 
         if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5, 'sha1' => $sha1])) {
+            var_dump($file_exists);
+            exit();
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
             switch ($type) {
