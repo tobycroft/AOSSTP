@@ -260,7 +260,7 @@ class dp extends CommonController
         }
     }
 
-    public function upload_ueditor()
+    private function ueditor()
     {
         $action = $this->request->get('action');
         $config_file = './static/libs/ueditor/php/config.json';
@@ -320,6 +320,62 @@ class dp extends CommonController
         } else {
             return json($result);
         }
+    }
+
+    private function showFile($type, $config)
+    {
+        /* 判断类型 */
+        switch ($type) {
+            /* 列出附件 */
+            case 'listfile':
+                $allowFiles = $config['fileManagerAllowFiles'];
+                $listSize = $config['fileManagerListSize'];
+                $path = realpath(config('upload_path') . '/files/');
+                break;
+            /* 列出图片 */
+            case 'listimage':
+            default:
+                $allowFiles = $config['imageManagerAllowFiles'];
+                $listSize = $config['imageManagerListSize'];
+                $path = realpath(config('upload_path') . '/images/');
+        }
+        $allowFiles = substr(str_replace(".", "|", join("", $allowFiles)), 1);
+
+        /* 获取参数 */
+        $size = isset($_GET['size']) ? htmlspecialchars($_GET['size']) : $listSize;
+        $start = isset($_GET['start']) ? htmlspecialchars($_GET['start']) : 0;
+        $end = $start + $size;
+
+        /* 获取附件列表 */
+        $files = $this->getfiles($path, $allowFiles);
+        if (!count($files)) {
+            return json(array(
+                "state" => "no match file",
+                "list" => array(),
+                "start" => $start,
+                "total" => count($files),
+            ));
+        }
+
+        /* 获取指定范围的列表 */
+        $len = count($files);
+        for ($i = min($end, $len) - 1, $list = array(); $i < $len && $i >= 0 && $i >= $start; $i--) {
+            $list[] = $files[$i];
+        }
+        //倒序
+        //for ($i = $end, $list = array(); $i < $len && $i < $end; $i++){
+        //    $list[] = $files[$i];
+        //}
+
+        /* 返回数据 */
+        $result = array(
+            "state" => "SUCCESS",
+            "list" => $list,
+            "start" => $start,
+            "total" => count($files),
+        );
+
+        return json($result);
     }
 
 }
