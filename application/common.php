@@ -15,11 +15,6 @@ use think\Response;
 
 function json($data = [], $code = 200, $header = [], $options = [])
 {
-    header("Access-Control-Allow-Origin: *", true);
-    header("Access-Control-Max-Age: 86400", true);
-    header("Access-Control-Allow-Credentials: true", true);
-    header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE", true);
-    header("Access-Control-Allow-Headers: *", true);
     return Response::create($data, 'json', $code, [
         "Access-Control-Allow-Origin" => "*",
         "Access-Control-Max-Age" => "86400",
