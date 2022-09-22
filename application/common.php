@@ -18,7 +18,7 @@ function json($data = [], $code = 200, $header = [], $options = [])
     return Response::create($data, 'json', $code, [
         "Access-Control-Allow-Origin" => "*",
         "Access-Control-Max-Age" => "86400",
-        "Access-Control-Allow-Credentials" => "true",
+        "Access-Control-Allow-Credentials" => "false",
         "Access-Control-Allow-Methods" => "*",
         "Access-Control-Allow-Headers" => "*",
     ], $options);
