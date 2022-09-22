@@ -104,9 +104,12 @@ class dp extends CommonController
         $fileName = $proc['name'] . '/' . $info->getSaveName();
         $fileName = str_replace("\\", "/", $fileName);
 
+
         $duration = 0;
         $duration_str = "00:00";
         $bitrate = 0;
+        $width = 0;
+        $height = 0;
 
         $ext = $info->getExtension();
 
@@ -126,7 +129,19 @@ class dp extends CommonController
                 $duration_str = $ana["playtime_string"];
                 break;
 
+            case "png":
+            case "jpg":
+            case "jpeg":
+            case "bmp":
+            case "gif":
+            case "tiff":
+                $getId3 = new \getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                $width = $ana["width"];
+                $height = $ana["height"];
+                break;
         }
+
         $file_info = [
             'token' => $token,
             'name' => $file_name,

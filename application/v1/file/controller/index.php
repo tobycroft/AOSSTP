@@ -111,7 +111,6 @@ class index extends search
                 $width = $ana["width"];
                 $height = $ana["height"];
                 break;
-
         }
         $file_info = [
             'token' => $token,
