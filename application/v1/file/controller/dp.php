@@ -82,7 +82,7 @@ class dp extends search
             return $this->uploadError($from, "请先上传文件", $callback);
         }
         $hash = $file->hash('md5');
-        $file->getInfo('type');
+        $mime = $file->getInfo('type');
         // 判断附件格式是否符合
         $file_name = $file->getInfo('name');
 
