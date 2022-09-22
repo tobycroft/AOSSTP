@@ -122,11 +122,13 @@ class dp extends CommonController
             case "mp4":
             case "aac":
                 $getId3 = new \getID3();
-                $ana = $getId3->analyze($info->getPathname());
-                $duration = $ana["playtime_seconds"];
-                $bitrate = $ana["bitrate"];
-                $duration_str = $ana["playtime_string"];
-                break;
+            $ana = $getId3->analyze($info->getPathname());
+            $duration = $ana["playtime_seconds"];
+            $bitrate = $ana["bitrate"];
+            $duration_str = $ana["playtime_string"];
+            $width = $ana["resolution_x"];
+            $height = $ana["resolution_y"];
+            break;
 
             case "png":
             case "jpg":
@@ -134,12 +136,12 @@ class dp extends CommonController
             case "bmp":
             case "gif":
             case "tiff":
-                $getId3 = new \getID3();
+            $getId3 = new \getID3();
             $ana = $getId3->analyze($info->getPathname());
-            var_dump($ana);
-            exit();
-            $width = $ana["width"];
-            $height = $ana["height"];
+            $width = $ana["resolution_x"];
+            $height = $ana["resolution_y"];
+            $bitrate = $ana["bits_per_sample"];
+            $duration_str = $ana["compression_ratio"];
             break;
         }
 
