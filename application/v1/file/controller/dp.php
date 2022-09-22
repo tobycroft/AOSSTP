@@ -136,7 +136,7 @@ class dp extends CommonController
             case "tiff":
                 $getId3 = new \getID3();
             $ana = $getId3->analyze($info->getPathname());
-            json_encode($ana);
+            echo json_encode($ana);
             exit();
             $width = $ana["resolution_x"];
             $height = $ana["resolution_y"];
