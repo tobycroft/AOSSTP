@@ -37,6 +37,7 @@ class index extends search
         }
 
         $file = $request->file('file');
+        $file_name = $file->getInfo('name');
         if (!$file) {
             \Ret::fail('file字段没有用文件提交');
         }
@@ -44,7 +45,6 @@ class index extends search
         $sha1 = $file->hash("sha1");
         $mime = $file->getInfo('type');
         // 判断附件格式是否符合
-        $file_name = $file->getInfo('name');
 
 
         if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {

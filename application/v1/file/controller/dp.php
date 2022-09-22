@@ -78,7 +78,7 @@ class dp extends CommonController
                 $file_input_name = 'file';
         }
         $file = $this->request->file($file_input_name);
-
+        $file_name = $file->getInfo('name');
         if (!$file) {
             return $this->uploadError($from, "请先上传文件", $callback);
         }
@@ -86,7 +86,6 @@ class dp extends CommonController
         $sha1 = $file->hash("sha1");
         $mime = $file->getInfo('type');
         // 判断附件格式是否符合
-        $file_name = $file->getInfo('name');
 
         if ($file_info = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
             $sav = $proc['url'] . '/' . $file_info['path'];
