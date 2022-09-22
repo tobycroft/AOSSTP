@@ -22,7 +22,7 @@ class search extends CommonController
         if (empty($md5)) {
             \Ret::fail("需要md5字段");
         }
-        $file_exists = AttachmentModel::where("md5", $md5)->where("sha1", "<>", "'")->find();
+        $file_exists = AttachmentModel::where("md5", $md5)->where("sha1", "<>", '')->find();
         if (empty($file_exists)) {
             \Ret::fail("未找到文件，请先上传");
         }
