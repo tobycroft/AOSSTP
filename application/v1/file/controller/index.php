@@ -41,11 +41,12 @@ class index extends search
             \Ret::fail('file字段没有用文件提交');
         }
         $hash = $file->hash('md5');
+        $mime = $file->getInfo('type');
         // 判断附件格式是否符合
         $file_name = $file->getInfo('name');
 
 
-        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $file->hash('md5')])) {
+        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $hash])) {
             $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
             // 附件已存在
             switch ($type) {
@@ -100,7 +101,7 @@ class index extends search
         $file_info = [
             'token' => $token,
             'name' => $file_name,
-            'mime' => $file->getInfo('type'),
+            'mime' => $mime,
             'path' => $fileName,
             'ext' => $ext,
             'size' => $info->getSize(),
