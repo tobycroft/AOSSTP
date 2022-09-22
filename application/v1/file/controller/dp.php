@@ -56,12 +56,6 @@ class dp extends CommonController
             return $this->uploadError($from, "项目不可用");
         }
 
-
-        // 缩略图参数
-        $thumb = $this->request->post('thumb', '');
-        // 水印参数
-        $watermark = $this->request->post('watermark', '');
-
         // 获取附件数据
         $callback = '';
         switch ($from) {
@@ -79,10 +73,10 @@ class dp extends CommonController
                 $file_input_name = 'file';
         }
         $file = $this->request->file($file_input_name);
-        $file_name = $file->getInfo('name');
         if (!$file) {
             return $this->uploadError($from, "请先上传文件", $callback);
         }
+        $file_name = $file->getInfo('name');
         $md5 = $file->hash('md5');
         $sha1 = $file->hash("sha1");
         $mime = $file->getInfo('type');
