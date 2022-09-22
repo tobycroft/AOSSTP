@@ -140,14 +140,14 @@ class dp extends search
 
         if ($proc["type"] == "local" || $proc["type"] == "all") {
             if ($proc['main_type'] == 'local') {
-                $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
+                $sav = $proc['url'] . '/' . $fileName;
             }
         }
         if ($proc["type"] == "dp" || $proc["type"] == "all") {
             $sf = new SendFile();
             $ret = $sf->send('http://' . $proc["endpoint"] . '/up?token=' . $proc["bucket"], realpath('./upload/' . $fileName), $file->getInfo('type'), $file->getInfo('name'));
             $json = json_decode($ret, 1);
-            $sav = ($full ? $proc['url'] . '/' : '') . $json["data"];
+            $sav = $proc['url'] . '/' . $json["data"];
         }
         if ($proc["type"] == "oss" || $proc["type"] == "all") {
             try {
@@ -160,7 +160,7 @@ class dp extends search
                 \Ret::fail("OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
-                $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
+                $sav = $proc['url'] . '/' . $fileName;
             }
             if ($proc["type"] != "all") {
                 unlink($info->getPathname());
