@@ -47,6 +47,7 @@ class dp extends CommonController
 
     private function saveFile($dir = '', $from = '', $module = '')
     {
+        parent::initialize();
 
         set_time_limit(0);
         $token = $this->token;
