@@ -25,7 +25,7 @@
     return \think\facade\Request::url();
 });
 
-\think\facade\Route::any('', function () {
-    return 'AOSS is a private host oss platform! To use this platform plz contact oss@tuuz.cc!';
-});
+//\think\facade\Route::any('', function () {
+//    return 'AOSS is a private host oss platform! To use this platform plz contact oss@tuuz.cc!';
+//});
 
