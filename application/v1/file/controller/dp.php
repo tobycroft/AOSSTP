@@ -126,8 +126,6 @@ class dp extends CommonController
             $duration = $ana["playtime_seconds"];
             $bitrate = $ana["bitrate"];
             $duration_str = $ana["playtime_string"];
-            $width = $ana["resolution_x"];
-            $height = $ana["resolution_y"];
             break;
 
             case "png":
@@ -136,13 +134,13 @@ class dp extends CommonController
             case "bmp":
             case "gif":
             case "tiff":
-            $getId3 = new \getID3();
-            $ana = $getId3->analyze($info->getPathname());
-            $width = $ana["resolution_x"];
-            $height = $ana["resolution_y"];
-            $bitrate = $ana["bits_per_sample"];
-            $duration_str = $ana["compression_ratio"];
-            break;
+                $getId3 = new \getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                $width = $ana["resolution_x"];
+                $height = $ana["resolution_y"];
+                $bitrate = $ana["bits_per_sample"];
+                $duration_str = $ana["compression_ratio"];
+                break;
         }
 
         $file_info = [
