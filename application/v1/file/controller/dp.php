@@ -82,7 +82,7 @@ class dp extends search
             return $this->uploadError($from, "请先上传文件", $callback);
         }
         $hash = $file->hash('md5');
-
+        $file->getInfo('type');
         // 判断附件格式是否符合
         $file_name = $file->getInfo('name');
 
@@ -98,7 +98,6 @@ class dp extends search
         if (!$info) {
             return $this->uploadError($from, "上传不符合规范", $callback);
         }
-
 
         $fileName = $proc['name'] . '/' . $info->getSaveName();
         $fileName = str_replace("\\", "/", $fileName);
@@ -129,7 +128,7 @@ class dp extends search
         $file_info = [
             'token' => $token,
             'name' => $file_name,
-            'mime' => $file->getInfo('type'),
+            'mime' => $mime,
             'path' => $fileName,
             'ext' => $ext,
             'size' => $info->getSize(),
