@@ -90,14 +90,15 @@ class dp extends search
             $sav = $proc['url'] . '/' . $file_info['path'];
             return $this->uploadSuccess($from, $sav, $file_info['name'], $sav, $callback, $file_info);
         }
+
+        if ($file->getMime() == 'text/x-php' || $file->getMime() == 'text/html') {
+            return $this->uploadError($from, "禁止上传非法文件", $callback);
+        }
         $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
         if (!$info) {
             return $this->uploadError($from, "上传不符合规范", $callback);
         }
 
-        if ($file->getMime() == 'text/x-php' || $file->getMime() == 'text/html') {
-            return $this->uploadError($from, "禁止上传非法文件", $callback);
-        }
 
         $fileName = $proc['name'] . '/' . $info->getSaveName();
         $fileName = str_replace("\\", "/", $fileName);
