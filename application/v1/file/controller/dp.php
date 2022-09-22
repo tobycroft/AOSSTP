@@ -51,7 +51,7 @@ class dp extends search
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
         if (!$proc) {
-            return $this->uploadError($from, "项目不可用");
+            return $this->uploadError($from, "项目不可用", $callback);
         }
 
 
@@ -78,7 +78,11 @@ class dp extends search
         }
         $file = $this->request->file($file_input_name);
 
+        if (!$file) {
+            return $this->uploadError($from, "请先上传文件", $callback);
+        }
         $hash = $file->hash('md5');
+
         // 判断附件格式是否符合
         $file_name = $file->getInfo('name');
 
