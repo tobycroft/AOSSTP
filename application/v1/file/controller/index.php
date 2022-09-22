@@ -107,10 +107,13 @@ class index extends search
             case "gif":
             case "tiff":
                 $getId3 = new \getID3();
-                $ana = $getId3->analyze($info->getPathname());
-                $width = $ana["width"];
-                $height = $ana["height"];
-                break;
+            $ana = $getId3->analyze($info->getPathname());
+            $width = $ana["resolution_x"];
+            $height = $ana["resolution_y"];
+            $bitrate = $ana["bits_per_sample"];
+            $duration_str = $ana["compression_ratio"];
+            break;
+            break;
         }
         $file_info = [
             'token' => $token,
