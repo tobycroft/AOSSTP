@@ -10,3 +10,10 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+
+use think\Response;
+
+function json($data = [], $code = 200, $header = [], $options = [])
+{
+    return Response::create($data, 'json', $code, headers_list(), $options);
+}

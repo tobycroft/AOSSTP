@@ -220,6 +220,7 @@ class dp extends CommonController
                 return ck_js($callback, '', $msg);
                 break;
             default:
+                Response::create()
                 return json([
                     'code' => 0,
                     'class' => 'danger',
