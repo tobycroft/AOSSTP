@@ -5,10 +5,11 @@ namespace app\v1\file\controller;
 
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
+use BaseController\CommonController;
 use OSS\Core\OssException;
 use SendFile\SendFile;
 
-class dp extends search
+class dp extends CommonController
 {
 
     public $token;
