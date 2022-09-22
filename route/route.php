@@ -10,20 +10,37 @@
 // +----------------------------------------------------------------------
 
 
+\think\facade\Route::option(":any", function () {
+    header("Access-Control-Allow-Origin: *", true);
+    header("Access-Control-Max-Age: 86400", true);
+    header("Access-Control-Allow-Credentials: true", true);
+    header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS", true);
+    header("Access-Control-Allow-Headers: *", true);
+});
+
+\think\facade\Route::option(':version/:module/:controller/:function', function () {
+    header("Access-Control-Allow-Origin: *", true);
+    header("Access-Control-Max-Age: 86400", true);
+    header("Access-Control-Allow-Credentials: true", true);
+    header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS", true);
+    header("Access-Control-Allow-Headers: *", true);
+});
+
+
 \think\facade\Route::get('think', function () {
     return 'hello,ThinkPHP5!';
 });
 
-\think\facade\Route::any(':version/:module/:controller/:function', function () {
+\think\facade\Route::any(':version/:module/:controller/:function',
+    '\app\:version\:module\controller\:controller@:function')->before(function () {
     if (\think\facade\Request::isOptions()) {
         header("Access-Control-Allow-Origin: *", true);
         header("Access-Control-Max-Age: 86400", true);
         header("Access-Control-Allow-Credentials: true", true);
         header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS", true);
         header("Access-Control-Allow-Headers: *", true);
-        return;
+        return false;
     }
-    return \think\facade\Route::make('\app\:version\:module\controller\:controller@:function');
 });
 
 
