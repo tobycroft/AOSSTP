@@ -26,6 +26,6 @@
 });
 
 \think\facade\Route::any('', function () {
-    return 'AOSS!';
+    return 'AOSS is a public oss platform!';
 });
 
