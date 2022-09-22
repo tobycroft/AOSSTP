@@ -33,7 +33,7 @@ class dp extends CommonController
     {
         // 临时取消执行时间限制
         set_time_limit(0);
-
+        parent::initialize();
         if ($from == 'ueditor') {
             return $this->ueditor();
         }
