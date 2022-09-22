@@ -23,7 +23,7 @@
         header("Access-Control-Allow-Headers: *", true);
         return;
     }
-    return '\app\:version\:module\controller\:controller@:function';
+    return \think\facade\Route::controller('\app\:version\:module\controller\:controller@:function');
 });
 
 
