@@ -113,7 +113,6 @@ class index extends search
             $bitrate = $ana["bits_per_sample"];
             $duration_str = $ana["compression_ratio"];
             break;
-            break;
         }
         $file_info = [
             'token' => $token,
