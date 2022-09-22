@@ -151,6 +151,8 @@ class dp extends CommonController
             'size' => $info->getSize(),
             'md5' => $md5,
             'sha1' => $sha1,
+            'width' => $width,
+            'height' => $height,
             'duration' => $duration,
             'duration_str' => $duration_str,
             'bitrate' => $bitrate,
