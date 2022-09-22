@@ -51,7 +51,7 @@ class dp extends search
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
         if (!$proc) {
-            return $this->uploadError($from, "项目不可用", $callback);
+            return $this->uploadError($from, "项目不可用");
         }
 
 
