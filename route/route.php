@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 
-\think\facade\Route::option(null, function () {
+\think\facade\Route::option(":any", function () {
     header("Access-Control-Allow-Origin: *", true);
     header("Access-Control-Max-Age: 86400", true);
     header("Access-Control-Allow-Credentials: true", true);
