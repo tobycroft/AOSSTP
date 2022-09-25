@@ -68,10 +68,10 @@ class chunk extends dp
                     return $this->uploadSuccess($from, $count . "-总分块文件已收到" . $chunk, $name, $file_ident, "", $file_ident . '_' . $chunk);
                 }
             } else {
-                \RET::fail('上传失败');
+                return $this->uploadError($from, "文件移动失败");
             }
         } else {
-            \RET::fail('nofile');
+            return $this->uploadError($from, "nofile没有上传文件");
         }
     }
 
