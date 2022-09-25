@@ -49,7 +49,7 @@ class chunk extends dp
                         "chunk" => $chunk,
                         "chunks" => $chunks,
                     ])) {
-                        return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
+                        return $this->uploadSuccess($from, "分块数据库已写入:" . $chunk, $name, $file_ident, "", $file_ident . '_' . $chunk);
                     } else {
                         return $this->uploadError($from, "数据库写入失败");
                     }
