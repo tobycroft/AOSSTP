@@ -57,14 +57,12 @@ class chunk extends dp
             $info = $file->move('./upload/chunks/' . $this->token, $file_ident . '_' . $chunk);
             if ($info) {
                 $count = AttachmentChunkModel::where($file_ident)->count();
-                if ($count >= ($chunks - 1)) {
+                if ($count >= $chunks) {
                     if (AttachmentChunkModel::where($file_ident)->data("is_complete", true)->update()) {
                         return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
-                    }else{
+                    } else {
                         return $this->uploadError($from, "数据库update失败");
                     }
-                    cache('file_' . $file_ident, false, 1);
-                    \RET::success('上传成功');
                 } else {
                     $arr = cache('file_' . $file_ident);
                     $arr[$chunk] = true;
