@@ -3,7 +3,6 @@
 namespace app\v1\file\controller;
 
 
-use app\dashboard\controller\chunk;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
@@ -45,13 +44,13 @@ class dp extends CommonController
             }
             return $this->saveFile($dir, $from, $module);
         } else {
-            $chunk = new \app\v1\file\controller\chunk();
+            $chunk = new chunk();
             $chunk->upload_chunk();
         }
 
     }
 
-    private function saveFile($dir = '', $from = '', $module = '')
+    public function saveFile($dir = '', $from = '', $module = '')
     {
         parent::initialize();
 
@@ -203,7 +202,7 @@ class dp extends CommonController
         }
     }
 
-    private function uploadError($from, $msg = '', $callback = '')
+    public function uploadError($from, $msg = '', $callback = '')
     {
         parent::initialize();
         switch ($from) {
@@ -228,7 +227,7 @@ class dp extends CommonController
         }
     }
 
-    private function uploadSuccess($from, $file_path = '', $file_name = '', $file_id = '', $callback = '', $data = [])
+    public function uploadSuccess($from, $file_path = '', $file_name = '', $file_id = '', $callback = '', $data = [])
     {
         parent::initialize();
         switch ($from) {
@@ -266,7 +265,7 @@ class dp extends CommonController
         }
     }
 
-    private function ueditor()
+    public function ueditor()
     {
         $action = $this->request->get('action');
         $config_file = './static/libs/ueditor/php/config.json';
@@ -328,7 +327,7 @@ class dp extends CommonController
         }
     }
 
-    private function showFile($type, $config)
+    public function showFile($type, $config)
     {
         /* 判断类型 */
         switch ($type) {

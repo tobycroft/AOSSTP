@@ -3,9 +3,10 @@
 
 namespace app\v1\file\controller;
 
-use BaseController\CommonController;
 
-class chunk extends CommonController
+use app\v1\project\model\ProjectModel;
+
+class chunk extends dp
 {
 
 
@@ -23,8 +24,15 @@ class chunk extends CommonController
 
     public function upload_chunk()
     {
+        $token = $this->token;
+        $proc = ProjectModel::api_find_token($token);
+        if (!$proc) {
+            return $this->uploadError($from, "项目不可用");
+        }
         $file = request()->file('file');
         if ($file) {
+            $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
+
             $name = input('name');
             $ext = explode('.', $name);
             $pathname = config('app.video-upload-path');
