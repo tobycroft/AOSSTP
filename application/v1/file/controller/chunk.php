@@ -60,6 +60,7 @@ class chunk extends dp
                 $count = AttachmentChunkModel::where($file_ident)->count();
                 if ($count >= ($chunks - 1)) {
                     if (AttachmentChunkModel::where($file_ident)->data("is_complete", true)->update()) {
+                        //todo:加入合并文件
                         return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
                     } else {
                         return $this->uploadError($from, "数据库update失败");
