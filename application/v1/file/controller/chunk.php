@@ -8,22 +8,6 @@ use BaseController\CommonController;
 class chunk extends CommonController
 {
 
-    public function index()
-    {
-        $url = url();
-        $url = preg_filter('/http.*.\/\//', '', $url);
-        $url = current(explode('.', $url));
-        if ($url == 'upload') {
-            return view('index2');
-        } else {
-            return view('index3');
-        }
-    }
-
-    public function index2()
-    {
-        return view('index3');
-    }
 
     /*
      * array(7) {
