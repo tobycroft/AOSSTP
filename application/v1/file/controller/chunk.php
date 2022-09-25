@@ -40,7 +40,7 @@ class chunk extends dp
 
             if (file_exists('./upload/chunks/' . $this->token . DIRECTORY_SEPARATOR . $file_ident . DIRECTORY_SEPARATOR . $file_ident . '_' . $chunk . '.' . end($ext))) {
                 if (AttachmentChunkModel::where("token", $token)->where("ident", $file_ident)->where("chunk", $chunk)->where("chunks", $chunks)->find()) {
-                    return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
+                    return $this->uploadSuccess($from, "分块文件已收到:" . $chunk, $name, $file_ident, "", $file_ident . '_' . $chunk);
                 } else {
                     if (AttachmentChunkModel::create([
                         "token" => $token,
@@ -51,23 +51,21 @@ class chunk extends dp
                     ])) {
                         return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
                     } else {
+                        return $this->uploadError($from, "数据库写入失败");
                     }
                 }
             }
             $info = $file->move('./upload/chunks/' . $this->token, $file_ident . '_' . $chunk);
             if ($info) {
                 $count = AttachmentChunkModel::where($file_ident)->count();
-                if ($count >= $chunks) {
+                if ($count >= ($chunks - 1)) {
                     if (AttachmentChunkModel::where($file_ident)->data("is_complete", true)->update()) {
                         return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
                     } else {
                         return $this->uploadError($from, "数据库update失败");
                     }
                 } else {
-                    $arr = cache('file_' . $file_ident);
-                    $arr[$chunk] = true;
-                    cache('file_' . $file_ident, $arr, 600);
-                    \RET::success(count(cache('file_' . $file_ident)) . '分块文件已收到' . $chunk);
+                    return $this->uploadSuccess($from, $count . "-总分块文件已收到" . $chunk, $name, $file_ident, "", $file_ident . '_' . $chunk);
                 }
             } else {
                 \RET::fail('上传失败');
