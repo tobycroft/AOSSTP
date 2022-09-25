@@ -22,7 +22,7 @@ class chunk extends dp
       }
      */
 
-    public function upload_chunk()
+    public function upload_chunk($dir = '', $from = '', $module = '')
     {
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
@@ -36,34 +36,30 @@ class chunk extends dp
             $name = input('name');
             $ext = explode('.', $name);
             $pathname = config('app.video-upload-path');
-            if (AcVideoTranscodeModel::api_find_size(session('uid'), input('size'))) {
-                \RET::fail('你已经上传过这个视频拉~', 403);
-            } else {
-                if (cache('file_' . $directory) == NULL) {
-                    cache('file_' . $directory, [], 600);
-                }
-                if (file_exists($pathname . DS . $directory . DS . $directory . '_' . input('chunk') . '.' . end($ext))) {
+            if (cache('file_' . $directory) == NULL) {
+                cache('file_' . $directory, [], 600);
+            }
+            if (file_exists($pathname . DS . $directory . DS . $directory . '_' . input('chunk') . '.' . end($ext))) {
+                $arr = cache('file_' . $directory);
+                $arr[input('chunk')] = true;
+                cache('file_' . $directory, $arr, 600);
+                \RET::success('分块文件已上传自动忽略');
+            }
+            $chunks = input('chunks');
+            $info = $file->move($pathname . DS . $directory, $directory . '_' . input('chunk'));
+            if ($info) {
+                if (count(cache('file_' . $directory)) >= ($chunks - 1)) {
+                    AcVideoTranscodeModel::api_insert(session('uid'), $name, $chunks, '0', ($chunks - 1), input('size'), $directory);
+                    cache('file_' . $directory, false, 1);
+                    \RET::success('上传成功');
+                } else {
                     $arr = cache('file_' . $directory);
                     $arr[input('chunk')] = true;
                     cache('file_' . $directory, $arr, 600);
-                    \RET::success('分块文件已上传自动忽略');
+                    \RET::success(count(cache('file_' . $directory)) . '分块文件已收到' . input('chunk'));
                 }
-                $chunks = input('chunks');
-                $info = $file->move($pathname . DS . $directory, $directory . '_' . input('chunk'));
-                if ($info) {
-                    if (count(cache('file_' . $directory)) >= ($chunks - 1)) {
-                        AcVideoTranscodeModel::api_insert(session('uid'), $name, $chunks, '0', ($chunks - 1), input('size'), $directory);
-                        cache('file_' . $directory, false, 1);
-                        \RET::success('上传成功');
-                    } else {
-                        $arr = cache('file_' . $directory);
-                        $arr[input('chunk')] = true;
-                        cache('file_' . $directory, $arr, 600);
-                        \RET::success(count(cache('file_' . $directory)) . '分块文件已收到' . input('chunk'));
-                    }
-                } else {
-                    \RET::fail('上传失败');
-                }
+            } else {
+                \RET::fail('上传失败');
             }
         } else {
             \RET::fail('nofile');
