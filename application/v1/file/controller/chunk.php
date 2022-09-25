@@ -51,7 +51,6 @@ class chunk extends dp
                     ])) {
                         return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
                     } else {
-                        return $this->uploadError($from, "数据库写入失败");
                     }
                 }
             }
@@ -59,7 +58,11 @@ class chunk extends dp
             if ($info) {
                 $count = AttachmentChunkModel::where($file_ident)->count();
                 if ($count >= ($chunks - 1)) {
-                    AcVideoTranscodeModel::api_insert(session('uid'), $name, $chunks, '0', ($chunks - 1), input('size'), $file_ident);
+                    if (AttachmentChunkModel::where($file_ident)->data("is_complete", true)->update()) {
+                        return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
+                    }else{
+                        return $this->uploadError($from, "数据库update失败");
+                    }
                     cache('file_' . $file_ident, false, 1);
                     \RET::success('上传成功');
                 } else {
