@@ -3,6 +3,7 @@
 namespace app\v1\file\controller;
 
 
+use app\dashboard\controller\chunk;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
@@ -33,16 +34,21 @@ class dp extends CommonController
     {
         // 临时取消执行时间限制
         set_time_limit(0);
-        parent::initialize();
-        if ($from == 'ueditor') {
-            return $this->ueditor();
+        if (!input('chunks')) {
+            parent::initialize();
+            if ($from == 'ueditor') {
+                return $this->ueditor();
+            }
+
+            if ($from == 'jcrop') {
+                return $this->jcrop();
+            }
+            return $this->saveFile($dir, $from, $module);
+        } else {
+            $chunk = new \app\v1\file\controller\chunk();
+            $chunk->upload_chunk();
         }
 
-        if ($from == 'jcrop') {
-            return $this->jcrop();
-        }
-
-        return $this->saveFile($dir, $from, $module);
     }
 
     private function saveFile($dir = '', $from = '', $module = '')
