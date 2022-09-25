@@ -31,32 +31,31 @@ class chunk extends dp
         }
         $file = request()->file('file');
         if ($file) {
-            $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
-
             $name = input('name');
             $ext = explode('.', $name);
-            $pathname = config('app.video-upload-path');
-            if (cache('file_' . $directory) == NULL) {
-                cache('file_' . $directory, [], 600);
+            $file_ident = md5(session('uid') . '_' . input('size'));
+
+            if (cache('file_' . $file_ident) == NULL) {
+                cache('file_' . $file_ident, [], 600);
             }
-            if (file_exists($pathname . DS . $directory . DS . $directory . '_' . input('chunk') . '.' . end($ext))) {
-                $arr = cache('file_' . $directory);
+            if (file_exists('./upload/' . $this->token . DIRECTORY_SEPARATOR . $file_ident . DIRECTORY_SEPARATOR . $file_ident . '_' . input('chunk') . '.' . end($ext))) {
+                $arr = cache('file_' . $file_ident);
                 $arr[input('chunk')] = true;
-                cache('file_' . $directory, $arr, 600);
+                cache('file_' . $file_ident, $arr, 600);
                 \RET::success('分块文件已上传自动忽略');
             }
             $chunks = input('chunks');
-            $info = $file->move($pathname . DS . $directory, $directory . '_' . input('chunk'));
+            $info = $file->move('./upload/' . $this->token, $file_ident . '_' . input('chunk'));
             if ($info) {
-                if (count(cache('file_' . $directory)) >= ($chunks - 1)) {
-                    AcVideoTranscodeModel::api_insert(session('uid'), $name, $chunks, '0', ($chunks - 1), input('size'), $directory);
-                    cache('file_' . $directory, false, 1);
+                if (count(cache('file_' . $file_ident)) >= ($chunks - 1)) {
+                    AcVideoTranscodeModel::api_insert(session('uid'), $name, $chunks, '0', ($chunks - 1), input('size'), $file_ident);
+                    cache('file_' . $file_ident, false, 1);
                     \RET::success('上传成功');
                 } else {
-                    $arr = cache('file_' . $directory);
+                    $arr = cache('file_' . $file_ident);
                     $arr[input('chunk')] = true;
-                    cache('file_' . $directory, $arr, 600);
-                    \RET::success(count(cache('file_' . $directory)) . '分块文件已收到' . input('chunk'));
+                    cache('file_' . $file_ident, $arr, 600);
+                    \RET::success(count(cache('file_' . $file_ident)) . '分块文件已收到' . input('chunk'));
                 }
             } else {
                 \RET::fail('上传失败');
