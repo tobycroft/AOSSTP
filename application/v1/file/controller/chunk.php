@@ -4,6 +4,7 @@
 namespace app\v1\file\controller;
 
 
+use app\v1\file\model\AttachmentChunkModel;
 use app\v1\project\model\ProjectModel;
 
 class chunk extends dp
@@ -33,29 +34,39 @@ class chunk extends dp
         if ($file) {
             $name = input('name');
             $ext = explode('.', $name);
-            $file_ident = md5(session('uid') . '_' . input('size'));
-
-            if (cache('file_' . $file_ident) == NULL) {
-                cache('file_' . $file_ident, [], 600);
-            }
-            if (file_exists('./upload/' . $this->token . DIRECTORY_SEPARATOR . $file_ident . DIRECTORY_SEPARATOR . $file_ident . '_' . input('chunk') . '.' . end($ext))) {
-                $arr = cache('file_' . $file_ident);
-                $arr[input('chunk')] = true;
-                cache('file_' . $file_ident, $arr, 600);
-                \RET::success('分块文件已上传自动忽略');
-            }
+            $chunk = input('chunk');
             $chunks = input('chunks');
-            $info = $file->move('./upload/' . $this->token, $file_ident . '_' . input('chunk'));
+            $file_ident = md5($name . '_' . input('size') . '_' . $chunks);
+
+            if (file_exists('./upload/chunks/' . $this->token . DIRECTORY_SEPARATOR . $file_ident . DIRECTORY_SEPARATOR . $file_ident . '_' . $chunk . '.' . end($ext))) {
+                if (AttachmentChunkModel::where("token", $token)->where("ident", $file_ident)->where("chunk", $chunk)->where("chunks", $chunks)->find()) {
+                    return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
+                } else {
+                    if (AttachmentChunkModel::create([
+                        "token" => $token,
+                        "ident" => $file_ident,
+                        "chunk_name" => $file_ident,
+                        "chunk" => $chunk,
+                        "chunks" => $chunks,
+                    ])) {
+                        return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
+                    } else {
+                        return $this->uploadError($from, "数据库写入失败");
+                    }
+                }
+            }
+            $info = $file->move('./upload/chunks/' . $this->token, $file_ident . '_' . $chunk);
             if ($info) {
-                if (count(cache('file_' . $file_ident)) >= ($chunks - 1)) {
+                $count = AttachmentChunkModel::where($file_ident)->count();
+                if ($count >= ($chunks - 1)) {
                     AcVideoTranscodeModel::api_insert(session('uid'), $name, $chunks, '0', ($chunks - 1), input('size'), $file_ident);
                     cache('file_' . $file_ident, false, 1);
                     \RET::success('上传成功');
                 } else {
                     $arr = cache('file_' . $file_ident);
-                    $arr[input('chunk')] = true;
+                    $arr[$chunk] = true;
                     cache('file_' . $file_ident, $arr, 600);
-                    \RET::success(count(cache('file_' . $file_ident)) . '分块文件已收到' . input('chunk'));
+                    \RET::success(count(cache('file_' . $file_ident)) . '分块文件已收到' . $chunk);
                 }
             } else {
                 \RET::fail('上传失败');
