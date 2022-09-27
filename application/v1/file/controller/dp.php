@@ -33,19 +33,24 @@ class dp extends CommonController
     {
         // 临时取消执行时间限制
         set_time_limit(0);
-        parent::initialize();
-        if ($from == 'ueditor') {
-            return $this->ueditor();
+        if (!input('chunks')) {
+            parent::initialize();
+            if ($from == 'ueditor') {
+                return $this->ueditor();
+            }
+
+            if ($from == 'jcrop') {
+                return $this->jcrop();
+            }
+            return $this->saveFile($dir, $from, $module);
+        } else {
+            $chunk = new chunk();
+            $chunk->upload_chunk();
         }
 
-        if ($from == 'jcrop') {
-            return $this->jcrop();
-        }
-
-        return $this->saveFile($dir, $from, $module);
     }
 
-    private function saveFile($dir = '', $from = '', $module = '')
+    public function saveFile($dir = '', $from = '', $module = '')
     {
         parent::initialize();
 
@@ -197,7 +202,7 @@ class dp extends CommonController
         }
     }
 
-    private function uploadError($from, $msg = '', $callback = '')
+    public function uploadError($from, $msg = '', $callback = '')
     {
         parent::initialize();
         switch ($from) {
@@ -222,7 +227,7 @@ class dp extends CommonController
         }
     }
 
-    private function uploadSuccess($from, $file_path = '', $file_name = '', $file_id = '', $callback = '', $data = [])
+    public function uploadSuccess($from, $file_path = '', $file_name = '', $file_id = '', $callback = '', $data = [])
     {
         parent::initialize();
         switch ($from) {
@@ -260,7 +265,7 @@ class dp extends CommonController
         }
     }
 
-    private function ueditor()
+    public function ueditor()
     {
         $action = $this->request->get('action');
         $config_file = './static/libs/ueditor/php/config.json';
@@ -322,7 +327,7 @@ class dp extends CommonController
         }
     }
 
-    private function showFile($type, $config)
+    public function showFile($type, $config)
     {
         /* 判断类型 */
         switch ($type) {
