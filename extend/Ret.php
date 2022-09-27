@@ -15,6 +15,7 @@ class Ret
     public static function fail($data = '失败', $code = 400)
     {
         self::succ($data, $code);
+
     }
 
 }

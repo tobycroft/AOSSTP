@@ -3,6 +3,7 @@
 namespace app\v1\file\controller;
 
 
+use Alioss\AliyunOSS;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use OSS\Core\OssException;
@@ -178,7 +179,8 @@ class index extends search
         if ($file) {
             $this->upload_file($request);
         } else {
-            $this->upload_base64($request);
+            \Ret::fail("请上传binary文件");
+//            $this->upload_base64($request);
         }
     }
 
@@ -188,7 +190,8 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1);
         } else {
-            $this->upload_base64($request, 1);
+            \Ret::fail("请上传binary文件");
+//            $this->upload_base64($request, 1);
         }
     }
 
@@ -198,6 +201,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1, "ue");
         } else {
+            \Ret::fail("请上传binary文件");
             $this->upload_base64($request, 1, 1);
         }
     }
@@ -208,6 +212,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1, "complete");
         } else {
+            \Ret::fail("请上传binary文件");
             $this->upload_base64($request, 1, 1);
         }
     }
@@ -268,7 +273,7 @@ class index extends search
                 }
             }
             if ($proc["type"] == "oss" || $proc["type"] == "all") {
-                $oss = new \Alioss\AliyunOSS($proc);
+                $oss = new AliyunOSS($proc);
                 $oss->uploadFile($proc['bucket'], $fileName, $file_path);
                 if ($proc['main_type'] == 'oss') {
                     $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
