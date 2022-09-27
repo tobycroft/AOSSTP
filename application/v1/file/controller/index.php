@@ -38,10 +38,10 @@ class index extends search
         }
 
         $file = $request->file('file');
-        $file_name = $file->getInfo('name');
         if (!$file) {
             \Ret::fail('file字段没有用文件提交');
         }
+        $file_name = $file->getInfo('name');
         $md5 = $file->hash('md5');
         $sha1 = $file->hash("sha1");
         $mime = $file->getInfo('type');
@@ -202,7 +202,7 @@ class index extends search
             $this->upload_file($request, 1, "ue");
         } else {
             \Ret::fail("请上传binary文件");
-            $this->upload_base64($request, 1, 1);
+//            $this->upload_base64($request, 1, 1);
         }
     }
 
@@ -213,7 +213,7 @@ class index extends search
             $this->upload_file($request, 1, "complete");
         } else {
             \Ret::fail("请上传binary文件");
-            $this->upload_base64($request, 1, 1);
+//            $this->upload_base64($request, 1, 1);
         }
     }
 
