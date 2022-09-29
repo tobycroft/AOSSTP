@@ -13,6 +13,6 @@ class create extends CommonController
     public function index(Request $request)
     {
         $a = new InfoCodePhoto();
-       return $a->generate_photo("title", [], './upload/qr', './upload/qr');
+        $a->generate_photo("title", [], './upload/qr', './upload/qr');
     }
 }
