@@ -25,20 +25,20 @@ class InfoCodePhoto
             "background_color_blue" => 128,
             "background_color_clarity" => 0, // 透明度 0-127 0不透明
         ],
-        "logo" => [
-            "logo_position_x" => 60,
-            "logo_position_y" => 27,
-            "logo_width" => 80,
-            "logo_height" => 107,
-            "logo_path" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "logo.png",
-        ],
-        "qr_code" => [
-            "logo_position_x" => 670,
-            "logo_position_y" => 210,
-            "logo_width" => 350,
-            "logo_height" => 350,
-            "logo_path" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "logo.png",
-        ],
+//        "logo" => [
+//            "logo_position_x" => 60,
+//            "logo_position_y" => 27,
+//            "logo_width" => 80,
+//            "logo_height" => 107,
+//            "logo_path" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "logo.png",
+//        ],
+//        "qr_code" => [
+//            "logo_position_x" => 670,
+//            "logo_position_y" => 210,
+//            "logo_width" => 350,
+//            "logo_height" => 350,
+//            "logo_path" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "logo.png",
+//        ],
     ];
 
     public function generate_photo($title, $value, $qr_local_save_path, $photo_local_save_path, $origin_data = [])
