@@ -1,5 +1,7 @@
 <?php
 
+namespace app\v1\image\create;
+
 
 use BaseController\CommonController;
 use CreateImg\InfoCodePhoto;
