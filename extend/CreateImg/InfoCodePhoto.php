@@ -7,7 +7,7 @@ class InfoCodePhoto
     public static $data = [
         "title" => "杆子光伏安全定点巡检二维码",
         "title_font_size" => 35,
-        "font_file" => "../public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "misans.ttf",
+        "font_file" => "../public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "misans" . DIRECTORY_SEPARATOR . "misans.ttf",
         "photo_width" => 1064,
         "photo_height" => 639,
         "data_line_height" => 80,
