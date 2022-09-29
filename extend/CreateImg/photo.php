@@ -5,7 +5,7 @@ class InfoCodePhoto
     public static $data = [
         "title" => "杆子光伏安全定点巡检二维码",
         "title_font_size" => 35,
-        "font_file" => ROOT_PATH . "public\\ttf\\" . "abd.ttf",
+        "font_file" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "misans.ttf",
         "photo_width" => 1064,
         "photo_height" => 639,
         "data_line_height" => 80,
@@ -28,7 +28,7 @@ class InfoCodePhoto
             "logo_position_y" => 27,
             "logo_width" => 80,
             "logo_height" => 107,
-            "logo_path" => ROOT_PATH . "public\\ttf\\" . "logo.png",
+            "logo_path" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "logo.png",
         ],
         "qr_code" => [
             "logo_position_x" => 670,
@@ -258,7 +258,7 @@ class InfoCodePhoto
      * @param int $start 截取开始位置，默认0
      * @return string
      */
-    public function mg_cn_substr($str, $len, $start = 0)
+    public function mg_cn_substr($str, $len = 0, $start = 0)
     {
         $q_str = '';
         $q_strlen = ($start + $len) > strlen($str) ? strlen($str) : ($start + $len);
