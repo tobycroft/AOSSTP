@@ -22,7 +22,8 @@
       "aliyuncs/oss-sdk-php": "^2.5",
       "james-heinrich/getid3": "^1.9",
       "ext-curl": "*",
-      "yingouqlj/wechat-mini-program-lite": "^1.0"
+      "yingouqlj/wechat-mini-program-lite": "^1.0",
+      "intervention/image": "^2.7"
     },
     "autoload": {
         "psr-4": {
