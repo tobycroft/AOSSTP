@@ -4,6 +4,7 @@ namespace app\v1\image\controller;
 
 
 use CreateImg\InfoCodePhoto;
+use think\Image;
 use think\Request;
 
 class create
@@ -14,5 +15,9 @@ class create
         header("Content-Type: image/jpg");
         $a = new InfoCodePhoto();
         $a->generate_photo("title", [], './upload/qr', './upload/qr');
+    }
+
+    public function create(Request $request)
+    {
     }
 }
