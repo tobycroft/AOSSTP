@@ -30,7 +30,7 @@ class InfoCodePhoto
             "logo_position_y" => 27,
             "logo_width" => 80,
             "logo_height" => 107,
-            "logo_path" => "https://static.familyeducation.org.cn/ps/20220927/d1831a5f5af38d56ee0f414ff849e8aa.png",
+            "logo_path" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "logo.png",
         ],
         "qr_code" => [
             "logo_position_x" => 670,
