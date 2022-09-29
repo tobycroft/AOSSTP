@@ -1,5 +1,7 @@
 <?php
 
+namespace CreateImg;
+
 class InfoCodePhoto
 {
     public static $data = [
