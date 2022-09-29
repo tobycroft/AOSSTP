@@ -59,13 +59,13 @@ class InfoCodePhoto
         // 填充标题背景
         $this->deal_background($im, self::$data);
         // logo
-        if (key_exists("logo", self::$data)) {
-            $this->deal_logo($im, self::$data["logo"]);
-        }
+//        if (key_exists("logo", self::$data)) {
+//            $this->deal_logo($im, self::$data["logo"]);
+//        }
         // 二维码
-        if (key_exists("qr_code", self::$data)) {
-            $this->deal_logo($im, self::$data["qr_code"]);
-        }
+//        if (key_exists("qr_code", self::$data)) {
+//            $this->deal_logo($im, self::$data["qr_code"]);
+//        }
         // 备注颜色
         $font_color_1 = ImageColorAllocate($im, 79, 79, 79);
         // 数据颜色
