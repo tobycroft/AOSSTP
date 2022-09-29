@@ -115,10 +115,11 @@ class InfoCodePhoto
 
         //输出图片
         if (self::$data["qr_code"]["logo_path"]) {
-            imagepng($im, $photo_local_save_path);
+            Header("Content-Type: image/jpg");
+            return imagepng($im, $photo_local_save_path);
         } else {
             Header("Content-Type: image/jpg");
-            imagepng($im);
+            return imagepng($im);
         }
         //释放空间
         imagedestroy($im);
