@@ -134,8 +134,8 @@ class InfoCodePhoto
 
     public function deal_logo($im, $data)
     {
-        $img = $this->getNetworkImgType($data["logo_path"]);
-        list($code_w, $code_h) = getimagesize($img);
+//        $img = $this->getNetworkImgType($data["logo_path"]);
+        list($code_w, $code_h) = getimagesize($data["logo_path"]);
 //        list($code_w, $code_h) = [200, 200];
         $codeImg = $this->createImageFromFile($data["logo_path"]);
         if (!is_null($codeImg)) {
