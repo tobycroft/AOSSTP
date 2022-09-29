@@ -1,6 +1,6 @@
 <?php
 
-namespace app\v1\image\create;
+namespace app\v1\image\controller;
 
 
 use BaseController\CommonController;
