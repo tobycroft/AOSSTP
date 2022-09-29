@@ -37,7 +37,7 @@ class InfoCodePhoto
             "logo_position_y" => 210,
             "logo_width" => 350,
             "logo_height" => 350,
-            "logo_path" => "123.png",
+            "logo_path" => ".." . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "static" . DIRECTORY_SEPARATOR . "logo.png",
         ],
     ];
 
