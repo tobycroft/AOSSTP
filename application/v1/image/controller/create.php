@@ -3,8 +3,6 @@
 namespace app\v1\image\controller;
 
 
-use CreateImg\InfoCodePhoto;
-use think\Image;
 use think\Request;
 
 class create
@@ -13,8 +11,8 @@ class create
     public function index(Request $request)
     {
         header("Content-Type: image/jpg");
-        $a = new InfoCodePhoto();
-        $a->generate_photo("title", [], './upload/qr', './upload/qr');
+        $img = \Intervention\Image\Facades\Image::canvas(1080, 1920);
+        return $img;
     }
 
     public function create(Request $request)
