@@ -7,6 +7,7 @@ use PHPImageWorkshop\ImageWorkshop;
 
 class Layer
 {
+    public string $position = "lt";
     public string $text = "";
     public int $size = 13;
     public int $x = 0;

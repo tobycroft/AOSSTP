@@ -2,38 +2,53 @@
 
 use PHPImageWorkshop\Core\ImageWorkshopLayer;
 
-class DataAction
+class DataAction extends Layer\Layer
 {
-    public static function handle($item): ImageWorkshopLayer|null
+    public function handle($item): ImageWorkshopLayer|null
     {
         switch ($item["type"]) {
             case "text":
                 $layer = new Layer\Layer();
                 if (!isset($item["text"])) {
-                    $layer->text = $item["text"];
+                    throw new Exception("text");
                 }
                 if (!isset($item["size"])) {
-                    $layer->size = $item["size"];
+                    throw new Exception("size");
                 }
                 if (!isset($item["x"])) {
-                    $layer->x = $item["x"];
+                    throw new Exception("x");
                 }
                 if (!isset($item["y"])) {
-                    $layer->y = $item["y"];
+                    throw new Exception("y");
                 }
+                if (!isset($item["position"])) {
+                    throw new Exception("position");
+                }
+                $layer->text = $item["text"];
+                $layer->size = $item["size"];
+                $layer->x = $item["x"];
+                $layer->y = $item["y"];
+                $layer->position = $item["position"];
                 return $layer->text();
 
             case "image":
                 $layer = new Layer\Layer();
                 if (!isset($item["path"])) {
-                    $layer->path = $item["path"];
+                    throw new Exception("path");
                 }
                 if (!isset($item["x"])) {
-                    $layer->x = $item["x"];
+                    throw new Exception("x");
                 }
                 if (!isset($item["y"])) {
-                    $layer->y = $item["y"];
+                    throw new Exception("y");
                 }
+                if (!isset($item["position"])) {
+                    throw new Exception("position");
+                }
+                $layer->path = $item["path"];
+                $layer->x = $item["x"];
+                $layer->y = $item["y"];
+                $layer->position = $item["position"];
                 return $layer->image();
         }
         return null;

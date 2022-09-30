@@ -41,14 +41,16 @@ class create extends CommonController
         $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
 
         foreach ($data as $item) {
-            $layer = \DataAction::handle($item);
-            if (!$conf) {
+            $layer_class = new \DataAction();
+            $layer = $layer_class->handle($item);
+            if (!$layer) {
                 \Ret::fail("数据没有准备好");
             }
+            in_array($layer_class, $haystack)
+            $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $align);
         }
 
 
-        $document->addLayer(1, $layer1, 10, 10);
         $document->addLayer(1, $img, 30, 40);
         $image = $document->getResult("ffffff");
         $document->delete();
