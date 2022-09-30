@@ -8,9 +8,9 @@ use PHPImageWorkshop\ImageWorkshop;
 
 class create extends CommonController
 {
-    private $font = "../public/static/misans/misans.ttf";
-    private $font_size = 16;
-    private $font_color = "000000";
+    private string $font = "../public/static/misans/misans.ttf";
+    private int $font_size = 16;
+    private string $font_color = "000000";
 
     public function initialize()
     {
