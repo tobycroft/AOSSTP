@@ -11,11 +11,18 @@ class create extends CommonController
     private string $font = "../public/static/misans/misans.ttf";
     private int $font_size = 16;
     private string $font_color = "000000";
+    public $token;
 
     public function initialize()
     {
-
+        set_time_limit(0);
+        parent::initialize();
+        $this->token = input('get.token');
+        if (!$this->token) {
+            \Ret::fail('token');
+        }
     }
+
 
     public function index()
     {
