@@ -18,7 +18,7 @@ class create extends CommonController
     {
         $img = new Canvas();
         $img->create_empty_image(200, 400);
-        \think\facade\Response::contentType("image/jpeg")->send();
+//        \think\facade\Response::contentType("image/jpeg")->send();
     }
 
 }
