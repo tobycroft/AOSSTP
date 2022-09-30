@@ -16,13 +16,14 @@
         }
     ],
     "require": {
-      "php": ">=8.0",
-      "topthink/framework": "^5.1",
-      "phpoffice/phpspreadsheet": "^1.23",
-      "aliyuncs/oss-sdk-php": "^2.5",
-      "james-heinrich/getid3": "^1.9",
-      "ext-curl": "*",
-      "yingouqlj/wechat-mini-program-lite": "^1.0"
+        "php": ">=8.0",
+        "topthink/framework": "^5.1",
+        "phpoffice/phpspreadsheet": "^1.23",
+        "aliyuncs/oss-sdk-php": "^2.5",
+        "james-heinrich/getid3": "^1.9",
+        "ext-curl": "*",
+        "yingouqlj/wechat-mini-program-lite": "^1.0",
+        "sezaicetin/img-create": "^1.1"
     },
     "autoload": {
         "psr-4": {

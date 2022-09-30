@@ -4,14 +4,16 @@ namespace app\v1\image\controller;
 
 
 
+use sezaicetin\Create\img;
+
 class create
 {
 
     public function index()
     {
 //        header("Content-Type: image/jpg");
-        $img = \Intervention\Image\Facades\Image::canvas(800, 600);
-        $img->response();
+        $img = new img("test");
+        $img->create(200, 200);
     }
 
 }
