@@ -32,6 +32,9 @@ class DataAction extends Layer
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function handle(): ImageWorkshopLayer|null
     {
         switch ($this->item["type"]) {
