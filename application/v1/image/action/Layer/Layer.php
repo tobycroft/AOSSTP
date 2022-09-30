@@ -21,9 +21,6 @@ class Layer
         return ImageWorkshop::initTextLayer($this->text, $this->font, $this->size, $this->font_color);
     }
 
-    /**
-     * @throws \PHPImageWorkshop\Exception\ImageWorkshopException
-     */
     public function image(): ImageWorkshopLayer
     {
         return ImageWorkshop::initFromPath($this->path);
