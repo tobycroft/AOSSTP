@@ -8,7 +8,7 @@ use think\Exception;
 class DataAction extends Layer
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle($item): ImageWorkshopLayer|null
     {
