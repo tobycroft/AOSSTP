@@ -56,6 +56,7 @@ class create extends CommonController
                 \Ret::fail($e->getMessage());
             }
         }
+        $document->save($folder, $imageName);
         $image = $document->getResult($this->background);
         $document->delete();
 
