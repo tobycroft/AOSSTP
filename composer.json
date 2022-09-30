@@ -23,7 +23,7 @@
         "james-heinrich/getid3": "^1.9",
         "ext-curl": "*",
         "yingouqlj/wechat-mini-program-lite": "^1.0",
-        "sezaicetin/img-create": "^1.1"
+        "devbr/canvas": "^0.0.1"
     },
     "autoload": {
         "psr-4": {
