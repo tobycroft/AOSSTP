@@ -111,6 +111,7 @@ class create extends CommonController
         $_FILES["file"]["name"] = $md5 . ".jpg";
         $_FILES["file"]["error"] = 0;
         $_FILES["file"]["type"] = "image/jpg";
+        $_FILES["file"]["tmp_name"] = $md5 . ".jpg";
         $index = new index();
         $index->upload_file($request, 1, "complete");
     }
