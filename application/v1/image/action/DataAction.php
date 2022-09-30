@@ -17,7 +17,7 @@ class DataAction extends Layer
         }
         switch ($item["type"]) {
             case "text":
-                $layer = new Layer\Layer();
+                $layer = new Layer();
                 if (!isset($item["text"])) {
                     throw new Exception("text");
                 }
@@ -41,7 +41,7 @@ class DataAction extends Layer
                 return $layer->text();
 
             case "image":
-                $layer = new Layer\Layer();
+                $layer = new Layer();
                 if (!isset($item["path"])) {
                     throw new Exception("path");
                 }
