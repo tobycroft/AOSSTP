@@ -10,9 +10,7 @@ use think\Request;
 class create extends CommonController
 {
 
-    private string $font = "../public/static/misans/misans.ttf";
-    private int $font_size = 16;
-    private string $font_color = "000000";
+
     public mixed $token;
 
     protected int $width;
@@ -28,7 +26,7 @@ class create extends CommonController
         }
     }
 
-    public function index(Request $request)
+    public function create(Request $request)
     {
         if (!$request->has("width")) {
             \Ret::fail("width");
@@ -39,16 +37,17 @@ class create extends CommonController
         $this->width = input("width");
         $this->height = input("height");
         $json = $request->post("data");
-        $conf = json_decode($json, 1);
-        if (count($conf) < 1) {
-            \Ret::fail("没有设定项");
-        }
-
+        $data = json_decode($json, 1);
         $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
 
-        $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
+        foreach ($data as $item) {
+            $layer = \DataAction::handle($item);
+            if (!$conf) {
+                \Ret::fail("数据没有准备好");
+            }
+        }
 
-        $img = ImageWorkshop::initFromPath("https://static.familyeducation.org.cn/ps/20220927/d1831a5f5af38d56ee0f414ff849e8aa.png");
+
         $document->addLayer(1, $layer1, 10, 10);
         $document->addLayer(1, $img, 30, 40);
         $image = $document->getResult("ffffff");

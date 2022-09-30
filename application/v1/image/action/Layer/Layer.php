@@ -14,17 +14,12 @@ class Layer
     public int $y = 0;
     public string $path = "";
 
-    public function __construct()
-    {
-        switch ($this->type) {
-            case "text":
-                return $this->text();
-        }
-    }
+    private string $font = "../public/static/misans/misans.ttf";
+    private string $font_color = "000000";
 
     public function text(): ImageWorkshopLayer
     {
-        return ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
+        return ImageWorkshop::initTextLayer("123", $this->font, $this->size, $this->font_color);
     }
 
     /**
