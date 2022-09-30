@@ -104,8 +104,8 @@ class create extends CommonController
         $md5 = md5(json_encode($crypt, 320));
         $image = $document->getResult($this->background);
         $img = Image::open($image);
-        $img->save("../upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
-        \think\facade\Response::contentType("image/png")->send();
+        $info = $img->save("../upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
+        \Ret::succ($info);
     }
 
 }
