@@ -105,7 +105,8 @@ class create extends CommonController
         $document->save("../upload/image/" . $this->token, $md5 . ".jpg");
 //        $img = Image::open($image);
 //        $info = $img->save("../upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
-        \Ret::succ();
+        $sav = $this->proc['url'] . '/' . "upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        \Ret::succ($sav);
     }
 
 }
