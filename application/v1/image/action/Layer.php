@@ -13,7 +13,7 @@ class Layer
     public int $size = 13;
     public int $x = 0;
     public int $y = 0;
-    public string $path = "";
+    public string $url = "";
 
     private string $font = "../public/static/misans/misans.ttf";
     private string $font_color = "000000";
@@ -25,7 +25,7 @@ class Layer
 
     public function image(): ImageWorkshopLayer
     {
-        return ImageWorkshop::initFromPath($this->path);
+        return ImageWorkshop::initFromPath($this->url);
     }
 
 }

@@ -50,7 +50,7 @@ class DataAction extends Layer
                 if (isset($item["position"])) {
                     $layer->position = $item["position"];
                 }
-                $layer->path = $item["path"];
+                $layer->url = $item["path"];
                 return $layer->image();
         }
         return null;
