@@ -1,6 +1,7 @@
 <?php
 
-namespace Layer;
+namespace app\v1\image\action;
+
 
 use PHPImageWorkshop\Core\ImageWorkshopLayer;
 use PHPImageWorkshop\ImageWorkshop;
