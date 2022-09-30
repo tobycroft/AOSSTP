@@ -4,6 +4,9 @@ use PHPImageWorkshop\Core\ImageWorkshopLayer;
 
 class DataAction extends Layer\Layer
 {
+    /**
+     * @throws Exception
+     */
     public function handle($item): ImageWorkshopLayer|null
     {
         switch ($item["type"]) {
