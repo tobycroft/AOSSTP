@@ -10,7 +10,6 @@ class DataAction extends Layer
     /**
      * @throws Exception
      */
-    private Layer $layer;
     private $item;
 
     /**
@@ -22,15 +21,14 @@ class DataAction extends Layer
         if (!isset($this->item["type"])) {
             throw new Exception("type");
         }
-        $this->layer = new Layer();
         if (isset($this->item["x"])) {
-            $this->layer->x = $this->item["x"];
+            $this->x = $this->item["x"];
         }
         if (isset($this->item["y"])) {
-            $this->layer->y = $this->item["y"];
+            $this->y = $this->item["y"];
         }
         if (isset($this->item["position"])) {
-            $this->layer->position = $this->item["position"];
+            $this->position = $this->item["position"];
         }
     }
 
@@ -38,33 +36,31 @@ class DataAction extends Layer
     {
         switch ($this->item["type"]) {
             case "text":
-                $this->layer = new Layer();
                 if (!isset($this->item["text"])) {
                     throw new Exception("text");
                 }
                 if (isset($this->item["size"])) {
-                    $this->layer->size = $this->item["size"];
+                    $this->size = $this->item["size"];
                 }
 
-                $this->layer->text = $this->item["text"];
-                return $this->layer->text();
+                $this->text = $this->item["text"];
+                return $this->text();
 
             case "image":
-                $this->layer = new Layer();
                 if (!isset($this->item["url"])) {
                     throw new Exception("url");
                 }
                 if (isset($this->item["x"])) {
-                    $this->layer->x = $this->item["x"];
+                    $this->x = $this->item["x"];
                 }
                 if (isset($this->item["y"])) {
-                    $this->layer->y = $this->item["y"];
+                    $this->y = $this->item["y"];
                 }
                 if (isset($this->item["position"])) {
-                    $this->layer->position = $this->item["position"];
+                    $this->position = $this->item["position"];
                 }
-                $this->layer->url = $this->item["url"];
-                return $this->layer->image();
+                $this->url = $this->item["url"];
+                return $this->image();
         }
         return null;
     }
