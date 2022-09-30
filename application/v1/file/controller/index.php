@@ -29,7 +29,7 @@ class index extends search
         dump(config('aliyun.'));
     }
 
-    public function upload_file(Request $request, $full = 0, $type = null)
+    public function upload_file(Request $request, $full = 0, $type = null, $suppress_validate = false)
     {
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
@@ -56,8 +56,12 @@ class index extends search
             }
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         }
+        if ($suppress_validate) {
+            $info = $file->move('./upload/' . $this->token);
+        } else {
+            $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
+        }
 
-        $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
         if (!$info) {
             \Ret::fail($file->getError());
             return;
