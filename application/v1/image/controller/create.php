@@ -12,7 +12,8 @@ class create
     public function index(Request $request)
     {
 //        header("Content-Type: image/jpg");
-        $img = Image::canvas(1080, 1920);
+        $img = new Image();
+        $img->canvas(1080, 1920);
         return $img;
     }
 
