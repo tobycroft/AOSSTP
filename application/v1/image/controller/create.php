@@ -103,15 +103,15 @@ class create extends CommonController
         ];
         $md5 = md5(json_encode($crypt, 320));
         $image = $document->getResult($this->background);
-        $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
+        $document->save("../public/upload/image/" . $this->token, $md5 . ".jpeg");
 //        $img = Image::open($image);
 //        $info = $img->save("../upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
 //        $sav = $this->proc['url'] . '/' . "upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
 //        \Ret::succ($sav);
-        $_FILES["file"]["name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
+        $_FILES["file"]["name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpeg";
         $_FILES["file"]["error"] = 0;
-        $_FILES["file"]["type"] = "image/jpg";
-        $_FILES["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
+        $_FILES["file"]["type"] = "image/jpeg";
+        $_FILES["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpeg";
         $index = new index();
         $index->upload_file($request, 1, "complete");
     }
