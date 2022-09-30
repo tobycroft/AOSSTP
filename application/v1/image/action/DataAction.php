@@ -3,6 +3,7 @@
 namespace app\v1\image\action;
 
 use PHPImageWorkshop\Core\ImageWorkshopLayer;
+use think\Exception;
 
 class DataAction extends Layer
 {
@@ -12,7 +13,7 @@ class DataAction extends Layer
     public function handle($item): ImageWorkshopLayer|null
     {
         if (!isset($item["type"])) {
-            throw new \Exception("type");
+            throw new Exception("type");
         }
         switch ($item["type"]) {
             case "text":
