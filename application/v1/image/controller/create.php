@@ -19,7 +19,7 @@ class create extends CommonController
         $img = new Canvas();
         $img->create_empty_image(200, 400, "png")
             ->set_rgb('#df0d32')
-            ->merge("test_image.png", array("right", "bottom"))
+//            ->merge("test_image.png", array("right", "bottom"))
             ->filter("blur", 23)
             ->show();
 //        \think\facade\Response::contentType("image/jpeg")->send();
