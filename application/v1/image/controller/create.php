@@ -5,13 +5,18 @@ namespace app\v1\image\controller;
 
 use BaseController\CommonController;
 use PHPImageWorkshop\ImageWorkshop;
+use think\Request;
 
 class create extends CommonController
 {
+
     private string $font = "../public/static/misans/misans.ttf";
     private int $font_size = 16;
     private string $font_color = "000000";
-    public $token;
+    public mixed $token;
+
+    protected int $width;
+    protected int $height;
 
     public function initialize()
     {
@@ -23,9 +28,16 @@ class create extends CommonController
         }
     }
 
-
-    public function index()
+    public function index(Request $request)
     {
+        $json = $request->post("data");
+        $conf = json_decode($json, 1);
+        if (isset($conf["size"])) {
+            \Ret::fail("缺少data[size]");
+        }
+        $this->width = $conf["size"]["width"];
+        $this->height = $conf["size"]["height"];
+
         $document = ImageWorkshop::initVirginLayer(1920, 1080);
         $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
         $img = ImageWorkshop::initFromPath("https://static.familyeducation.org.cn/ps/20220927/d1831a5f5af38d56ee0f414ff849e8aa.png");
