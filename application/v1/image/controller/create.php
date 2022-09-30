@@ -17,7 +17,8 @@ class create extends CommonController
     public function index()
     {
         $document = ImageWorkshop::initVirginLayer(200, 400);
-
+        $layer1 = ImageWorkshop::initTextLayer("123", "../public/static/misans/misans.ttf");
+        $document->addLayer(1, $layer1, 0, 0);
         $image = $document->getResult("ffffff");
 
 //        header('Content-type: image/jpeg');
