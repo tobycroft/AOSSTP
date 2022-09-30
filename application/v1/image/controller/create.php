@@ -38,9 +38,6 @@ class create extends CommonController
         }
         $json = $request->post("data");
         $conf = json_decode($json, 1);
-        if (!isset($conf["size"])) {
-            \Ret::fail("缺少data[size]");
-        }
         $this->width = input("width");
         $this->height = input("height");
 
