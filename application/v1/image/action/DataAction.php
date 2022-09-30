@@ -2,9 +2,10 @@
 
 namespace app\v1\image\action;
 
+use Layer\Layer;
 use PHPImageWorkshop\Core\ImageWorkshopLayer;
 
-class DataAction extends Layer\Layer
+class DataAction extends Layer
 {
     /**
      * @throws Exception
