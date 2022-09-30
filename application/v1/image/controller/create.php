@@ -20,11 +20,11 @@ class create extends CommonController
 
         $image = $document->getResult("ffffff");
 
-        header('Content-type: image/jpeg');
+//        header('Content-type: image/jpeg');
 
         imagejpeg($image, null, 95);
 
-//        \think\facade\Response::contentType("image/jpeg")->send();
+        \think\facade\Response::contentType("image/jpeg")->send();
     }
 
 }
