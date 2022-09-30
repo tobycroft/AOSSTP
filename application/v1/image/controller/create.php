@@ -11,7 +11,7 @@ class create
 
     public function index()
     {
-        header("Content-Type: image/jpg");
+        header("Content-Type: image/jpg", true);
         $img = new img("test");
         $img->create(200, 200);
     }
