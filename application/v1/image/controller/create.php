@@ -13,8 +13,7 @@ class create
     {
 //        header("Content-Type: image/jpg");
         $img = new Image();
-        $img->canvas(1080, 1920);
-        return $img;
+        $img->canvas(1080, 1920)->response();
     }
 
     public function create(Request $request)
