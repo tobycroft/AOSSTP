@@ -108,16 +108,11 @@ class create extends CommonController
 //        $info = $img->save("../upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
 //        $sav = $this->proc['url'] . '/' . "upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
 //        \Ret::succ($sav);
-//        $_FILES["file"]["name"] = $md5 . ".jpg";
-//        $_FILES["file"]["error"] = 0;
-//        $_FILES["file"]["type"] = "image/png";
-//        $_FILES["file"]["size"] = filesize("../public/upload/image/" . $this->token . "/" . $md5 . ".jpg");
-//        $_FILES["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
-        $file["file"]["name"] = $md5 . ".jpg";
-        $file["file"]["error"] = 0;
-        $file["file"]["type"] = "image/png";
-        $file["file"]["size"] = filesize("../public/upload/image/" . $this->token . "/" . $md5 . ".jpg");
-        $file["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
+        $_FILES["file"]["name"] = $md5 . ".jpg";
+        $_FILES["file"]["error"] = 0;
+        $_FILES["file"]["type"] = "image/png";
+        $_FILES["file"]["size"] = filesize("../public/upload/image/" . $this->token . "/" . $md5 . ".jpg");
+        $_FILES["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
 
         $request->withFiles($file);
         $index = new index();
