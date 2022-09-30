@@ -4,7 +4,7 @@ namespace app\v1\image\controller;
 
 
 use BaseController\CommonController;
-use Devbr\Canvas;
+use PHPImageWorkshop\ImageWorkshop;
 
 class create extends CommonController
 {
@@ -16,12 +16,14 @@ class create extends CommonController
 
     public function index()
     {
-        $img = new Canvas();
-        $img->create_empty_image(200, 400, "png")
-            ->set_rgb('#df0d32')
-//            ->merge("test_image.png", array("right", "bottom"))
-            ->filter("blur", 23)
-            ->show();
+        $document = ImageWorkshop::initVirginLayer(200, 400);
+
+        $image = $document->getResult("ffffff");
+
+        header('Content-type: image/jpeg');
+
+        imagejpeg($image, null, 95);
+
 //        \think\facade\Response::contentType("image/jpeg")->send();
     }
 
