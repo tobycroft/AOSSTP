@@ -27,7 +27,7 @@ class create extends CommonController
         }
     }
 
-    public function create(Request $request)
+    public function canvas(Request $request)
     {
         if (!$request->has("width")) {
             \Ret::fail("width");
