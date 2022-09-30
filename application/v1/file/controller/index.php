@@ -59,7 +59,7 @@ class index extends search
         if ($suppress_validate) {
             $info = $file->move('./upload/' . $this->token);
         } else {
-            $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
+//            $info = $file->validate(['size' => (float)$proc['size'] * 1024, 'ext' => $proc['ext']])->move('./upload/' . $this->token);
         }
 
         if (!$info) {
