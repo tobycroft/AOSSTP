@@ -30,13 +30,19 @@ class create extends CommonController
 
     public function index(Request $request)
     {
+        if (!$request->has("width")) {
+            \Ret::fail("width");
+        }
+        if (!$request->has("height")) {
+            \Ret::fail("height");
+        }
         $json = $request->post("data");
         $conf = json_decode($json, 1);
         if (!isset($conf["size"])) {
             \Ret::fail("缺少data[size]");
         }
-        $this->width = $conf["size"]["width"];
-        $this->height = $conf["size"]["height"];
+        $this->width = input("width");
+        $this->height = input("height");
 
         $document = ImageWorkshop::initVirginLayer(1920, 1080);
         $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
