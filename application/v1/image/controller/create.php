@@ -8,6 +8,9 @@ use PHPImageWorkshop\ImageWorkshop;
 
 class create extends CommonController
 {
+    private $font = "../public/static/misans/misans.ttf";
+    private $font_size = 16;
+    private $font_color = "000000";
 
     public function initialize()
     {
@@ -17,7 +20,7 @@ class create extends CommonController
     public function index()
     {
         $document = ImageWorkshop::initVirginLayer(200, 400);
-        $layer1 = ImageWorkshop::initTextLayer("123", "../public/static/misans/misans.ttf", 16, "333333");
+        $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
         $document->addLayer(1, $layer1, 0, 0);
         $image = $document->getResult("ffffff");
 
