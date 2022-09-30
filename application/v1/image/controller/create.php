@@ -28,7 +28,7 @@ class create extends CommonController
     {
         $document = ImageWorkshop::initVirginLayer(200, 400);
         $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
-        $document->addLayer(1, $layer1, 0, 0);
+        $document->addLayer(1, $layer1, 10, 10);
         $image = $document->getResult("ffffff");
 
 //        header('Content-type: image/jpeg');
