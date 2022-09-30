@@ -26,7 +26,7 @@ class create extends CommonController
 
     public function index()
     {
-        $document = ImageWorkshop::initVirginLayer(200, 400);
+        $document = ImageWorkshop::initVirginLayer(1920, 1080);
         $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
         $img = ImageWorkshop::initFromPath("https://static.familyeducation.org.cn/ps/20220927/d1831a5f5af38d56ee0f414ff849e8aa.png");
         $document->addLayer(1, $layer1, 10, 10);
