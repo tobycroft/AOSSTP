@@ -38,8 +38,8 @@ class DataAction extends Layer
 
             case "image":
                 $layer = new Layer();
-                if (!isset($item["path"])) {
-                    throw new Exception("path");
+                if (!isset($item["url"])) {
+                    throw new Exception("url");
                 }
                 if (isset($item["x"])) {
                     $layer->x = $item["x"];
@@ -50,7 +50,7 @@ class DataAction extends Layer
                 if (isset($item["position"])) {
                     $layer->position = $item["position"];
                 }
-                $layer->url = $item["path"];
+                $layer->url = $item["url"];
                 return $layer->image();
         }
         return null;
