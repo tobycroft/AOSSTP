@@ -114,7 +114,6 @@ class create extends CommonController
         $_FILES["file"]["size"] = filesize("../public/upload/image/" . $this->token . "/" . $md5 . ".jpg");
         $_FILES["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
 
-        $request->withFiles($file);
         $index = new index();
         $index->upload_file($request, 1, "complete");
     }
