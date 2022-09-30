@@ -3,6 +3,7 @@
 namespace app\v1\image\controller;
 
 
+use app\v1\image\action\DataAction;
 use BaseController\CommonController;
 use PHPImageWorkshop\ImageWorkshop;
 use think\Request;
@@ -46,7 +47,7 @@ class create extends CommonController
         $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
 
         foreach ($data as $item) {
-            $layer_class = new \DataAction();
+            $layer_class = new DataAction();
             $layer = $layer_class->handle($item);
             if (!$layer) {
                 \Ret::fail("数据没有准备好");
