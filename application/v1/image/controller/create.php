@@ -3,7 +3,7 @@
 namespace app\v1\image\controller;
 
 
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Image;
 use think\Request;
 
 class create
