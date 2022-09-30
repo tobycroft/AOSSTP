@@ -110,7 +110,7 @@ class create extends CommonController
 //        \Ret::succ($sav);
         $_FILES["file"]["name"] = $md5 . ".jpg";
         $_FILES["file"]["error"] = 0;
-        $_FILES["file"]["type"] = "image/jpg";
+        $_FILES["file"]["type"] = "image/png";
         $_FILES["file"]["size"] = filesize("../public/upload/image/" . $this->token . "/" . $md5 . ".jpg");
         $_FILES["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
         $index = new index();
