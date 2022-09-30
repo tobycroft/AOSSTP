@@ -11,6 +11,9 @@ class DataAction extends Layer
      */
     public function handle($item): ImageWorkshopLayer|null
     {
+        if (!isset($item["type"])) {
+            throw new \Exception("type");
+        }
         switch ($item["type"]) {
             case "text":
                 $layer = new Layer\Layer();
