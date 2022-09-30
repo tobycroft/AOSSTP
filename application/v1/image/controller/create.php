@@ -3,9 +3,10 @@
 namespace app\v1\image\controller;
 
 
+use BaseController\CommonController;
 use sezaicetin\Create\img;
 
-class create
+class create extends CommonController
 {
 
     public function index()
