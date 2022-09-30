@@ -4,7 +4,7 @@ namespace app\v1\image\controller;
 
 
 use BaseController\CommonController;
-use sezaicetin\Create\img;
+use Devbr\Canvas;
 
 class create extends CommonController
 {
@@ -16,9 +16,8 @@ class create extends CommonController
 
     public function index()
     {
-        $img = new img("test");
-
-        $img->create(200, 200);
+        $img = new Canvas();
+        $img->create_empty_image(200, 400);
         \think\facade\Response::contentType("image/jpeg")->send();
     }
 
