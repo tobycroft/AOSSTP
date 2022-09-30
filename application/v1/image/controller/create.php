@@ -3,6 +3,7 @@
 namespace app\v1\image\controller;
 
 
+use Intervention\Image\Facades\Image;
 use think\Request;
 
 class create
@@ -11,7 +12,7 @@ class create
     public function index(Request $request)
     {
 //        header("Content-Type: image/jpg");
-        $img = \Intervention\Image\Facades\Image::canvas(1080, 1920);
+        $img = Image::canvas(1080, 1920);
         return $img;
     }
 
