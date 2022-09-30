@@ -1,5 +1,7 @@
 <?php
 
+namespace app\v1\image\action;
+
 use PHPImageWorkshop\Core\ImageWorkshopLayer;
 
 class DataAction extends Layer\Layer
