@@ -19,7 +19,7 @@ class create extends CommonController
         header("Content-type", "image/jpeg");
         $img = new img("test");
         $img->create(200, 200);
-        \think\facade\Response::contentType("Content-type", "image/jpeg");
+        \think\facade\Response::contentType("Content-type", "image/jpeg")->getContent();
     }
 
 }
