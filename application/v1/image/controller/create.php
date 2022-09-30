@@ -6,6 +6,7 @@ namespace app\v1\image\controller;
 use app\v1\image\action\DataAction;
 use BaseController\CommonController;
 use PHPImageWorkshop\ImageWorkshop;
+use think\Exception;
 use think\Request;
 
 class create extends CommonController
@@ -48,9 +49,10 @@ class create extends CommonController
 
         foreach ($data as $item) {
             $layer_class = new DataAction();
-            $layer = $layer_class->handle($item);
-            if (!$layer) {
-                \Ret::fail("数据没有准备好");
+            try {
+                $layer = $layer_class->handle($item);
+            } catch (Exception $e) {
+                \Ret::fail($e->getMessage());
             }
             $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
         }
