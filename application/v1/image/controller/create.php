@@ -16,9 +16,9 @@ class create extends CommonController
 
     public function index()
     {
-        \think\facade\Response::contentType("image/jpeg")->send();
         $img = new img("test");
         $img->create(200, 200);
+        \think\facade\Response::contentType("image/jpeg")->send();
     }
 
 }
