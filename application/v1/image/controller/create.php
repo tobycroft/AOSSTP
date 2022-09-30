@@ -36,10 +36,11 @@ class create extends CommonController
         if (!$request->has("height")) {
             \Ret::fail("height");
         }
-        $json = $request->post("data");
-        $conf = json_decode($json, 1);
         $this->width = input("width");
         $this->height = input("height");
+        $json = $request->post("data");
+        $conf = json_decode($json, 1);
+
 
         $document = ImageWorkshop::initVirginLayer(1920, 1080);
         $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
