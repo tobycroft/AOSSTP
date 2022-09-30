@@ -115,7 +115,7 @@ class create extends CommonController
         $_FILES["file"]["tmp_name"] = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
 
         $index = new index();
-        $index->upload_file($request, 1, "complete", true);
+        $index->upload_file($request, 1, "complete");
     }
 
 }
