@@ -11,8 +11,8 @@ class Layer
     public string $position = "lt";
     public string $text = "";
     public int $size = 13;
-    public int $x = 0;
-    public int $y = 0;
+    public mixed $x = 0;
+    public mixed $y = 0;
     public string $url = "";
 
     private string $font = "../public/static/misans/misans.ttf";

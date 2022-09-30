@@ -48,8 +48,8 @@ class create extends CommonController
         $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
 
         foreach ($data as $item) {
-            $layer_class = new DataAction($item);
             try {
+                $layer_class = new DataAction($item);
                 $layer = $layer_class->handle();
                 echo $layer_class->x;
                 exit();
