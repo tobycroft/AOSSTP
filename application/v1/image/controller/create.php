@@ -51,8 +51,6 @@ class create extends CommonController
             try {
                 $layer_class = new DataAction($item);
                 $layer = $layer_class->handle();
-                echo $layer_class->x;
-                exit();
                 $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
             } catch (Exception $e) {
                 \Ret::fail($e->getMessage());
