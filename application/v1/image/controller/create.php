@@ -18,7 +18,7 @@ class create extends CommonController
     public function index()
     {
         $img = new img("test");
-        $img->create(200, 200, "../public/img");
+        $img->create(200, 200);
         header("Content-type:image/png");
     }
 
