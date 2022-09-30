@@ -40,7 +40,9 @@ class create extends CommonController
         $this->height = input("height");
         $json = $request->post("data");
         $conf = json_decode($json, 1);
-
+        if (count($conf) < 1) {
+            \Ret::fail("没有设定项");
+        }
 
         $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
         $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
