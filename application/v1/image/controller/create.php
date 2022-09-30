@@ -12,7 +12,7 @@ class create
     {
 
         $img = new img("test");
-        $img->create(200, 200);
+        $img->create(200, 200, "../public/img");
     }
 
 }
