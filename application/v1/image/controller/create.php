@@ -13,6 +13,7 @@ class create
         header("Content-type:image/png");
         $img = new img("test");
         $img->create(200, 200, "../public/img");
+        header("Content-type:image/png");
     }
 
 }
