@@ -48,9 +48,9 @@ class create extends CommonController
         $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
 
         foreach ($data as $item) {
-            $layer_class = new DataAction();
+            $layer_class = new DataAction($item);
             try {
-                $layer = $layer_class->handle($item);
+                $layer = $layer_class->handle();
                 echo $layer_class->x;
                 exit();
                 $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
