@@ -109,7 +109,8 @@ class create extends CommonController
 //        $sav = $this->proc['url'] . '/' . "upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
 //        \Ret::succ($sav);
         $_FILES["file"]["name"] = $md5 . ".jpg";
-        $_FILES["file"]["error"] = "image/jpg";
+        $_FILES["file"]["error"] = 0;
+        $_FILES["file"]["type"] = "image/jpg";
         $index = new index();
         $index->upload_file($request, 1, "complete");
     }
