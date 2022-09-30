@@ -16,7 +16,6 @@ class create extends CommonController
 
     public function index()
     {
-        header("Content-type", "image/png");
         $img = new img("test");
         $img->create(200, 200);
         \think\facade\Response::contentType("Content-type", "image/jpeg")->getContent();
