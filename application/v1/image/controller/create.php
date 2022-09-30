@@ -48,6 +48,7 @@ class create extends CommonController
         $document->addLayer(1, $layer1, 10, 10);
         $document->addLayer(1, $img, 30, 40);
         $image = $document->getResult("ffffff");
+        $document->delete();
 
 //        header('Content-type: image/jpeg');
 
