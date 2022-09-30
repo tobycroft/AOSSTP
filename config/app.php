@@ -15,21 +15,21 @@
 
 return [
     // 应用名称
-    'app_name'               => '',
+    'app_name' => '',
     // 应用地址
-    'app_host'               => '',
+    'app_host' => '',
     // 应用调试模式
-    'app_debug'              => false,
+    'app_debug' => true,
     // 应用Trace
-    'app_trace'              => false,
+    'app_trace' => false,
     // 是否支持多模块
-    'app_multi_module'       => true,
+    'app_multi_module' => true,
     // 入口自动绑定模块
-    'auto_bind_module'       => false,
+    'auto_bind_module' => false,
     // 注册的根命名空间
-    'root_namespace'         => [],
+    'root_namespace' => [],
     // 默认输出类型
-    'default_return_type'    => 'html',
+    'default_return_type' => 'html',
     // 默认AJAX 数据返回格式,可选json xml ...
     'default_ajax_return'    => 'json',
     // 默认JSONP格式返回的处理方法
