@@ -7,7 +7,6 @@ use PHPImageWorkshop\ImageWorkshop;
 
 class Layer
 {
-    public $type = "";
     public string $text = "";
     public int $size = 13;
     public int $x = 0;
@@ -19,7 +18,7 @@ class Layer
 
     public function text(): ImageWorkshopLayer
     {
-        return ImageWorkshop::initTextLayer("123", $this->font, $this->size, $this->font_color);
+        return ImageWorkshop::initTextLayer($this->text, $this->font, $this->size, $this->font_color);
     }
 
     /**
