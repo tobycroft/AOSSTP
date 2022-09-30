@@ -42,7 +42,7 @@ class create extends CommonController
         $conf = json_decode($json, 1);
 
 
-        $document = ImageWorkshop::initVirginLayer(1920, 1080);
+        $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
         $layer1 = ImageWorkshop::initTextLayer("123", $this->font, $this->font_size, $this->font_color);
         $img = ImageWorkshop::initFromPath("https://static.familyeducation.org.cn/ps/20220927/d1831a5f5af38d56ee0f414ff849e8aa.png");
         $document->addLayer(1, $layer1, 10, 10);
