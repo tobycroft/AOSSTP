@@ -6,7 +6,9 @@ namespace app\v1\image\controller;
 use app\v1\image\action\DataAction;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use OSS\Core\OssException;
 use PHPImageWorkshop\ImageWorkshop;
+use SendFile\SendFile;
 use think\Exception;
 use think\Request;
 
@@ -15,7 +17,7 @@ class create extends CommonController
 
 
     public mixed $token;
-    public mixed $proc;
+    public mixed $this->proc;
     protected int $width;
     protected int $height;
     protected string $background;
@@ -103,7 +105,35 @@ class create extends CommonController
         $md5 = md5(json_encode($crypt, 320));
         $document->getResult($this->background);
         $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
-        $sav = "https://image.tuuz.cc:444/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+
+        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
+            if ($this->proc['main_type'] == 'local') {
+                $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+            }
+        }
+        if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
+            $sf = new SendFile();
+            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), $file->getInfo('type'), $file->getInfo('name'));
+            $json = json_decode($ret, 1);
+            $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        }
+        if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
+            try {
+                $oss = new \OSS\AliyunOSS($this->proc);
+                $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $info->getPathname());
+            } catch (OssException $e) {
+                \Ret::fail($e->getMessage(), 200);
+            }
+            if (empty($ret->getData()["info"]["url"])) {
+                \Ret::fail("OSS不正常");
+            }
+            if ($this->proc['main_type'] == 'oss') {
+                $sav = $this->proc['url'] . '/' . $fileName;
+            }
+            if ($this->proc["type"] != "all") {
+                unlink($info->getPathname());
+            }
+        }
         \Ret::succ($sav);
     }
 
