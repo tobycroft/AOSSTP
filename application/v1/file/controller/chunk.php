@@ -82,7 +82,7 @@ class chunk extends dp
         $directory = md5(session('uid') . '_' . input('size'));
         $name = input('name');
         $ext = explode('.', $name);
-        if (file_exists($pathname . DS . $directory . DS . $directory . '_' . input('chunk') . '.' . end($ext))) {
+        if (file_exists($pathname . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $directory . '_' . input('chunk') . '.' . end($ext))) {
             $chunks = input('chunks');
             if (count(cache('file_' . $directory)) >= ($chunks - 1)) {
                 \RET::success(input('chunk') . '块可以上传');
