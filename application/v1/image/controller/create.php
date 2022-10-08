@@ -17,7 +17,7 @@ class create extends CommonController
 
 
     public mixed $token;
-    public mixed $this->proc;
+    public mixed $proc;
     protected int $width;
     protected int $height;
     protected string $background;
@@ -117,7 +117,7 @@ class create extends CommonController
             $sf = new SendFile();
             $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
             $json = json_decode($ret, 1);
-            $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+            $sav = $this->proc['url'] . '/' . $json["data"];
         }
         if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
             try {
