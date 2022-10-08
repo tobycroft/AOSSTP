@@ -115,7 +115,7 @@ class create extends CommonController
         }
         if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
             $sf = new SendFile();
-            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), $file->getInfo('type'), $file->getInfo('name'));
+            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
             $json = json_decode($ret, 1);
             $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         }
