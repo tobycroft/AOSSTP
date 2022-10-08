@@ -38,7 +38,31 @@ class create extends CommonController
 
     public function canvas(Request $request)
     {
-        list($json, $data, $document, $e) = $this->extracted($request);
+        if (!$request->has("width")) {
+            \Ret::fail("width");
+        }
+        if (!$request->has("height")) {
+            \Ret::fail("height");
+        }
+        if (!$request->has("background")) {
+            \Ret::fail("background");
+        }
+        $this->width = input("width");
+        $this->height = input("height");
+        $this->background = input("background");
+        $json = $request->post("data");
+        $data = json_decode($json, 1);
+        $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
+
+        foreach ($data as $item) {
+            try {
+                $layer_class = new DataAction($item);
+                $layer = $layer_class->handle();
+                $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
+            } catch (Exception $e) {
+                \Ret::fail($e->getMessage());
+            }
+        }
         $image = $document->getResult($this->background);
         $document->delete();
         imagejpeg($image, null, 95);
@@ -47,7 +71,31 @@ class create extends CommonController
 
     public function file(Request $request)
     {
-        list($json, $data, $document, $e) = $this->extracted($request);
+        if (!$request->has("width")) {
+            \Ret::fail("width");
+        }
+        if (!$request->has("height")) {
+            \Ret::fail("height");
+        }
+        if (!$request->has("background")) {
+            \Ret::fail("background");
+        }
+        $this->width = input("width");
+        $this->height = input("height");
+        $this->background = input("background");
+        $json = $request->post("data");
+        $data = json_decode($json, 1);
+        $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
+
+        foreach ($data as $item) {
+            try {
+                $layer_class = new DataAction($item);
+                $layer = $layer_class->handle();
+                $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
+            } catch (Exception $e) {
+                \Ret::fail($e->getMessage());
+            }
+        }
         $crypt = [
             "width" => $this->width,
             "height" => $this->height,
@@ -90,40 +138,6 @@ class create extends CommonController
             }
         }
         \Ret::succ($sav);
-    }
-
-    /**
-     * @param Request $request
-     * @return array
-     */
-    public function extracted(Request $request): array
-    {
-        if (!$request->has("width")) {
-            \Ret::fail("width");
-        }
-        if (!$request->has("height")) {
-            \Ret::fail("height");
-        }
-        if (!$request->has("background")) {
-            \Ret::fail("background");
-        }
-        $this->width = input("width");
-        $this->height = input("height");
-        $this->background = input("background");
-        $json = $request->post("data");
-        $data = json_decode($json, 1);
-        $document = ImageWorkshop::initVirginLayer($this->width, $this->height);
-
-        foreach ($data as $item) {
-            try {
-                $layer_class = new DataAction($item);
-                $layer = $layer_class->handle();
-                $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
-            } catch (Exception $e) {
-                \Ret::fail($e->getMessage());
-            }
-        }
-        return array($json, $data, $document, $e);
     }
 
 }
