@@ -76,6 +76,59 @@ class chunk extends dp
         }
     }
 
+    public function chunks()
+    {
+        $token = $this->token;
+        $proc = ProjectModel::api_find_token($token);
+        if (!$proc) {
+            \Ret::fail("项目不可用");
+        }
+        $file = request()->file('file');
+        if ($file) {
+            $name = input('name');
+            $ext = explode('.', $name);
+            $chunk = input('chunk');
+            $chunks = input('chunks');
+            $file_ident = md5($name . '_' . input('size') . '_' . $chunks);
+
+            if (file_exists('./upload/chunks/' . $this->token . DIRECTORY_SEPARATOR . $file_ident . DIRECTORY_SEPARATOR . $file_ident . '_' . $chunk . '.' . end($ext))) {
+                if (AttachmentChunkModel::where("token", $token)->where("ident", $file_ident)->where("chunk", $chunk)->where("chunks", $chunks)->find()) {
+                    return $this->uploadSuccess($from, "分块文件已收到:" . $chunk, $name, $file_ident, "", $file_ident . '_' . $chunk);
+                } else {
+                    if (AttachmentChunkModel::create([
+                        "token" => $token,
+                        "ident" => $file_ident,
+                        "chunk_name" => $file_ident,
+                        "chunk" => $chunk,
+                        "chunks" => $chunks,
+                    ])) {
+                        return $this->uploadSuccess($from, "分块数据库已写入:" . $chunk, $name, $file_ident, "", $file_ident . '_' . $chunk);
+                    } else {
+                        return $this->uploadError($from, "数据库写入失败");
+                    }
+                }
+            }
+            $info = $file->move('./upload/chunks/' . $this->token, $file_ident . '_' . $chunk);
+            if ($info) {
+                $count = AttachmentChunkModel::where($file_ident)->count();
+                if ($count >= ($chunks - 1)) {
+                    if (AttachmentChunkModel::where($file_ident)->data("is_complete", true)->update()) {
+                        //todo:加入合并文件
+                        return $this->uploadSuccess($from, "", $file_ident, $file_ident, "", $file_ident . '_' . $chunk);
+                    } else {
+                        return $this->uploadError($from, "数据库update失败");
+                    }
+                } else {
+                    return $this->uploadSuccess($from, $count . "-总分块文件已收到" . $chunk, $name, $file_ident, "", $file_ident . '_' . $chunk);
+                }
+            } else {
+                return $this->uploadError($from, "文件移动失败");
+            }
+        } else {
+            return $this->uploadError($from, "nofile没有上传文件");
+        }
+    }
+
     public function isupload()
     {
         $pathname = config('app.video-upload-path');
