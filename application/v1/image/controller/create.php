@@ -3,7 +3,6 @@
 namespace app\v1\image\controller;
 
 
-use app\v1\file\controller\index;
 use app\v1\image\action\DataAction;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
@@ -102,12 +101,8 @@ class create extends CommonController
             "data" => $data
         ];
         $md5 = md5(json_encode($crypt, 320));
-        $image = $document->getResult($this->background);
+        $document->getResult($this->background);
         $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
-
-
-        $index = new index();
-        $index->upload_file($request, 1, "complete");
     }
 
 }
