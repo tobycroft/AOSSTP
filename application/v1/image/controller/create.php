@@ -103,7 +103,7 @@ class create extends CommonController
         $md5 = md5(json_encode($crypt, 320));
         $document->getResult($this->background);
         $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
-        $sav = "https://image.tuuz.cc:444" . '/' . "upload/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        $sav = "https://image.tuuz.cc:444/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         \Ret::succ($sav);
     }
 
