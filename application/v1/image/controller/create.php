@@ -106,6 +106,7 @@ class create extends CommonController
         $document->getResult($this->background);
         $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
         $path_name = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
+        $fileName = "/image/" . $this->token . "/" . $md5 . ".jpg";
 
         if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
             if ($this->proc['main_type'] == 'local') {
@@ -121,7 +122,7 @@ class create extends CommonController
         if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
             try {
                 $oss = new \OSS\AliyunOSS($this->proc);
-                $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".jpg", $path_name);
+                $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
             } catch (OssException $e) {
                 \Ret::fail($e->getMessage(), 200);
             }
