@@ -106,7 +106,7 @@ class create extends CommonController
         $document->getResult($this->background);
         $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
         $path_name = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
-        $fileName = "/image/" . $this->token . "/" . $md5 . ".jpg";
+        $fileName = "image/" . $this->token . "/" . $md5 . ".jpg";
 
         if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
             if ($this->proc['main_type'] == 'local') {
