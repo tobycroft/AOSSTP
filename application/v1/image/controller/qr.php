@@ -100,8 +100,8 @@ class qr extends CommonController
         $mat = $qr->getMatrix($json);
         $mat->setLogoSpace(10, 10, 10, 10);
 
-        $qrp = new QRImageWithLogo($opt);
-        echo $qrp->dump(null, $mat);
+        $qrp = new QRImageWithLogo($opt, $mat);
+        echo $qrp->dump(null, $url);
 //        echo $qlogo->dump(null, $url);
         \think\facade\Response::contentType("image/png")->send();
     }
