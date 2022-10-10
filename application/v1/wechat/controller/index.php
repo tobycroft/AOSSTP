@@ -87,7 +87,7 @@ class index
                 "path" => $fileName
             ]);
         }
-        echo $data;
+        echo $wxa;
 
 //        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
 //            if ($this->proc['main_type'] == 'local') {
