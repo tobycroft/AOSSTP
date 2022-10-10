@@ -41,6 +41,6 @@ class index
 //        $ret = $prog->createQrCode->create("/test?", 480);
 //        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
         $wechat = WechatModel::where("project", $this->token);
-        echo Miniprogram::getAccessToken($wechat["appid"], $wechat["appsecret"]);
+        Miniprogram::getAccessToken($wechat["appid"], $wechat["appsecret"]);
     }
 }
