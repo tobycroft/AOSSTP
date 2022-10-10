@@ -3,8 +3,7 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
-use think\Response;
-use Yingou\MiniProgram\MiniProgram;
+use Wechat\Miniprogram;
 
 class index
 {
@@ -37,30 +36,11 @@ class index
 
     public function qrcode()
     {
-        $data = input('get.data');
-        $prog = new MiniProgram(new ProgramConfig($this->config));
-        $ret = $prog->createQrCode->create("/test?", 480);
-        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
-    }
-}
-
-class ProgramConfig extends \Yingou\MiniProgram\Config
-{
-
-    public function getAccessToken()
-    {
-        if (!file_exists($this->tmpFile)) {
-            return null;
-        }
-        $data = json_decode(file_get_contents($this->tmpFile), true);
-        if ($data['expire'] > time()) {
-            return $data['token'];
-        }
-        return null;
-    }
-
-    public function setAccessToken($token, $expires = 0)
-    {
-        return file_put_contents($this->tmpFile, json_encode(['token' => $token, 'expire' => (time() + $expires)]));
+//        $data = input('get.data');
+//        $prog = new MiniProgram(new ProgramConfig($this->config));
+//        $ret = $prog->createQrCode->create("/test?", 480);
+//        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
+        $wechat = WechatModel::where("project", $this->token);
+        Miniprogram::getAccessToken($wechat["appid"], $wechat["appsecret"]);
     }
 }
