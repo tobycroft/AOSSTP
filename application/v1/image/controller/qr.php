@@ -88,7 +88,7 @@ class qr extends CommonController
             'eccLevel' => QRCode::ECC_H,
             'scale' => 7,
             'imageBase64' => false,
-            'bgColor' => [200, 200, 200],
+            'bgColor' => [255, 255, 255],
             'imageTransparent' => true,
             'drawCircularModules' => true,
             'circleRadius' => 0.8,
