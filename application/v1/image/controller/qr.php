@@ -132,8 +132,8 @@ class QRImageWithLogo extends QRImage
 
         // there's no need to save the result of dump() into $this->image here
         parent::dump($file);
-
-        $im = imagecreatefrompng($logo);
+        $im = file_get_contents($logo);
+//        $im = image($logo);
 
         // get logo image size
         $w = imagesx($im);
