@@ -17,7 +17,7 @@ class Miniprogram extends WechatUrl
             ]);
         echo $addr;
         return new GetAccessToken(
-            file_get_contents($addr)
+            raw_post($addr)
         );
     }
 
