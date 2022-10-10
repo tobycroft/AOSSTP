@@ -45,6 +45,9 @@ class index
                         "expire_after" => date("Y-m-d H:i:s", $data->expires_in + time() - 600)
                     ]
                 )->update();
+            } else {
+                echo $data->error();
+                exit();
             }
         }
     }

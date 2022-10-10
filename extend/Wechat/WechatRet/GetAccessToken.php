@@ -30,4 +30,9 @@ class GetAccessToken extends Miniprogram
             return true;
         }
     }
+
+    public function error()
+    {
+        return $this->error;
+    }
 }
