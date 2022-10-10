@@ -40,6 +40,7 @@ class index
 //        $prog = new MiniProgram(new ProgramConfig($this->config));
 //        $ret = $prog->createQrCode->create("/test?", 480);
 //        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
-        Miniprogram::getAccessToken($this->config["appid"], $this->config["appsecret"]);
+        $data = Miniprogram::getAccessToken($this->config["appid"], $this->config["appsecret"]);
+        echo json_encode($data, 320);
     }
 }
