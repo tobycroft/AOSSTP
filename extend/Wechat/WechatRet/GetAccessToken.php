@@ -14,6 +14,8 @@ class GetAccessToken extends Miniprogram
     public function __construct($json)
     {
         $data = json_decode($json, 1);
+        echo $data;
+        exit();
         if (isset($data["errcode"])) {
             $this->error = $data["errcode"];
         } else {
