@@ -48,9 +48,7 @@ class index
 
     public function qrcode()
     {
-//        $data = input('get.data');
-//        $prog = new MiniProgram(new ProgramConfig($this->config));
-//        $ret = $prog->createQrCode->create("/test?", 480);
-//        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
+        $data = input('data');
+
     }
 }
