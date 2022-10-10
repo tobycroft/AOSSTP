@@ -96,7 +96,7 @@ class qr extends CommonController
         ]);
         $qr = new QRCode($opt);
         $mat = $qr->getMatrix($json);
-        $mat->setLogoSpace(10, 10, null, null);
+        $mat->setLogoSpace(15, 15, null, null);
 
         $qrp = new QRImageWithLogo($opt, $mat);
         echo $qrp->dump(null, $url);
