@@ -5,6 +5,7 @@ namespace app\v1\image\controller;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use Picqer\Barcode as bc;
+use think\facade\Response;
 use think\Request;
 
 class barcode extends CommonController
@@ -36,7 +37,7 @@ class barcode extends CommonController
         $json = input("data");
         $generator = new bc\BarcodeGeneratorPNG();
         echo $generator->getBarcode($json, $generator::TYPE_CODE_128);
-        \think\facade\Response::contentType("image/png")->send();
+        Response::contentType("image/png")->send();
     }
 
 

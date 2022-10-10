@@ -4,8 +4,8 @@ namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatDataModel;
 use app\v1\wechat\model\WechatModel;
-use OSS\Core\OssException;
-use SendFile\SendFile;
+use think\facade\Response;
+use think\Request;
 use Wechat\Miniprogram;
 
 class index
@@ -55,51 +55,66 @@ class index
         }
     }
 
-    public function qrcode()
+    public function qrcode(Request $request)
     {
+        if (!$request->has("data")) {
+            \Ret::fail("data");
+        }
+        if (!$request->has("page")) {
+            \Ret::fail("page");
+        }
         $data = input('data');
-        $path = input("path");
-        $json = json_encode($data, 320);
-        WechatDataModel::where("key", md5($data))->where("path", $path)->find();
-        $data = Miniprogram::getWxaCodeUnlimit($this->access_token, "saqweqwds", "pages/registerInfo/registerInfo", 400);
-        echo $data;
+        $page = input("page");
+        $md5 = md5($data . '|' . $page);
+        $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
+        if (!empty($wechat_data)) {
+            if (file_exists($wechat_data["path"])) {
+                echo file_get_contents($wechat_data["path"]);
+                Response::contentType("image/png")->send();
+                return;
+            }
+        }
+        $data = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
+        $fileName = "../public/upload/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        if (file_put_contents($fileName, $data)) {
+            WechatDataModel::create([
+                "key" => $md5,
+                "val" => $data,
+                "page" => $page,
+                "path" => $fileName
+            ]);
+        }
 
-        $md5 = md5(json_encode($crypt, 320));
-        $document->getResult($this->background);
-        $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
-        $path_name = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
-        $fileName = "image/" . $this->token . "/" . $md5 . ".jpg";
-
-        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
-            if ($this->proc['main_type'] == 'local') {
-                $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
-            }
-        }
-        if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
-            $sf = new SendFile();
-            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
-            $json = json_decode($ret, 1);
-            $sav = $this->proc['url'] . '/' . $json["data"];
-        }
-        if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
-            try {
-                $oss = new \OSS\AliyunOSS($this->proc);
-                $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
-            } catch (OssException $e) {
-                \Ret::fail($e->getMessage(), 200);
-            }
-            if (empty($ret->getData()["info"]["url"])) {
-                \Ret::fail("OSS不正常");
-            }
-            if ($this->proc['main_type'] == 'oss') {
-                $sav = $this->proc['url'] . '/' . $fileName;
-            }
-            if ($this->proc["type"] != "all") {
-                $document->delete();
-                unlink($path_name);
-            }
-        }
-        \Ret::succ($sav);
+//        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
+//            if ($this->proc['main_type'] == 'local') {
+//                $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+//            }
+//        }
+//        if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
+//            $sf = new SendFile();
+//            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
+//            $json = json_decode($ret, 1);
+//            $sav = $this->proc['url'] . '/' . $json["data"];
+//        }
+//        if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
+//            try {
+//                $oss = new \OSS\AliyunOSS($this->proc);
+//                $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
+//            } catch (OssException $e) {
+//                \Ret::fail($e->getMessage(), 200);
+//            }
+//            if (empty($ret->getData()["info"]["url"])) {
+//                \Ret::fail("OSS不正常");
+//            }
+//            if ($this->proc['main_type'] == 'oss') {
+//                $sav = $this->proc['url'] . '/' . $fileName;
+//            }
+//            if ($this->proc["type"] != "all") {
+//                $document->delete();
+//                unlink($path_name);
+//            }
+//        }
+//        \Ret::succ($sav);
 
     }
 }

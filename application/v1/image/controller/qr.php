@@ -7,6 +7,7 @@ use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
+use think\facade\Response;
 use think\Request;
 
 class qr extends CommonController
@@ -49,7 +50,7 @@ class qr extends CommonController
         $qr = new QRCode($opt);
 
         echo $qr->render($json);
-        \think\facade\Response::contentType("image/png")->send();
+        Response::contentType("image/png")->send();
     }
 
     public function base64(Request $request)
@@ -100,7 +101,7 @@ class qr extends CommonController
 
         $qrp = new QRImageWithLogo($opt, $mat);
         echo $qrp->dump(null, $url);
-        \think\facade\Response::contentType("image/png")->send();
+        Response::contentType("image/png")->send();
     }
 
 }

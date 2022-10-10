@@ -10,6 +10,7 @@ use OSS\Core\OssException;
 use PHPImageWorkshop\ImageWorkshop;
 use SendFile\SendFile;
 use think\Exception;
+use think\facade\Response;
 use think\Request;
 
 class create extends CommonController
@@ -66,7 +67,7 @@ class create extends CommonController
         $image = $document->getResult($this->background);
         $document->delete();
         imagejpeg($image, null, 95);
-        \think\facade\Response::contentType("image/png")->send();
+        Response::contentType("image/png")->send();
     }
 
     public function file(Request $request)
