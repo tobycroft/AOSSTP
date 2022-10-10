@@ -10,11 +10,17 @@ class Miniprogram extends WechatUrl
 
     public static function getAccessToken(string $appid, $secret, $grant_type = "client_credential"): GetAccessToken
     {
-        return new GetAccessToken(raw_post(self::$Base . self::$getAccessToken, [
-            "appid" => $appid,
-            "secret" => $secret,
-            "grant_type" => $grant_type,
-        ]));
+
+        return new GetAccessToken(
+            raw_post(
+                http_build_url(self::$Base . self::$getAccessToken, [
+                        "appid" => $appid,
+                        "secret" => $secret,
+                        "grant_type" => $grant_type,
+                    ]
+                )
+            )
+        );
     }
 
 
