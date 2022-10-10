@@ -100,10 +100,6 @@ class qr extends CommonController
 
         $qrp = new QRImageWithLogo($opt, $mat);
         echo $qrp->dump(null, $url);
-//        echo $qlogo->dump(null, $url);
-//        $im = file_get_contents($url);
-//        $im = imagecreatefromstring($im);
-//        imagepng($im);
         \think\facade\Response::contentType("image/png")->send();
     }
 
