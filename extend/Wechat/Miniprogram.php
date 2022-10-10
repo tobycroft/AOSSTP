@@ -32,6 +32,8 @@ class Miniprogram extends WechatUrl
             ]
         );
     }
+
+
 }
 
 
