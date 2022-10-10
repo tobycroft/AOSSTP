@@ -93,7 +93,7 @@ class qr extends CommonController
             'drawCircularModules' => true,
             'circleRadius' => 0.8,
         ]);
-        $qr = new QRCode($opt);
+        $qr = new QRCode();
         $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
 
         echo $qlogo->dump(null, $url);
