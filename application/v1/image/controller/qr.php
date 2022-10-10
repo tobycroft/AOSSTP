@@ -4,7 +4,9 @@ namespace app\v1\image\controller;
 
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use chillerlan\QRCode\Output\QROutputInterface;
 use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use think\Request;
 
 class qr extends CommonController
@@ -34,7 +36,19 @@ class qr extends CommonController
             \Ret::fail("data");
         }
         $json = input("data");
-        $qr = new QRCode();
+        $opt = new QROptions([
+            'version' => 7,
+            'outputType' => QROutputInterface::GDIMAGE_PNG,
+            'eccLevel' => QRCode::ECC_L,
+            'scale' => 10,
+            'imageBase64' => false,
+            'bgColor' => [200, 200, 200],
+            'imageTransparent' => false,
+            'drawCircularModules' => true,
+            'circleRadius' => 0.4,
+        ]);
+        $qr = new QRCode($opt);
+
         echo $qr->render($json);
         \think\facade\Response::contentType("image/png")->send();
     }
