@@ -17,8 +17,6 @@ class Miniprogram extends WechatUrl
                 "grant_type" => $grant_type,
             ]));
     }
-
-
 }
 
 function raw_post($send_url, $postData = [])
