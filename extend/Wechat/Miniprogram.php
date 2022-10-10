@@ -17,7 +17,7 @@ class Miniprogram extends WechatUrl
             ]);
 
         return new GetAccessToken(
-            raw_post($addr)
+            file_get_contents($addr)
         );
     }
 
@@ -41,7 +41,6 @@ function raw_post($send_url, $postData = [])
 {
     $headers = array("Content-type: application/json;charset=UTF-8", "Accept: application/json", "Cache-Control: no-cache", "Pragma: no-cache");
     $postData = json_encode($postData, 320);
-    echo $postData;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $send_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
