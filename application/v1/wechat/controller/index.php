@@ -52,7 +52,6 @@ class index
 //        $data = input('data');
 //        $data = Miniprogram::getWxaCodeUnlimit($this->access_token, "saqweqwds", "pages/registerInfo/registerInfo", 400);
 //        echo $data;
-        $data = Miniprogram::getAccessToken($this->appid, $this->appsecret);
 
     }
 }
