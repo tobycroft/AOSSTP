@@ -4,7 +4,6 @@ namespace app\v1\image\controller;
 
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
-use chillerlan\QRCode\Output\QRImage;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use think\Request;
@@ -97,16 +96,18 @@ class qr extends CommonController
             'logoSpaceHeight' => 13,
         ]);
         $qr = new QRCode($opt);
-        $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
+        $mat = $qr->getMatrix($json);
+        $mat->setLogoSpace(10, 10, 10, 10);
 
-
-        echo $qlogo->dump(null, $url);
+        $qrp = new QRImageWithLogo($opt);
+        echo $qrp->dump(null, $mat->get(10, 10));
+//        echo $qlogo->dump(null, $url);
         \think\facade\Response::contentType("image/png")->send();
     }
 
 }
 
-class QRImageWithLogo extends QRImage
+class QRImageWithLogo extends QR
 {
 
     /**
