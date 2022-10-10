@@ -10,7 +10,7 @@ class index
 
     public $app;
     public string $token;
-    public string $access_token;
+    public mixed $access_token;
     public string $appid;
     public string $appsecret;
 
