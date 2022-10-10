@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\WechatRet;
+namespace Wechat;
 
 function raw_post($send_url, $postData)
 {

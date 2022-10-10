@@ -3,7 +3,6 @@
 namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
-use function Wechat\WechatRet\raw_post;
 
 class Miniprogram extends WechatUrl
 {
