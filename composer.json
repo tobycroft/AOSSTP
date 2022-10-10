@@ -25,7 +25,8 @@
       "yingouqlj/wechat-mini-program-lite": "^1.0",
       "sybio/image-workshop": "^2.2",
       "topthink/think-image": "^1.0",
-      "picqer/php-barcode-generator": "^2.2"
+      "picqer/php-barcode-generator": "^2.2",
+      "chillerlan/php-qrcode": "^4.3"
     },
     "autoload": {
         "psr-4": {
