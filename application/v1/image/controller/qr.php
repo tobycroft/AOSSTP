@@ -89,7 +89,7 @@ class qr extends CommonController
             'scale' => 7,
             'imageBase64' => false,
             'bgColor' => [255, 255, 255],
-            'imageTransparent' => true,
+            'imageTransparent' => false,
             'drawCircularModules' => true,
             'circleRadius' => 0.8,
             'addLogoSpace' => true,
