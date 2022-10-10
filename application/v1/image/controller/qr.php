@@ -38,12 +38,12 @@ class qr extends CommonController
         $opt = new QROptions([
             'version' => 7,
             'eccLevel' => QRCode::ECC_L,
-            'scale' => 5,
+            'scale' => 7,
             'imageBase64' => false,
             'bgColor' => [200, 200, 200],
             'imageTransparent' => false,
             'drawCircularModules' => true,
-            'circleRadius' => 0.4,
+            'circleRadius' => 0.8,
         ]);
         $qr = new QRCode($opt);
 
