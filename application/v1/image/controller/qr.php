@@ -138,8 +138,6 @@ class QRImageWithLogo extends QRImage
         // get logo image size
         $w = imagesx($im);
         $h = imagesy($im);
-        echo $w, $h;
-        exit();
 
         // set new logo size, leave a border of 1 module (no proportional resize/centering)
         $lw = ($this->options->logoSpaceWidth - 2) * $this->options->scale;
