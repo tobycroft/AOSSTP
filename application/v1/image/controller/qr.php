@@ -6,6 +6,7 @@ use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
+use chillerlan\QRCodeExamples\QRImageWithLogo;
 use think\Request;
 
 class qr extends CommonController
@@ -72,5 +73,31 @@ class qr extends CommonController
         echo base64_encode($qr->render($json));
     }
 
+    public function logo(Request $request)
+    {
+        if (!$request->has("data")) {
+            \Ret::fail("data");
+        }
+        if (!$request->has("url")) {
+            \Ret::fail("url");
+        }
+        $json = input("data");
+        $url = input("url");
+        $opt = new QROptions([
+            'version' => 7,
+            'eccLevel' => QRCode::ECC_L,
+            'scale' => 7,
+            'imageBase64' => false,
+            'bgColor' => [200, 200, 200],
+            'imageTransparent' => false,
+            'drawCircularModules' => true,
+            'circleRadius' => 0.8,
+        ]);
+        $qr = new QRCode($opt);
+        $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
+
+        echo $qlogo->dump(null, $url);
+        \think\facade\Response::contentType("image/png")->send();
+    }
 
 }
