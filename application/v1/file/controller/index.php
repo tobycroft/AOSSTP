@@ -14,6 +14,7 @@ class index extends search
 {
 
     public $token;
+    public $proc;
 
     public function initialize()
     {
@@ -21,6 +22,10 @@ class index extends search
         $this->token = input('get.token');
         if (!$this->token) {
             \Ret::fail('token');
+        }
+        $this->proc = ProjectModel::api_find_token($this->token);
+        if (!$this->proc) {
+            \Ret::fail('项目不可用');
         }
     }
 
@@ -32,10 +37,7 @@ class index extends search
     public function upload_file(Request $request, $full = 0, $type = null)
     {
         $token = $this->token;
-        $proc = ProjectModel::api_find_token($token);
-        if (!$proc) {
-            \Ret::fail('项目不可用');
-        }
+        $proc = $this->proc;
 
         $file = $request->file('file');
         if (!$file) {
