@@ -96,7 +96,7 @@ class qr extends CommonController
         $qr = new QRCode($opt);
 //        $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
         $qrs = new QRImage($opt, $qr->getMatrix($json));
-        echo $qrs->dump();
+        echo $qrs->dump($url);
         \think\facade\Response::contentType("image/png")->send();
     }
 
