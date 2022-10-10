@@ -142,6 +142,8 @@ class QRImageWithLogo extends QRImage
         // set new logo size, leave a border of 1 module (no proportional resize/centering)
         $lw = ($this->options->logoSpaceWidth - 2) * $this->options->scale;
         $lh = ($this->options->logoSpaceHeight - 2) * $this->options->scale;
+        echo $lw, $lh;
+        exit();
 
         // get the qrcode size
         $ql = $this->matrix->size() * $this->options->scale;
