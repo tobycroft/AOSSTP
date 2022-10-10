@@ -26,7 +26,7 @@ class Miniprogram extends WechatUrl
 
 }
 
-function raw_post($send_url, $postData)
+function raw_post($send_url, $postData = null)
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $send_url);
