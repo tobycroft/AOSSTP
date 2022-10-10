@@ -29,8 +29,8 @@ class index
             \Ret::fail("未找到项目");
         }
         $this->config = [
-            'appId' => $wechat["app_id"],
-            'secret' => $wechat["secret"],
+            'appid' => $wechat["appid"],
+            'appsecret' => $wechat["appsecret"],
         ];
     }
 
@@ -40,7 +40,6 @@ class index
 //        $prog = new MiniProgram(new ProgramConfig($this->config));
 //        $ret = $prog->createQrCode->create("/test?", 480);
 //        return Response::create($ret, null, null, ["Content-Type" => "image/jpeg"]);
-        $wechat = WechatModel::where("project", $this->token)->find();
-        Miniprogram::getAccessToken($wechat["appid"], $wechat["appsecret"]);
+        Miniprogram::getAccessToken($this->config["appid"], $this->config["appsecret"]);
     }
 }
