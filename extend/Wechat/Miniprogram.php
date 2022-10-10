@@ -22,7 +22,8 @@ class Miniprogram extends WechatUrl
 
     public static function getWxaCodeUnlimit(string $access_token, $scene, $page, $width, $env_version = "release")
     {
-        return raw_post(http_build_url(self::$Base . self::$getUnlimited, ["access_token" => $access_token]), [
+        $addr = http_build_url(self::$Base . self::$getUnlimited, ["access_token" => $access_token]);
+        return raw_post($addr, [
                 "access_token" => $access_token,
                 "scene" => $scene,
                 "page" => $page,
