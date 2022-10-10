@@ -8,14 +8,13 @@ class Miniprogram extends WechatUrl
 {
     protected static $Base = "https://api.weixin.qq.com";
 
-    public static function getAccessToken(string $appid, $secret, $grant_type = "client_credential")
+    public static function getAccessToken(string $appid, $secret, $grant_type = "client_credential"): GetAccessToken
     {
-        $data = new GetAccessToken(raw_post(self::$Base . self::$getAccessToken, [
+        return new GetAccessToken(raw_post(self::$Base . self::$getAccessToken, [
             "appid" => $appid,
             "secret" => $secret,
             "grant_type" => $grant_type,
         ]));
-        var_dump($data);
     }
 
 
