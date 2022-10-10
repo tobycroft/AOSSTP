@@ -2,6 +2,7 @@
 
 namespace app\v1\image\controller;
 
+use app\v1\image\action\QRImageWithLogo;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use chillerlan\QRCode\QRCode;
@@ -97,7 +98,7 @@ class qr extends CommonController
         $mat = $qr->getMatrix($json);
         $mat->setLogoSpace(10, 10, null, null);
 
-        $qrp = new \app\v1\image\action\QRImageWithLogo($opt, $mat);
+        $qrp = new QRImageWithLogo($opt, $mat);
         echo $qrp->dump(null, $url);
 //        echo $qlogo->dump(null, $url);
 //        $im = file_get_contents($url);
