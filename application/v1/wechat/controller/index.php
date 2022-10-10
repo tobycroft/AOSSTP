@@ -76,8 +76,7 @@ class index
         }
         $data = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
         $fileName = "../public/upload/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $img = imagecreatefromstring($data);
-        if (imagepng($img, $fileName)) {
+        if (file_put_contents($fileName, $data, FILE_APPEND | LOCK_EX)) {
             WechatDataModel::create([
                 "key" => $md5,
                 "val" => $data,
