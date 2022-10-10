@@ -35,15 +35,17 @@ class index
         $this->access_token = $wechat["access_token"];
 
         $expire_after = strtotime($wechat["expire_after"]);
-        if ($expire_after < time()) {
+        if ($expire_after < time() || empty($wechat["access_token"])) {
             $data = Miniprogram::getAccessToken($this->appid, $this->appsecret);
-            $this->access_token = $data->access_token;
-            WechatModel::where("project", $this->token)->data(
-                [
-                    "access_token" => $data->access_token,
-                    "expire_after" => date("Y-m-d H:i:s", $data->expires_in + time() - 600)
-                ]
-            )->update();
+            if ($data->isSuccess()) {
+                $this->access_token = $data->access_token;
+                WechatModel::where("project", $this->token)->data(
+                    [
+                        "access_token" => $data->access_token,
+                        "expire_after" => date("Y-m-d H:i:s", $data->expires_in + time() - 600)
+                    ]
+                )->update();
+            }
         }
     }
 
