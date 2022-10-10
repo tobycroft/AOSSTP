@@ -33,7 +33,7 @@ class barcode extends CommonController
         if (!$request->has("data")) {
             \Ret::fail("data");
         }
-        $json = $request->post("data");
+        $json = $request->input("data");
         $generator = new bc\BarcodeGeneratorPNG();
         echo $generator->getBarcode($json, $generator::TYPE_CODE_128);
         \think\facade\Response::contentType("image/png")->send();
