@@ -4,6 +4,7 @@ namespace app\v1\image\controller;
 
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use chillerlan\QRCode\Output\QRCodeOutputException;
 use chillerlan\QRCode\Output\QRImage;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
