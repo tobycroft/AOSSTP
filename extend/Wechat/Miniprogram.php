@@ -15,7 +15,7 @@ class Miniprogram extends WechatUrl
             "secret" => $secret,
             "grant_type" => $grant_type,
         ]));
-        echo $data;
+        var_dump($data);
     }
 
 
