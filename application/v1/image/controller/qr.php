@@ -148,8 +148,8 @@ class QRImageWithLogo extends QRImage
 //        $this->image = $im;
         // scale the logo and copy it over. done!
 //        imagecopyresampled($this->image, $im, ($ql - $lw) / 2, ($ql - $lh) / 2, 0, 0, $lw, $lh, $w, $h);
-        $this->image = $img;
         $img = imagecreatetruecolor(400, 400);
+        $this->image = $img;
         imagecopymerge($this->image, $im, ($ql - $lw) / 2, ($ql - $lh) / 2, 0, 0, $lw, $lh, 75);
         $imageData = $this->dumpImage();
 
