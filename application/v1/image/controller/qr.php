@@ -84,7 +84,7 @@ class qr extends CommonController
         $json = input("data");
         $url = input("url");
         $opt = new QROptions([
-            'version' => 1,
+            'version' => 5,
             'eccLevel' => QRCode::ECC_L,
             'scale' => 14,
             'imageBase64' => false,
