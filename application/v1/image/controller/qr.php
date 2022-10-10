@@ -4,7 +4,6 @@ namespace app\v1\image\controller;
 
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
-use chillerlan\QRCode\Output\QRCodeOutputException;
 use chillerlan\QRCode\Output\QRImage;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
@@ -121,9 +120,9 @@ class QRImageWithLogo extends QRImage
         // of course you could accept other formats too (such as resource or Imagick)
         // i'm not checking for the file type either for simplicity reasons (assuming PNG)
         $logo = file_get_contents($logo);
-        if (!is_file($logo) || !is_readable($logo)) {
-            throw new QRCodeOutputException('invalid logo');
-        }
+//        if (!is_file($logo) || !is_readable($logo)) {
+//            throw new QRCodeOutputException('invalid logo');
+//        }
 
         // there's no need to save the result of dump() into $this->image here
         parent::dump($file);
