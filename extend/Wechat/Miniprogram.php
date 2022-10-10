@@ -25,7 +25,7 @@ class Miniprogram extends WechatUrl
         $addr = self::$Base . self::$getUnlimited . "?" . http_build_query(["access_token" => $access_token]);
 //        echo $addr;
         return raw_post($addr, [
-                "access_token" => $access_token,
+//                "access_token" => $access_token,
                 "scene" => $scene,
 //                "page" => $page,
 //                "width" => $width,
@@ -46,7 +46,7 @@ function raw_post($send_url, $postData = [])
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-//    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     $response = curl_exec($ch);
     curl_close($ch);
     return $response;
