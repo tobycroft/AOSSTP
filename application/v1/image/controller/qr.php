@@ -4,6 +4,7 @@ namespace app\v1\image\controller;
 
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use chillerlan\QRCode\Output\QRImage;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use think\Request;
@@ -101,7 +102,7 @@ class qr extends CommonController
 
 }
 
-class QRImageWithLogo extends QRGdImage
+class QRImageWithLogo extends QRImage
 {
 
     /**
