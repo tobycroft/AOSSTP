@@ -23,7 +23,7 @@ class Miniprogram extends WechatUrl
     public static function getWxaCodeUnlimit(string $access_token, $scene, $page, $width, $env_version = "release")
     {
         $addr = self::$Base . self::$getUnlimited . "?" . http_build_query(["access_token" => $access_token]);
-        echo $addr;
+//        echo $addr;
         return raw_post($addr, [
                 "access_token" => $access_token,
                 "scene" => $scene,
@@ -38,8 +38,9 @@ class Miniprogram extends WechatUrl
 
 function raw_post($send_url, $postData = [])
 {
-//    $headers = array("Content-type: application/json;charset=UTF-8", "Accept: application/json", "Cache-Control: no-cache", "Pragma: no-cache");
-//    $postData = json_encode($postData, 320);
+    $headers = array("Content-type: application/json;charset=UTF-8", "Accept: application/json", "Cache-Control: no-cache", "Pragma: no-cache");
+    $postData = json_encode($postData, 320);
+    echo $postData;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $send_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
