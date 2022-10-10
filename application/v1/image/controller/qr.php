@@ -120,6 +120,7 @@ class QRImageWithLogo extends QRImage
 
         // of course you could accept other formats too (such as resource or Imagick)
         // i'm not checking for the file type either for simplicity reasons (assuming PNG)
+        $logo = file_get_contents($logo);
         if (!is_file($logo) || !is_readable($logo)) {
             throw new QRCodeOutputException('invalid logo');
         }
