@@ -74,12 +74,12 @@ class index
                 return;
             }
         }
-        $data = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
         $fileName = "../public/upload/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
         if (!is_dir("../public/upload/wechat/" . $this->token)) {
             mkdir("../public/upload/wechat/" . $this->token, 0755, true);
         }
-        if (file_put_contents($fileName, $data)) {
+        if (file_put_contents($fileName, $wxa)) {
             WechatDataModel::create([
                 "key" => $md5,
                 "val" => $data,
