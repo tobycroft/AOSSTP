@@ -93,8 +93,6 @@ class qr extends CommonController
             'drawCircularModules' => true,
             'circleRadius' => 0.8,
             'addLogoSpace' => true,
-//            'logoSpaceWidth' => 13,
-//            'logoSpaceHeight' => 13,
         ]);
         $qr = new QRCode($opt);
         $mat = $qr->getMatrix($json);
@@ -134,7 +132,7 @@ class QRImageWithLogo extends QRImage
 //        }
 
         // there's no need to save the result of dump() into $this->image here
-        parent::dump($file);
+//        parent::dump($file);
         $im = file_get_contents($logo);
         $im = imagecreatefromstring($im);
         // get logo image size
