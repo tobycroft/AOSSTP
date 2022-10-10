@@ -52,8 +52,6 @@ class dp extends CommonController
 
     public function saveFile($dir = '', $from = '', $module = '')
     {
-        parent::initialize();
-
         set_time_limit(0);
         $token = $this->token;
         $proc = ProjectModel::api_find_token($token);
