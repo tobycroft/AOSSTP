@@ -105,6 +105,7 @@ class qr extends CommonController
 ////        echo $qlogo->dump(null, $url);
         $im = file_get_contents($url);
         $im = imagecreatefromstring($im);
+        echo $im;
         \think\facade\Response::contentType("image/png")->send();
     }
 
