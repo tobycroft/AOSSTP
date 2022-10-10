@@ -10,7 +10,9 @@ class index
 
     public $app;
     public string $token;
-    public array $config;
+    public string $access_token;
+    public string $appid;
+    public string $appsecret;
 
     public function __construct()
     {
@@ -28,15 +30,14 @@ class index
         if (!$wechat) {
             \Ret::fail("未找到项目");
         }
-        $this->config = [
-            'appid' => $wechat["appid"],
-            'appsecret' => $wechat["appsecret"],
-            'access_token' => $wechat["access_token"],
-        ];
+        $this->appid = $wechat["appid"];
+        $this->appsecret = $wechat["appsecret"];
+        $this->access_token = $wechat["access_token"];
+
         $expire_after = strtotime($wechat["expire_after"]);
         if ($expire_after < time()) {
-            $data = Miniprogram::getAccessToken($this->config["appid"], $this->config["appsecret"]);
-            $this->config["access_token"] = $data->access_token;
+            $data = Miniprogram::getAccessToken($this->appid, $this->appsecret);
+            $this->access_token = $data->access_token;
             WechatModel::where("project", $this->token)->data(
                 [
                     "access_token" => $data->access_token,
@@ -49,6 +50,7 @@ class index
     public function qrcode()
     {
         $data = input('data');
-
+        $data = Miniprogram::getWxaCodeUnlimit($this->access_token, "test", "page/page/page", 400);
+        echo $data;
     }
 }
