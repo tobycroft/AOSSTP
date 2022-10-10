@@ -2,9 +2,10 @@
 
 namespace Wechat\WechatRet;
 
-use Yingou\MiniProgram\MiniProgram;
 
-class GetAccessToken extends MiniProgram
+use Wechat\Miniprogram;
+
+class GetAccessToken extends Miniprogram
 {
     public $access_token;
     public $expires_in;
