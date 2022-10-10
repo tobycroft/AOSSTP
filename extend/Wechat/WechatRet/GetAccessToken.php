@@ -14,10 +14,8 @@ class GetAccessToken extends Miniprogram
     public function __construct($json)
     {
         $data = json_decode($json, 1);
-        echo $data;
-        exit();
-        if (isset($data["errcode"])) {
-            $this->error = $data["errcode"];
+        if (isset($data["errmsg"])) {
+            $this->error = $data["errmsg"];
         } else {
             $this->access_token = $data["access_token"];
             $this->expires_in = $data["expires_in"];
