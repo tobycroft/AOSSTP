@@ -92,11 +92,14 @@ class qr extends CommonController
             'imageTransparent' => false,
             'drawCircularModules' => true,
             'circleRadius' => 0.8,
+            'addLogoSpace' => true,
+            'logoSpaceWidth' => 13,
+            'logoSpaceHeight' => 13,
         ]);
         $qr = new QRCode($opt);
-//        $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
-        $qrs = new QRImage($opt, $qr->getMatrix($json));
-        echo $qrs->dump($url);
+        $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
+
+        echo $qr->dump(null, $url);
         \think\facade\Response::contentType("image/png")->send();
     }
 
