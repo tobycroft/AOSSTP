@@ -69,7 +69,7 @@ class qr extends CommonController
         ]);
         $qr = new QRCode($opt);
 
-        echo $qr->render($json);
+        echo base64_encode($qr->render($json));
     }
 
 
