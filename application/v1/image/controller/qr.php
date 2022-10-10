@@ -35,7 +35,7 @@ class qr extends CommonController
         }
         $json = input("data");
         $qr = new QRCode();
-        $qr->render($json);
+        echo $qr->render($json);
         \think\facade\Response::contentType("image/png")->send();
     }
 
