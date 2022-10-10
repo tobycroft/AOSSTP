@@ -16,4 +16,6 @@ class Miniprogram extends WechatUrl
             "grant_type" => $grant_type,
         ]));
     }
+
+
 }
