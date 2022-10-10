@@ -82,26 +82,6 @@ class qr extends CommonController
         }
         $json = input("data");
         $url = input("url");
-//        $opt = new QROptions([
-//            'version' => 10,
-//            'eccLevel' => QRCode::ECC_H,
-//            'scale' => 7,
-//            'imageBase64' => false,
-//            'bgColor' => [200, 200, 200],
-//            'imageTransparent' => false,
-//            'drawCircularModules' => true,
-//            'circleRadius' => 0.8,
-//            'addLogoSpace' => true,
-//            'logoSpaceWidth' => 13,
-//            'logoSpaceHeight' => 13,
-//        ]);
-//        $qr = new QRCode($opt);
-//        $mat = $qr->getMatrix($json);
-//        $mat->setLogoSpace(10, 10, 10, 10);
-//
-//        $qrp = new QRImageWithLogo($opt, $mat);
-//        echo $qrp->dump(null, $url);
-////        echo $qlogo->dump(null, $url);
         $im = file_get_contents($url);
         $im = imagecreatefromstring($im);
         imagepng($im);
