@@ -39,5 +39,15 @@ class qr extends CommonController
         \think\facade\Response::contentType("image/png")->send();
     }
 
+    public function base64(Request $request)
+    {
+        if (!$request->has("data")) {
+            \Ret::fail("data");
+        }
+        $json = input("data");
+        $qr = new QRCode();
+        echo $qr->render($json);
+    }
+
 
 }
