@@ -94,9 +94,9 @@ class qr extends CommonController
             'circleRadius' => 0.8,
         ]);
         $qr = new QRCode($opt);
-        $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
-
-        echo $qr->dump(null, $url);
+//        $qlogo = new QRImageWithLogo($opt, $qr->getMatrix($json));
+        $qrs = new QRImage($opt, $qr->getMatrix($json));
+        echo $qrs->dump($url);
         \think\facade\Response::contentType("image/png")->send();
     }
 
