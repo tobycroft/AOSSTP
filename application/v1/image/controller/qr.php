@@ -93,12 +93,12 @@ class qr extends CommonController
             'drawCircularModules' => true,
             'circleRadius' => 0.8,
             'addLogoSpace' => true,
-            'logoSpaceWidth' => 13,
-            'logoSpaceHeight' => 13,
+//            'logoSpaceWidth' => 13,
+//            'logoSpaceHeight' => 13,
         ]);
         $qr = new QRCode($opt);
         $mat = $qr->getMatrix($json);
-//        $mat->setLogoSpace(10, 10, 10, 10);
+        $mat->setLogoSpace(10, 10, null, null);
 
         $qrp = new QRImageWithLogo($opt, $mat);
         echo $qrp->dump(null, $url);
