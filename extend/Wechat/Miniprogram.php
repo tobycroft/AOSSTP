@@ -37,7 +37,7 @@ class Miniprogram extends WechatUrl
 function raw_post($send_url, $postData = [])
 {
     $headers = array("Content-type: application/json;charset=UTF-8", "Accept: application/json", "Cache-Control: no-cache", "Pragma: no-cache");
-//    $postData = http_build_query($postData);
+    $postData = json_encode($postData, 320);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $send_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
