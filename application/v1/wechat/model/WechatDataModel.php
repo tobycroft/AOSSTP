@@ -6,7 +6,7 @@ use think\Model;
 
 class WechatDataModel extends Model
 {
-    protected $table = 'ao_wechat_data';
+    protected $table = 'ao_wechat_kv';
 
 
 }
