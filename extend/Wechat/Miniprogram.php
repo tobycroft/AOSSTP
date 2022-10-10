@@ -25,9 +25,9 @@ class Miniprogram extends WechatUrl
         return raw_post(self::$Base . self::$getUnlimited, [
                 "access_token" => $access_token,
                 "scene" => $scene,
-//                "page" => $page,
-//                "width" => $width,
-//                "env_version" => $env_version,
+                "page" => $page,
+                "width" => $width,
+                "env_version" => $env_version,
             ]
         );
     }
