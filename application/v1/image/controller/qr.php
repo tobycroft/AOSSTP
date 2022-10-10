@@ -148,9 +148,6 @@ class QRImageWithLogo extends QRImage
         // scale the logo and copy it over. done!
         imagecopyresampled($this->image, $im, ($ql - $lw) / 2, ($ql - $lh) / 2, 0, 0, $w, $h, $w, $h);
 //        imagecopymerge($this->image, $im, ($ql - $lw) / 2, ($ql - $lh) / 2, 0, 0, $lw, $lh, 75);
-        \think\facade\Response::contentType("image/png")->send();
-
-        exit();
         $imageData = $this->dumpImage();
 
         if ($file !== null) {
