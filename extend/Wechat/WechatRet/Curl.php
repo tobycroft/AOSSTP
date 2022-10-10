@@ -1,5 +1,7 @@
 <?php
 
+namespace Wechat\WechatRet;
+
 function raw_post($send_url, $postData)
 {
     $ch = curl_init();

@@ -1,6 +1,8 @@
 <?php
 
+namespace Wechat;
+
 class WechatUrl
 {
-    public string $getAccessToken = "/cgi-bin/token";
+    public static string $getAccessToken = "/cgi-bin/token";
 }
