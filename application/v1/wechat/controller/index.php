@@ -49,7 +49,7 @@ class index
 
     public function qrcode()
     {
-        $data = input('data');
+//        $data = input('data');
         $data = Miniprogram::getWxaCodeUnlimit($this->access_token, "test", "page/page/page", 400);
         echo $data;
     }
