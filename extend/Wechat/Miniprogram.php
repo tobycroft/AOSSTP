@@ -12,7 +12,7 @@ class Miniprogram extends WechatUrl
     {
 
         return new GetAccessToken(
-            raw_post(self::$Base . self::$getAccessToken . http_build_query([
+            raw_post(self::$Base . self::$getAccessToken . "?" . http_build_url([
                     "appid" => $appid,
                     "secret" => $secret,
                     "grant_type" => $grant_type,
