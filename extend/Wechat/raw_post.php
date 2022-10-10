@@ -1,6 +1,5 @@
 <?php
 
-namespace Wechat;
 
 function raw_post($send_url, $postData)
 {
