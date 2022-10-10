@@ -88,6 +88,8 @@ class index
             ]);
         }
         echo $wxa;
+        Response::contentType("image/png")->send();
+
 
 //        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
 //            if ($this->proc['main_type'] == 'local') {
