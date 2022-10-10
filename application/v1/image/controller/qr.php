@@ -4,7 +4,6 @@ namespace app\v1\image\controller;
 
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
-use chillerlan\QRCode\Output\QROutputInterface;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use think\Request;
@@ -38,7 +37,6 @@ class qr extends CommonController
         $json = input("data");
         $opt = new QROptions([
             'version' => 7,
-            'outputType' => QROutputInterface::GDIMAGE_PNG,
             'eccLevel' => QRCode::ECC_L,
             'scale' => 10,
             'imageBase64' => false,
