@@ -61,7 +61,7 @@ class qr extends CommonController
         $opt = new QROptions([
             'version' => 7,
             'eccLevel' => QRCode::ECC_L,
-            'scale' => 14,
+            'scale' => 7,
             'imageBase64' => false,
             'bgColor' => [200, 200, 200],
             'imageTransparent' => false,
