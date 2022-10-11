@@ -206,41 +206,37 @@ class wxa extends create
                     "path" => $fileName
                 ]);
             }
-            \Ret::succ($wxa->image);
+            if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
+                if ($this->proc['main_type'] == 'local') {
+                    $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+                }
+            }
+            if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
+                $sf = new SendFile();
+                $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
+                $json = json_decode($ret, 1);
+                $sav = $this->proc['url'] . '/' . $json["data"];
+            }
+            if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
+                try {
+                    $oss = new AliyunOSS($this->proc);
+                    $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".png", $fileName);
+                } catch (OssException $e) {
+                    \Ret::fail($e->getMessage(), 200);
+                }
+                if (empty($ret->getData()["info"]["url"])) {
+                    \Ret::fail("OSS不正常");
+                }
+                if ($this->proc['main_type'] == 'oss') {
+                    $sav = $this->proc['url'] . '/' . $fileName;
+                }
+                if ($this->proc["type"] != "all") {
+                    unlink($fileName);
+                }
+            }
+            \Ret::succ($sav);
         } else {
             \Ret::fail($wxa->error());
         }
-
-
-        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
-            if ($this->proc['main_type'] == 'local') {
-                $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
-            }
-        }
-        if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
-            $sf = new SendFile();
-            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
-            $json = json_decode($ret, 1);
-            $sav = $this->proc['url'] . '/' . $json["data"];
-        }
-        if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
-            try {
-                $oss = new AliyunOSS($this->proc);
-                $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".png", $fileName);
-            } catch (OssException $e) {
-                \Ret::fail($e->getMessage(), 200);
-            }
-            if (empty($ret->getData()["info"]["url"])) {
-                \Ret::fail("OSS不正常");
-            }
-            if ($this->proc['main_type'] == 'oss') {
-                $sav = $this->proc['url'] . '/' . $fileName;
-            }
-            if ($this->proc["type"] != "all") {
-                unlink($fileName);
-            }
-        }
-        \Ret::succ($sav);
-
     }
 }
