@@ -7,7 +7,6 @@ use app\v1\wechat\model\WechatDataModel;
 use app\v1\wechat\model\WechatModel;
 use OSS\AliyunOSS;
 use OSS\Core\OssException;
-use SendFile\SendFile;
 use think\facade\Response;
 use think\Request;
 use Wechat\Miniprogram;
@@ -82,6 +81,28 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
+            if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
+                if ($this->proc['main_type'] == 'local') {
+                    $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+                }
+            }
+            if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
+                try {
+                    $oss = new AliyunOSS($this->proc);
+                    $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".png", $fileName);
+                } catch (OssException $e) {
+                    \Ret::fail($e->getMessage(), 200);
+                }
+                if (empty($ret->getData()["info"]["url"])) {
+                    \Ret::fail("OSS不正常");
+                }
+                if ($this->proc['main_type'] == 'oss') {
+                    $sav = $this->proc['url'] . '/' . $fileName;
+                }
+                if ($this->proc["type"] != "all") {
+                    unlink($fileName);
+                }
+            }
             if (file_put_contents($fileName, $wxa->image)) {
                 WechatDataModel::create([
                     "key" => $md5,
@@ -124,6 +145,28 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             if (file_put_contents($fileName, $wxa->image)) {
+                if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
+                    if ($this->proc['main_type'] == 'local') {
+                        $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+                    }
+                }
+                if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
+                    try {
+                        $oss = new AliyunOSS($this->proc);
+                        $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".png", $fileName);
+                    } catch (OssException $e) {
+                        \Ret::fail($e->getMessage(), 200);
+                    }
+                    if (empty($ret->getData()["info"]["url"])) {
+                        \Ret::fail("OSS不正常");
+                    }
+                    if ($this->proc['main_type'] == 'oss') {
+                        $sav = $this->proc['url'] . '/' . $fileName;
+                    }
+                    if ($this->proc["type"] != "all") {
+                        unlink($fileName);
+                    }
+                }
                 WechatDataModel::create([
                     "key" => $md5,
                     "val" => $data,
@@ -151,8 +194,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::succ(base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])));
-                return;
+                \Ret::succ($wechat_data["path"]);
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
@@ -163,24 +205,10 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            if (file_put_contents($fileName, $wxa->image)) {
-                WechatDataModel::create([
-                    "key" => $md5,
-                    "val" => $data,
-                    "page" => $page,
-                    "path" => $oss_path
-                ]);
-            }
             if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
                 if ($this->proc['main_type'] == 'local') {
                     $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
                 }
-            }
-            if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
-                $sf = new SendFile();
-                $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
-                $json = json_decode($ret, 1);
-                $sav = $this->proc['url'] . '/' . $json["data"];
             }
             if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
                 try {
@@ -198,6 +226,14 @@ class wxa extends create
                 if ($this->proc["type"] != "all") {
                     unlink($fileName);
                 }
+            }
+            if (file_put_contents($fileName, $wxa->image)) {
+                WechatDataModel::create([
+                    "key" => $md5,
+                    "val" => $data,
+                    "page" => $page,
+                    "path" => $oss_path
+                ]);
             }
             \Ret::succ($sav);
         } else {
