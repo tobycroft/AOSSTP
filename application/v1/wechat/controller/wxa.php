@@ -137,45 +137,6 @@ class wxa extends create
         }
     }
 
-    public function unlimited(Request $request)
-    {
-        if (!$request->has("data")) {
-            \Ret::fail("data");
-        }
-        if (!$request->has("page")) {
-            \Ret::fail("page");
-        }
-        $data = input('data');
-        $page = input("page");
-        $md5 = md5($data . '|' . $page);
-        $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
-        if (!empty($wechat_data)) {
-            if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::succ(file_get_contents($this->path_prefix . $wechat_data["path"]));
-                return;
-            }
-        }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
-        $real_path = $this->path_prefix . "wechat/" . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
-        if (!is_dir($real_path)) {
-            mkdir($real_path, 0755, true);
-        }
-        if ($wxa->isSuccess()) {
-            if (file_put_contents($fileName, $wxa->image)) {
-                WechatDataModel::create([
-                    "key" => $md5,
-                    "val" => $data,
-                    "page" => $page,
-                    "path" => $oss_path
-                ]);
-            }
-            \Ret::succ($wxa->image);
-        } else {
-            \Ret::fail($wxa->error());
-        }
-    }
 
     public function unlimited_file(Request $request)
     {
