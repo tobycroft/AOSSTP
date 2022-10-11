@@ -19,6 +19,7 @@ class wxa extends create
     public mixed $access_token;
     public string $appid;
     public string $appsecret;
+    public string $path_prefix = "../public/upload/";
 
     public function initialize()
     {
@@ -67,14 +68,14 @@ class wxa extends create
         $md5 = md5($data . '|' . $page);
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
-            if (file_exists($wechat_data["path"])) {
+            if (file_exists($this->path_prefix . $wechat_data["path"])) {
                 echo file_get_contents($wechat_data["path"]);
                 Response::contentType("image/png")->send();
                 return;
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
-        $real_path = "../public/upload/wechat/" . $this->token;
+        $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
         if (!is_dir($real_path)) {
@@ -109,13 +110,13 @@ class wxa extends create
         $md5 = md5($data . '|' . $page);
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
-            if (file_exists($wechat_data["path"])) {
+            if (file_exists($this->path_prefix . $wechat_data["path"])) {
                 \Ret::succ(base64_encode(file_get_contents($wechat_data["path"])));
                 return;
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
-        $real_path = "../public/upload/wechat/" . $this->token;
+        $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
         if (!is_dir($real_path)) {
@@ -149,13 +150,13 @@ class wxa extends create
         $md5 = md5($data . '|' . $page);
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
-            if (file_exists($wechat_data["path"])) {
+            if (file_exists($this->path_prefix . $wechat_data["path"])) {
                 \Ret::succ(file_get_contents($wechat_data["path"]));
                 return;
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
-        $real_path = "../public/upload/wechat/" . $this->token;
+        $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
         if (!is_dir($real_path)) {
@@ -189,13 +190,13 @@ class wxa extends create
         $md5 = md5($data . '|' . $page);
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
-            if (file_exists($wechat_data["path"])) {
+            if (file_exists($this->path_prefix . $wechat_data["path"])) {
                 \Ret::succ(base64_encode(file_get_contents($wechat_data["path"])));
                 return;
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
-        $real_path = "../public/upload/wechat/" . $this->token;
+        $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
         if (!is_dir($real_path)) {
