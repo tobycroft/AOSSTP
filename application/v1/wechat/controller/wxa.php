@@ -131,6 +131,45 @@ class wxa extends CommonController
         }
     }
 
+    public function unlimited_raw(Request $request)
+    {
+        if (!$request->has("data")) {
+            \Ret::fail("data");
+        }
+        if (!$request->has("page")) {
+            \Ret::fail("page");
+        }
+        $data = input('data');
+        $page = input("page");
+        $md5 = md5($data . '|' . $page);
+        $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
+        if (!empty($wechat_data)) {
+            if (file_exists($wechat_data["path"])) {
+                echo file_get_contents($wechat_data["path"]);
+                Response::contentType("image/png")->send();
+                return;
+            }
+        }
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
+        $fileName = "../public/upload/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        if (!is_dir("../public/upload/wechat/" . $this->token)) {
+            mkdir("../public/upload/wechat/" . $this->token, 0755, true);
+        }
+        if ($wxa->isSuccess()) {
+            if (file_put_contents($fileName, $wxa)) {
+                WechatDataModel::create([
+                    "key" => $md5,
+                    "val" => $data,
+                    "page" => $page,
+                    "path" => $fileName
+                ]);
+            }
+            \Ret::succ($wxa->image);
+        } else {
+            \Ret::fail($wxa->error());
+        }
+    }
+
     public function qrcode(Request $request)
     {
         if (!$request->has("data")) {
