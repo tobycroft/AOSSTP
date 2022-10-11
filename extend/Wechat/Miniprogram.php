@@ -3,7 +3,7 @@
 namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
-use Wechat\WechatRet\GetUnlimited;
+use Wechat\WechatRet\WxaCode\GetUnlimited;
 
 class Miniprogram extends WechatUrl
 {
