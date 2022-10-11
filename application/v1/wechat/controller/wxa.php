@@ -157,7 +157,7 @@ class wxa extends CommonController
                     "path" => $fileName
                 ]);
             }
-            \Ret::succ($wxa);
+            \Ret::succ(base64_encode($wxa));
         } else {
             \Ret::fail($wxa->error());
         }
