@@ -4,11 +4,12 @@ namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatDataModel;
 use app\v1\wechat\model\WechatModel;
+use BaseController\CommonController;
 use think\facade\Response;
 use think\Request;
 use Wechat\Miniprogram;
 
-class index
+class index extends CommonController
 {
 
     public $app;
@@ -17,13 +18,9 @@ class index
     public string $appid;
     public string $appsecret;
 
-    public function __construct()
+    public function initialize()
     {
-        header("Access-Control-Allow-Origin: *", true);
-        header("Access-Control-Max-Age: 86400", true);
-        header("Access-Control-Allow-Credentials: true", true);
-        header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE", true);
-        header("Access-Control-Allow-Headers: *", true);
+        parent::initialize();
 
         $this->token = input('get.token');
         if (!$this->token) {
