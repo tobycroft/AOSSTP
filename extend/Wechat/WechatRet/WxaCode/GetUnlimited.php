@@ -13,6 +13,8 @@ class GetUnlimited extends Miniprogram
     public function __construct($json)
     {
         $data = json_decode($json, 1);
+        var_dump($data);
+        exit();
         if (isset($data["errmsg"])) {
             $this->error = $data["errmsg"];
         } else {
