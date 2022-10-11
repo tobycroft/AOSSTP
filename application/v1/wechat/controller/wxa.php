@@ -116,25 +116,7 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             if (file_put_contents($fileName, $wxa->image)) {
-                if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
-                    if ($this->proc['main_type'] == 'local') {
-                        $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
-                    }
-                }
-                if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
-                    try {
-                        $oss = new AliyunOSS($this->proc);
-                        $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".png", $fileName);
-                    } catch (OssException $e) {
-                        \Ret::fail($e->getMessage(), 200);
-                    }
-                    if (empty($ret->getData()["info"]["url"])) {
-                        \Ret::fail("OSS不正常");
-                    }
-                    if ($this->proc['main_type'] == 'oss') {
-                        $sav = $this->proc['url'] . '/' . $fileName;
-                    }
-                }
+                $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
                 WechatDataModel::create([
                     "key" => $md5,
                     "val" => $data,
