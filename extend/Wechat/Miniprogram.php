@@ -3,6 +3,7 @@
 namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
+use Wechat\WechatRet\GetUnlimited;
 
 class Miniprogram extends WechatUrl
 {
@@ -21,16 +22,16 @@ class Miniprogram extends WechatUrl
         );
     }
 
-    public static function getWxaCodeUnlimit(string $access_token, $scene, $page, $width, $env_version = "release")
+    public static function getWxaCodeUnlimit(string $access_token, $scene, $page, $width, $env_version = "release"): GetUnlimited
     {
         $addr = self::$Base . self::$getUnlimited . "?" . http_build_query(["access_token" => $access_token]);
-        return raw_post($addr, [
+        return new GetUnlimited(raw_post($addr, [
                 "scene" => $scene,
                 "page" => $page,
                 "width" => $width,
                 "env_version" => $env_version,
             ]
-        );
+        ));
     }
 
 
