@@ -174,6 +174,9 @@ class wxa extends create
      */
     protected function oss_operation(string $md5, string $fileName, GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
     {
+        if (!file_put_contents($fileName, $wxa->image)) {
+            \Ret::fail("文件写入失败");
+        }
         if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
             if ($this->proc['main_type'] == 'local') {
                 $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
@@ -193,14 +196,13 @@ class wxa extends create
                 $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
             }
         }
-        if (file_put_contents($fileName, $wxa->image)) {
-            WechatDataModel::create([
-                "key" => $md5,
-                "val" => $data,
-                "page" => $page,
-                "path" => $oss_path
-            ]);
-        }
+
+        WechatDataModel::create([
+            "key" => $md5,
+            "val" => $data,
+            "page" => $page,
+            "path" => $oss_path
+        ]);
         return $sav;
     }
 }
