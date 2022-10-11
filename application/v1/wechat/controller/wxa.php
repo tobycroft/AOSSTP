@@ -170,7 +170,7 @@ class wxa extends CommonController
         }
     }
 
-    public function qrcode(Request $request)
+    public function unlimited_oss(Request $request)
     {
         if (!$request->has("data")) {
             \Ret::fail("data");
