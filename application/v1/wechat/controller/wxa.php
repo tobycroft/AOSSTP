@@ -52,7 +52,7 @@ class wxa extends CommonController
         }
     }
 
-    public function qrcode(Request $request)
+    public function unlimited(Request $request)
     {
         if (!$request->has("data")) {
             \Ret::fail("data");
@@ -154,7 +154,7 @@ class wxa extends CommonController
             ]);
         }
         echo $wxa;
-        Response::contentType("image/png")->send();
+//        Response::contentType("image/png")->send();
 
 
 //        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
