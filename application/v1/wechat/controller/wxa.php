@@ -81,7 +81,7 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            if (file_put_contents($fileName, $wxa)) {
+            if (file_put_contents($fileName, $wxa->image)) {
                 WechatDataModel::create([
                     "key" => $md5,
                     "val" => $data,
@@ -122,7 +122,7 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            if (file_put_contents($fileName, $wxa)) {
+            if (file_put_contents($fileName, $wxa->image)) {
                 WechatDataModel::create([
                     "key" => $md5,
                     "val" => $data,
@@ -162,7 +162,7 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            if (file_put_contents($fileName, $wxa)) {
+            if (file_put_contents($fileName, $wxa->image)) {
                 WechatDataModel::create([
                     "key" => $md5,
                     "val" => $data,
@@ -202,7 +202,7 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            if (file_put_contents($fileName, $wxa)) {
+            if (file_put_contents($fileName, $wxa->image)) {
                 WechatDataModel::create([
                     "key" => $md5,
                     "val" => $data,
