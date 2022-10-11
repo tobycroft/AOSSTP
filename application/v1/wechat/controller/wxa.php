@@ -10,6 +10,7 @@ use OSS\Core\OssException;
 use think\facade\Response;
 use think\Request;
 use Wechat\Miniprogram;
+use Wechat\WechatRet\WxaCode\GetUnlimited;
 
 class wxa extends create
 {
@@ -165,13 +166,13 @@ class wxa extends create
     /**
      * @param string $md5
      * @param string $fileName
-     * @param \Wechat\WechatRet\WxaCode\GetUnlimited $wxa
+     * @param GetUnlimited $wxa
      * @param mixed $data
      * @param mixed $page
      * @param string $oss_path
      * @return string
      */
-    protected function oss_operation(string $md5, string $fileName, \Wechat\WechatRet\WxaCode\GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
+    protected function oss_operation(string $md5, string $fileName, GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
     {
         if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
             if ($this->proc['main_type'] == 'local') {
