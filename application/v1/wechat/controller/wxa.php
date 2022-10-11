@@ -87,7 +87,7 @@ class wxa extends CommonController
             }
             Response::contentType("image/png")->send();
         } else {
-            echo $wxa->error();
+            \Ret::fail($wxa->error());
         }
 
 
