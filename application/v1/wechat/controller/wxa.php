@@ -9,7 +9,7 @@ use think\facade\Response;
 use think\Request;
 use Wechat\Miniprogram;
 
-class index extends CommonController
+class wxa extends CommonController
 {
 
     public $app;
@@ -50,6 +50,75 @@ class index extends CommonController
                 exit();
             }
         }
+    }
+
+    public function qrcode(Request $request)
+    {
+        if (!$request->has("data")) {
+            \Ret::fail("data");
+        }
+        if (!$request->has("page")) {
+            \Ret::fail("page");
+        }
+        $data = input('data');
+        $page = input("page");
+        $md5 = md5($data . '|' . $page);
+        $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
+        if (!empty($wechat_data)) {
+            if (file_exists($wechat_data["path"])) {
+                echo file_get_contents($wechat_data["path"]);
+                Response::contentType("image/png")->send();
+                return;
+            }
+        }
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
+        $fileName = "../public/upload/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        if (!is_dir("../public/upload/wechat/" . $this->token)) {
+            mkdir("../public/upload/wechat/" . $this->token, 0755, true);
+        }
+        if (file_put_contents($fileName, $wxa)) {
+            WechatDataModel::create([
+                "key" => $md5,
+                "val" => $data,
+                "page" => $page,
+                "path" => $fileName
+            ]);
+        }
+        echo $wxa;
+        Response::contentType("image/png")->send();
+
+
+//        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
+//            if ($this->proc['main_type'] == 'local') {
+//                $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+//            }
+//        }
+//        if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
+//            $sf = new SendFile();
+//            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
+//            $json = json_decode($ret, 1);
+//            $sav = $this->proc['url'] . '/' . $json["data"];
+//        }
+//        if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
+//            try {
+//                $oss = new \OSS\AliyunOSS($this->proc);
+//                $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
+//            } catch (OssException $e) {
+//                \Ret::fail($e->getMessage(), 200);
+//            }
+//            if (empty($ret->getData()["info"]["url"])) {
+//                \Ret::fail("OSS不正常");
+//            }
+//            if ($this->proc['main_type'] == 'oss') {
+//                $sav = $this->proc['url'] . '/' . $fileName;
+//            }
+//            if ($this->proc["type"] != "all") {
+//                $document->delete();
+//                unlink($path_name);
+//            }
+//        }
+//        \Ret::succ($sav);
+
     }
 
     public function qrcode(Request $request)
