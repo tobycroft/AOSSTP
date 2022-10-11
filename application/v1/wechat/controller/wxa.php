@@ -69,7 +69,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                echo file_get_contents($wechat_data["path"]);
+                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
                 Response::contentType("image/png")->send();
                 return;
             }
