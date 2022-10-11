@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\WechatRet;
+namespace Wechat\WechatRet\WxaCode;
 
 
 use Wechat\Miniprogram;
