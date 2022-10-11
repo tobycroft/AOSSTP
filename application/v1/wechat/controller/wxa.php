@@ -85,43 +85,11 @@ class wxa extends CommonController
                     "path" => $fileName
                 ]);
             }
+            echo $wxa->image;
             Response::contentType("image/png")->send();
         } else {
             \Ret::fail($wxa->error());
         }
-
-
-//        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
-//            if ($this->proc['main_type'] == 'local') {
-//                $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
-//            }
-//        }
-//        if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
-//            $sf = new SendFile();
-//            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
-//            $json = json_decode($ret, 1);
-//            $sav = $this->proc['url'] . '/' . $json["data"];
-//        }
-//        if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
-//            try {
-//                $oss = new \OSS\AliyunOSS($this->proc);
-//                $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
-//            } catch (OssException $e) {
-//                \Ret::fail($e->getMessage(), 200);
-//            }
-//            if (empty($ret->getData()["info"]["url"])) {
-//                \Ret::fail("OSS不正常");
-//            }
-//            if ($this->proc['main_type'] == 'oss') {
-//                $sav = $this->proc['url'] . '/' . $fileName;
-//            }
-//            if ($this->proc["type"] != "all") {
-//                $document->delete();
-//                unlink($path_name);
-//            }
-//        }
-//        \Ret::succ($sav);
-
     }
 
     public function unlimited_base64(Request $request)
@@ -157,43 +125,10 @@ class wxa extends CommonController
                     "path" => $fileName
                 ]);
             }
-            \Ret::succ(base64_encode($wxa));
+            \Ret::succ(base64_encode($wxa->image));
         } else {
             \Ret::fail($wxa->error());
         }
-
-
-//        if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
-//            if ($this->proc['main_type'] == 'local') {
-//                $sav = $this->proc['url'] . "/image/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
-//            }
-//        }
-//        if ($this->proc["type"] == "dp" || $this->proc["type"] == "all") {
-//            $sf = new SendFile();
-//            $ret = $sf->send('http://' . $this->proc["endpoint"] . '/up?token=' . $this->proc["bucket"], realpath('./upload/' . $fileName), "image/jpg", $md5 . "jpg");
-//            $json = json_decode($ret, 1);
-//            $sav = $this->proc['url'] . '/' . $json["data"];
-//        }
-//        if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
-//            try {
-//                $oss = new \OSS\AliyunOSS($this->proc);
-//                $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
-//            } catch (OssException $e) {
-//                \Ret::fail($e->getMessage(), 200);
-//            }
-//            if (empty($ret->getData()["info"]["url"])) {
-//                \Ret::fail("OSS不正常");
-//            }
-//            if ($this->proc['main_type'] == 'oss') {
-//                $sav = $this->proc['url'] . '/' . $fileName;
-//            }
-//            if ($this->proc["type"] != "all") {
-//                $document->delete();
-//                unlink($path_name);
-//            }
-//        }
-//        \Ret::succ($sav);
-
     }
 
     public function qrcode(Request $request)

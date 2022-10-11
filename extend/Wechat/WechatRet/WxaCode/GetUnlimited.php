@@ -7,7 +7,7 @@ use Wechat\Miniprogram;
 
 class GetUnlimited extends Miniprogram
 {
-    public $gd;
+    public $image;
     private $error;
 
     public function __construct($json)
@@ -16,7 +16,7 @@ class GetUnlimited extends Miniprogram
         if (isset($data["errmsg"])) {
             $this->error = $data["errmsg"];
         } else {
-            $this->gd = $data;
+            $this->image = $data;
         }
     }
 
