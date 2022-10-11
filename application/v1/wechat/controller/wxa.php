@@ -134,9 +134,6 @@ class wxa extends create
                     if ($this->proc['main_type'] == 'oss') {
                         $sav = $this->proc['url'] . '/' . $fileName;
                     }
-                    if ($this->proc["type"] != "all") {
-                        unlink($fileName);
-                    }
                 }
                 WechatDataModel::create([
                     "key" => $md5,
