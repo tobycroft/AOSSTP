@@ -181,7 +181,7 @@ class wxa extends create
         if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
             try {
                 $oss = new AliyunOSS($this->proc);
-                $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".png", $fileName);
+                $ret = $oss->uploadFile($this->proc['bucket'], $md5 . ".png", "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
             } catch (OssException $e) {
                 \Ret::fail($e->getMessage(), 200);
             }
