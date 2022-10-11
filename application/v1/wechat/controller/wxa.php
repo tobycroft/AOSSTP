@@ -145,14 +145,14 @@ class wxa extends CommonController
         if (!is_dir("../public/upload/wechat/" . $this->token)) {
             mkdir("../public/upload/wechat/" . $this->token, 0755, true);
         }
-        if (file_put_contents($fileName, $wxa)) {
-            WechatDataModel::create([
-                "key" => $md5,
-                "val" => $data,
-                "page" => $page,
-                "path" => $fileName
-            ]);
-        }
+//        if (file_put_contents($fileName, $wxa)) {
+//            WechatDataModel::create([
+//                "key" => $md5,
+//                "val" => $data,
+//                "page" => $page,
+//                "path" => $fileName
+//            ]);
+//        }
         echo $wxa;
 //        Response::contentType("image/png")->send();
 
