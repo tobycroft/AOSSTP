@@ -210,10 +210,7 @@ class wxa extends create
                 \Ret::fail("OSS不正常");
             }
             if ($this->proc['main_type'] == 'oss') {
-                $sav = $this->proc['url'] . '/' . $fileName;
-            }
-            if ($this->proc["type"] != "all") {
-                unlink($fileName);
+                $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
             }
         }
         if (file_put_contents($fileName, $wxa->image)) {
