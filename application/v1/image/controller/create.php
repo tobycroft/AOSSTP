@@ -6,6 +6,7 @@ namespace app\v1\image\controller;
 use app\v1\image\action\DataAction;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use OSS\AliyunOSS;
 use OSS\Core\OssException;
 use PHPImageWorkshop\ImageWorkshop;
 use SendFile\SendFile;
@@ -122,7 +123,7 @@ class create extends CommonController
         }
         if ($this->proc["type"] == "oss" || $this->proc["type"] == "all") {
             try {
-                $oss = new \OSS\AliyunOSS($this->proc);
+                $oss = new AliyunOSS($this->proc);
                 $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
             } catch (OssException $e) {
                 \Ret::fail($e->getMessage(), 200);
