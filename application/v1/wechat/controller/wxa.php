@@ -212,7 +212,7 @@ class wxa extends create
         return $sav;
     }
 
-    public function scene(Request $request)
+    public function scene()
     {
         $scene = input("scene");
         $data = WechatDataModel::where("project", $this->token)->where("key", $scene)->find();
