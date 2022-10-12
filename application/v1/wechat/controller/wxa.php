@@ -75,7 +75,7 @@ class wxa extends create
                 return;
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
@@ -110,7 +110,7 @@ class wxa extends create
                 return;
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
@@ -151,7 +151,7 @@ class wxa extends create
                 \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $data, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
