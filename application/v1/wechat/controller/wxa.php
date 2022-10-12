@@ -65,7 +65,7 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
-        $md5 = md5($data . '|' . $page);
+        $md5 = md5($data);
 
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
@@ -101,7 +101,7 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
-        $md5 = md5($data . '|' . $page);
+        $md5 = md5($data);
 
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
