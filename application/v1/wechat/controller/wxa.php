@@ -217,6 +217,7 @@ class wxa extends create
         $scene = input("scene");
         $data = WechatDataModel::where("project", $this->token)->where("key", $scene)->find();
         if ($data) {
+            $data["url"] = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
             \Ret::succ($data);
         } else {
             \Ret::fail([], 404);
@@ -228,7 +229,7 @@ class wxa extends create
         $scheme = input("scheme");
         $data = WechatDataModel::where("project", $this->token)->where("key", $scheme)->find();
         if ($data) {
-            $data["url"] = $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
+            $data["url"] = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
             \Ret::succ($data);
         } else {
             \Ret::fail([], 404);
