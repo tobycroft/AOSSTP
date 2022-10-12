@@ -221,6 +221,16 @@ class wxa extends create
         } else {
             \Ret::fail([], 404);
         }
+    }
 
+    public function scheme()
+    {
+        $scheme = input("scheme");
+        $data = WechatDataModel::where("project", $this->token)->where("key", $scheme)->find();
+        if ($data) {
+            \Ret::succ($data);
+        } else {
+            \Ret::fail([], 404);
+        }
     }
 }
