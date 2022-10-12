@@ -216,7 +216,11 @@ class wxa extends create
     {
         $scene = input("scene");
         $data = WechatDataModel::where("project", $this->token)->where("key", $scene)->find();
-        \Ret::succ($data);
+        if ($data) {
+            \Ret::succ($data);
+        } else {
+            \Ret::fail([], 404);
+        }
 
     }
 }
