@@ -120,6 +120,7 @@ class wxa extends create
         if ($wxa->isSuccess()) {
             if (file_put_contents($fileName, $wxa->image)) {
                 $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
+                WechatDataModel::where("key", $md5)->delete();
                 WechatDataModel::create([
                     "key" => $md5,
                     "val" => $data,
@@ -199,7 +200,7 @@ class wxa extends create
                 $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
             }
         }
-
+        WechatDataModel::where("key", $md5)->delete();
         WechatDataModel::create([
             "key" => $md5,
             "val" => $data,
