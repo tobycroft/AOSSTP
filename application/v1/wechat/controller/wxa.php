@@ -66,6 +66,7 @@ class wxa extends create
         $data = input('data');
         $page = input("page");
         $md5 = md5($data . '|' . $page);
+        $data = addslashes($data);
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
@@ -101,6 +102,7 @@ class wxa extends create
         $data = input('data');
         $page = input("page");
         $md5 = md5($data . '|' . $page);
+        $data = addslashes($data);
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
@@ -142,6 +144,7 @@ class wxa extends create
         $data = input('data');
         $page = input("page");
         $md5 = md5($data . '|' . $page);
+        $data = addslashes($data);
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
