@@ -133,4 +133,6 @@ class index extends CommonController
         }
         echo json_encode($colums);
     }
+
+
 }

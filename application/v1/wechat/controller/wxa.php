@@ -18,7 +18,7 @@ class wxa extends create
     public mixed $access_token;
     public string $appid;
     public string $appsecret;
-    public string $path_prefix = "../public/upload/";
+    public string $path_prefix = "./upload/";
 
     public function initialize()
     {

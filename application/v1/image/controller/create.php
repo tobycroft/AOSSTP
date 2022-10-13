@@ -106,8 +106,8 @@ class create extends CommonController
         ];
         $md5 = md5(json_encode($crypt, 320));
         $document->getResult($this->background);
-        $document->save("../public/upload/image/" . $this->token, $md5 . ".jpg");
-        $path_name = "../public/upload/image/" . $this->token . "/" . $md5 . ".jpg";
+        $document->save("./upload/image/" . $this->token, $md5 . ".jpg");
+        $path_name = "./upload/image/" . $this->token . "/" . $md5 . ".jpg";
         $fileName = "image/" . $this->token . "/" . $md5 . ".jpg";
 
         if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
