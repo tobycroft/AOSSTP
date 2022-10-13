@@ -140,7 +140,7 @@ class index extends CommonController
             }
             $colums[] = $arr;
         }
-        \Ret::succ(json_encode($colums));
+        \Ret::succ($colums);
     }
 
     public function force(Request $request)
