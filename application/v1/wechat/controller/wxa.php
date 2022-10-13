@@ -72,7 +72,6 @@ class wxa extends create
 //                \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
 //                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
                 $this->redirect($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", 302);
-
 //                Response::contentType("image/png")->send();
                 return;
             }
