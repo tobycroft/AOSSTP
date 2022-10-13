@@ -71,7 +71,7 @@ class wxa extends create
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
 //                \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
 //                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
-                $this->redirect($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
+                $this->redirect($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", 302);
 
 //                Response::contentType("image/png")->send();
                 return;
@@ -87,7 +87,7 @@ class wxa extends create
         if ($wxa->isSuccess()) {
             $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
 //            echo $wxa->image;
-            $this->redirect($sav);
+            $this->redirect($sav, 302);
 //            Response::contentType("image/png")->send();
         } else {
             \Ret::fail($wxa->error());
