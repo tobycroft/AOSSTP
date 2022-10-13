@@ -7,7 +7,6 @@ use app\v1\wechat\model\WechatDataModel;
 use app\v1\wechat\model\WechatModel;
 use OSS\AliyunOSS;
 use OSS\Core\OssException;
-use think\facade\Response;
 use think\Request;
 use Wechat\Miniprogram;
 use Wechat\WechatRet\WxaCode\GetUnlimited;
@@ -70,8 +69,11 @@ class wxa extends create
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
-                Response::contentType("image/png")->send();
+//                \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
+//                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
+                $this->redirect($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
+
+//                Response::contentType("image/png")->send();
                 return;
             }
         }
@@ -84,8 +86,9 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
-            echo $wxa->image;
-            Response::contentType("image/png")->send();
+//            echo $wxa->image;
+            $this->redirect($sav);
+//            Response::contentType("image/png")->send();
         } else {
             \Ret::fail($wxa->error());
         }
