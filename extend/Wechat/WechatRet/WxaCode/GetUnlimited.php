@@ -2,16 +2,15 @@
 
 namespace Wechat\WechatRet\WxaCode;
 
-
-use Wechat\Miniprogram;
-
-class GetUnlimited extends Miniprogram
+class GetUnlimited
 {
+    public $response;
     public $image;
     private $error;
 
     public function __construct($json)
     {
+        $this->response = $json;
         $data = json_decode($json, 1);
         if (isset($data["errmsg"])) {
             $this->error = $data["errmsg"];
@@ -29,8 +28,9 @@ class GetUnlimited extends Miniprogram
         }
     }
 
-    public function error()
+    public function getError()
     {
         return $this->error;
     }
+
 }

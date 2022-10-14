@@ -89,7 +89,7 @@ class wxa extends create
             $this->redirect($sav, 302);
 //            Response::contentType("image/png")->send();
         } else {
-            \Ret::fail($wxa->error());
+            \Ret::fail($wxa->getError());
         }
     }
 
@@ -133,7 +133,7 @@ class wxa extends create
             }
             \Ret::succ(base64_encode($wxa->image));
         } else {
-            \Ret::fail($wxa->error());
+            \Ret::fail($wxa->getError());
         }
     }
 
@@ -166,7 +166,7 @@ class wxa extends create
             $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
             \Ret::succ($sav);
         } else {
-            \Ret::fail($wxa->error());
+            \Ret::fail($wxa->getError());
         }
     }
 

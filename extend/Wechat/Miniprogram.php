@@ -4,6 +4,7 @@ namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\WxaCode\GetUnlimited;
+use Wechat\WechatRet\WxaCode\Jscode2Session;
 
 class Miniprogram extends WechatUrl
 {
@@ -39,7 +40,7 @@ class Miniprogram extends WechatUrl
 
     public static function jscode2session(string $appid, $secret, $js_code, $grant_type)
     {
-        return new GetUnlimited(raw_post(self::$Base . self::$jscode2session,
+        return new Jscode2Session(raw_post(self::$Base . self::$jscode2session,
             [
                 "appid" => $appid,
                 "secret" => $secret,
