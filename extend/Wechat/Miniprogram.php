@@ -64,7 +64,7 @@ class Miniprogram extends WechatUrl
         ));
     }
 
-    public static function generatescheme(string $access_token, $path, $query, bool $is_expire = true, int $expire_time = 179): GenerateScheme
+    public static function generatescheme(string $access_token, $path, $query, bool $is_expire = true, int $expire_interval = 179): GenerateScheme
     {
         return new GenerateScheme(raw_post(self::$Base . self::$generatescheme,
             [
@@ -77,7 +77,7 @@ class Miniprogram extends WechatUrl
                 ],
                 "is_expire" => $is_expire,
                 "expire_type" => 1,
-                "expire_time" => $expire_time
+                "expire_interval" => $expire_interval
             ]
         ));
     }

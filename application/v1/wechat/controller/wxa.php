@@ -252,20 +252,26 @@ class wxa extends create
         }
     }
 
-    public function getuserphonenumber(Request $request)
+    public function generatescheme(Request $request)
     {
-        if (!$request->has('code')) {
-            \Ret::Fail(400, null, 'code');
-        }
-        $code = input('code');
+        if (!$request->has('path'))
+            \Ret::Fail(400, null, 'path');
+        if (!$request->has('query'))
+            \Ret::Fail(400, null, 'query');
+        if (!$request->has('is_expire'))
+            \Ret::Fail(400, null, 'is_expire');
+        if (!$request->has('expire_interval'))
+            \Ret::Fail(400, null, 'expire_interval');
 
-        $wxa = Miniprogram::getuserphonenumber($this->access_token, $code);
+        $path = input('path');
+        $query = input('query');
+        $is_expire = input('is_expire');
+        $expire_interval = input('expire_interval');
+
+        $wxa = Miniprogram::generatescheme($this->access_token, $path, $query, $is_expire, $expire_interval);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, [
-                'phoneNumber' => $wxa->phoneNumber,
-                'purePhoneNumber' => $wxa->purePhoneNumber,
-                'countryCode' => $wxa->countryCode,
-                'watermark' => $wxa->watermark,
+                'openlink' => $wxa->openlink,
             ]);
         } else {
             \Ret::Fail(300, $wxa->getError());
