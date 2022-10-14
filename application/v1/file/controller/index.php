@@ -21,11 +21,11 @@ class index extends search
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
-            \Ret::Fail('token');
+            \Ret::Fail(401, null, 'token');
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::Fail('项目不可用');
+            \Ret::Fail(401, null, '项目不可用');
         }
     }
 
@@ -41,7 +41,7 @@ class index extends search
 
         $file = $request->file('file');
         if (!$file) {
-            \Ret::Fail('file字段没有用文件提交');
+            \Ret::Fail(400, null, 'file字段没有用文件提交');
         }
         $file_name = $file->getInfo('name');
         $md5 = $file->hash('md5');
@@ -54,13 +54,13 @@ class index extends search
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         } elseif ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
             if (!AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5])) {
-                \Ret::Fail("sha1更新失败", "500");
+                \Ret::Fail(500, null, "sha1更新失败");
             }
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         }
         $info = $file->move('./upload/' . $this->token);
         if (!$info) {
-            \Ret::Fail($file->getError());
+            \Ret::Fail(300, null, $file->getError());
             return;
         }
 
@@ -138,10 +138,10 @@ class index extends search
                 $oss = new \OSS\AliyunOSS($proc);
                 $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
             } catch (OssException $e) {
-                \Ret::Fail($e->getMessage(), 200);
+                \Ret::Fail(200, null, $e->getMessage());
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail("OSS不正常");
+                \Ret::Fail(300, null, "OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
@@ -162,15 +162,15 @@ class index extends search
                     $file_info["src"] = $sav;
                     $file_info["url"] = $proc['url'] . '/' . $file_info['path'];
                     $file_info["surl"] = $file_info['path'];
-                    \Ret::Success($file_info);
+                    \Ret::Success(0, $file_info);
                     break;
 
                 default:
-                    \Ret::Success($sav);
+                    \Ret::Success(0, $sav);
                     break;
             }
         } else {
-            \Ret::Fail($file->getError());
+            \Ret::Fail(300, null, $file->getError());
         }
     }
 
@@ -180,7 +180,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request);
         } else {
-            \Ret::Fail("请上传binary文件");
+            \Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request);
         }
     }
@@ -191,7 +191,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1);
         } else {
-            \Ret::Fail("请上传binary文件");
+            \Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1);
         }
     }
@@ -202,7 +202,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1, "ue");
         } else {
-            \Ret::Fail("请上传binary文件");
+            \Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
         }
     }
@@ -213,7 +213,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1, "complete");
         } else {
-            \Ret::Fail("请上传binary文件");
+            \Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
         }
     }
@@ -222,7 +222,7 @@ class index extends search
 //    {
 //        $token = $this->token;
 //        if (!$request->has('file')) {
-//            \Ret::fail('需要file字段提交base64');
+//            \Ret::Fail(400,null,'需要file字段提交base64');
 //        }
 //        $image = input('post.file');
 //        if (!$image) {
@@ -237,7 +237,7 @@ class index extends search
 //        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $image, $result)) {
 //            $proc = ProjectModel::api_find_token($token);
 //            if (!$proc) {
-//                \Ret::fail('项目不可用');
+//                \Ret::Fail(401,null,'项目不可用');
 //            }
 //            $ext = explode(',', $proc['ext']);
 //            $type = $result[2];
@@ -326,11 +326,11 @@ class index extends search
                 $file_exists["src"] = $file_exists['path'];
                 $file_exists["url"] = $url . '/' . $file_exists['path'];
                 $file_exists["surl"] = $file_exists['path'];
-                \Ret::Success($file_exists);
+                \Ret::Success(0, $file_exists);
                 break;
 
             default:
-                \Ret::Success($sav);
+                \Ret::Success(0, $sav);
                 break;
         }
         return $sav;

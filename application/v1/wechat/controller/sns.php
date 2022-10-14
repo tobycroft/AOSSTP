@@ -12,7 +12,7 @@ class sns extends wxa
     public function jscode(Request $request)
     {
         if (!$request->has("js_code")) {
-            \Ret::Fail("js_code");
+            \Ret::Fail(400, null, "js_code");
         }
         $js_code = input('js_code');
 
@@ -24,7 +24,7 @@ class sns extends wxa
                 "session_key" => $wxa->session_key,
             ]);
         } else {
-            \Ret::Fail($wxa->getError());
+            \Ret::Fail(300, $wxa->getError());
         }
     }
 

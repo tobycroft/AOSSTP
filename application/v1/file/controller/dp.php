@@ -20,7 +20,7 @@ class dp extends CommonController
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
-            \Ret::Fail('token');
+            \Ret::Fail(401, null, 'token');
         }
     }
 
@@ -179,10 +179,10 @@ class dp extends CommonController
                 $oss = new \OSS\AliyunOSS($proc);
                 $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
             } catch (OssException $e) {
-                \Ret::Fail($e->getMessage(), 200);
+                \Ret::Fail(200, null, $e->getMessage());
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail("OSS不正常");
+                \Ret::Fail(300, null, "OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
                 $sav = $proc['url'] . '/' . $fileName;

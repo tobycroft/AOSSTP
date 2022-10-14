@@ -24,7 +24,7 @@ class wxa extends create
         parent::initialize();
         $wechat = WechatModel::where("project", $this->token)->find();
         if (!$wechat) {
-            \Ret::Fail("未找到项目");
+            \Ret::Fail(404, null, "未找到项目");
         }
         $this->appid = $wechat["appid"];
         $this->appsecret = $wechat["appsecret"];
@@ -51,10 +51,10 @@ class wxa extends create
     public function unlimited_raw(Request $request)
     {
         if (!$request->has("data")) {
-            \Ret::Fail("data");
+            \Ret::Fail(400, null, 'data');
         }
         if (!$request->has("page")) {
-            \Ret::Fail("page");
+            \Ret::Fail(400, null, "page");
         }
         $data = input('data');
         $page = input("page");
@@ -83,17 +83,17 @@ class wxa extends create
             $this->redirect($sav, 302);
 //            Response::contentType("image/png")->send();
         } else {
-            \Ret::Fail($wxa->getError());
+            \Ret::Fail(300, $wxa->getError());
         }
     }
 
     public function unlimited_base64(Request $request)
     {
         if (!$request->has("data")) {
-            \Ret::Fail("data");
+            \Ret::Fail(400, null, 'data');
         }
         if (!$request->has("page")) {
-            \Ret::Fail("page");
+            \Ret::Fail(400, null, "page");
         }
         $data = input('data');
         $page = input("page");
@@ -127,17 +127,17 @@ class wxa extends create
             }
             \Ret::Success(base64_encode($wxa->image));
         } else {
-            \Ret::Fail($wxa->getError());
+            \Ret::Fail(300, $wxa->getError());
         }
     }
 
     public function unlimited_file(Request $request)
     {
         if (!$request->has("data")) {
-            \Ret::Fail("data");
+            \Ret::Fail(400, null, 'data');
         }
         if (!$request->has("page")) {
-            \Ret::Fail("page");
+            \Ret::Fail(400, null, "page");
         }
         $data = input('data');
         $page = input("page");
@@ -146,7 +146,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
+                \Ret::Success(0, $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
@@ -158,9 +158,9 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
-            \Ret::Success($sav);
+            \Ret::Success(0, $sav);
         } else {
-            \Ret::Fail($wxa->getError());
+            \Ret::Fail(300, $wxa->getError());
         }
     }
 
@@ -176,7 +176,7 @@ class wxa extends create
     protected function oss_operation(string $md5, string $fileName, GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
     {
         if (!file_put_contents($fileName, $wxa->image)) {
-            \Ret::Fail("文件写入失败");
+            \Ret::Fail(400, null, "文件写入失败");
         }
         if ($this->proc["type"] == "local" || $this->proc["type"] == "all") {
             if ($this->proc['main_type'] == 'local') {
@@ -188,10 +188,10 @@ class wxa extends create
                 $oss = new AliyunOSS($this->proc);
                 $ret = $oss->uploadFile($this->proc['bucket'], "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", $fileName);
             } catch (OssException $e) {
-                \Ret::Fail($e->getMessage(), 200);
+                \Ret::Fail(200, null, $e->getMessage());
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail("OSS不正常");
+                \Ret::Fail(300, null, "OSS不正常");
             }
             if ($this->proc['main_type'] == 'oss') {
                 $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
@@ -214,9 +214,9 @@ class wxa extends create
         $data = WechatDataModel::where("project", $this->token)->where("key", $scene)->find();
         if ($data) {
             $data["url"] = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
-            \Ret::Success($data);
+            \Ret::Success(0, $data);
         } else {
-            \Ret::Fail([], 404);
+            \Ret::Fail(404);
         }
     }
 
@@ -226,16 +226,16 @@ class wxa extends create
         $data = WechatDataModel::where("project", $this->token)->where("key", $scheme)->find();
         if ($data) {
             $data["url"] = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
-            \Ret::Success($data);
+            \Ret::Success(0, $data);
         } else {
-            \Ret::Fail([], 404);
+            \Ret::Fail(404);
         }
     }
 
     public function getuserphonenumber(Request $request)
     {
         if (!$request->has('code')) {
-            \Ret::Fail('code');
+            \Ret::Fail(400, null, 'code');
         }
         $code = input('code');
 
@@ -248,7 +248,7 @@ class wxa extends create
                 'watermark' => $wxa->watermark,
             ]);
         } else {
-            \Ret::Fail($wxa->getError());
+            \Ret::Fail(300, $wxa->getError());
         }
     }
 }

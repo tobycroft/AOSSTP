@@ -13,36 +13,37 @@ class index extends CommonController
 {
 
     public $token;
+    public $proc;
 
     public function initialize()
     {
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
-            \Ret::Fail('token');
+            \Ret::Fail(401, null, 'token');
         }
+        $this->proc = ProjectModel::api_find_token($$this->token);
+        if (!$this->proc) {
+            \Ret::Fail(400, null, '项目不可用');
+            return;
+        }
+
     }
 
     public function index(Request $request)
     {
-        $token = $this->token;
-        $proc = ProjectModel::api_find_token($token);
-        if (!$proc) {
-            \Ret::Fail('项目不可用');
-            return;
-        }
         $file = $request->file("file");
         if (!$file) {
-            \Ret::Fail('file字段没有用文件提交');
+            \Ret::Fail(400, null, 'file字段没有用文件提交');
             return;
         }
         $hash = $file->hash('md5');
         if (!Validate::fileExt($file, ["xls", "xlsx"])) {
-            \Ret::Fail("ext not allow");
+            \Ret::Fail(406, null, "ext not allow");
             return;
         }
         if (!Validate::fileSize($file, (float)8192 * 1024)) {
-            \Ret::Fail("size too big");
+            \Ret::Fail(406, null, "size too big");
             return;
         }
 
@@ -51,7 +52,7 @@ class index extends CommonController
         unlink($info->getPathname());
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
-            \Ret::Fail("表格长度不足");
+            \Ret::Fail(400, null, "表格长度不足");
             return;
         }
         $value = [];
@@ -64,7 +65,7 @@ class index extends CommonController
         }
         foreach ($keys as $key) {
             if (empty($key)) {
-                \Ret::Fail("表格长度不一");
+                \Ret::Fail(400, null, "表格长度不一");
                 return;
             }
         }
@@ -85,24 +86,18 @@ class index extends CommonController
 
     public function dp(Request $request)
     {
-        $token = $this->token;
-        $proc = ProjectModel::api_find_token($token);
-        if (!$proc) {
-            \Ret::Fail('项目不可用');
-            return;
-        }
         $file = $request->file("file");
         if (!$file) {
-            \Ret::Fail('file字段没有用文件提交');
+            \Ret::Fail(400, null, 'file字段没有用文件提交');
             return;
         }
         $hash = $file->hash('md5');
         if (!Validate::fileExt($file, ["xls", "xlsx"])) {
-            \Ret::Fail("ext not allow");
+            \Ret::Fail(406, null, "ext not allow");
             return;
         }
         if (!Validate::fileSize($file, (float)8192 * 1024)) {
-            \Ret::Fail("size too big");
+            \Ret::Fail(406, null, "size too big");
             return;
         }
 
@@ -111,7 +106,7 @@ class index extends CommonController
         unlink($info->getPathname());
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
-            \Ret::Fail("表格长度不足");
+            \Ret::Fail(400, null, "表格长度不足");
             return;
         }
         $value = [];
@@ -124,7 +119,7 @@ class index extends CommonController
         }
         foreach ($keys as $key) {
             if (empty($key)) {
-                \Ret::Fail("表格长度不一");
+                \Ret::Fail(400, null, "表格长度不一");
                 return;
             }
         }
@@ -145,24 +140,18 @@ class index extends CommonController
 
     public function force(Request $request)
     {
-        $token = $this->token;
-        $proc = ProjectModel::api_find_token($token);
-        if (!$proc) {
-            \Ret::Fail(401, null, '项目不可用');
-            return;
-        }
         $file = $request->file("file");
         if (!$file) {
-            \Ret::Fail('file字段没有用文件提交');
+            \Ret::Fail(400, null, 'file字段没有用文件提交');
             return;
         }
         $hash = $file->hash('md5');
         if (!Validate::fileExt($file, ["xls", "xlsx"])) {
-            \Ret::Fail("ext not allow");
+            \Ret::Fail(406, null, "ext not allow");
             return;
         }
         if (!Validate::fileSize($file, (float)8192 * 1024)) {
-            \Ret::Fail("size too big");
+            \Ret::Fail(406, null, "size too big");
             return;
         }
         $info = $file->move('./upload/excel/' . $this->token);
@@ -170,7 +159,7 @@ class index extends CommonController
         unlink($info->getPathname());
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
-            \Ret::Fail("表格长度不足");
+            \Ret::Fail(400, null, "表格长度不足");
             return;
         }
         $keys = [];

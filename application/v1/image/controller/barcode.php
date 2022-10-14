@@ -21,18 +21,18 @@ class barcode extends CommonController
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
-            \Ret::Fail('token');
+            \Ret::Fail(401, null, 'token');
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::Fail('项目不可用');
+            \Ret::Fail(401, null, '项目不可用');
         }
     }
 
     public function png(Request $request)
     {
         if (!$request->has("data")) {
-            \Ret::Fail("data");
+            \Ret::Fail(400, null, 'data');
         }
         $json = input("data");
         $generator = new bc\BarcodeGeneratorPNG();
