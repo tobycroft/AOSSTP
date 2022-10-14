@@ -19,7 +19,6 @@ class GenerateScheme
             $this->data = $json;
             $this->openlink = $this->data["openlink"];
         }
-        return $this;
     }
 
     public function isSuccess(): bool
