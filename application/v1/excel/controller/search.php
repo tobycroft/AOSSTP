@@ -21,11 +21,11 @@ class search extends CommonController
         $proc = ProjectModel::api_find_token($token);
         $md5 = input("md5");
         if (empty($md5)) {
-            \Ret::fail("需要md5字段");
+            \Ret::Fail("需要md5字段");
         }
         $file_exists = AttachmentModel::where("md5", $md5)->where("sha1", "<>", '')->find();
         if (empty($file_exists)) {
-            \Ret::fail("未找到文件，请先上传");
+            \Ret::Fail("未找到文件，请先上传");
         }
         $file_exists["src"] = $file_exists['path'];
         $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
@@ -35,7 +35,7 @@ class search extends CommonController
         $reader = IOFactory::load('./upload/excel/');
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
-            \Ret::fail("表格长度不足");
+            \Ret::Fail("表格长度不足");
             return;
         }
         $value = [];
@@ -48,7 +48,7 @@ class search extends CommonController
         }
         foreach ($keys as $key) {
             if (empty($key)) {
-                \Ret::fail("表格长度不一");
+                \Ret::Fail("表格长度不一");
                 return;
             }
         }
@@ -64,6 +64,6 @@ class search extends CommonController
             }
             $colums[] = $arr;
         }
-        \Ret::succ(json_encode($colums));
+        \Ret::Success(json_encode($colums));
     }
 }

@@ -23,18 +23,18 @@ class qr extends CommonController
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
-            \Ret::fail('token');
+            \Ret::Fail('token');
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::fail('项目不可用');
+            \Ret::Fail('项目不可用');
         }
     }
 
     public function png(Request $request)
     {
         if (!$request->has("data")) {
-            \Ret::fail("data");
+            \Ret::Fail("data");
         }
         $json = input("data");
         $opt = new QROptions([
@@ -56,7 +56,7 @@ class qr extends CommonController
     public function base64(Request $request)
     {
         if (!$request->has("data")) {
-            \Ret::fail("data");
+            \Ret::Fail("data");
         }
         $json = input("data");
         $opt = new QROptions([
@@ -77,10 +77,10 @@ class qr extends CommonController
     public function logo(Request $request)
     {
         if (!$request->has("data")) {
-            \Ret::fail("data");
+            \Ret::Fail("data");
         }
         if (!$request->has("url")) {
-            \Ret::fail("url");
+            \Ret::Fail("url");
         }
         $json = input("data");
         $url = input("url");

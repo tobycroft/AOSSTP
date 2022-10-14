@@ -20,15 +20,15 @@ class search extends CommonController
         $proc = ProjectModel::api_find_token($token);
         $md5 = input("md5");
         if (empty($md5)) {
-            \Ret::fail("需要md5字段");
+            \Ret::Fail("需要md5字段");
         }
         $file_exists = AttachmentModel::where("md5", $md5)->where("sha1", "<>", '')->find();
         if (empty($file_exists)) {
-            \Ret::fail("未找到文件，请先上传");
+            \Ret::Fail("未找到文件，请先上传");
         }
         $file_exists["src"] = $file_exists['path'];
         $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
         $file_exists["surl"] = $file_exists['path'];
-        \Ret::succ($file_exists);
+        \Ret::Success($file_exists);
     }
 }

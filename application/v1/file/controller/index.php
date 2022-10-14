@@ -21,11 +21,11 @@ class index extends search
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
-            \Ret::fail('token');
+            \Ret::Fail('token');
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::fail('项目不可用');
+            \Ret::Fail('项目不可用');
         }
     }
 
@@ -41,7 +41,7 @@ class index extends search
 
         $file = $request->file('file');
         if (!$file) {
-            \Ret::fail('file字段没有用文件提交');
+            \Ret::Fail('file字段没有用文件提交');
         }
         $file_name = $file->getInfo('name');
         $md5 = $file->hash('md5');
@@ -54,13 +54,13 @@ class index extends search
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         } elseif ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
             if (!AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5])) {
-                \Ret::fail("sha1更新失败", "500");
+                \Ret::Fail("sha1更新失败", "500");
             }
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         }
         $info = $file->move('./upload/' . $this->token);
         if (!$info) {
-            \Ret::fail($file->getError());
+            \Ret::Fail($file->getError());
             return;
         }
 
@@ -138,10 +138,10 @@ class index extends search
                 $oss = new \OSS\AliyunOSS($proc);
                 $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
             } catch (OssException $e) {
-                \Ret::fail($e->getMessage(), 200);
+                \Ret::Fail($e->getMessage(), 200);
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::fail("OSS不正常");
+                \Ret::Fail("OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
@@ -155,22 +155,22 @@ class index extends search
         if ($info) {
             switch ($type) {
                 case "ue":
-                    \Ret::succ(['src' => $sav]);
+                    \Ret::Success(['src' => $sav]);
                     break;
 
                 case "complete":
                     $file_info["src"] = $sav;
                     $file_info["url"] = $proc['url'] . '/' . $file_info['path'];
                     $file_info["surl"] = $file_info['path'];
-                    \Ret::succ($file_info);
+                    \Ret::Success($file_info);
                     break;
 
                 default:
-                    \Ret::succ($sav);
+                    \Ret::Success($sav);
                     break;
             }
         } else {
-            \Ret::fail($file->getError());
+            \Ret::Fail($file->getError());
         }
     }
 
@@ -180,7 +180,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request);
         } else {
-            \Ret::fail("请上传binary文件");
+            \Ret::Fail("请上传binary文件");
 //            $this->upload_base64($request);
         }
     }
@@ -191,7 +191,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1);
         } else {
-            \Ret::fail("请上传binary文件");
+            \Ret::Fail("请上传binary文件");
 //            $this->upload_base64($request, 1);
         }
     }
@@ -202,7 +202,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1, "ue");
         } else {
-            \Ret::fail("请上传binary文件");
+            \Ret::Fail("请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
         }
     }
@@ -213,7 +213,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1, "complete");
         } else {
-            \Ret::fail("请上传binary文件");
+            \Ret::Fail("请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
         }
     }
@@ -319,18 +319,18 @@ class index extends search
         // 附件已存在
         switch ($type) {
             case "ue":
-                \Ret::succ(['src' => $sav]);
+                \Ret::Success(['src' => $sav]);
                 break;
 
             case "complete":
                 $file_exists["src"] = $file_exists['path'];
                 $file_exists["url"] = $url . '/' . $file_exists['path'];
                 $file_exists["surl"] = $file_exists['path'];
-                \Ret::succ($file_exists);
+                \Ret::Success($file_exists);
                 break;
 
             default:
-                \Ret::succ($sav);
+                \Ret::Success($sav);
                 break;
         }
         return $sav;

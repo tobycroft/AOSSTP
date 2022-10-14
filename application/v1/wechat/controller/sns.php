@@ -12,19 +12,19 @@ class sns extends wxa
     public function jscode(Request $request)
     {
         if (!$request->has("js_code")) {
-            \Ret::fail("js_code");
+            \Ret::Fail("js_code");
         }
         $js_code = input('js_code');
 
         $wxa = Miniprogram::jscode2session($this->appid, $this->appsecret, $js_code, "authorization_code");
         if ($wxa->isSuccess()) {
-            \Ret::succ([
+            \Ret::Success([
                 "openid" => $wxa->openid,
                 "unionid" => $wxa->unionid,
                 "session_key" => $wxa->session_key,
             ]);
         } else {
-            \Ret::fail($wxa->getError());
+            \Ret::Fail($wxa->getError());
         }
     }
 
