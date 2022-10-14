@@ -234,17 +234,18 @@ class wxa extends create
 
     public function jscode(Request $request)
     {
-        if (!$request->has('js_code')) {
-            \Ret::fail('js_code');
+        if (!$request->has('code')) {
+            \Ret::fail('code');
         }
-        $js_code = input('js_code');
+        $code = input('code');
 
-        $wxa = Miniprogram::jscode2session($this->appid, $this->appsecret, $js_code, 'authorization_code');
+        $wxa = Miniprogram::getuserphonenumber($this->access_token, $code);
         if ($wxa->isSuccess()) {
             \Ret::succ([
-                'openid' => $wxa->openid,
-                'unionid' => $wxa->unionid,
-                'session_key' => $wxa->session_key,
+                'phoneNumber' => $wxa->phoneNumber,
+                'purePhoneNumber' => $wxa->purePhoneNumber,
+                'countryCode' => $wxa->countryCode,
+                'watermark' => $wxa->watermark,
             ]);
         } else {
             \Ret::fail($wxa->getError());
