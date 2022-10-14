@@ -11,21 +11,24 @@ class Miniprogram extends WechatUrl
 
     public static function getAccessToken(string $appid, $secret, $grant_type = "client_credential"): GetAccessToken
     {
-        $addr = self::$Base . self::$getAccessToken . "?" . http_build_query([
-                "appid" => $appid,
-                "secret" => $secret,
-                "grant_type" => $grant_type,
-            ]);
-//        echo $addr;
         return new GetAccessToken(
-            raw_post($addr)
+            raw_post(self::$Base . self::$getAccessToken,
+                [
+                    "appid" => $appid,
+                    "secret" => $secret,
+                    "grant_type" => $grant_type,
+                ]
+            )
         );
     }
 
     public static function getWxaCodeUnlimit(string $access_token, $scene, $page, $width, $env_version = "release"): GetUnlimited
     {
-        $addr = self::$Base . self::$getUnlimited . "?" . http_build_query(["access_token" => $access_token]);
-        return new GetUnlimited(raw_post($addr, [
+        return new GetUnlimited(raw_post(self::$Base . self::$getUnlimited,
+            [
+                "access_token" => $access_token
+            ],
+            [
                 "scene" => $scene,
                 "page" => $page,
                 "width" => $width,
@@ -34,12 +37,28 @@ class Miniprogram extends WechatUrl
         ));
     }
 
+    public static function jscode2session(string $appid, $secret, $js_code, $grant_type)
+    {
+        return new GetUnlimited(raw_post(self::$Base . self::$jscode2session,
+            [
+                "appid" => $appid,
+                "secret" => $secret,
+                "js_code" => $js_code,
+                "grant_type" => $grant_type,
+            ]
+        ));
+    }
+
 
 }
 
 
-function raw_post($send_url, $postData = [])
+function raw_post(string $base_url, array $query = [], array $postData = [])
 {
+    $send_url = $base_url;
+    if (!empty($query)) {
+        $send_url .= "?" . http_build_query($query);
+    }
     $headers = array("Content-type: application/json;charset=UTF-8", "Accept: application/json", "Cache-Control: no-cache", "Pragma: no-cache");
     $postData = json_encode($postData, 320);
     $ch = curl_init();
