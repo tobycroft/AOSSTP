@@ -14,7 +14,6 @@ use Wechat\WechatRet\WxaCode\GetUnlimited;
 class wxa extends create
 {
 
-    public $app;
     public mixed $access_token;
     public string $appid;
     public string $appsecret;
@@ -23,11 +22,6 @@ class wxa extends create
     public function initialize()
     {
         parent::initialize();
-
-        $this->token = input('get.token');
-        if (!$this->token) {
-            \Ret::fail('token');
-        }
         $wechat = WechatModel::where("project", $this->token)->find();
         if (!$wechat) {
             \Ret::fail("未找到项目");
@@ -235,6 +229,25 @@ class wxa extends create
             \Ret::succ($data);
         } else {
             \Ret::fail([], 404);
+        }
+    }
+
+    public function jscode(Request $request)
+    {
+        if (!$request->has('js_code')) {
+            \Ret::fail('js_code');
+        }
+        $js_code = input('js_code');
+
+        $wxa = Miniprogram::jscode2session($this->appid, $this->appsecret, $js_code, 'authorization_code');
+        if ($wxa->isSuccess()) {
+            \Ret::succ([
+                'openid' => $wxa->openid,
+                'unionid' => $wxa->unionid,
+                'session_key' => $wxa->session_key,
+            ]);
+        } else {
+            \Ret::fail($wxa->getError());
         }
     }
 }
