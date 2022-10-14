@@ -251,4 +251,24 @@ class wxa extends create
             \Ret::Fail(300, $wxa->getError());
         }
     }
+
+    public function getuserphonenumber(Request $request)
+    {
+        if (!$request->has('code')) {
+            \Ret::Fail(400, null, 'code');
+        }
+        $code = input('code');
+
+        $wxa = Miniprogram::getuserphonenumber($this->access_token, $code);
+        if ($wxa->isSuccess()) {
+            \Ret::Success(0, [
+                'phoneNumber' => $wxa->phoneNumber,
+                'purePhoneNumber' => $wxa->purePhoneNumber,
+                'countryCode' => $wxa->countryCode,
+                'watermark' => $wxa->watermark,
+            ]);
+        } else {
+            \Ret::Fail(300, $wxa->getError());
+        }
+    }
 }

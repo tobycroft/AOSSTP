@@ -3,6 +3,7 @@
 namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
+use Wechat\WechatRet\WxaCode\GenerateScheme;
 use Wechat\WechatRet\WxaCode\GetUnlimited;
 use Wechat\WechatRet\WxaCode\GetUserPhoneNumber;
 use Wechat\WechatRet\WxaCode\Jscode2Session;
@@ -59,6 +60,24 @@ class Miniprogram extends WechatUrl
             ],
             [
                 "code" => $code
+            ]
+        ));
+    }
+
+    public static function generatescheme(string $access_token, $path, $query, bool $is_expire = true, int $expire_time = 179): GenerateScheme
+    {
+        return new GenerateScheme(raw_post(self::$Base . self::$generatescheme,
+            [
+                "access_token" => $access_token
+            ],
+            [
+                "jump_wxa" => [
+                    "path" => $path,
+                    "query" => $query
+                ],
+                "is_expire" => $is_expire,
+                "expire_type" => 1,
+                "expire_time" => $expire_time
             ]
         ));
     }
