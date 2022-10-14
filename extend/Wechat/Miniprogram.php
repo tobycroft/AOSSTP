@@ -50,6 +50,18 @@ class Miniprogram extends WechatUrl
         ));
     }
 
+    public static function getuserphonenumber(string $access_token, $code)
+    {
+        return new Jscode2Session(raw_post(self::$Base . self::$jscode2session,
+            [
+                "appid" => $appid,
+                "secret" => $secret,
+                "js_code" => $js_code,
+                "grant_type" => $grant_type,
+            ]
+        ));
+    }
+
 
 }
 
