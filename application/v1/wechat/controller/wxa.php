@@ -232,7 +232,7 @@ class wxa extends create
         }
     }
 
-    public function jscode(Request $request)
+    public function getuserphonenumber(Request $request)
     {
         if (!$request->has('code')) {
             \Ret::fail('code');
