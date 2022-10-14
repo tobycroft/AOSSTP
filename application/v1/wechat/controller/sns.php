@@ -28,4 +28,9 @@ class sns extends wxa
         }
     }
 
+    public function jscode2session(Request $request)
+    {
+        $this->jscode($request);
+    }
+
 }
