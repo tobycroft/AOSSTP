@@ -86,7 +86,7 @@ class chunk extends dp
         if (file_exists($pathname . DIRECTORY_SEPARATOR . $directory . DIRECTORY_SEPARATOR . $directory . '_' . input('chunk') . '.' . end($ext))) {
             $chunks = input('chunks');
             if (count(cache('file_' . $directory)) >= ($chunks - 1)) {
-                \RET::success(input('chunk') . '块可以上传');
+                \Ret::Success(0, input('chunk') . '块可以上传');
             }
             if (cache('file_' . $directory) == NULL) {
                 cache('file_' . $directory, [], 600);
@@ -94,9 +94,9 @@ class chunk extends dp
             $arr = cache('file_' . $directory);
             $arr[input('chunk')] = true;
             cache('file_' . $directory, $arr, 600);
-            \RET::success(input('chunk') . '分块文件已上传自动忽略', -1);
+            \Ret::Success(0, input('chunk') . '分块文件已上传自动忽略', -1);
         } else {
-            \RET::success(input('chunk') . '块可以上传');
+            \Ret::Success(0, input('chunk') . '块可以上传');
         }
     }
 

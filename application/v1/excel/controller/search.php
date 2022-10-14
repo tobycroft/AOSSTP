@@ -64,6 +64,6 @@ class search extends CommonController
             }
             $colums[] = $arr;
         }
-        \Ret::Success(json_encode($colums));
+        \Ret::Success(0, json_encode($colums));
     }
 }

@@ -155,7 +155,7 @@ class index extends search
         if ($info) {
             switch ($type) {
                 case "ue":
-                    \Ret::Success(['src' => $sav]);
+                    \Ret::Success(0, ['src' => $sav]);
                     break;
 
                 case "complete":
@@ -319,7 +319,7 @@ class index extends search
         // 附件已存在
         switch ($type) {
             case "ue":
-                \Ret::Success(['src' => $sav]);
+                \Ret::Success(0, ['src' => $sav]);
                 break;
 
             case "complete":

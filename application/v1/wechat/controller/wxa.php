@@ -102,7 +102,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where("key", $md5)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success(base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])));
+                \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])));
                 return;
             }
         }
@@ -125,7 +125,7 @@ class wxa extends create
                     "path" => $oss_path
                 ]);
             }
-            \Ret::Success(base64_encode($wxa->image));
+            \Ret::Success(0, base64_encode($wxa->image));
         } else {
             \Ret::Fail(300, $wxa->getError());
         }
@@ -241,7 +241,7 @@ class wxa extends create
 
         $wxa = Miniprogram::getuserphonenumber($this->access_token, $code);
         if ($wxa->isSuccess()) {
-            \Ret::Success([
+            \Ret::Success(0, [
                 'phoneNumber' => $wxa->phoneNumber,
                 'purePhoneNumber' => $wxa->purePhoneNumber,
                 'countryCode' => $wxa->countryCode,

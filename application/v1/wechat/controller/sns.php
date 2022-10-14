@@ -18,7 +18,7 @@ class sns extends wxa
 
         $wxa = Miniprogram::jscode2session($this->appid, $this->appsecret, $js_code, "authorization_code");
         if ($wxa->isSuccess()) {
-            \Ret::Success([
+            \Ret::Success(0, [
                 "openid" => $wxa->openid,
                 "unionid" => $wxa->unionid,
                 "session_key" => $wxa->session_key,
