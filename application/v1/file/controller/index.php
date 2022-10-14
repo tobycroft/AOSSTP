@@ -141,7 +141,7 @@ class index extends search
                 \Ret::Fail(200, null, $e->getMessage());
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail(300, null, "OSS不正常");
+                \Ret::Fail(200, null, "OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
