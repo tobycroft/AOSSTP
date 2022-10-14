@@ -28,7 +28,7 @@ class GetUserPhoneNumber
         return $this;
     }
 
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         if ($this->error) {
             return false;
@@ -37,7 +37,7 @@ class GetUserPhoneNumber
         }
     }
 
-    public function getError()
+    public function getError(): mixed
     {
         return $this->error;
     }

@@ -4,6 +4,7 @@ namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\WxaCode\GetUnlimited;
+use Wechat\WechatRet\WxaCode\GetUserPhoneNumber;
 use Wechat\WechatRet\WxaCode\Jscode2Session;
 
 class Miniprogram extends WechatUrl
@@ -38,7 +39,7 @@ class Miniprogram extends WechatUrl
         ));
     }
 
-    public static function jscode2session(string $appid, $secret, $js_code, $grant_type)
+    public static function jscode2session(string $appid, $secret, $js_code, $grant_type): Jscode2Session
     {
         return new Jscode2Session(raw_post(self::$Base . self::$jscode2session,
             [
@@ -50,14 +51,14 @@ class Miniprogram extends WechatUrl
         ));
     }
 
-    public static function getuserphonenumber(string $access_token, $code)
+    public static function getuserphonenumber(string $access_token, $code): GetUserPhoneNumber
     {
-        return new Jscode2Session(raw_post(self::$Base . self::$jscode2session,
+        return new GetUserPhoneNumber(raw_post(self::$Base . self::$getuserphonenumber,
             [
-                "appid" => $appid,
-                "secret" => $secret,
-                "js_code" => $js_code,
-                "grant_type" => $grant_type,
+                "access_token" => $access_token
+            ],
+            [
+                "code" => $code
             ]
         ));
     }
