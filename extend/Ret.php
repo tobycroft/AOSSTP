@@ -6,7 +6,6 @@ class Ret
     {
         header('Content-type: application/json');
         if (empty($echo)) {
-
             switch ($code) {
                 case 0:
                     $echo = '成功';
@@ -45,7 +44,9 @@ class Ret
                     $echo = '失败';
                     break;
             }
-
+        }
+        if (!isset($data)) {
+            $data = [];
         }
         echo json_encode([
             'code' => $code,
