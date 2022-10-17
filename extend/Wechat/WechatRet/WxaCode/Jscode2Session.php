@@ -2,7 +2,6 @@
 
 namespace Wechat\WechatRet\WxaCode;
 
-use think\exception\ThrowableError;
 
 class Jscode2Session
 {
@@ -26,7 +25,7 @@ class Jscode2Session
                 $this->session_key = $this->data['session_key'];
                 $this->unionid = $this->data['unionid'];
             }
-        } catch (ThrowableError $e) {
+        } catch (\Exception $e) {
             $this->response = $json;
             $this->error = $e->getMessage();
         }
