@@ -14,8 +14,8 @@ class Jscode2Session
 
     public function __construct($json)
     {
+        echo $json;
         try {
-            echo $json;
             $this->response = $json;
             $data = json_decode($json, 1);
             if (isset($data['errmsg'])) {
