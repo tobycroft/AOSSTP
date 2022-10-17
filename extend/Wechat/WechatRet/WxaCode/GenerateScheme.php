@@ -23,7 +23,7 @@ class GenerateScheme
 
     public function isSuccess(): bool
     {
-        if ($this->error) {
+        if (isset($this->error)) {
             return false;
         } else {
             return true;

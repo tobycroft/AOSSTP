@@ -24,7 +24,7 @@ class GetAccessToken extends Miniprogram
 
     public function isSuccess()
     {
-        if ($this->error) {
+        if (isset($this->error)) {
             return false;
         } else {
             return true;
