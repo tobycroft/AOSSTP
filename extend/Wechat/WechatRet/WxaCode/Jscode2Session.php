@@ -20,9 +20,9 @@ class Jscode2Session
             $this->error = $data['errmsg'];
         } else {
             $this->data = $data;
-            $this->openid = $this->data['openid'];
-            $this->session_key = $this->data['session_key'];
-            $this->unionid = $this->data['unionid'];
+            $this->openid = $this->data['openid'] ?? "";
+            $this->session_key = $this->data['session_key'] ?? "";
+            $this->unionid = $this->data['unionid'] ?? "";
         }
     }
 
