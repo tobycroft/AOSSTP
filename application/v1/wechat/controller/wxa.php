@@ -83,7 +83,7 @@ class wxa extends create
             $this->redirect($sav, 302);
 //            Response::contentType("image/png")->send();
         } else {
-            \Ret::Fail(300, $wxa->getError());
+            \Ret::Fail(300, null, $wxa->getError());
         }
     }
 
@@ -127,7 +127,7 @@ class wxa extends create
             }
             \Ret::Success(0, base64_encode($wxa->image));
         } else {
-            \Ret::Fail(300, $wxa->getError());
+            \Ret::Fail(300, null, $wxa->getError());
         }
     }
 
@@ -160,7 +160,7 @@ class wxa extends create
             $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
             \Ret::Success(0, $sav);
         } else {
-            \Ret::Fail(300, $wxa->getError());
+            \Ret::Fail(300, null, $wxa->getError());
         }
     }
 
@@ -248,7 +248,7 @@ class wxa extends create
                 'watermark' => $wxa->watermark,
             ]);
         } else {
-            \Ret::Fail(300, $wxa->getError());
+            \Ret::Fail(300, null, $wxa->getError());
         }
     }
 
@@ -274,7 +274,7 @@ class wxa extends create
                 'openlink' => $wxa->openlink,
             ]);
         } else {
-            \Ret::Fail(300, $wxa->getError());
+            \Ret::Fail(300, null, $wxa->getError());
         }
     }
 }
