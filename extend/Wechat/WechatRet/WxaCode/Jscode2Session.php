@@ -23,7 +23,6 @@ class Jscode2Session
             $this->session_key = $this->data["session_key"];
             $this->unionid = $this->data["unionid"];
         }
-        return $this;
     }
 
     public function isSuccess()
