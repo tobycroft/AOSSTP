@@ -192,6 +192,7 @@ class wxa extends create
                 }
             } catch (OssException $e) {
                 \Ret::Fail(200, null, $e->getMessage());
+                return "";
             }
             if ($this->proc['main_type'] == 'oss') {
                 $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
