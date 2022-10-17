@@ -20,10 +20,10 @@ class GetUserPhoneNumber
             $this->error = $data['errmsg'];
         } else {
             $this->data = $data;
-            $this->phoneNumber = $this->data['phone_info']['phoneNumber'];
-            $this->purePhoneNumber = $this->data['phone_info']['purePhoneNumber'];
-            $this->countryCode = $this->data['phone_info']['countryCode'];
-            $this->watermark = $this->data['phone_info']['watermark'];
+            $this->phoneNumber = $this->data['phone_info']['phoneNumber'] ?? "";
+            $this->purePhoneNumber = $this->data['phone_info']['purePhoneNumber'] ?? "";
+            $this->countryCode = $this->data['phone_info']['countryCode'] ?? "";
+            $this->watermark = $this->data['phone_info']['watermark'] ?? "";
         }
     }
 
