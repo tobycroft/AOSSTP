@@ -187,11 +187,11 @@ class wxa extends create
             try {
                 $oss = new AliyunOSS($this->proc);
                 $ret = $oss->uploadFile($this->proc['bucket'], "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", $fileName);
+                if (empty($ret->getData()['info']['url'])) {
+                    \Ret::Fail(300, null, 'OSS不正常');
+                }
             } catch (OssException $e) {
                 \Ret::Fail(200, null, $e->getMessage());
-            }
-            if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail(300, null, "OSS不正常");
             }
             if ($this->proc['main_type'] == 'oss') {
                 $sav = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
