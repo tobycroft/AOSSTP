@@ -12,7 +12,7 @@ class GetUnlimited
     {
         $this->response = $json;
         $data = json_decode($json, 1);
-        if (isset($data["errmsg"])) {
+        if (isset($data['errmsg'])) {
             $this->error = $data["errmsg"];
         } else {
             $this->image = $json;

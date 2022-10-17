@@ -15,7 +15,7 @@ class Jscode2Session
     {
         $this->response = $json;
         $data = json_decode($json, 1);
-        if (($data['errcode'] !== 0)) {
+        if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
         } else {
             $this->data = $json;
