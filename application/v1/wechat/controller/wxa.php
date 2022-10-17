@@ -189,6 +189,7 @@ class wxa extends create
                 $ret = $oss->uploadFile($this->proc['bucket'], "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", $fileName);
                 if (empty($ret->getData()['info']['url'])) {
                     \Ret::Fail(300, null, 'OSS不正常');
+                    return '';
                 }
             } catch (OssException $e) {
                 \Ret::Fail(200, null, $e->getMessage());
