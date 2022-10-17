@@ -2,8 +2,6 @@
 
 namespace Wechat\WechatRet\WxaCode;
 
-use think\exception\ThrowableError;
-
 class GenerateScheme
 {
     public $response;
@@ -13,20 +11,14 @@ class GenerateScheme
 
     public function __construct($json)
     {
-        try {
-            $this->response = $json;
-            $data = json_decode($json, 1);
-            if (isset($data['errmsg'])) {
-                $this->error = $data['errmsg'];
-            } else {
-                $this->data = $json;
-                $this->openlink = $this->data['openlink'];
-            }
-        } catch (ThrowableError $e) {
-            $this->response = $json;
-            $this->error = $e->getMessage();
+        $this->response = $json;
+        $data = json_decode($json, 1);
+        if (isset($data['errmsg'])) {
+            $this->error = $data['errmsg'];
+        } else {
+            $this->data = $data;
+            $this->openlink = $this->data['openlink'];
         }
-
     }
 
     public function isSuccess(): bool

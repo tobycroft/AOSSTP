@@ -14,23 +14,16 @@ class Jscode2Session
 
     public function __construct($json)
     {
-        echo $json;
-        try {
-            $this->response = $json;
-            $data = json_decode($json, 1);
-            if (isset($data['errmsg'])) {
-                $this->error = $data['errmsg'];
-            } else {
-                $this->data = $json;
-                $this->openid = $this->data['openid'];
-                $this->session_key = $this->data['session_key'];
-                $this->unionid = $this->data['unionid'];
-            }
-        } catch (\Exception $e) {
-            $this->response = $json;
-            $this->error = $e->getMessage();
+        $this->response = $json;
+        $data = json_decode($json, 1);
+        if (isset($data['errmsg'])) {
+            $this->error = $data['errmsg'];
+        } else {
+            $this->data = $data;
+            $this->openid = $this->data['openid'];
+            $this->session_key = $this->data['session_key'];
+            $this->unionid = $this->data['unionid'];
         }
-
     }
 
     public function isSuccess()

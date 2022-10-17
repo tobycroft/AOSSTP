@@ -2,8 +2,6 @@
 
 namespace Wechat\WechatRet\WxaCode;
 
-use think\exception\ThrowableError;
-
 class GetUserPhoneNumber
 {
     public $response;
@@ -16,21 +14,16 @@ class GetUserPhoneNumber
 
     public function __construct($json)
     {
-        try {
-            $this->response = $json;
-            $data = json_decode($json, 1);
-            if (isset($data['errmsg'])) {
-                $this->error = $data['errmsg'];
-            } else {
-                $this->data = $json;
-                $this->phoneNumber = $this->data['phone_info']['phoneNumber'];
-                $this->purePhoneNumber = $this->data['phone_info']['purePhoneNumber'];
-                $this->countryCode = $this->data['phone_info']['countryCode'];
-                $this->watermark = $this->data['phone_info']['watermark'];
-            }
-        } catch (ThrowableError $e) {
-            $this->response = $json;
-            $this->error = $e->getMessage();
+        $this->response = $json;
+        $data = json_decode($json, 1);
+        if (isset($data['errmsg'])) {
+            $this->error = $data['errmsg'];
+        } else {
+            $this->data = $data;
+            $this->phoneNumber = $this->data['phone_info']['phoneNumber'];
+            $this->purePhoneNumber = $this->data['phone_info']['purePhoneNumber'];
+            $this->countryCode = $this->data['phone_info']['countryCode'];
+            $this->watermark = $this->data['phone_info']['watermark'];
         }
     }
 
