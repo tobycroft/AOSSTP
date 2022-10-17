@@ -17,7 +17,7 @@ class GenerateScheme
             $this->error = $data['errmsg'];
         } else {
             $this->data = $data;
-            $this->openlink = $this->data['openlink'];
+            $this->openlink = $this->data['openlink'] ?? "";
         }
     }
 
