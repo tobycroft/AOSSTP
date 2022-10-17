@@ -2,6 +2,8 @@
 
 namespace Wechat\WechatRet\WxaCode;
 
+use think\exception\ThrowableError;
+
 class GetUserPhoneNumber
 {
     public $response;
@@ -26,7 +28,7 @@ class GetUserPhoneNumber
                 $this->countryCode = $this->data['phone_info']['countryCode'];
                 $this->watermark = $this->data['phone_info']['watermark'];
             }
-        } catch (\Exception $e) {
+        } catch (ThrowableError $e) {
             $this->response = $json;
             $this->error = $e->getMessage();
         }

@@ -2,6 +2,8 @@
 
 namespace Wechat\WechatRet\WxaCode;
 
+use think\exception\ThrowableError;
+
 class GetUnlimited
 {
     public $response;
@@ -18,7 +20,7 @@ class GetUnlimited
             } else {
                 $this->image = $json;
             }
-        } catch (\Exception $e) {
+        } catch (ThrowableError $e) {
             $this->response = $json;
             $this->error = $e->getMessage();
         }

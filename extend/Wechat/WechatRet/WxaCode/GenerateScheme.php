@@ -2,6 +2,8 @@
 
 namespace Wechat\WechatRet\WxaCode;
 
+use think\exception\ThrowableError;
+
 class GenerateScheme
 {
     public $response;
@@ -20,7 +22,7 @@ class GenerateScheme
                 $this->data = $json;
                 $this->openlink = $this->data['openlink'];
             }
-        } catch (\Exception $e) {
+        } catch (ThrowableError $e) {
             $this->response = $json;
             $this->error = $e->getMessage();
         }
