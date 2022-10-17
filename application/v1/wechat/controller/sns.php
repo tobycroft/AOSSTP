@@ -24,7 +24,7 @@ class sns extends wxa
                 "session_key" => $wxa->session_key,
             ]);
         } else {
-            \Ret::Fail(300, [], $wxa->getError());
+            \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 

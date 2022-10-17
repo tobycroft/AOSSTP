@@ -14,18 +14,22 @@ class GetUserPhoneNumber
 
     public function __construct($json)
     {
-        $this->response = $json;
-        $data = json_decode($json, 1);
-        if (isset($data['errmsg'])) {
-            $this->error = $data['errmsg'];
-        } else {
-            $this->data = $json;
-            $this->phoneNumber = $this->data["phone_info"]["phoneNumber"];
-            $this->purePhoneNumber = $this->data["phone_info"]["purePhoneNumber"];
-            $this->countryCode = $this->data["phone_info"]["countryCode"];
-            $this->watermark = $this->data["phone_info"]["watermark"];
+        try {
+            $this->response = $json;
+            $data = json_decode($json, 1);
+            if (isset($data['errmsg'])) {
+                $this->error = $data['errmsg'];
+            } else {
+                $this->data = $json;
+                $this->phoneNumber = $this->data['phone_info']['phoneNumber'];
+                $this->purePhoneNumber = $this->data['phone_info']['purePhoneNumber'];
+                $this->countryCode = $this->data['phone_info']['countryCode'];
+                $this->watermark = $this->data['phone_info']['watermark'];
+            }
+        } catch (\Exception $e) {
+            $this->response = $json;
+            $this->error = $e->getMessage();
         }
-        return $this;
     }
 
     public function isSuccess(): bool

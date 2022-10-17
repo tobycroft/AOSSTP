@@ -10,12 +10,17 @@ class GetUnlimited
 
     public function __construct($json)
     {
-        $this->response = $json;
-        $data = json_decode($json, 1);
-        if (isset($data['errmsg'])) {
-            $this->error = $data["errmsg"];
-        } else {
-            $this->image = $json;
+        try {
+            $this->response = $json;
+            $data = json_decode($json, 1);
+            if (isset($data['errmsg'])) {
+                $this->error = $data['errmsg'];
+            } else {
+                $this->image = $json;
+            }
+        } catch (\Exception $e) {
+            $this->response = $json;
+            $this->error = $e->getMessage();
         }
     }
 
