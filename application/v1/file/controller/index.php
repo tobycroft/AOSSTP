@@ -3,9 +3,9 @@
 namespace app\v1\file\controller;
 
 
-use Alioss\AliyunOSS;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
+use OSS\AliyunOSS;
 use OSS\Core\OssException;
 use SendFile\SendFile;
 use think\Request;
@@ -135,7 +135,7 @@ class index extends search
         }
         if ($proc["type"] == "oss" || $proc["type"] == "all") {
             try {
-                $oss = new \OSS\AliyunOSS($proc);
+                $oss = new AliyunOSS($proc);
                 $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
             } catch (OssException $e) {
                 \Ret::Fail(200, null, $e->getMessage());
