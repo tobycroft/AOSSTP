@@ -13,22 +13,6 @@ use think\Request;
 class index extends search
 {
 
-    public $token;
-    public $proc;
-
-    public function initialize()
-    {
-        parent::initialize();
-        $this->token = input('get.token');
-        if (!$this->token) {
-            \Ret::Fail(401, null, 'token');
-        }
-        $this->proc = ProjectModel::api_find_token($this->token);
-        if (!$this->proc) {
-            \Ret::Fail(401, null, '项目不可用');
-        }
-    }
-
     public function index()
     {
         dump(config('aliyun.'));
