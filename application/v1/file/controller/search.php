@@ -27,7 +27,6 @@ class search extends CommonController
 
     public function md5()
     {
-        $token = $this->token;
         $proc = $this->proc;
         $md5 = input("md5");
         if (empty($md5)) {
@@ -45,7 +44,6 @@ class search extends CommonController
 
     public function md5s()
     {
-        $token = $this->token;
         $proc = $this->proc;
         $md5s = input("md5s");
         if (empty($md5s)) {
