@@ -42,4 +42,28 @@ class search extends CommonController
         $file_exists["surl"] = $file_exists['path'];
         \Ret::Success(0, $file_exists);
     }
+
+    public function md5s()
+    {
+        $token = $this->token;
+        $proc = $this->proc;
+        $md5s = input("md5s");
+        if (empty($md5s)) {
+            \Ret::Fail(400, null, "需要md5字段");
+        }
+        $d5s = json_decode($md5s, 1);
+        $file_exists = AttachmentModel::whereIn("md5", $d5s)->where("sha1", "<>", '')->select();
+        if (empty($file_exists)) {
+            \Ret::Fail(404, null, "未找到文件,请先上传");
+        }
+        foreach ($file_exists as $key => $value) {
+            $value["src"] = $value['path'];
+            $value["url"] = $proc['url'] . '/' . $value['path'];
+            $value["surl"] = $value['path'];
+
+            $file_exists[$key] = $value;
+        }
+
+        \Ret::Success(0, $file_exists);
+    }
 }
