@@ -4,9 +4,10 @@ namespace app\v1\file\controller;
 
 
 use app\v1\file\model\AttachmentModel;
-use app\v1\project\model\ProjectModel;
+use getID3;
 use OSS\AliyunOSS;
 use OSS\Core\OssException;
+use Ret;
 use SendFile\SendFile;
 use think\Request;
 
@@ -18,6 +19,17 @@ class index extends search
         dump(config('aliyun.'));
     }
 
+    public function up(Request $request)
+    {
+        $file = $request->file('file');
+        if ($file) {
+            $this->upload_file($request);
+        } else {
+            Ret::Fail(400, null, "请上传binary文件");
+//            $this->upload_base64($request);
+        }
+    }
+
     public function upload_file(Request $request, $full = 0, $type = null)
     {
         $token = $this->token;
@@ -25,7 +37,7 @@ class index extends search
 
         $file = $request->file('file');
         if (!$file) {
-            \Ret::Fail(400, null, 'file字段没有用文件提交');
+            Ret::Fail(400, null, 'file字段没有用文件提交');
         }
         $file_name = $file->getInfo('name');
         $md5 = $file->hash('md5');
@@ -38,13 +50,13 @@ class index extends search
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         } elseif ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
             if (!AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5])) {
-                \Ret::Fail(500, null, "sha1更新失败");
+                Ret::Fail(500, null, "sha1更新失败");
             }
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         }
         $info = $file->move('./upload/' . $this->token);
         if (!$info) {
-            \Ret::Fail(300, null, $file->getError());
+            Ret::Fail(300, null, $file->getError());
             return;
         }
 
@@ -68,8 +80,8 @@ class index extends search
             case "avi":
             case "mp4":
             case "aac":
-                $getId3 = new \getID3();
-                $ana = $getId3->analyze($info->getPathname());
+            $getId3 = new getID3();
+            $ana = $getId3->analyze($info->getPathname());
                 $duration = $ana["playtime_seconds"];
                 $bitrate = $ana["bitrate"];
                 $duration_str = $ana["playtime_string"];
@@ -81,8 +93,8 @@ class index extends search
             case "bmp":
             case "gif":
             case "tiff":
-                $getId3 = new \getID3();
-                $ana = $getId3->analyze($info->getPathname());
+            $getId3 = new getID3();
+            $ana = $getId3->analyze($info->getPathname());
                 $width = $ana["video"]["resolution_x"];
                 $height = $ana["video"]["resolution_y"];
                 $bitrate = $ana["video"]["bits_per_sample"];
@@ -122,10 +134,10 @@ class index extends search
                 $oss = new AliyunOSS($proc);
                 $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
             } catch (OssException $e) {
-                \Ret::Fail(200, null, $e->getMessage());
+                Ret::Fail(200, null, $e->getMessage());
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail(200, null, "OSS不正常");
+                Ret::Fail(200, null, "OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
                 $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
@@ -139,34 +151,53 @@ class index extends search
         if ($info) {
             switch ($type) {
                 case "ue":
-                    \Ret::Success(0, ['src' => $sav]);
+                    Ret::Success(0, ['src' => $sav]);
                     break;
 
                 case "complete":
                     $file_info["src"] = $sav;
                     $file_info["url"] = $proc['url'] . '/' . $file_info['path'];
                     $file_info["surl"] = $file_info['path'];
-                    \Ret::Success(0, $file_info);
+                    Ret::Success(0, $file_info);
                     break;
 
                 default:
-                    \Ret::Success(0, $sav);
+                    Ret::Success(0, $sav);
                     break;
             }
         } else {
-            \Ret::Fail(300, null, $file->getError());
+            Ret::Fail(300, null, $file->getError());
         }
     }
 
-    public function up(Request $request)
+    /**
+     * @param mixed $full
+     * @param $url
+     * @param AttachmentModel $file_exists
+     * @param mixed $type
+     * @return string
+     */
+    public function getStr(mixed $full, $url, AttachmentModel $file_exists, mixed $type): string
     {
-        $file = $request->file('file');
-        if ($file) {
-            $this->upload_file($request);
-        } else {
-            \Ret::Fail(400, null, "请上传binary文件");
-//            $this->upload_base64($request);
+        $sav = ($full ? $url . '/' : '') . $file_exists['path'];
+        // 附件已存在
+        switch ($type) {
+            case "ue":
+                Ret::Success(0, ['src' => $sav]);
+                break;
+
+            case "complete":
+                $file_exists["src"] = $file_exists['path'];
+                $file_exists["url"] = $url . '/' . $file_exists['path'];
+                $file_exists["surl"] = $file_exists['path'];
+                Ret::Success(0, $file_exists);
+                break;
+
+            default:
+                Ret::Success(0, $sav);
+                break;
         }
+        return $sav;
     }
 
     public function upfull(Request $request)
@@ -175,7 +206,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1);
         } else {
-            \Ret::Fail(400, null, "请上传binary文件");
+            Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1);
         }
     }
@@ -186,18 +217,7 @@ class index extends search
         if ($file) {
             $this->upload_file($request, 1, "ue");
         } else {
-            \Ret::Fail(400, null, "请上传binary文件");
-//            $this->upload_base64($request, 1, 1);
-        }
-    }
-
-    public function up_complete(Request $request)
-    {
-        $file = $request->file('file');
-        if ($file) {
-            $this->upload_file($request, 1, "complete");
-        } else {
-            \Ret::Fail(400, null, "请上传binary文件");
+            Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
         }
     }
@@ -290,34 +310,15 @@ class index extends search
 //        }
 //    }
 
-    /**
-     * @param mixed $full
-     * @param $url
-     * @param AttachmentModel $file_exists
-     * @param mixed $type
-     * @return string
-     */
-    public function getStr(mixed $full, $url, AttachmentModel $file_exists, mixed $type): string
+    public function up_complete(Request $request)
     {
-        $sav = ($full ? $url . '/' : '') . $file_exists['path'];
-        // 附件已存在
-        switch ($type) {
-            case "ue":
-                \Ret::Success(0, ['src' => $sav]);
-                break;
-
-            case "complete":
-                $file_exists["src"] = $file_exists['path'];
-                $file_exists["url"] = $url . '/' . $file_exists['path'];
-                $file_exists["surl"] = $file_exists['path'];
-                \Ret::Success(0, $file_exists);
-                break;
-
-            default:
-                \Ret::Success(0, $sav);
-                break;
+        $file = $request->file('file');
+        if ($file) {
+            $this->upload_file($request, 1, "complete");
+        } else {
+            Ret::Fail(400, null, "请上传binary文件");
+//            $this->upload_base64($request, 1, 1);
         }
-        return $sav;
     }
 
 

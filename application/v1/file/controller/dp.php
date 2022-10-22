@@ -6,23 +6,16 @@ namespace app\v1\file\controller;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use getID3;
+use OSS\AliyunOSS;
 use OSS\Core\OssException;
+use Ret;
 use SendFile\SendFile;
 
 class dp extends CommonController
 {
 
     public $token;
-
-    public function initialize()
-    {
-        set_time_limit(0);
-        parent::initialize();
-        $this->token = input('get.token');
-        if (!$this->token) {
-            \Ret::Fail(401, null, 'token');
-        }
-    }
 
     public function index()
     {
@@ -48,6 +41,78 @@ class dp extends CommonController
             $chunk->upload_chunk();
         }
 
+    }
+
+    public function initialize()
+    {
+        set_time_limit(0);
+        parent::initialize();
+        $this->token = input('get.token');
+        if (!$this->token) {
+            Ret::Fail(401, null, 'token');
+        }
+    }
+
+    public function ueditor()
+    {
+        $action = $this->request->get('action');
+        $config_file = './static/libs/ueditor/php/config.json';
+        $config = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents($config_file)), true);
+        switch ($action) {
+            /* 获取配置信息 */
+            case 'config':
+                $result = $config;
+                break;
+
+            /* 上传图片 */
+            case 'uploadimage':
+                return $this->saveFile('images', 'ueditor');
+                break;
+            /* 上传涂鸦 */
+            case 'uploadscrawl':
+                return $this->saveFile('images', 'ueditor_scrawl');
+                break;
+
+            /* 上传视频 */
+            case 'uploadvideo':
+                return $this->saveFile('videos', 'ueditor');
+                break;
+
+            /* 上传附件 */
+            case 'uploadfile':
+                return $this->saveFile('files', 'ueditor');
+                break;
+
+            /* 列出图片 */
+            case 'listimage':
+                return $this->showFile('listimage', $config);
+                break;
+
+            /* 列出附件 */
+            case 'listfile':
+                return $this->showFile('listfile', $config);
+                break;
+
+            /* 抓取远程附件 */
+//            case 'catchimage':
+            //                $result = include("action_crawler.php");
+            //                break;
+
+            default:
+                $result = ['state' => '请求地址出错'];
+                break;
+        }
+
+        /* 输出结果 */
+        if (isset($_GET["callback"])) {
+            if (preg_match("/^[\w_]+$/", $_GET["callback"])) {
+                return htmlspecialchars($_GET["callback"]) . '(' . $result . ')';
+            } else {
+                return json(['state' => 'callback参数不合法']);
+            }
+        } else {
+            return json($result);
+        }
     }
 
     public function saveFile($dir = '', $from = '', $module = '')
@@ -125,8 +190,8 @@ class dp extends CommonController
             case "avi":
             case "mp4":
             case "aac":
-                $getId3 = new \getID3();
-                $ana = $getId3->analyze($info->getPathname());
+            $getId3 = new getID3();
+            $ana = $getId3->analyze($info->getPathname());
                 $duration = $ana["playtime_seconds"];
                 $bitrate = $ana["bitrate"];
                 $duration_str = $ana["playtime_string"];
@@ -138,8 +203,8 @@ class dp extends CommonController
             case "bmp":
             case "gif":
             case "tiff":
-                $getId3 = new \getID3();
-                $ana = $getId3->analyze($info->getPathname());
+            $getId3 = new getID3();
+            $ana = $getId3->analyze($info->getPathname());
                 $width = $ana["video"]["resolution_x"];
                 $height = $ana["video"]["resolution_y"];
                 $bitrate = $ana["video"]["bits_per_sample"];
@@ -176,13 +241,13 @@ class dp extends CommonController
         }
         if ($proc["type"] == "oss" || $proc["type"] == "all") {
             try {
-                $oss = new \OSS\AliyunOSS($proc);
+                $oss = new AliyunOSS($proc);
                 $ret = $oss->uploadFile($proc['bucket'], $fileName, $info->getPathname());
             } catch (OssException $e) {
-                \Ret::Fail(200, null, $e->getMessage());
+                Ret::Fail(200, null, $e->getMessage());
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail(300, null, "OSS不正常");
+                Ret::Fail(300, null, "OSS不正常");
             }
             if ($proc['main_type'] == 'oss') {
                 $sav = $proc['url'] . '/' . $fileName;
@@ -260,68 +325,6 @@ class dp extends CommonController
                     'path' => $file_path,
                     "data" => $data,
                 ]);
-        }
-    }
-
-    public function ueditor()
-    {
-        $action = $this->request->get('action');
-        $config_file = './static/libs/ueditor/php/config.json';
-        $config = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents($config_file)), true);
-        switch ($action) {
-            /* 获取配置信息 */
-            case 'config':
-                $result = $config;
-                break;
-
-            /* 上传图片 */
-            case 'uploadimage':
-                return $this->saveFile('images', 'ueditor');
-                break;
-            /* 上传涂鸦 */
-            case 'uploadscrawl':
-                return $this->saveFile('images', 'ueditor_scrawl');
-                break;
-
-            /* 上传视频 */
-            case 'uploadvideo':
-                return $this->saveFile('videos', 'ueditor');
-                break;
-
-            /* 上传附件 */
-            case 'uploadfile':
-                return $this->saveFile('files', 'ueditor');
-                break;
-
-            /* 列出图片 */
-            case 'listimage':
-                return $this->showFile('listimage', $config);
-                break;
-
-            /* 列出附件 */
-            case 'listfile':
-                return $this->showFile('listfile', $config);
-                break;
-
-            /* 抓取远程附件 */
-//            case 'catchimage':
-            //                $result = include("action_crawler.php");
-            //                break;
-
-            default:
-                $result = ['state' => '请求地址出错'];
-                break;
-        }
-
-        /* 输出结果 */
-        if (isset($_GET["callback"])) {
-            if (preg_match("/^[\w_]+$/", $_GET["callback"])) {
-                return htmlspecialchars($_GET["callback"]) . '(' . $result . ')';
-            } else {
-                return json(['state' => 'callback参数不合法']);
-            }
-        } else {
-            return json($result);
         }
     }
 

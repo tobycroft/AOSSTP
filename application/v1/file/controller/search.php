@@ -5,6 +5,7 @@ namespace app\v1\file\controller;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use Ret;
 
 class search extends CommonController
 {
@@ -17,11 +18,11 @@ class search extends CommonController
         parent::initialize();
         $this->token = input('get.token');
         if (!$this->token) {
-            \Ret::Fail(401, null, 'token');
+            Ret::Fail(401, null, 'token');
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::Fail(401, null, '项目不可用');
+            Ret::Fail(401, null, '项目不可用');
         }
     }
 
@@ -30,16 +31,16 @@ class search extends CommonController
         $proc = $this->proc;
         $md5 = input("md5");
         if (empty($md5)) {
-            \Ret::Fail(400, null, "需要md5字段");
+            Ret::Fail(400, null, "需要md5字段");
         }
         $file_exists = AttachmentModel::where("md5", $md5)->where("sha1", "<>", '')->find();
         if (empty($file_exists)) {
-            \Ret::Fail(404, null, "未找到文件,请先上传");
+            Ret::Fail(404, null, "未找到文件,请先上传");
         }
         $file_exists["src"] = $file_exists['path'];
         $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
         $file_exists["surl"] = $file_exists['path'];
-        \Ret::Success(0, $file_exists);
+        Ret::Success(0, $file_exists);
     }
 
     public function md5s()
@@ -47,12 +48,12 @@ class search extends CommonController
         $proc = $this->proc;
         $md5s = input("md5s");
         if (empty($md5s)) {
-            \Ret::Fail(400, null, "需要md5字段");
+            Ret::Fail(400, null, "需要md5字段");
         }
         $d5s = json_decode($md5s, 1);
         $file_exists = AttachmentModel::whereIn("md5", $d5s)->where("sha1", "<>", '')->select();
         if (empty($file_exists)) {
-            \Ret::Fail(404, null, "未找到文件,请先上传");
+            Ret::Fail(404, null, "未找到文件,请先上传");
         }
         foreach ($file_exists as $key => $value) {
             $value["src"] = $value['path'];
@@ -62,6 +63,6 @@ class search extends CommonController
             $file_exists[$key] = $value;
         }
 
-        \Ret::Success(0, $file_exists);
+        Ret::Success(0, $file_exists);
     }
 }
