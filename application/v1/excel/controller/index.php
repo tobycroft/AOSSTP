@@ -22,7 +22,7 @@ class index extends CommonController
         if (!$this->token) {
             \Ret::Fail(401, null, 'token');
         }
-        $this->proc = ProjectModel::api_find_token($$this->token);
+        $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
             \Ret::Fail(400, null, '项目不可用');
             return;
