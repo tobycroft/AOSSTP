@@ -29,8 +29,12 @@ class search extends index
         if ($this->proc["type"] == "all" && !file_exists('./upload/' . $file_info['path'])) {
             \Ret::Fail('404', null, '本地文件不存在');
         }
-        $file = file_get_contents($this->proc["url"] . '/' . $file_info['path']);
         $savname = './upload/excel/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.' . $file_info['ext'];
+        if (file_exists($savname)) {
+            $file = file_get_contents($savname);
+        } else {
+            $file = file_get_contents($this->proc['url'] . '/' . $file_info['path']);
+        }
         if (file_put_contents($savname, $file)) {
             $reader = IOFactory::load($savname);
             $datas = $reader->getActiveSheet()->toArray();
