@@ -67,7 +67,7 @@ class search extends index
             ExcelModel::create([
                 "project" => $this->token,
                 "md5" => $md5,
-                "value" => $colums
+                "value" => json_encode($colums, 320)
             ]);
             \Ret::Success(0, $colums);
         }
