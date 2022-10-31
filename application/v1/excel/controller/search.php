@@ -3,7 +3,6 @@
 namespace app\v1\excel\controller;
 
 use app\v1\file\model\AttachmentModel;
-use app\v1\file\model\ExcelModel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use think\Request;
 
