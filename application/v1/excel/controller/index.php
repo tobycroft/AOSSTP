@@ -120,7 +120,7 @@ class index extends CommonController
             \Ret::Fail("404", null, "文件未被上传或不属于本系统");
             return;
         }
-        $reader = IOFactory::load('./upload/' . $this->token . DIRECTORY_SEPARATOR . $file_info['path']);
+        $reader = IOFactory::load('./upload/' . $file_info['path']);
         $this->extracted($reader);
     }
 
