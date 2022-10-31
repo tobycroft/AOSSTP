@@ -124,6 +124,22 @@ class index extends CommonController
         $this->extracted($reader);
     }
 
+    public function remote(Request $request)
+    {
+        $md5 = input('md5');
+        if (!$md5) {
+            \Ret::Fail(400, null, 'md5');
+            return;
+        }
+        $file_info = AttachmentModel::where('md5', $md5)->find();
+        if (!$file_info || !file_exists('./upload/' . $file_info['path'])) {
+            \Ret::Fail("404", null, "文件未被上传或不属于本系统");
+            return;
+        }
+        $reader = IOFactory::load('./upload/' . $file_info['path']);
+        $this->extracted($reader);
+    }
+
     public function force(Request $request)
     {
         $file = $request->file("file");

@@ -47,7 +47,7 @@ class index extends search
 
         $file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5, 'sha1' => $sha1]);
 
-        if ($file_exists && file_exists("./upload/" . $file_exists['path'])) {
+        if ($file_exists) {
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         }
         $info = $file->move('./upload/' . $this->token);
