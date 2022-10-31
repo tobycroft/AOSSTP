@@ -64,6 +64,11 @@ class search extends index
                 }
                 $colums[] = $arr;
             }
+            ExcelModel::create([
+                "project" => $this->token,
+                "md5" => $md5,
+                "value" => $colums
+            ]);
             \Ret::Success(0, $colums);
         }
 
