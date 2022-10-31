@@ -108,18 +108,14 @@ class index extends CommonController
         $this->extracted($reader);
     }
 
-    public function url(Request $request)
+    public function md5(Request $request)
     {
-        $file_url = input('file_url');
-        if (!$file_url) {
+        $md5 = input('md5');
+        if (!$md5) {
             \Ret::Fail(400, null, '');
             return;
         }
-        if (!preg_match('/([a-f\d]{32}|[A-F\d]{32})/', $file_url, $matches)) {
-            \Ret::Fail(404, null, '文件未上传');
-            return;
-        }
-        $file_info = AttachmentModel::where('md5', $matches[0])->find();
+        $file_info = AttachmentModel::where('md5', $md5)->find();
         if (!$file_info) {
             \Ret::Fail("404", null, "文件未被上传或不属于本系统");
             return;
