@@ -56,11 +56,16 @@ class search extends CommonController
             Ret::Fail(400, null, "需要md5字段");
         }
         $d5s = json_decode($md5s, 1);
-        $file_exists = AttachmentModel::whereIn("md5", $d5s)->where("sha1", "<>", '')->select();
+        $file_exists = AttachmentModel::whereIn("md5", $d5s)->select();
         if (empty($file_exists)) {
             Ret::Fail(404, null, "未找到文件,请先上传");
         }
         foreach ($file_exists as $key => $value) {
+            if (!file_exists('./upload/' . $value['path'])) {
+                if ($proc['type'] == 'all') {
+                    Ret::Fail(404, null, '源文件已被删除,请重新上传');
+                }
+            }
             $value["src"] = $value['path'];
             $value["url"] = $proc['url'] . '/' . $value['path'];
             $value["surl"] = $value['path'];
