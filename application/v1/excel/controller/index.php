@@ -119,6 +119,7 @@ class index extends CommonController
             \Ret::Fail(404, null, '文件未上传');
             return;
         }
+        var_dump($matches);
         $file_info = AttachmentModel::where('md5', $matches[0])->find();
         if (!$file_info) {
             \Ret::Fail("404", null, "文件未被上传或不属于本系统");
