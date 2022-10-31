@@ -1,69 +1,37 @@
 <?php
 
-namespace app\v1\file\controller;
+namespace app\v1\excel\controller;
 
 use app\v1\file\model\AttachmentModel;
-use app\v1\project\model\ProjectModel;
-use BaseController\CommonController;
+use app\v1\file\model\ExcelModel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use think\Request;
 
-class search extends CommonController
+class search extends index
 {
 
-    public function initialize()
+    public function md5(Request $request)
     {
-        parent::initialize();
-    }
-
-    public function md5()
-    {
-        $token = $this->token;
-        $proc = ProjectModel::api_find_token($token);
-        $md5 = input("md5");
-        if (empty($md5)) {
-            \Ret::Fail(400, null, "需要md5字段");
-        }
-        $file_exists = AttachmentModel::where("md5", $md5)->where("sha1", "<>", '')->find();
-        if (empty($file_exists)) {
-            \Ret::Fail(404, null, "未找到文件,请先上传");
-        }
-        $file_exists["src"] = $file_exists['path'];
-        $file_exists["url"] = $proc['url'] . '/' . $file_exists['path'];
-        $file_exists["surl"] = $file_exists['path'];
-
-
-        $reader = IOFactory::load('./upload/excel/');
-        $datas = $reader->getActiveSheet()->toArray();
-        if (count($datas) < 2) {
-            \Ret::Fail(400, null, "表格长度不足");
+        $md5 = input('md5');
+        if (!$md5) {
+            \Ret::Fail(400, null, 'md5');
             return;
         }
-        $value = [];
-        $i = 0;
-        $keys = [];
-        foreach ($datas[0] as $data) {
-            if (!empty($data)) {
-                $keys[] = $data;
-            }
+        $file_info = AttachmentModel::where('md5', $md5)->find();
+        if (!$file_info) {
+            \Ret::Fail('404', null, '文件未被上传或不属于本系统');
         }
-        foreach ($keys as $key) {
-            if (empty($key)) {
-                \Ret::Fail(400, null, "表格长度不一");
-                return;
-            }
+
+        $excel_info = ExcelModel::where("md5", $md5)->find();
+        if ($excel_info) {
+            \Ret::Success(0, $excel_info["value"]);
         }
-        $count_column = count($keys);
-        $colums = [];
-        for ($i = 1; $i < count($datas); $i++) {
-            $line = $datas[$i];
-            if (empty($line[0])) {
-                continue;
-            }
-            for ($s = 0; $s < $count_column; $s++) {
-                $arr[$keys[$s]] = $line[$s] ?: "";
-            }
-            $colums[] = $arr;
+        if ($this->proc["type"] == "all" && !file_exists('./upload/' . $file_info['path'])) {
+            \Ret::Fail('404', null, '本地文件不存在');
         }
-        \Ret::Success(0, json_encode($colums));
+        $file = file_get_contents("");
+        $info = $file->move('./upload/excel/' . $this->token);
+        $reader = IOFactory::load('./upload/' . $file_info['path']);
+        $this->extracted($reader);
     }
 }
