@@ -151,7 +151,6 @@ class index extends CommonController
             return;
         }
         $file_info = AttachmentModel::where('md5', $matches[0])->find();
-        $info = $file_url->move('./upload/excel/' . $this->token);
         $reader = IOFactory::load('./upload/' . $this->token . DIRECTORY_SEPARATOR . $file_info['path']);
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
