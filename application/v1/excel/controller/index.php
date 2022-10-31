@@ -112,7 +112,7 @@ class index extends CommonController
     {
         $md5 = input('md5');
         if (!$md5) {
-            \Ret::Fail(400, null, '');
+            \Ret::Fail(400, null, 'md5');
             return;
         }
         $file_info = AttachmentModel::where('md5', $md5)->find();
