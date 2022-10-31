@@ -45,13 +45,9 @@ class index extends search
         $mime = $file->getInfo('type');
         // 判断附件格式是否符合
 
+        $file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5, 'sha1' => $sha1]);
 
-        if ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5, 'sha1' => $sha1])) {
-            $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
-        } elseif ($file_exists = AttachmentModel::get(['token' => $token, 'md5' => $md5])) {
-            if (!AttachmentModel::update(["sha1" => $sha1], ['token' => $token, 'md5' => $md5])) {
-                Ret::Fail(500, null, "sha1更新失败");
-            }
+        if ($file_exists && file_exists("./upload/" . $file_exists['path'])) {
             $sav = $this->getStr($full, $proc['url'], $file_exists, $type);
         }
         $info = $file->move('./upload/' . $this->token);
@@ -80,8 +76,8 @@ class index extends search
             case "avi":
             case "mp4":
             case "aac":
-            $getId3 = new getID3();
-            $ana = $getId3->analyze($info->getPathname());
+                $getId3 = new getID3();
+                $ana = $getId3->analyze($info->getPathname());
                 $duration = $ana["playtime_seconds"];
                 $bitrate = $ana["bitrate"];
                 $duration_str = $ana["playtime_string"];
@@ -93,8 +89,8 @@ class index extends search
             case "bmp":
             case "gif":
             case "tiff":
-            $getId3 = new getID3();
-            $ana = $getId3->analyze($info->getPathname());
+                $getId3 = new getID3();
+                $ana = $getId3->analyze($info->getPathname());
                 $width = $ana["video"]["resolution_x"];
                 $height = $ana["video"]["resolution_y"];
                 $bitrate = $ana["video"]["bits_per_sample"];
