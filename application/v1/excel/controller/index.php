@@ -116,7 +116,7 @@ class index extends CommonController
             return;
         }
         $file_info = AttachmentModel::where('md5', $md5)->find();
-        if (!$file_info) {
+        if (!$file_info || !file_exists('./upload/' . $file_info['path'])) {
             \Ret::Fail("404", null, "文件未被上传或不属于本系统");
             return;
         }
