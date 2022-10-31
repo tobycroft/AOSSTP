@@ -105,38 +105,7 @@ class index extends CommonController
         $info = $file->move('./upload/excel/' . $this->token);
         $reader = IOFactory::load($info->getPathname());
         unlink($info->getPathname());
-        $datas = $reader->getActiveSheet()->toArray();
-        if (count($datas) < 2) {
-            \Ret::Fail(400, null, '表格长度不足');
-            return;
-        }
-        $value = [];
-        $i = 0;
-        $keys = [];
-        foreach ($datas[0] as $data) {
-            if (!empty($data)) {
-                $keys[] = $data;
-            }
-        }
-        foreach ($keys as $key) {
-            if (empty($key)) {
-                \Ret::Fail(400, null, '表格长度不一');
-                return;
-            }
-        }
-        $count_column = count($keys);
-        $colums = [];
-        for ($i = 1; $i < count($datas); $i++) {
-            $line = $datas[$i];
-            if (empty($line[0])) {
-                continue;
-            }
-            for ($s = 0; $s < $count_column; $s++) {
-                $arr[$keys[$s]] = $line[$s] ?: '';
-            }
-            $colums[] = $arr;
-        }
-        \Ret::Success(0, $colums);
+        $this->extracted($reader);
     }
 
     public function url(Request $request)
@@ -156,38 +125,7 @@ class index extends CommonController
             return;
         }
         $reader = IOFactory::load('./upload/' . $this->token . DIRECTORY_SEPARATOR . $file_info['path']);
-        $datas = $reader->getActiveSheet()->toArray();
-        if (count($datas) < 2) {
-            \Ret::Fail(400, null, '表格长度不足');
-            return;
-        }
-        $value = [];
-        $i = 0;
-        $keys = [];
-        foreach ($datas[0] as $data) {
-            if (!empty($data)) {
-                $keys[] = $data;
-            }
-        }
-        foreach ($keys as $key) {
-            if (empty($key)) {
-                \Ret::Fail(400, null, '表格长度不一');
-                return;
-            }
-        }
-        $count_column = count($keys);
-        $colums = [];
-        for ($i = 1; $i < count($datas); $i++) {
-            $line = $datas[$i];
-            if (empty($line[0])) {
-                continue;
-            }
-            for ($s = 0; $s < $count_column; $s++) {
-                $arr[$keys[$s]] = $line[$s] ?: '';
-            }
-            $colums[] = $arr;
-        }
-        \Ret::Success(0, $colums);
+        $this->extracted($reader);
     }
 
     public function force(Request $request)
@@ -233,6 +171,46 @@ class index extends CommonController
             $colums[] = $arr;
         }
         echo json_encode($colums);
+    }
+
+    /**
+     * @param \PhpOffice\PhpSpreadsheet\Spreadsheet $reader
+     * @return void
+     */
+    public function extracted(\PhpOffice\PhpSpreadsheet\Spreadsheet $reader): void
+    {
+        $datas = $reader->getActiveSheet()->toArray();
+        if (count($datas) < 2) {
+            \Ret::Fail(400, null, '表格长度不足');
+            return;
+        }
+        $value = [];
+        $i = 0;
+        $keys = [];
+        foreach ($datas[0] as $data) {
+            if (!empty($data)) {
+                $keys[] = $data;
+            }
+        }
+        foreach ($keys as $key) {
+            if (empty($key)) {
+                \Ret::Fail(400, null, '表格长度不一');
+                return;
+            }
+        }
+        $count_column = count($keys);
+        $colums = [];
+        for ($i = 1; $i < count($datas); $i++) {
+            $line = $datas[$i];
+            if (empty($line[0])) {
+                continue;
+            }
+            for ($s = 0; $s < $count_column; $s++) {
+                $arr[$keys[$s]] = $line[$s] ?: '';
+            }
+            $colums[] = $arr;
+        }
+        \Ret::Success(0, $colums);
     }
 
 
