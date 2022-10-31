@@ -151,6 +151,10 @@ class index extends CommonController
             return;
         }
         $file_info = AttachmentModel::where('md5', $matches[0])->find();
+        if (!$file_info) {
+            \Ret::Fail("404", null, "文件未被上传或不属于本系统");
+            return;
+        }
         $reader = IOFactory::load('./upload/' . $this->token . DIRECTORY_SEPARATOR . $file_info['path']);
         $datas = $reader->getActiveSheet()->toArray();
         if (count($datas) < 2) {
