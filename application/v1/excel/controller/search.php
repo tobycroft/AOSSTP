@@ -24,7 +24,7 @@ class search extends index
 
         $excel_info = ExcelModel::where("md5", $md5)->find();
         if ($excel_info) {
-            \Ret::Success(0, $excel_info["value"]);
+            \Ret::Success(0, json_decode($excel_info['value'], 1));
         }
         if ($this->proc["type"] == "all" && !file_exists('./upload/' . $file_info['path'])) {
             \Ret::Fail('404', null, '本地文件不存在');
