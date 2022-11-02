@@ -9,6 +9,7 @@
 namespace app\v1\logger\model;
 
 
+use think\cache\driver\Redis;
 use think\Model;
 
 class LoggerVisitModel extends Model
@@ -33,7 +34,8 @@ class LoggerVisitModel extends Model
 
     public function Api_insert_all()
     {
-        $red = new \Redis();
+        $redis = new Redis();
+        $red = $redis->handler();
         $red->multi();
         $data = $red->lRange('__AOSSTP__' . __CLASS__ . __FUNCTION__, 0, -1);
         if (self::insertAll($data)) {
