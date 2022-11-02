@@ -9,12 +9,21 @@
 namespace app\v1\logger\model;
 
 
-use think\Db;
+use think\Model;
 
-class LoggerCrrModel extends Db
+class LoggerCrrModel extends Model
 {
 
-    public static $table = 'ao_logger_crr';
+    public $table = 'ao_logger_crr';
 
+    public function Api_insert($project, $log, $discript)
+    {
+
+        self::create([
+            'project' => $project,
+            'log' => $log,
+            'discript' => $discript,
+        ]);
+    }
 
 }

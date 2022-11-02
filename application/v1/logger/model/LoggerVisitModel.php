@@ -9,12 +9,21 @@
 namespace app\v1\logger\model;
 
 
-use think\Db;
+use think\Model;
 
-class LoggerVisitModel extends Db
+class LoggerVisitModel extends Model
 {
 
     public static $table = 'ao_logger_visit';
 
+    public function Api_insert($project, $log, $discript)
+    {
+
+        self::create([
+            'project' => $project,
+            'log' => $log,
+            'discript' => $discript,
+        ]);
+    }
 
 }
