@@ -19,20 +19,26 @@ class LoggerVisitModel extends Model
     public function Api_insert($project, $ip, $host, $path, $header, $request, $change_date)
     {
         $red = new \Redis();
-        self::insert([
-            "project" => $project,
-            "ip" => $ip,
-            "host" => $host,
-            "path" => $path,
-            "header" => $header,
-            "request" => $request,
-            "change_date" => $change_date,
-        ]);
+        $red->lPush("__AOSSTP__" . __CLASS__ . __FUNCTION__, json_encode([
+                'project' => $project,
+                'ip' => $ip,
+                'host' => $host,
+                'path' => $path,
+                'header' => $header,
+                'request' => $request,
+                'change_date' => $change_date,
+            ], 320)
+        );
     }
 
-    public function Api_insert_all($project, $log, $discript)
+    public function Api_insert_all()
     {
-        self::insertAll();
+        $red = new \Redis();
+        $red->multi();
+        $data = $red->lRange('__AOSSTP__' . __CLASS__ . __FUNCTION__, 0, -1);
+        if (self::insertAll($data)) {
+            $red->exec();
+        }
     }
 
 }
