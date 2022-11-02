@@ -9,12 +9,12 @@
 namespace app\v1\logger\model;
 
 
-use think\Db;
+use think\Model;
 
-class LoggerDbrrModel extends Db
+class LoggerDbrrModel extends Model
 {
 
-    public static $table = 'ao_logger_dbrr';
+    public $table = 'ao_logger_dbrr';
 
     public function Api_insert($project, $log, $discript)
     {

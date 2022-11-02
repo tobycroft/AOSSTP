@@ -18,7 +18,6 @@ class LoggerCrrModel extends Model
 
     public function Api_insert($project, $log, $discript)
     {
-
         self::create([
             'project' => $project,
             'log' => $log,

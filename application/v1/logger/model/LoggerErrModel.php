@@ -9,16 +9,15 @@
 namespace app\v1\logger\model;
 
 
-use think\Db;
+use think\Model;
 
-class LoggerErrModel extends Db
+class LoggerErrModel extends Model
 {
 
-    public static $table = 'ao_logger_err';
+    public $table = 'ao_logger_err';
 
     public function Api_insert($project, $log, $discript)
     {
-
         self::create([
             'project' => $project,
             'log' => $log,
