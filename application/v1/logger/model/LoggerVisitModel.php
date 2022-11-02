@@ -18,6 +18,7 @@ class LoggerVisitModel extends Model
 
     public function Api_insert($project, $ip, $host, $path, $header, $request, $change_date)
     {
+        $red = new \Redis();
         self::insert([
             "project" => $project,
             "ip" => $ip,

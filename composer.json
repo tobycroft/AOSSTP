@@ -27,7 +27,8 @@
     "picqer/php-barcode-generator": "^2.2",
     "chillerlan/php-qrcode": "^4.3",
     "ext-gd": "*",
-    "khanamiryan/qrcode-detector-decoder": "^2.0"
+    "khanamiryan/qrcode-detector-decoder": "^2.0",
+    "ext-redis": "*"
   },
   "autoload": {
     "psr-4": {
