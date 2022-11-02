@@ -16,13 +16,22 @@ class LoggerVisitModel extends Model
 
     public $table = 'ao_logger_visit';
 
-    public function Api_insert($project, $log, $discript)
+    public function Api_insert($project, $ip, $host, $path, $header, $request, $change_date)
     {
-        self::create([
-            'project' => $project,
-            'log' => $log,
-            'discript' => $discript,
+        self::insert([
+            "project" => $project,
+            "ip" => $ip,
+            "host" => $host,
+            "path" => $path,
+            "header" => $header,
+            "request" => $request,
+            "change_date" => $change_date,
         ]);
+    }
+
+    public function Api_insert_all($project, $log, $discript)
+    {
+        self::insertAll();
     }
 
 }
