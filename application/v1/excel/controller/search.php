@@ -31,50 +31,51 @@ class search extends index
         }
         $savname = './upload/excel/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.' . $file_info['ext'];
         if (file_exists($savname)) {
-            $file = file_get_contents($savname);
         } else {
             $file = file_get_contents($this->proc['url'] . '/' . $file_info['path']);
+            if (!file_put_contents($savname, $file)) {
+                \Ret::Fail(300, null, "远程数据取回失败");
+            }
         }
-        if (file_put_contents($savname, $file)) {
-            $reader = IOFactory::load($savname);
-            $datas = $reader->getActiveSheet()->toArray();
-            if (count($datas) < 2) {
-                \Ret::Fail(400, null, '表格长度不足');
+
+        $reader = IOFactory::load($savname);
+        $datas = $reader->getActiveSheet()->toArray();
+        if (count($datas) < 2) {
+            \Ret::Fail(400, null, '表格长度不足');
+            return;
+        }
+        $value = [];
+        $i = 0;
+        $keys = [];
+        foreach ($datas[0] as $data) {
+            if (!empty($data)) {
+                $keys[] = $data;
+            }
+        }
+        foreach ($keys as $key) {
+            if (empty($key)) {
+                \Ret::Fail(400, null, '表格长度不一');
                 return;
             }
-            $value = [];
-            $i = 0;
-            $keys = [];
-            foreach ($datas[0] as $data) {
-                if (!empty($data)) {
-                    $keys[] = $data;
-                }
-            }
-            foreach ($keys as $key) {
-                if (empty($key)) {
-                    \Ret::Fail(400, null, '表格长度不一');
-                    return;
-                }
-            }
-            $count_column = count($keys);
-            $colums = [];
-            for ($i = 1; $i < count($datas); $i++) {
-                $line = $datas[$i];
-                if (empty($line[0])) {
-                    continue;
-                }
-                for ($s = 0; $s < $count_column; $s++) {
-                    $arr[$keys[$s]] = $line[$s] ?: '';
-                }
-                $colums[] = $arr;
-            }
-            ExcelModel::create([
-                "project" => $this->token,
-                "md5" => $md5,
-                "value" => json_encode($colums, 320)
-            ]);
-            \Ret::Success(0, $colums);
         }
+        $count_column = count($keys);
+        $colums = [];
+        for ($i = 1; $i < count($datas); $i++) {
+            $line = $datas[$i];
+            if (empty($line[0])) {
+                continue;
+            }
+            for ($s = 0; $s < $count_column; $s++) {
+                $arr[$keys[$s]] = $line[$s] ?: '';
+            }
+            $colums[] = $arr;
+        }
+        ExcelModel::create([
+            'project' => $this->token,
+            'md5' => $md5,
+            'value' => json_encode($colums, 320)
+        ]);
+        \Ret::Success(0, $colums);
 
     }
 }
