@@ -29,12 +29,15 @@ class search extends index
         if ($this->proc["type"] == "all" && !file_exists('./upload/' . $file_info['path'])) {
             \Ret::Fail('404', null, '本地文件不存在');
         }
-        $savname = './upload/excel/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.' . $file_info['ext'];
-        if (file_exists($savname)) {
-        } else {
+//        $savname = './upload/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.' . $file_info['ext'];
+        if (!file_exists('./upload/' . $file_info['path'])) {
             $file = file_get_contents($this->proc['url'] . '/' . $file_info['path']);
+            if (!$file) {
+                \Ret::Fail(200, null, '远程数据取回失败');
+            }
+            $savname = './upload/excel/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.' . $file_info['ext'];
             if (!file_put_contents($savname, $file)) {
-                \Ret::Fail(300, null, "远程数据取回失败");
+                \Ret::Fail(300, null, "远程数据写入失败");
             }
         }
 
