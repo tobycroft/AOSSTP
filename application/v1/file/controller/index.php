@@ -221,7 +221,11 @@ class index extends search
     {
         $file = $request->file('file');
         if ($file) {
-            $this->upload_file($request, 1, "ue");
+            try {
+                $this->upload_file($request, 1, 'ue');
+            } catch (\Exception $e) {
+                Ret::Fail(400, $e->getMessage(), $e->getMessage());
+            }
         } else {
             Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
