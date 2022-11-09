@@ -232,99 +232,16 @@ class index extends search
         }
     }
 
-//    public function upload_base64(Request $request, $full = 0, $ue = 0)
-//    {
-//        $token = $this->token;
-//        if (!$request->has('file')) {
-//            \Ret::Fail(400,null,'需要file字段提交base64');
-//        }
-//        $image = input('post.file');
-//        if (!$image) {
-//            return [
-//                'code' => 404,
-//                'data' => '没有找到文件'
-//            ];
-//        }
-//        $savePath = date('Ymd', time()) . '/';
-//        $file_name = md5(time() . microtime());
-//
-//        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $image, $result)) {
-//            $proc = ProjectModel::api_find_token($token);
-//            if (!$proc) {
-//                \Ret::Fail(401,null,'项目不可用');
-//            }
-//            $ext = explode(',', $proc['ext']);
-//            $type = $result[2];
-//            if (!in_array($type, $ext)) {
-//                $_message['message'] = '仅允许:' . $proc['ext'];
-//                return $_message;
-//            }
-//            $pic_path = 'upload/' . $savePath;
-//            $file_path = $pic_path . $file_name . "." . $type;
-//            if (!file_exists($pic_path)) {
-//                mkdir($pic_path);
-//            }
-//            $file_size = file_put_contents($file_path, base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $image)));
-//            if (!$file_path || $file_size > 10 * 1024 * 1024) {
-//                unlink($pic_path);
-//                return [
-//                    'code' => 500,
-//                    'data' => '图片保存失败'
-//                ];
-//            }
-//            $md5 = md5_file($file_path);
-//
-//            if ($file_exists = AttachmentModel::where(['md5' => $md5])->find()) {
-//                $sav = ($full ? $proc['url'] . '/' : '') . $file_exists['path'];
-//                // 附件已存在
-//                return \Ret::succ($sav);
-//            }
-//
-//            $fileName = $proc['name'] . '/' . $savePath . $file_name . "." . $type;
-//
-//            if ($proc["type"] == "local" || $proc["type"] == "all") {
-//                if ($proc['main_type'] == 'local') {
-//                    $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
-//                }
-//            }
-//            if ($proc["type"] == "oss" || $proc["type"] == "all") {
-//                $oss = new AliyunOSS($proc);
-//                $oss->uploadFile($proc['bucket'], $fileName, $file_path);
-//                if ($proc['main_type'] == 'oss') {
-//                    $sav = ($full ? $proc['url'] . '/' : '') . $fileName;
-//                }
-//                unlink($file_path);
-//            }
-//
-//            $file_info = [
-//                'token' => $token,
-//                'name' => $file_name,
-//                'mime' => $type,
-//                'path' => $fileName,
-//                'ext' => $ext,
-//                'size' => $file_size,
-//                'md5' => $md5,
-//            ];
-//            AttachmentModel::create($file_info);
-//
-//            if ($ue) {
-//                \Ret::succ(['src' => $sav]);
-//            } else {
-//                \Ret::succ($sav);
-//            }
-//        } else {
-//            return [
-//                'code' => 507,
-//                'data' => '图片格式编码错误'
-//            ];
-//        }
-//    }
 
     public function up_complete(Request $request)
     {
         $file = $request->file('file');
         if ($file) {
-            $this->upload_file($request, 1, "complete");
+            try {
+                $this->upload_file($request, 1, 'complete');
+            } catch (\Exception $e) {
+                Ret::Fail(400, $e->getMessage(), $e->getMessage());
+            }
         } else {
             Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
