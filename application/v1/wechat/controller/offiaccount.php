@@ -77,15 +77,31 @@ class offiaccount extends create
 
     public function openid_url()
     {
+        if (!$redirect_uri = input('redirect_uri')) {
+            \Ret::Fail(400, null, 'redirect_uri');
+        }
+        if (!$response_type = input('response_type')) {
+            \Ret::Fail(400, null, 'response_type');
+        }
+        if (!$scope = input('scope')) {
+            \Ret::Fail(400, null, 'scope');
+        }
+        if (!$state = input('state')) {
+            \Ret::Fail(400, null, 'state');
+        }
+        if (!$png = input('png')) {
+            \Ret::Fail(400, null, 'png');
+        }
         $appid = $this->appid;
-        $redirect_uri = 'https://upload.tuuz.cc:444/v1/open/index/wechat';
-        $response_type = 'code';
-        $scope = 'snsapi_base';
-        $state = '123';
         $redirect_uri = urlencode($redirect_uri);
         $combine = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=$response_type&scope=$scope&state=$state#wechat_redirect";
-        $qr = new qr();
-        $qr->qr_png($combine);
+        if ($png === 1) {
+            $qr = new qr();
+            $qr->qr_png($combine);
+        } else {
+            \Ret::Success(0, $combine);
+        }
+
     }
 
     public function openid_readback()
