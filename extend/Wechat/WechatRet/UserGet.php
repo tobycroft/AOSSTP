@@ -6,11 +6,13 @@ namespace Wechat\WechatRet;
 class UserGet
 {
     public $response;
-    public mixed $session_key;
-    public mixed $unionid;
-    public mixed $openid;
+
     protected $data;
     protected mixed $error;
+
+    public mixed $total;
+    public mixed $count;
+    public array $openid;
 
     public function __construct($json)
     {
@@ -19,10 +21,10 @@ class UserGet
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
         } else {
-            $this->data = $data;
-//            $this->openid = $this->data['openid'] ?? "";
-//            $this->session_key = $this->data['session_key'] ?? "";
-//            $this->unionid = $this->data['unionid'] ?? "";
+            $this->data = $data['data'];
+            $this->total = $data['total'] ?? "";
+            $this->count = $data['count'] ?? "";
+            $this->openid = $this->data['openid'] ?? [];
         }
     }
 
