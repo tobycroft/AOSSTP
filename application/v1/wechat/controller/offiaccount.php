@@ -89,13 +89,11 @@ class offiaccount extends create
         if (!$state = input('state')) {
             \Ret::Fail(400, null, 'state');
         }
-        if ($png = input('png')) {
-            \Ret::Fail(400, null, 'png');
-        }
+        $png = input('png')
         $appid = $this->appid;
         $redirect_uri = urlencode($redirect_uri);
         $combine = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=$response_type&scope=$scope&state=$state#wechat_redirect";
-        if ($png === 1) {
+        if ($png == "1") {
             $qr = new qr();
             $qr->qr_png($combine);
         } else {
