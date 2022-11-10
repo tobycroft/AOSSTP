@@ -83,4 +83,8 @@ class UserInfo
         return $this->error;
     }
 
+    public function getData()
+    {
+        return $this->data;
+    }
 }
