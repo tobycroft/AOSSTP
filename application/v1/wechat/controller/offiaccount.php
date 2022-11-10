@@ -79,7 +79,7 @@ class offiaccount extends create
     public function openid_url()
     {
         $appid = $this->appid;
-        $redirect_uri = 'https://upload.tuuz.cc:444/v1/open/index/wechat';
+        $redirect_uri = 'https://upload.tuuz.cc/v1/open/index/wechat';
         $response_type = 'code';
         $scope = 'snsapi_base';
         $state = '123';
