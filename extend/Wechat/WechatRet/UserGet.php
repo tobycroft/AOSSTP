@@ -1,6 +1,6 @@
 <?php
 
-namespace Wechat\WechatRet\WxaCode;
+namespace Wechat\WechatRet;
 
 
 class UserGet
