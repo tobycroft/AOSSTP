@@ -63,10 +63,9 @@ class offiaccount extends create
 
     public function user_info(Request $request)
     {
-        if (!$request->has('openid')) {
+        if (!$openid = input('openid')) {
             \Ret::Fail(400, null, 'openid');
         }
-        $openid = input('openid');
 
         $wxa = OfficialAccount::userinfo($this->access_token, $openid);
         if ($wxa->isSuccess()) {
