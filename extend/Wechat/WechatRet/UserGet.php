@@ -24,7 +24,7 @@ class UserGet
             $this->data = $data['data'];
             $this->total = $data['total'] ?? "";
             $this->count = $data['count'] ?? "";
-            $this->openid = $data["data"]['openid'] ?? [];
+            $this->openid = $this->data['openid'] ?? [];
         }
     }
 
