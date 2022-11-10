@@ -53,9 +53,19 @@ class UserInfo
             $this->error = $data['errmsg'];
         } else {
             $this->data = $data;
-//            $this->openid = $this->data['openid'] ?? "";
-//            $this->session_key = $this->data['session_key'] ?? "";
-//            $this->unionid = $this->data['unionid'] ?? "";
+            $this->subscribe = $this->data['subscribe'];
+            $this->openid = $this->data['openid'];
+            $this->nickname = $this->data['nickname'];
+            $this->sex = $this->data['sex'];
+            $this->language = $this->data['language'];
+
+            $this->city = $this->data['city'];
+            $this->province = $this->data['province'];
+            $this->country = $this->data['country'];
+
+            $this->headimgurl = $this->data['headimgurl'];
+            $this->subscribe_time = $this->data['subscribe_time'];
+            $this->subscribe_scene = $this->data['subscribe_scene'];
         }
     }
 
