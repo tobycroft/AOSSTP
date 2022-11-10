@@ -64,10 +64,10 @@ class offiaccount extends create
 
     public function user_info(Request $request)
     {
-        if (!$request->has('next_openid')) {
-            \Ret::Fail(400, null, 'next_openid');
+        if (!$request->has('openid')) {
+            \Ret::Fail(400, null, 'openid');
         }
-        $next_openid = input('next_openid');
+        $next_openid = input('openid');
 
         $wxa = OfficialAccount::userlist($this->access_token, '');
         if ($wxa->isSuccess()) {
