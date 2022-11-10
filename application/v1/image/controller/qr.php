@@ -36,21 +36,8 @@ class qr extends CommonController
         if (!$request->has("data")) {
             \Ret::Fail(400, null, 'data');
         }
-        $json = input("data");
-        $opt = new QROptions([
-            'version' => 7,
-            'eccLevel' => QRCode::ECC_L,
-            'scale' => 7,
-            'imageBase64' => false,
-            'bgColor' => [200, 200, 200],
-            'imageTransparent' => false,
-            'drawCircularModules' => true,
-            'circleRadius' => 0.8,
-        ]);
-        $qr = new QRCode($opt);
-
-        echo $qr->render($json);
-        Response::contentType("image/png")->send();
+        $json = input('data');
+        echo base64_encode($this->qr_png($json));
     }
 
     public function base64(Request $request)
@@ -59,19 +46,7 @@ class qr extends CommonController
             \Ret::Fail(400, null, 'data');
         }
         $json = input("data");
-        $opt = new QROptions([
-            'version' => 7,
-            'eccLevel' => QRCode::ECC_L,
-            'scale' => 7,
-            'imageBase64' => false,
-            'bgColor' => [200, 200, 200],
-            'imageTransparent' => false,
-            'drawCircularModules' => true,
-            'circleRadius' => 0.8,
-        ]);
-        $qr = new QRCode($opt);
-
-        echo base64_encode($qr->render($json));
+        echo base64_encode($this->qr($json));
     }
 
     public function logo(Request $request)
@@ -102,6 +77,30 @@ class qr extends CommonController
         $qrp = new QRImageWithLogo($opt, $mat);
         echo $qrp->dump(null, $url);
         Response::contentType("image/png")->send();
+    }
+
+    public function qr($data)
+    {
+        $opt = new QROptions([
+            'version' => 7,
+            'eccLevel' => QRCode::ECC_L,
+            'scale' => 7,
+            'imageBase64' => false,
+            'bgColor' => [200, 200, 200],
+            'imageTransparent' => false,
+            'drawCircularModules' => true,
+            'circleRadius' => 0.8,
+        ]);
+        $qr = new QRCode($opt);
+
+        return $qr->render($data);
+    }
+
+    public function qr_png($data)
+    {
+        echo $this->qr($data);
+        Response::contentType('image/png')->send();
+
     }
 
 }
