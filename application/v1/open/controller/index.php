@@ -11,7 +11,7 @@ class index extends CommonController
     {
         $code = input('code');
         $state = input('state');
-        echo $code, $state;
+        $this->success(0, $code);
     }
 
 }
