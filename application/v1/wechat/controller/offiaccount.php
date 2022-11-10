@@ -89,7 +89,7 @@ class offiaccount extends create
         if (!$state = input('state')) {
             \Ret::Fail(400, null, 'state');
         }
-        if (!$png = input('png')) {
+        if ($png = input('png')) {
             \Ret::Fail(400, null, 'png');
         }
         $appid = $this->appid;
