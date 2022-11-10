@@ -67,9 +67,9 @@ class offiaccount extends create
         if (!$request->has('openid')) {
             \Ret::Fail(400, null, 'openid');
         }
-        $next_openid = input('openid');
+        $openid = input('openid');
 
-        $wxa = OfficialAccount::userlist($this->access_token, '');
+        $wxa = OfficialAccount::userlist($this->access_token, $openid);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, [
                 'data' => $wxa->response,
