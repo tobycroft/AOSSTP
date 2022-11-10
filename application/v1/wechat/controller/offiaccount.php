@@ -3,6 +3,7 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\create;
+use app\v1\image\controller\qr;
 use app\v1\wechat\model\WechatModel;
 use think\Request;
 use Wechat\Miniprogram;
@@ -83,6 +84,8 @@ class offiaccount extends create
         $scope = 'snsapi_base';
         $state = '123';
         $redirect_uri = urlencode($redirect_uri);
-        \Ret::Success(0, "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=$response_type&scope=$scope&state=$state#wechat_redirect");
+        $combine = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=$appid&redirect_uri=$redirect_uri&response_type=$response_type&scope=$scope&state=$state#wechat_redirect";
+        $qr = new qr();
+        $qr->qr_png($combine);
     }
 }
