@@ -54,9 +54,7 @@ class offiaccount extends create
 
         $wxa = OfficialAccount::userlist($this->access_token, "");
         if ($wxa->isSuccess()) {
-            \Ret::Success(0, [
-                'data' => $wxa->openid,
-            ]);
+            \Ret::Success(0, $wxa->openid);
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
