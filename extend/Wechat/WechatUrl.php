@@ -12,6 +12,7 @@ class WechatUrl
 
 
     protected static string $user_get = "/cgi-bin/user/get";
+    protected static string $user_info = "/cgi-bin/user/info";
 
 
 }

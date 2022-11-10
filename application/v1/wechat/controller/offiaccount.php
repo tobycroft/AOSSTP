@@ -64,17 +64,15 @@ class offiaccount extends create
 
     public function user_info(Request $request)
     {
-        if (!$request->has('openid')) {
-            \Ret::Fail(400, null, 'openid');
+        if (!$request->has('next_openid')) {
+            \Ret::Fail(400, null, 'next_openid');
         }
-        $next_openid = input('openid');
+        $next_openid = input('next_openid');
 
-        $wxa = Miniprogram::jscode2session($this->appid, $this->appsecret, $next_openid, 'authorization_code');
+        $wxa = OfficialAccount::userlist($this->access_token, '');
         if ($wxa->isSuccess()) {
             \Ret::Success(0, [
-                'openid' => $wxa->openid,
-                'unionid' => $wxa->unionid,
-                'session_key' => $wxa->session_key,
+                'data' => $wxa->response,
             ]);
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());

@@ -4,6 +4,7 @@ namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\UserGet;
+use Wechat\WechatRet\UserInfo;
 
 class OfficialAccount extends Miniprogram
 {
@@ -27,6 +28,16 @@ class OfficialAccount extends Miniprogram
             [
                 "access_token" => $access_token,
                 "next_openid" => $next_openid,
+            ]
+        ));
+    }
+
+    public static function userinfo(string $access_token, $openid): UserInfo
+    {
+        return new UserInfo(raw_post(self::$Base . self::$user_info,
+            [
+                "access_token" => $access_token,
+                "openid" => $openid,
             ]
         ));
     }
