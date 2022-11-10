@@ -4,7 +4,9 @@ namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\create;
 use app\v1\wechat\model\WechatModel;
+use think\Request;
 use Wechat\Miniprogram;
+use Wechat\OfficialAccount;
 
 class offiaccount extends create
 {
@@ -40,6 +42,44 @@ class offiaccount extends create
                 echo $data->error();
                 exit();
             }
+        }
+    }
+
+    public function user_list(Request $request)
+    {
+        if (!$request->has('next_openid')) {
+            \Ret::Fail(400, null, 'next_openid');
+        }
+        $next_openid = input('next_openid');
+
+        $wxa = OfficialAccount::jscode2session($this->appid, $this->appsecret, $next_openid, 'authorization_code');
+        if ($wxa->isSuccess()) {
+            \Ret::Success(0, [
+                'openid' => $wxa->openid,
+                'unionid' => $wxa->unionid,
+                'session_key' => $wxa->session_key,
+            ]);
+        } else {
+            \Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
+    }
+
+    public function user_info(Request $request)
+    {
+        if (!$request->has('openid')) {
+            \Ret::Fail(400, null, 'openid');
+        }
+        $next_openid = input('openid');
+
+        $wxa = Miniprogram::jscode2session($this->appid, $this->appsecret, $next_openid, 'authorization_code');
+        if ($wxa->isSuccess()) {
+            \Ret::Success(0, [
+                'openid' => $wxa->openid,
+                'unionid' => $wxa->unionid,
+                'session_key' => $wxa->session_key,
+            ]);
+        } else {
+            \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 }
