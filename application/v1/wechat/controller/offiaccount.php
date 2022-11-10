@@ -89,7 +89,7 @@ class offiaccount extends create
         $qr->qr_png($combine);
     }
 
-    public function user_openid()
+    public function openid_readback()
     {
         $appid = $this->appid;
         $redirect_uri = 'https://api.lc.familyeducation.org.cn';
