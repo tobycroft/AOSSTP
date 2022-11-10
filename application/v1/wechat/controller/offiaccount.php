@@ -52,7 +52,7 @@ class offiaccount extends create
         }
         $next_openid = input('next_openid');
 
-        $wxa = OfficialAccount::jscode2session($this->appid, $this->appsecret, $next_openid, 'authorization_code');
+        $wxa = OfficialAccount::userlist($this->appid, $this->appsecret, $next_openid, 'authorization_code');
         if ($wxa->isSuccess()) {
             \Ret::Success(0, [
                 'openid' => $wxa->openid,
