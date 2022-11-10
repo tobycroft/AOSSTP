@@ -21,11 +21,11 @@ class OfficialAccount extends Miniprogram
         );
     }
 
-    public static function userlist(string $appid, $next_openid): UserGet
+    public static function userlist(string $access_token, $next_openid): UserGet
     {
         return new UserGet(raw_post(self::$Base . self::$user_get,
             [
-                "appid" => $appid,
+                "access_token" => $access_token,
                 "next_openid" => $next_openid,
             ]
         ));
