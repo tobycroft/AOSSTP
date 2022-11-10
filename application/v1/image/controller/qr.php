@@ -82,7 +82,7 @@ class qr extends CommonController
     public function qr($data)
     {
         $opt = new QROptions([
-            'version' => 7,
+            'version' => 10,
             'eccLevel' => QRCode::ECC_L,
             'scale' => 7,
             'imageBase64' => false,
