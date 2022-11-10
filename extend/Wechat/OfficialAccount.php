@@ -26,7 +26,7 @@ class OfficialAccount extends Miniprogram
         return new UserGet(raw_post(self::$Base . self::$user_get,
             [
                 "appid" => $appid,
-//                "next_openid" => $next_openid,
+                "next_openid" => $next_openid,
             ]
         ));
     }
