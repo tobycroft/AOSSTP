@@ -8,7 +8,7 @@ use think\Request;
 use Wechat\Miniprogram;
 use Wechat\OfficialAccount;
 
-class offiaccount extends create
+class officalaccount extends create
 {
 
     public mixed $access_token;
