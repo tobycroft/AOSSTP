@@ -3,7 +3,7 @@
 namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
-use Wechat\WechatRet\WxaCode\UserGet;
+use Wechat\WechatRet\UserGet;
 
 class OfficialAccount extends Miniprogram
 {
