@@ -67,7 +67,7 @@ class offiaccount extends create
         }
         $openid = input('openid');
 
-        $wxa = OfficialAccount::userlist($this->access_token, $openid);
+        $wxa = OfficialAccount::userinfo($this->access_token, $openid);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, [
                 'data' => $wxa->response,
