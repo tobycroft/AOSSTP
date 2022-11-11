@@ -108,4 +108,18 @@ class offiaccount extends create
         $state = input("state");
         echo $code, $state;
     }
+
+    public function template_push()
+    {
+        if (!$openid = input('openid')) {
+            \Ret::Fail(400, null, 'openid');
+        }
+
+        $wxa = OfficialAccount::userinfo($this->access_token, $openid);
+        if ($wxa->isSuccess()) {
+            \Ret::Success(0, $wxa->getData());
+        } else {
+            \Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
+    }
 }
