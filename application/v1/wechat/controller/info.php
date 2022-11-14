@@ -14,9 +14,9 @@ class info extends create
     public function auto_accesskey(Request $request)
     {
         \Ret::Success(0, [
-            "address" =>
+            "address" => Miniprogram::getBase() . Miniprogram::getAccessTokenPath(),
+
         ]);
-        Miniprogram::$ . self::$getAccessToken;
     }
 
 
