@@ -47,7 +47,7 @@ class info extends create
         )->update()) {
             \Ret::Success(0);
         } else {
-            \Ret::Fail(400);
+            \Ret::Fail(500);
         }
     }
 
