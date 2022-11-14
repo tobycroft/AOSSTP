@@ -150,6 +150,9 @@ class offiaccount extends create
         $rhan = new Redis();
 //        $redis = $rhan->handler();
         $ids = json_decode($openids, 1);
+        if (count($ids) < 1) {
+            \Ret::Fail(400, null, "openids should contains more than 1");
+        }
         foreach ($ids as $id) {
             $redis->lPush("__offiaccountpush__", json_encode(
                     [
