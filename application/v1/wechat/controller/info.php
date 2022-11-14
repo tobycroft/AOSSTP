@@ -15,7 +15,7 @@ class info extends create
     public string $appsecret;
     public mixed $access_token;
 
-    public mixed $wechat;
+    protected mixed $wechat;
 
 
     public function initialize()
