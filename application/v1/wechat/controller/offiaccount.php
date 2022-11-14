@@ -2,15 +2,13 @@
 
 namespace app\v1\wechat\controller;
 
-use app\v1\image\controller\create;
 use app\v1\image\controller\qr;
 use app\v1\wechat\model\WechatModel;
 use think\cache\driver\Redis;
 use think\Request;
-use Wechat\Miniprogram;
 use Wechat\OfficialAccount;
 
-class offiaccount extends create
+class offiaccount extends info
 {
 
     public mixed $access_token;
@@ -31,19 +29,7 @@ class offiaccount extends create
 
         $expire_after = strtotime($wechat['expire_after']);
         if ($expire_after < time() || empty($wechat['access_token'])) {
-            $data = Miniprogram::getAccessToken($this->appid, $this->appsecret);
-            if ($data->isSuccess()) {
-                $this->access_token = $data->access_token;
-                WechatModel::where('project', $this->token)->data(
-                    [
-                        'access_token' => $data->access_token,
-                        'expire_after' => date('Y-m-d H:i:s', $data->expires_in + time() - 600)
-                    ]
-                )->update();
-            } else {
-                echo $data->error();
-                exit();
-            }
+            \Ret::Fail(201, 'accesskey过期', "accesskey过期");
         }
     }
 
