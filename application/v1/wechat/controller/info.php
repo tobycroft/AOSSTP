@@ -4,7 +4,6 @@ namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\create;
 use app\v1\wechat\model\WechatModel;
-use think\Request;
 use Wechat\Miniprogram;
 use Wechat\WechatRet\GetAccessToken;
 
@@ -30,7 +29,7 @@ class info extends create
         $this->access_token = $this->wechat['access_token'];
     }
 
-    public function get_accesstoken(Request $request)
+    public function get_accesstoken()
     {
         \Ret::Success(0, [
             "address" => Miniprogram::getBase() . Miniprogram::getAccessTokenPath(),
@@ -43,7 +42,7 @@ class info extends create
     }
 
 
-    public function set_accesstoken(Request $request)
+    public function set_accesstoken()
     {
 //        if (!$access_token = input("access_token")) {
 //            \Ret::Fail(400, null, "access_token");
