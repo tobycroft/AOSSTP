@@ -11,7 +11,6 @@ use Wechat\OfficialAccount;
 class offiaccount extends info
 {
 
-    public mixed $access_token;
     public string $appid;
     public string $appsecret;
     public string $path_prefix = './upload/';
