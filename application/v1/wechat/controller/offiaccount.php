@@ -5,6 +5,7 @@ namespace app\v1\wechat\controller;
 use app\v1\image\controller\create;
 use app\v1\image\controller\qr;
 use app\v1\wechat\model\WechatModel;
+use think\cache\driver\Redis;
 use think\Request;
 use Wechat\Miniprogram;
 use Wechat\OfficialAccount;
@@ -129,5 +130,37 @@ class offiaccount extends create
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
+    }
+
+    public function template_push_more()
+    {
+        if (!$openids = input('openids')) {
+            \Ret::Fail(400, null, 'openids');
+        }
+        if (!$template_id = input('template_id')) {
+            \Ret::Fail(400, null, 'template_id');
+        }
+        if (!$url = input('url')) {
+            \Ret::Fail(400, null, 'url');
+        }
+        if (!$data = input('data')) {
+            \Ret::Fail(400, null, 'data');
+        }
+        $redis = new \Redis();
+        $rhan = new Redis();
+//        $redis = $rhan->handler();
+        $ids = json_decode($openids, 1);
+        foreach ($ids as $id) {
+            $redis->lPush("__offiaccountpush__", json_encode(
+                    [
+                        'openid' => $id,
+                        'template_id' => $template_id,
+                        'url' => $url,
+                        'data' => $data,
+                    ]
+                )
+            );
+        }
+        \Ret::Success(0);
     }
 }
