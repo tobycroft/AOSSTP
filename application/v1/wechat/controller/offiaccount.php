@@ -146,9 +146,9 @@ class offiaccount extends create
         if (!$data = input('data')) {
             \Ret::Fail(400, null, 'data');
         }
-        $redis = new \Redis();
+//        $redis = new \Redis();
         $rhan = new Redis();
-//        $redis = $rhan->handler();
+        $redis = $rhan->handler();
         $ids = json_decode($openids, 1);
         if (count($ids) < 1) {
             \Ret::Fail(400, null, "openids should contains more than 1");
