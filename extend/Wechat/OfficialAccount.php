@@ -55,7 +55,7 @@ class OfficialAccount extends Miniprogram
 //                    'appid' => $appid,
                     'template_id' => $template_id,
                     'url' => $url,
-                    'data' => $data,
+                    'data' => json_decode($data, 1),
                 ],
             ]
         ));
