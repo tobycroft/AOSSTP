@@ -6,6 +6,7 @@ use app\v1\image\controller\create;
 use app\v1\wechat\model\WechatModel;
 use think\Request;
 use Wechat\Miniprogram;
+use Wechat\WechatRet\GetAccessToken;
 
 class info extends create
 {
@@ -44,18 +45,21 @@ class info extends create
 
     public function set_accesstoken(Request $request)
     {
-        if (!$access_token = input("access_token")) {
-            \Ret::Fail(400, null, "access_token");
+//        if (!$access_token = input("access_token")) {
+//            \Ret::Fail(400, null, "access_token");
+//        }
+//        if (!$expires_in = input("expires_in")) {
+//            \Ret::Fail(400, null, "expires_in");
+//        }
+        if (!$data = input("data")) {
+            \Ret::Fail(400, null, "data");
         }
-        if (!$expires_in = input("expires_in")) {
-            \Ret::Fail(400, null, "expires_in");
-        }
-
-        $this->access_token = $access_token;
+        $getak = new GetAccessToken($data);
+        $this->access_token = $getak->access_token;
         if (WechatModel::where('project', $this->token)->data(
             [
-                'access_token' => $this->access_token,
-                'expire_after' => date('Y-m-d H:i:s', $expires_in + time() - 600)
+                'access_token' => $getak->access_token,
+                'expire_after' => date('Y-m-d H:i:s', $getak->expires_in + time() - 600)
             ]
         )->update()) {
             \Ret::Success(0);
