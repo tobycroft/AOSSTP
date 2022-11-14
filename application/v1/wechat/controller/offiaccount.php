@@ -30,10 +30,10 @@ class offiaccount extends info
                     ]
                 )->update();
             } else {
-                echo $data->error();
-                exit();
+//                echo $data->error();
+//                exit();
+                \Ret::Fail(201, 'accesskey过期', 'accesskey过期');
             }
-            \Ret::Fail(201, 'accesskey过期', "accesskey过期");
         }
     }
 
