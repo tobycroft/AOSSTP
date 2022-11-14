@@ -43,7 +43,7 @@ class OfficialAccount extends Miniprogram
         ));
     }
 
-    public static function uniform_send(string $access_token, $touser, $appid, $template_id, $url, $data): UniformSend
+    public static function uniform_send(string $access_token, $touser, $template_id, $url, $data): UniformSend
     {
         return new UniformSend(raw_post(self::$Base . self::$uniform_send,
             [
@@ -52,7 +52,7 @@ class OfficialAccount extends Miniprogram
             [
                 "touser" => $touser,
                 "mp_template_msg" => [
-                    'appid' => $appid,
+//                    'appid' => $appid,
                     'template_id' => $template_id,
                     'url' => $url,
                     'data' => $data,

@@ -114,8 +114,16 @@ class offiaccount extends create
         if (!$openid = input('openid')) {
             \Ret::Fail(400, null, 'openid');
         }
-
-        $wxa = OfficialAccount::userinfo($this->access_token, $openid);
+        if (!$template_id = input('template_id')) {
+            \Ret::Fail(400, null, 'template_id');
+        }
+        if (!$url = input('url')) {
+            \Ret::Fail(400, null, 'url');
+        }
+        if (!$data = input('data')) {
+            \Ret::Fail(400, null, 'data');
+        }
+        $wxa = OfficialAccount::uniform_send($this->access_token, $openid, $template_id, $url, $data);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->getData());
         } else {
