@@ -3,6 +3,7 @@
 namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
+use Wechat\WechatRet\Template\UniformSend;
 use Wechat\WechatRet\UserGet;
 use Wechat\WechatRet\UserInfo;
 
@@ -38,6 +39,24 @@ class OfficialAccount extends Miniprogram
             [
                 "access_token" => $access_token,
                 "openid" => $openid,
+            ]
+        ));
+    }
+
+    public static function uniform_send(string $access_token, $touser, $appid, $template_id, $url, $data): UniformSend
+    {
+        return new UniformSend(raw_post(self::$Base . self::$uniform_send,
+            [
+                "access_token" => $access_token,
+            ],
+            [
+                "touser" => $touser,
+                "mp_template_msg" => [
+                    'appid' => $appid,
+                    'template_id' => $template_id,
+                    'url' => $url,
+                    'data' => $data,
+                ],
             ]
         ));
     }
