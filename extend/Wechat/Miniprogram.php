@@ -12,6 +12,11 @@ class Miniprogram extends WechatUrl
 {
     protected static $Base = "https://api.weixin.qq.com";
 
+    public static function getBase()
+    {
+        return self::$Base;
+    }
+
     public static function getAccessToken(string $appid, $secret, $grant_type = "client_credential"): GetAccessToken
     {
         return new GetAccessToken(
