@@ -54,17 +54,22 @@ class info extends create
             \Ret::Fail(400, null, "data");
         }
         $getak = new GetAccessToken($data);
-        $this->access_token = $getak->access_token;
-        if (WechatModel::where('project', $this->token)->data(
-            [
-                'access_token' => $getak->access_token,
-                'expire_after' => date('Y-m-d H:i:s', $getak->expires_in + time() - 600)
-            ]
-        )->update()) {
-            \Ret::Success();
+        if ($getak->isSuccess()) {
+            $this->access_token = $getak->access_token;
+            if (WechatModel::where('project', $this->token)->data(
+                [
+                    'access_token' => $getak->access_token,
+                    'expire_after' => date('Y-m-d H:i:s', $getak->expires_in + time() - 600)
+                ]
+            )->update()) {
+                \Ret::Success();
+            } else {
+                \Ret::Fail(500);
+            }
         } else {
-            \Ret::Fail(500);
+            \Ret::Fail(200, $getak->response, $getak->error());
         }
+
     }
 
 

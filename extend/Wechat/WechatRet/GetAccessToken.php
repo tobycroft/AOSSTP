@@ -7,12 +7,14 @@ use Wechat\Miniprogram;
 
 class GetAccessToken extends Miniprogram
 {
+    public $response;
     public $access_token;
     public $expires_in;
     private $error;
 
     public function __construct($json)
     {
+        $this->response = $json;
         $data = json_decode($json, 1);
         if (isset($data["errmsg"])) {
             $this->error = $data["errmsg"];
