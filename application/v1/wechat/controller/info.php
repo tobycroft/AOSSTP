@@ -29,7 +29,7 @@ class info extends create
         $this->access_token = $this->wechat['access_token'];
     }
 
-    public function get_accesskey(Request $request)
+    public function get_accesstoken(Request $request)
     {
         \Ret::Success(0, [
             "address" => Miniprogram::getBase() . Miniprogram::getAccessTokenPath(),
