@@ -4,6 +4,7 @@ namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\create;
 use app\v1\wechat\model\WechatModel;
+use think\Request;
 use Wechat\Miniprogram;
 use Wechat\WechatRet\GetAccessToken;
 
@@ -29,8 +30,11 @@ class info extends create
         $this->access_token = $this->wechat['access_token'];
     }
 
-    public function get_accesstoken()
+    public function get_accesstoken(Request $request)
     {
+        if ($this->wechat["ip"] != $request->ip()) {
+            \Ret::Fail(403);
+        }
         \Ret::Success(0, [
             "address" => Miniprogram::getBase() . Miniprogram::getAccessTokenPath(),
             "postdata" => [
