@@ -62,7 +62,7 @@ class info extends create
                 'expire_after' => date('Y-m-d H:i:s', $getak->expires_in + time() - 600)
             ]
         )->update()) {
-            \Ret::Success(0);
+            \Ret::Success();
         } else {
             \Ret::Fail(500);
         }
