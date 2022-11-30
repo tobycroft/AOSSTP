@@ -59,7 +59,7 @@ class wxa extends create
         $data = input('data');
         $page = input("page");
         $env_version = input('env_version') ?: 'release';
-        $md5 = md5($data);
+        $md5 = md5($data . $page . $env_version);
 
         $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
@@ -99,7 +99,7 @@ class wxa extends create
         $data = input('data');
         $page = input("page");
         $env_version = input('env_version') ?: 'release';
-        $md5 = md5($data);
+        $md5 = md5($data . $page . $env_version);
 
         $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
@@ -144,7 +144,7 @@ class wxa extends create
         $data = input('data');
         $page = input("page");
         $env_version = input("env_version") ?: "release";
-        $md5 = md5($data);
+        $md5 = md5($data . $page . $env_version);
 
         $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
