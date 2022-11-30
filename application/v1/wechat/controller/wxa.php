@@ -146,7 +146,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success(0, $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", "from_cache");
+                \Ret::Success(0, $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", $wechat_data['path']);
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
