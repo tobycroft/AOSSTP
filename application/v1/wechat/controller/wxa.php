@@ -127,7 +127,7 @@ class wxa extends create
                     "path" => $oss_path
                 ]);
             }
-            \Ret::Success(0, base64_encode($wxa->image));
+            \Ret::Success(0, base64_encode($wxa->image), $env_version . '-from_cache');
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
@@ -161,7 +161,7 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
-            \Ret::Success(0, $sav);
+            \Ret::Success(0, $sav, $env_version . '-from_cache');
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
