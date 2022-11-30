@@ -212,10 +212,9 @@ class wxa extends create
 
     public function scene()
     {
-        if (input("scene")) {
-            $scene = input("scene");
-        } else {
-            \Ret::Fail(400, "scene");
+        $scene = input('scene');
+        if (!$scene) {
+            \Ret::Fail(400, null, "scene");
         }
         $data = WechatDataModel::where("key", $scene)->find();
         if ($data) {
