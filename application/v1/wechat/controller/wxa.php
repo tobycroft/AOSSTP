@@ -102,7 +102,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])));
+                \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])), "from_cache");
                 return;
             }
         }
