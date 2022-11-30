@@ -217,7 +217,7 @@ class wxa extends create
         } else {
             \Ret::Fail(400, "scene");
         }
-        $data = WechatDataModel::where("project", $this->token)->where("key", $scene)->find();
+        $data = WechatDataModel::where("key", $scene)->find();
         if ($data) {
             $data["url"] = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
             \Ret::Success(0, $data);
