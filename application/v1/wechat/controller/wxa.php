@@ -65,7 +65,7 @@ class wxa extends create
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
 //                \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
 //                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
-                $this->redirect($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", 302);
+                $this->redirect($this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data["path"], 302);
 //                Response::contentType("image/jpg")->send();
                 return;
             }
@@ -102,7 +102,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])), "from_cache");
+                \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . DIRECTORY_SEPARATOR . $wechat_data["path"])), "from_cache");
                 return;
             }
         }
@@ -146,7 +146,7 @@ class wxa extends create
         $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where("page", $page)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success(0, $this->proc['url'] . $wechat_data["path"], "from_cache");
+                \Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data["path"], "from_cache");
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
