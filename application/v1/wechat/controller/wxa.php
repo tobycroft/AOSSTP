@@ -79,7 +79,7 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
+            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
 //            echo $wxa->image;
             $this->redirect($sav, 302);
 //            Response::contentType("image/jpg")->send();
@@ -117,7 +117,7 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             if (file_put_contents($fileName, $wxa->image)) {
-                $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
+                $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
                 WechatDataModel::where("project", $this->token)->where("key", $md5)->delete();
                 WechatDataModel::create([
                     "project" => $this->token,
@@ -160,7 +160,7 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
+            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
             \Ret::Success(0, $sav);
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
@@ -176,7 +176,7 @@ class wxa extends create
      * @param string $oss_path
      * @return string
      */
-    protected function oss_operation(string $md5, string $fileName, GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
+    protected function oss_operation(string $md5, $env_version, string $fileName, GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
     {
         if (!file_put_contents($fileName, $wxa->image)) {
             \Ret::Fail(400, null, "文件写入失败");
@@ -208,7 +208,8 @@ class wxa extends create
             "key" => $md5,
             "val" => $data,
             "page" => $page,
-            "path" => $oss_path
+            "path" => $oss_path,
+            "env_version" => $env_version,
         ]);
         return $sav;
     }
