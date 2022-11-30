@@ -216,7 +216,11 @@ class wxa extends create
 
     public function scene()
     {
-        $scene = input("scene");
+        if (input("scene")) {
+            $scene = input("scene");
+        } else {
+            \Ret::Fail(400, "scene");
+        }
         $data = WechatDataModel::where("project", $this->token)->where("key", $scene)->find();
         if ($data) {
             $data["url"] = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
