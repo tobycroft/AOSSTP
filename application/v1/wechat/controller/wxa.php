@@ -117,9 +117,7 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             if (file_put_contents($fileName, $wxa->image)) {
-                if (!$this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path)) {
-                    \Ret::Fail(200, null, $wxa->getError());
-                }
+                $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
             }
             \Ret::Success(0, base64_encode($wxa->image), $env_version . '-from_file');
         } else {
