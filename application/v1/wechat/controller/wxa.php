@@ -58,6 +58,7 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
+        $env_version = input('env_version') ?: 'release';
         $md5 = md5($data);
 
         $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
@@ -70,7 +71,7 @@ class wxa extends create
                 return;
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
@@ -97,6 +98,7 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
+        $env_version = input('env_version') ?: 'release';
         $md5 = md5($data);
 
         $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
@@ -106,7 +108,7 @@ class wxa extends create
                 return;
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
@@ -141,6 +143,7 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
+        $env_version = input("env_version") ?: "release";
         $md5 = md5($data);
 
         $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where("page", $page)->find();
@@ -149,7 +152,7 @@ class wxa extends create
                 \Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data["path"], "from_cache");
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
