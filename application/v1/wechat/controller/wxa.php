@@ -151,8 +151,8 @@ class wxa extends create
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
         }
