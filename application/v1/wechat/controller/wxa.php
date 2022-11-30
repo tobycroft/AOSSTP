@@ -117,17 +117,11 @@ class wxa extends create
         }
         if ($wxa->isSuccess()) {
             if (file_put_contents($fileName, $wxa->image)) {
-                $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
-                WechatDataModel::where("project", $this->token)->where("key", $md5)->delete();
-                WechatDataModel::create([
-                    "project" => $this->token,
-                    "key" => $md5,
-                    "val" => $data,
-                    "page" => $page,
-                    "path" => $oss_path
-                ]);
+                if (!$this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path)) {
+                    \Ret::Fail(200, null, $wxa->getError());
+                }
             }
-            \Ret::Success(0, base64_encode($wxa->image), $env_version . '-from_cache');
+            \Ret::Success(0, base64_encode($wxa->image), $env_version . '-from_file');
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
@@ -203,14 +197,16 @@ class wxa extends create
             }
         }
         WechatDataModel::where("project", $this->token)->where("key", $md5)->delete();
-        WechatDataModel::create([
+        if (WechatDataModel::create([
             "project" => $this->token,
             "key" => $md5,
             "val" => $data,
             "page" => $page,
             "path" => $oss_path,
             "env_version" => $env_version,
-        ]);
+        ])) {
+            \Ret::Fail(500, null, "数据库错误");
+        }
         return $sav;
     }
 
