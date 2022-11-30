@@ -197,7 +197,7 @@ class wxa extends create
             }
         }
         WechatDataModel::where("project", $this->token)->where("key", $md5)->delete();
-        if (WechatDataModel::create([
+        if (!WechatDataModel::create([
             "project" => $this->token,
             "key" => $md5,
             "val" => $data,
@@ -205,7 +205,7 @@ class wxa extends create
             "path" => $oss_path,
             "env_version" => $env_version,
         ])) {
-            \Ret::Fail(500, null, "数据库错误");
+            \Ret::Fail(500, null);
         }
         return $sav;
     }
