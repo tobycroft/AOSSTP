@@ -66,14 +66,14 @@ class wxa extends create
 //                \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
 //                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
                 $this->redirect($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", 302);
-//                Response::contentType("image/png")->send();
+//                Response::contentType("image/jpg")->send();
                 return;
             }
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
         }
@@ -81,7 +81,7 @@ class wxa extends create
             $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
 //            echo $wxa->image;
             $this->redirect($sav, 302);
-//            Response::contentType("image/png")->send();
+//            Response::contentType("image/jpg")->send();
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
@@ -108,8 +108,8 @@ class wxa extends create
         }
         $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
         }
