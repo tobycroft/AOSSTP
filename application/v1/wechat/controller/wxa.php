@@ -61,7 +61,7 @@ class wxa extends create
         $env_version = input('env_version') ?: 'release';
         $md5 = md5($data);
 
-        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
+        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
 //                \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
@@ -101,7 +101,7 @@ class wxa extends create
         $env_version = input('env_version') ?: 'release';
         $md5 = md5($data);
 
-        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
+        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
                 \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])), $env_version . "-from_cache");
@@ -146,7 +146,7 @@ class wxa extends create
         $env_version = input("env_version") ?: "release";
         $md5 = md5($data);
 
-        $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where("page", $page)->find();
+        $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
                 \Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data["path"], $env_version . "-from_cache");
