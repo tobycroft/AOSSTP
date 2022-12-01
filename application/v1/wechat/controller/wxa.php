@@ -78,6 +78,7 @@ class wxa extends create
             $this->redirect($sav, 302);
 //            Response::contentType("image/jpg")->send();
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -115,6 +116,7 @@ class wxa extends create
             }
             \Ret::Success(0, base64_encode($wxa->image), $env_version . '-from_file');
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -149,6 +151,7 @@ class wxa extends create
             $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
             \Ret::Success(0, $sav, $env_version . '-from_cache');
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -245,6 +248,7 @@ class wxa extends create
                 'watermark' => $wxa->watermark,
             ]);
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -271,6 +275,7 @@ class wxa extends create
                 'openlink' => $wxa->openlink,
             ]);
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
