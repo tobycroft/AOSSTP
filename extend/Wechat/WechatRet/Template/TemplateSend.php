@@ -16,7 +16,7 @@ class TemplateSend
     {
         $this->response = $json;
         $data = json_decode($json, 1);
-        if (isset($data['errcode'])) {
+        if (isset($data['errcode']) && $data['errcode'] !== 0) {
             $this->error = $data['errmsg'];
             $this->errcode = $data['errcode'];
         } else {
