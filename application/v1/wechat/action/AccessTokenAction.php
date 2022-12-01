@@ -11,7 +11,7 @@ class AccessTokenAction
     protected mixed $token;
     protected mixed $appid;
     protected mixed $appsecret;
-    protected mixed $access_token;
+    protected string $access_token;
 
     public function __construct($token, $appid, $appsecret)
     {
