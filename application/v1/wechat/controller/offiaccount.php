@@ -20,7 +20,6 @@ class offiaccount extends info
         $expire_after = strtotime($this->wechat['expire_after']);
         if ($expire_after < time() || empty($this->access_token)) {
             $ac = new AccessTokenAction($this->token, $this->appid, $this->appsecret);
-            echo "123";
             $ac->refresh_token();
             $this->access_token = $ac->get_access_token();
         }
