@@ -102,7 +102,6 @@ class offiaccount extends info
 
     public function openid_aquire(Request $request)
     {
-        //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
         if (!$request->has('code')) {
             \Ret::Fail(400, null, 'code');
         }
