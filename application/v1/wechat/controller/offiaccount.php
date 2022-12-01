@@ -107,7 +107,7 @@ class offiaccount extends info
         }
     }
 
-    public function template_push()
+    public function uniform_send()
     {
         if (!$openid = input('openid')) {
             \Ret::Fail(400, null, 'openid');
@@ -122,6 +122,29 @@ class offiaccount extends info
             \Ret::Fail(400, null, 'data');
         }
         $wxa = OfficialAccount::uniform_send($this->access_token, $openid, $template_id, $url, $data);
+        if ($wxa->isSuccess()) {
+            \Ret::Success(0, $wxa->getData());
+        } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
+            \Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
+    }
+
+    public function template_send()
+    {
+        if (!$openid = input('openid')) {
+            \Ret::Fail(400, null, 'openid');
+        }
+        if (!$template_id = input('template_id')) {
+            \Ret::Fail(400, null, 'template_id');
+        }
+        if (!$url = input('url')) {
+            \Ret::Fail(400, null, 'url');
+        }
+        if (!$data = input('data')) {
+            \Ret::Fail(400, null, 'data');
+        }
+        $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $url, $data);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->getData());
         } else {

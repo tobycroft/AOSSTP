@@ -10,6 +10,7 @@ class TemplateSend
     protected $data;
     protected int $errcode = 0;
     private $error;
+    protected $msgid;
 
     public function __construct($json)
     {
@@ -20,6 +21,7 @@ class TemplateSend
             $this->errcode = $data['errcode'];
         } else {
             $this->data = $json;
+            $this->msgid = $this->data["msgid"];
         }
     }
 
@@ -40,5 +42,10 @@ class TemplateSend
     public function getErrcode(): int
     {
         return $this->errcode;
+    }
+
+    public function getData()
+    {
+        return $this->msgid;
     }
 }
