@@ -62,6 +62,7 @@ class OfficialAccount extends Miniprogram
         ));
     }
 
+    //offiAccessToken:获取用户openid
     public static function offiAccessToken(string $appid, $secret, $code, $grant_type): OffiAccessToken
     {
         return new OffiAccessToken(raw_post(self::$Base . self::$offi_access_token,
