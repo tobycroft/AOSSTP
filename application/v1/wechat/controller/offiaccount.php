@@ -172,7 +172,8 @@ class offiaccount extends info
             \Ret::Fail(400, null, 'miniprogram');
         }
         $client_msg_id = input('client_msg_id');
-        $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $data, $url, $miniprogram, $client_msg_id);
+        $miniprogram = json_decode($miniprogram);
+        $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $data, $url, new \miniprogram_struct($miniprogram->appid, $miniprogram->pagepath), $client_msg_id);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->getData());
         } else {
