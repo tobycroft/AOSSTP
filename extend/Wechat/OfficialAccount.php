@@ -63,7 +63,7 @@ class OfficialAccount extends Miniprogram
         ));
     }
 
-    public static function template_send(string $access_token, $touser, $template_id, $url, $data, \miniprogram_struct $miniprogram_struct = null, $client_msg_id = null): TemplateSend
+    public static function template_send(string $access_token, $touser, $template_id, $data, $url, \miniprogram_struct $miniprogram_struct = null, $client_msg_id = null): TemplateSend
     {
         $send = [
             'touser' => $touser,
@@ -71,13 +71,13 @@ class OfficialAccount extends Miniprogram
             'url' => $url,
             'data' => json_decode($data, 1),
         ];
-        if ($miniprogram_struct) {
+        if (!empty($miniprogram_struct)) {
             $send['miniprogram'] = [
                 'appid' => $miniprogram_struct->appid,
                 'pagepath' => $miniprogram_struct->pagepath,
             ];
         }
-        if ($client_msg_id) {
+        if (!empty($client_msg_id)) {
             $send['client_msg_id'] = $client_msg_id;
         }
         return new TemplateSend(raw_post(self::$Base . self::$template_send,
