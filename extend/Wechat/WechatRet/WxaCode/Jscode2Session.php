@@ -11,6 +11,8 @@ class Jscode2Session
     public mixed $openid;
     protected $data;
     protected mixed $error;
+    protected int $errcode;
+
 
     public function __construct($json)
     {
@@ -18,6 +20,7 @@ class Jscode2Session
         $data = json_decode($json, 1);
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         } else {
             $this->data = $data;
             $this->openid = $this->data['openid'] ?? "";
@@ -40,4 +43,8 @@ class Jscode2Session
         return $this->error;
     }
 
+    public function getErrcode(): int
+    {
+        return $this->errcode;
+    }
 }

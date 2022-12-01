@@ -14,6 +14,8 @@ class OffiAccessToken
     public mixed $is_snapshotuser;
     protected mixed $data;
     protected mixed $error;
+    protected int $errcode;
+
 
     public function __construct($json)
     {
@@ -21,6 +23,7 @@ class OffiAccessToken
         $data = json_decode($json, 1);
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         } else {
             $this->data = $data;
             $this->access_token = $this->data['access_token'] ?? "";
@@ -46,4 +49,8 @@ class OffiAccessToken
         return $this->error;
     }
 
+    public function getErrcode(): int
+    {
+        return $this->errcode;
+    }
 }

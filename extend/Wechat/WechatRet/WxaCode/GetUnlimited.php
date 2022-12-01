@@ -7,6 +7,8 @@ class GetUnlimited
     public $response;
     public $image;
     private $error;
+    protected int $errcode;
+
 
     public function __construct($json)
     {
@@ -14,6 +16,7 @@ class GetUnlimited
         $data = json_decode($json, 1);
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         } else {
             $this->image = $json;
         }
@@ -33,4 +36,8 @@ class GetUnlimited
         return $this->error;
     }
 
+    public function getErrcode(): int
+    {
+        return $this->errcode;
+    }
 }

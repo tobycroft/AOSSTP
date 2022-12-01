@@ -8,6 +8,8 @@ class GenerateScheme
     public mixed $openlink;
     protected $data;
     protected mixed $error;
+    protected int $errcode;
+
 
     public function __construct($json)
     {
@@ -15,6 +17,7 @@ class GenerateScheme
         $data = json_decode($json, 1);
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         } else {
             $this->data = $data;
             $this->openlink = $this->data['openlink'] ?? "";
@@ -35,4 +38,8 @@ class GenerateScheme
         return $this->error;
     }
 
+    public function getErrcode(): int
+    {
+        return $this->errcode;
+    }
 }

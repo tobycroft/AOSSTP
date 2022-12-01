@@ -9,6 +9,7 @@ class UserGet
 
     protected $data;
     protected mixed $error;
+    protected int $errcode;
 
     public mixed $total;
     public mixed $count;
@@ -20,6 +21,7 @@ class UserGet
         $data = json_decode($json, 1);
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         } else {
             $this->data = $data['data'];
             $this->total = $data['total'] ?? "";
@@ -40,6 +42,11 @@ class UserGet
     public function getError()
     {
         return $this->error;
+    }
+
+    public function getErrcode(): int
+    {
+        return $this->errcode;
     }
 
 }
