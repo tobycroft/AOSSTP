@@ -3,6 +3,7 @@
 namespace Wechat;
 
 use Wechat\WechatRet\GetAccessToken;
+use Wechat\WechatRet\Template\TemplateSend;
 use Wechat\WechatRet\Template\UniformSend;
 use Wechat\WechatRet\UserGet;
 use Wechat\WechatRet\UserInfo;
@@ -62,8 +63,26 @@ class OfficialAccount extends Miniprogram
         ));
     }
 
-    //offiAccessToken:获取用户openid
-    public static function offiAccessToken(string $appid, $secret, $code, $grant_type): OffiAccessToken
+    public static function template_send(string $access_token, $touser, $template_id, $url, $data): TemplateSend
+    {
+        $send = [
+            'touser' => $touser,
+            'template_id' => $template_id,
+            'url' => $url,
+            'data' => json_decode($data, 1),
+        ];
+        $send["miniprogram"] = [];
+        $send["client_msg_id"] = [];
+        return new TemplateSend(raw_post(self::$Base . self::$template_send,
+            [
+                "access_token" => $access_token,
+            ],
+            $send
+        ));
+    }
+
+    //user_getOpenid:获取用户openid
+    public static function user_getOpenid(string $appid, $secret, $code, $grant_type): OffiAccessToken
     {
         return new OffiAccessToken(raw_post(self::$Base . self::$offi_access_token,
             [

@@ -9,7 +9,7 @@ class UniformSend
     public $response;
     protected $data;
     private $error;
-    protected int $errcode;
+    protected int $errcode = 0;
 
     public function __construct($json)
     {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Wechat\WechatRet\WxaCode;
+namespace Wechat\WechatRet\Template;
 
-class GenerateScheme
+
+class TemplateSend
 {
-    public $response;
-    public mixed $openlink;
-    protected $data;
-    protected mixed $error;
-    protected int $errcode = 0;
 
+    public $response;
+    protected $data;
+    protected int $errcode = 0;
+    private $error;
 
     public function __construct($json)
     {
@@ -19,12 +19,11 @@ class GenerateScheme
             $this->error = $data['errmsg'];
             $this->errcode = $data['errcode'];
         } else {
-            $this->data = $data;
-            $this->openlink = $this->data['openlink'] ?? "";
+            $this->data = $json;
         }
     }
 
-    public function isSuccess(): bool
+    public function isSuccess()
     {
         if (isset($this->error)) {
             return false;
@@ -33,7 +32,7 @@ class GenerateScheme
         }
     }
 
-    public function getError(): mixed
+    public function getError()
     {
         return $this->error;
     }

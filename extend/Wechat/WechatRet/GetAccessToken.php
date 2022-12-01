@@ -11,7 +11,7 @@ class GetAccessToken extends Miniprogram
     public $access_token;
     public $expires_in;
     private $error;
-    protected int $errcode;
+    protected int $errcode = 0;
 
 
     public function __construct($json)

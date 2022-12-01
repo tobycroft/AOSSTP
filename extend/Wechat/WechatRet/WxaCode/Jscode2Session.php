@@ -11,7 +11,7 @@ class Jscode2Session
     public mixed $openid;
     protected $data;
     protected mixed $error;
-    protected int $errcode;
+    protected int $errcode = 0;
 
 
     public function __construct($json)

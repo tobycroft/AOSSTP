@@ -9,7 +9,7 @@ class UserGet
 
     protected $data;
     protected mixed $error;
-    protected int $errcode;
+    protected int $errcode = 0;
 
     public mixed $total;
     public mixed $count;

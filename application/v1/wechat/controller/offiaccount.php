@@ -98,7 +98,7 @@ class offiaccount extends info
         }
         $code = input('code');
 
-        $wxa = OfficialAccount::offiAccessToken($this->appid, $this->appsecret, $code, "authorization_code");
+        $wxa = OfficialAccount::user_getOpenid($this->appid, $this->appsecret, $code, "authorization_code");
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->openid);
         } else {

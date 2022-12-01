@@ -17,6 +17,8 @@ class WechatUrl
 
     protected static string $uniform_send = "/cgi-bin/message/wxopen/template/uniform_send";
 
+    protected static string $template_send = "/cgi-bin/message/template/send";
+
 
     public static function getAccessTokenPath()
     {

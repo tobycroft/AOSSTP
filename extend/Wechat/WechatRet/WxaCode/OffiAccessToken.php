@@ -14,7 +14,7 @@ class OffiAccessToken
     public mixed $is_snapshotuser;
     protected mixed $data;
     protected mixed $error;
-    protected int $errcode;
+    protected int $errcode = 0;
 
 
     public function __construct($json)

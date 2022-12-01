@@ -7,7 +7,7 @@ class GetUnlimited
     public $response;
     public $image;
     private $error;
-    protected int $errcode;
+    protected int $errcode = 0;
 
 
     public function __construct($json)
