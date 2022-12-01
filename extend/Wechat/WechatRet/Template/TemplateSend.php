@@ -24,6 +24,9 @@ class TemplateSend
                 $this->data = $json;
                 $this->msgid = $this->data["msgid"];
             }
+        } else {
+            $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         }
     }
 
