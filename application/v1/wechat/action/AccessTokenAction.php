@@ -43,4 +43,17 @@ class AccessTokenAction
     {
         return $this->access_token;
     }
+
+    public function auto_error_code($errcode)
+    {
+        switch ($errcode) {
+            case 40001:
+                $this->refresh_token();
+                break;
+
+
+            default:
+                break;
+        }
+    }
 }
