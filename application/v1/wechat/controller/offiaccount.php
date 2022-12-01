@@ -37,6 +37,7 @@ class offiaccount extends info
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->openid);
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -51,6 +52,7 @@ class offiaccount extends info
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->getData());
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -100,6 +102,7 @@ class offiaccount extends info
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->openid);
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -122,6 +125,7 @@ class offiaccount extends info
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->getData());
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
