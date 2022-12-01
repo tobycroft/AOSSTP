@@ -6,6 +6,7 @@ use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\Template\UniformSend;
 use Wechat\WechatRet\UserGet;
 use Wechat\WechatRet\UserInfo;
+use Wechat\WechatRet\WxaCode\OffiAccessToken;
 
 class OfficialAccount extends Miniprogram
 {
@@ -60,6 +61,19 @@ class OfficialAccount extends Miniprogram
             ]
         ));
     }
+
+    public static function offiAccessToken(string $appid, $secret, $code, $grant_type): OffiAccessToken
+    {
+        return new OffiAccessToken(raw_post(self::$Base . self::$offi_access_token,
+            [
+                'appid' => $appid,
+                'secret' => $secret,
+                'code' => $code,
+                'grant_type' => $grant_type,
+            ]
+        ));
+    }
+
 
     /*
      *
