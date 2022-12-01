@@ -103,12 +103,12 @@ class offiaccount extends info
     public function openid_aquire(Request $request)
     {
         //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
-        if (!$request->has('next_openid')) {
-            \Ret::Fail(400, null, 'next_openid');
+        if (!$request->has('code')) {
+            \Ret::Fail(400, null, 'code');
         }
-        $next_openid = input('next_openid');
+        $code = input('code');
 
-        $wxa = OfficialAccount::userlist($this->access_token, '');
+        $wxa = OfficialAccount::offiAccessToken($this->appid, $this->appsecret, $code, "authorization_code");
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->openid);
         } else {
