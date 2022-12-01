@@ -144,7 +144,7 @@ class offiaccount extends info
         if (!$url = input('url')) {
             \Ret::Fail(400, null, 'url');
         }
-        $client_msg_id = input('client_msg_id'));
+        $client_msg_id = input('client_msg_id');
         $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $data, $url, null, $client_msg_id);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->getData());
@@ -171,7 +171,7 @@ class offiaccount extends info
         if (!$miniprogram = input('miniprogram')) {
             \Ret::Fail(400, null, 'miniprogram');
         }
-        $client_msg_id = input('client_msg_id'));
+        $client_msg_id = input('client_msg_id');
         $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $data, $url, $miniprogram, $client_msg_id);
         if ($wxa->isSuccess()) {
             \Ret::Success(0, $wxa->getData());
