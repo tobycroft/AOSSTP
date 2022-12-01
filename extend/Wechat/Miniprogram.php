@@ -7,6 +7,7 @@ use Wechat\WechatRet\WxaCode\GenerateScheme;
 use Wechat\WechatRet\WxaCode\GetUnlimited;
 use Wechat\WechatRet\WxaCode\GetUserPhoneNumber;
 use Wechat\WechatRet\WxaCode\Jscode2Session;
+use Wechat\WechatRet\WxaCode\OffiAccessToken;
 
 class Miniprogram extends WechatUrl
 {
@@ -52,6 +53,18 @@ class Miniprogram extends WechatUrl
                 "appid" => $appid,
                 "secret" => $secret,
                 "js_code" => $js_code,
+                "grant_type" => $grant_type,
+            ]
+        ));
+    }
+
+    public static function offiAccessToken(string $appid, $secret, $code, $grant_type): OffiAccessToken
+    {
+        return new OffiAccessToken(raw_post(self::$Base . self::$offi_access_token,
+            [
+                "appid" => $appid,
+                "secret" => $secret,
+                "code" => $code,
                 "grant_type" => $grant_type,
             ]
         ));

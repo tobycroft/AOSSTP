@@ -13,6 +13,7 @@ class WechatUrl
 
     protected static string $user_get = "/cgi-bin/user/get";
     protected static string $user_info = "/cgi-bin/user/info";
+    protected static string $offi_access_token = "/sns/oauth2/access_token";
 
     protected static string $uniform_send = "/cgi-bin/message/wxopen/template/uniform_send";
 

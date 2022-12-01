@@ -100,6 +100,22 @@ class offiaccount extends info
         echo $code, $state;
     }
 
+    public function openid_aquire(Request $request)
+    {
+        //https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+        if (!$request->has('next_openid')) {
+            \Ret::Fail(400, null, 'next_openid');
+        }
+        $next_openid = input('next_openid');
+
+        $wxa = OfficialAccount::userlist($this->access_token, '');
+        if ($wxa->isSuccess()) {
+            \Ret::Success(0, $wxa->openid);
+        } else {
+            \Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
+    }
+
     public function template_push()
     {
         if (!$openid = input('openid')) {
