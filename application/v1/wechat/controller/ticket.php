@@ -23,7 +23,7 @@ class ticket extends wxa
         if ($ticket->isSuccess()) {
             WechatModel::where("project", $this->token)->update([
                 "ticket" => $ticket->ticket,
-                'ticket_expire_after' => $ticket->expires_in + time() - 600
+                'ticket_expire_after' => date('Y-m-d H:i:s', $ticket->expires_in + time() - 600)
             ]);
             \Ret::Success(0, $ticket->isSuccess());
         } else {
