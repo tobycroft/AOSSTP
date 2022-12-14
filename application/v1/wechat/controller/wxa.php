@@ -20,21 +20,23 @@ class wxa extends create
     public string $appsecret;
     public string $path_prefix = "./upload/";
 
+    public mixed $wechat;
+
     protected AccessTokenAction $ac;
 
 
     public function initialize()
     {
         parent::initialize();
-        $wechat = WechatModel::where("project", $this->token)->find();
-        if (!$wechat) {
+        $this->wechat = WechatModel::where("project", $this->token)->find();
+        if (!$this->wechat) {
             \Ret::Fail(404, null, "未找到项目");
         }
-        $this->appid = $wechat["appid"];
-        $this->appsecret = $wechat["appsecret"];
-        $this->access_token = $wechat["access_token"];
+        $this->appid = $this->wechat["appid"];
+        $this->appsecret = $this->wechat["appsecret"];
+        $this->access_token = $this->wechat["access_token"];
 
-        $expire_after = strtotime($wechat["expire_after"]);
+        $expire_after = strtotime($this->wechat["expire_after"]);
         $this->ac = new AccessTokenAction($this->token, $this->appid, $this->appsecret);
         if ($expire_after < time() || empty($this->access_token)) {
             $this->ac->refresh_token();
