@@ -40,11 +40,11 @@ class ticket extends wxa
             'noncestr' => $noncestr,
             'jsapi_ticket' => $jsapi_ticket,
             'timestamp' => $timestamp,
-            'url' => urldecode($url),
+            'url' => $url,
         ];
         ksort($post);
         $str = http_build_query($post, "", null, null);
-        \Ret::Success(0, sha1($str), urldecode($str));
+        \Ret::Success(0, sha1(urldecode($str)), urldecode($str));
     }
 
 }
