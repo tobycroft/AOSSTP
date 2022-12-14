@@ -25,7 +25,6 @@ class ticket extends wxa
                 "ticket" => $ticket->ticket,
                 'ticket_expire_after' => date('Y-m-d H:i:s', $ticket->expires_in + time() - 600)
             ]);
-            \Ret::Success(0, $ticket->isSuccess());
         } else {
             \Ret::Fail(300, $ticket->response, $ticket->error());
         }
