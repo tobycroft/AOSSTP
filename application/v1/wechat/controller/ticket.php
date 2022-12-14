@@ -44,7 +44,7 @@ class ticket extends wxa
         ];
         ksort($post);
         $str = http_build_query($post, "", null, null);
-        \Ret::Success(0, sha1($str), $str);
+        \Ret::Success(0, sha1($str), urldecode($str));
     }
 
 }
