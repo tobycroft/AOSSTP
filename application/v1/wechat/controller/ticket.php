@@ -3,7 +3,6 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
-use think\Request;
 
 class ticket extends wxa
 {
@@ -17,7 +16,7 @@ class ticket extends wxa
         }
     }
 
-    public function getticket(Request $request)
+    public function getticket()
     {
 
         $ticket = \Wechat\Ticket::getTicket($this->access_token);
@@ -32,7 +31,7 @@ class ticket extends wxa
         }
     }
 
-    public function signature(Request $request)
+    public function signature()
     {
         $noncestr = input("noncestr");
         $jsapi_ticket = input("jsapi_ticket");
