@@ -25,6 +25,7 @@ class ticket extends wxa
                 "ticket" => $ticket->ticket,
                 'ticket_expire_after' => date('Y-m-d H:i:s', $ticket->expires_in + time() - 600)
             ]);
+            $this->wechat = WechatModel::where("project", $this->token)->find();
         } else {
             \Ret::Fail(300, $ticket->response, $ticket->error());
         }
@@ -33,18 +34,17 @@ class ticket extends wxa
     public function signature()
     {
         $noncestr = input("noncestr") ?: \Ret::Fail(400, null, 'noncestr');
-        $jsapi_ticket = input("jsapi_ticket") ?: \Ret::Fail(400, null, 'jsapi_ticket');
         $timestamp = input('timestamp') ?: \Ret::Fail(400, null, 'timestamp');
         $url = input('url') ?: \Ret::Fail(400, null, 'url');
         $post = [
             'noncestr' => $noncestr,
-            'jsapi_ticket' => $jsapi_ticket,
+            'jsapi_ticket' => this->wechat['ticket'],
             'timestamp' => $timestamp,
             'url' => $url,
         ];
         ksort($post);
         $str = http_build_query($post, "", null, 0);
-        \Ret::Success(0, sha1(urldecode($str)), $str);
+        \Ret::Success(0, sha1(urldecode($str))，);
     }
 
 }
