@@ -32,10 +32,10 @@ class ticket extends wxa
 
     public function signature()
     {
-        $noncestr = input("noncestr");
-        $jsapi_ticket = input("jsapi_ticket");
-        $timestamp = input('timestamp');
-        $url = input('url');
+        $noncestr = input("noncestr") ?: \Ret::Fail(400, null, 'noncestr');
+        $jsapi_ticket = input("jsapi_ticket") ?: \Ret::Fail(400, null, 'jsapi_ticket');
+        $timestamp = input('timestamp') ?: \Ret::Fail(400, null, 'timestamp');
+        $url = input('url') ?: \Ret::Fail(400, null, 'url');
         $post = [
             'noncestr' => $noncestr,
             'jsapi_ticket' => $jsapi_ticket,
