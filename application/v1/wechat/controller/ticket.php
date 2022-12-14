@@ -38,7 +38,7 @@ class ticket extends wxa
         $url = input('url') ?: \Ret::Fail(400, null, 'url');
         $post = [
             'noncestr' => $noncestr,
-            'jsapi_ticket' => this->wechat['ticket'],
+            'jsapi_ticket' => $this->wechat['ticket'],
             'timestamp' => $timestamp,
             'url' => $url,
         ];
