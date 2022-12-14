@@ -43,7 +43,7 @@ class ticket extends wxa
             'url' => $url,
         ];
         ksort($post);
-        $str = http_build_query($post, "", null, null);
+        $str = http_build_query($post, "", null, 0);
         \Ret::Success(0, sha1(urldecode($str)), urldecode($str));
     }
 
