@@ -1,30 +1,32 @@
 <?php
 
-namespace Wechat\WechatRet\WxaCode;
+namespace Wechat\WechatRet;
 
-class GenerateScheme
+
+use Wechat\Miniprogram;
+
+class GetTicket extends Miniprogram
 {
     public $response;
-    public mixed $openlink;
-    protected $data;
-    protected mixed $error;
+    public $ticket;
+    public $expires_in;
     protected int $errcode = 0;
-
+    private $error;
 
     public function __construct($json)
     {
         $this->response = $json;
         $data = json_decode($json, 1);
-        if (isset($data['errmsg'])) {
-            $this->error = $data['errmsg'];
+        if (isset($data['errcode']) && $data['errcode'] !== 0) {
+            $this->error = $data["errmsg"];
             $this->errcode = $data['errcode'];
         } else {
-            $this->data = $data;
-            $this->openlink = $this->data['openlink'] ?? "";
+            $this->ticket = $data["ticket"];
+            $this->expires_in = $data["expires_in"];
         }
     }
 
-    public function isSuccess(): bool
+    public function isSuccess()
     {
         if (isset($this->error)) {
             return false;
@@ -33,7 +35,7 @@ class GenerateScheme
         }
     }
 
-    public function getError(): mixed
+    public function error()
     {
         return $this->error;
     }

@@ -11,6 +11,8 @@ class GetUserPhoneNumber
     public mixed $watermark;
     protected $data;
     protected mixed $error;
+    protected int $errcode = 0;
+
 
     public function __construct($json)
     {
@@ -18,6 +20,7 @@ class GetUserPhoneNumber
         $data = json_decode($json, 1);
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         } else {
             $this->data = $data;
             $this->phoneNumber = $this->data['phone_info']['phoneNumber'] ?? "";
@@ -41,4 +44,8 @@ class GetUserPhoneNumber
         return $this->error;
     }
 
+    public function getErrcode(): int
+    {
+        return $this->errcode;
+    }
 }

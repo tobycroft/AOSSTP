@@ -9,6 +9,8 @@ class UserInfo
 
     protected $data;
     protected mixed $error;
+    protected int $errcode = 0;
+
 
     public int $subscribe;
     public string $openid;
@@ -51,6 +53,7 @@ class UserInfo
         $data = json_decode($json, 1);
         if (isset($data['errmsg'])) {
             $this->error = $data['errmsg'];
+            $this->errcode = $data['errcode'];
         } else {
             $this->data = $data;
             $this->subscribe = $this->data['subscribe'];
@@ -86,5 +89,10 @@ class UserInfo
     public function getData()
     {
         return $this->data;
+    }
+
+    public function getErrcode(): int
+    {
+        return $this->errcode;
     }
 }

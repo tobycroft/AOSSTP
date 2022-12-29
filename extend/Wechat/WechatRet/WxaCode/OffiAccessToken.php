@@ -3,13 +3,16 @@
 namespace Wechat\WechatRet\WxaCode;
 
 
-class Jscode2Session
+class OffiAccessToken
 {
-    public $response;
-    public mixed $session_key;
-    public mixed $unionid;
+    public string $response;
+    public mixed $access_token;
+    public mixed $refresh_token;
+    public mixed $expires_in;
     public mixed $openid;
-    protected $data;
+    public mixed $scope;
+    public mixed $is_snapshotuser;
+    protected mixed $data;
     protected mixed $error;
     protected int $errcode = 0;
 
@@ -23,9 +26,12 @@ class Jscode2Session
             $this->errcode = $data['errcode'];
         } else {
             $this->data = $data;
+            $this->access_token = $this->data['access_token'] ?? "";
+            $this->refresh_token = $this->data['refresh_token'] ?? "";
+            $this->expires_in = $this->data['expires_in'] ?? "";
             $this->openid = $this->data['openid'] ?? "";
-            $this->session_key = $this->data['session_key'] ?? "";
-            $this->unionid = $this->data['unionid'] ?? "";
+            $this->scope = $this->data['scope'] ?? "";
+            $this->is_snapshotuser = $this->data['is_snapshotuser'] ?? "";
         }
     }
 

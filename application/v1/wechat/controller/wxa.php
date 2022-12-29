@@ -3,6 +3,7 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\create;
+use app\v1\wechat\action\AccessTokenAction;
 use app\v1\wechat\model\WechatDataModel;
 use app\v1\wechat\model\WechatModel;
 use OSS\AliyunOSS;
@@ -19,32 +20,27 @@ class wxa extends create
     public string $appsecret;
     public string $path_prefix = "./upload/";
 
+    public mixed $wechat;
+
+    protected AccessTokenAction $ac;
+
+
     public function initialize()
     {
         parent::initialize();
-        $wechat = WechatModel::where("project", $this->token)->find();
-        if (!$wechat) {
+        $this->wechat = WechatModel::where("project", $this->token)->find();
+        if (!$this->wechat) {
             \Ret::Fail(404, null, "未找到项目");
         }
-        $this->appid = $wechat["appid"];
-        $this->appsecret = $wechat["appsecret"];
-        $this->access_token = $wechat["access_token"];
+        $this->appid = $this->wechat["appid"];
+        $this->appsecret = $this->wechat["appsecret"];
+        $this->access_token = $this->wechat["access_token"];
 
-        $expire_after = strtotime($wechat["expire_after"]);
-        if ($expire_after < time() || empty($wechat["access_token"])) {
-            $data = Miniprogram::getAccessToken($this->appid, $this->appsecret);
-            if ($data->isSuccess()) {
-                $this->access_token = $data->access_token;
-                WechatModel::where("project", $this->token)->data(
-                    [
-                        "access_token" => $data->access_token,
-                        "expire_after" => date("Y-m-d H:i:s", $data->expires_in + time() - 600)
-                    ]
-                )->update();
-            } else {
-                echo $data->error();
-                exit();
-            }
+        $expire_after = strtotime($this->wechat["expire_after"]);
+        $this->ac = new AccessTokenAction($this->token, $this->appid, $this->appsecret);
+        if ($expire_after < time() || empty($this->access_token)) {
+            $this->ac->refresh_token();
+            $this->access_token = $this->ac->get_access_token();
         }
     }
 
@@ -58,31 +54,33 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
-        $md5 = md5($data);
+        $env_version = input('env_version') ?: 'release';
+        $md5 = md5($data . $page . $env_version);
 
-        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
+        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
 //                \Ret::succ($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
 //                echo file_get_contents($this->path_prefix . $wechat_data["path"]);
-                $this->redirect($this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg", 302);
-//                Response::contentType("image/png")->send();
+                $this->redirect($this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data["path"], 302);
+//                Response::contentType("image/jpg")->send();
                 return;
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
+            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
 //            echo $wxa->image;
             $this->redirect($sav, 302);
-//            Response::contentType("image/png")->send();
+//            Response::contentType("image/jpg")->send();
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -97,36 +95,30 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
-        $md5 = md5($data);
+        $env_version = input('env_version') ?: 'release';
+        $md5 = md5($data . $page . $env_version);
 
-        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->find();
+        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])));
+                \Ret::Success(0, base64_encode(file_get_contents($this->path_prefix . $wechat_data["path"])), $env_version . "-from_cache");
                 return;
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
             if (file_put_contents($fileName, $wxa->image)) {
-                $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
-                WechatDataModel::where("project", $this->token)->where("key", $md5)->delete();
-                WechatDataModel::create([
-                    "project" => $this->token,
-                    "key" => $md5,
-                    "val" => $data,
-                    "page" => $page,
-                    "path" => $oss_path
-                ]);
+                $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
             }
-            \Ret::Success(0, base64_encode($wxa->image));
+            \Ret::Success(0, base64_encode($wxa->image), $env_version . '-from_file');
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -141,25 +133,27 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
-        $md5 = md5($data);
+        $env_version = input("env_version") ?: "release";
+        $md5 = md5($data . $page . $env_version);
 
-        $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where("page", $page)->find();
+        $wechat_data = WechatDataModel::where("key", $md5)->where("project", $this->token)->where('page', $page)->where('env_version', $env_version)->find();
         if (!empty($wechat_data)) {
             if (file_exists($this->path_prefix . $wechat_data["path"])) {
-                \Ret::Success(0, $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg");
+                \Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data["path"], $env_version . "-from_cache");
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400);
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
         $real_path = $this->path_prefix . "wechat/" . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".png";
-        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".png";
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . ".jpg";
+        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $md5 . ".jpg";
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            $sav = $this->oss_operation($md5, $fileName, $wxa, $data, $page, $oss_path);
-            \Ret::Success(0, $sav);
+            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
+            \Ret::Success(0, $sav, $env_version . '-from_cache');
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -206,7 +200,7 @@ class wxa extends create
      * @param string $oss_path
      * @return string
      */
-    protected function oss_operation(string $md5, string $fileName, GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
+    protected function oss_operation(string $md5, $env_version, string $fileName, GetUnlimited $wxa, mixed $data, mixed $page, string $oss_path): string
     {
         if (!file_put_contents($fileName, $wxa->image)) {
             \Ret::Fail(400, null, "文件写入失败");
@@ -233,20 +227,26 @@ class wxa extends create
             }
         }
         WechatDataModel::where("project", $this->token)->where("key", $md5)->delete();
-        WechatDataModel::create([
+        if (!WechatDataModel::create([
             "project" => $this->token,
             "key" => $md5,
             "val" => $data,
             "page" => $page,
-            "path" => $oss_path
-        ]);
+            "path" => $oss_path,
+            "env_version" => $env_version,
+        ])) {
+            \Ret::Fail(500, null);
+        }
         return $sav;
     }
 
     public function scene()
     {
-        $scene = input("scene");
-        $data = WechatDataModel::where("project", $this->token)->where("key", $scene)->find();
+        $scene = input('scene');
+        if (!$scene) {
+            \Ret::Fail(400, null, "scene");
+        }
+        $data = WechatDataModel::where("key", $scene)->find();
         if ($data) {
             $data["url"] = $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $data["key"] . ".jpg";
             \Ret::Success(0, $data);
@@ -283,6 +283,7 @@ class wxa extends create
                 'watermark' => $wxa->watermark,
             ]);
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
@@ -309,6 +310,7 @@ class wxa extends create
                 'openlink' => $wxa->openlink,
             ]);
         } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
             \Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
