@@ -164,6 +164,39 @@ class wxa extends create
         }
     }
 
+    public function unlimited_manual(Request $request)
+    {
+        if (!$request->has("data")) {
+            \Ret::Fail(400, null, 'data');
+        }
+        if (!$request->has("page")) {
+            \Ret::Fail(400, null, "page");
+        }
+        $data = input('data');
+        $page = input("page");
+        $key = ($data);
+
+        $wechat_data = WechatDataModel::where("key", $key)->where("project", $this->token)->where("page", $page)->find();
+        if (!empty($wechat_data)) {
+            if (file_exists($this->path_prefix . $wechat_data["path"])) {
+                \Ret::Success(0, $this->proc['url'] . "/wechat/" . $this->token . DIRECTORY_SEPARATOR . $key . ".jpg");
+            }
+        }
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $key, $page, 400);
+        $real_path = $this->path_prefix . "wechat/" . $this->token;
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $key . ".png";
+        $oss_path = "wechat/" . $this->token . DIRECTORY_SEPARATOR . $key . ".png";
+        if (!is_dir($real_path)) {
+            mkdir($real_path, 0755, true);
+        }
+        if ($wxa->isSuccess()) {
+            $sav = $this->oss_operation($key, $fileName, $wxa, $data, $page, $oss_path);
+            \Ret::Success(0, $sav);
+        } else {
+            \Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
+    }
+
     /**
      * @param string $md5
      * @param string $fileName
