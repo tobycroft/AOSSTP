@@ -168,6 +168,7 @@ class wxa extends create
         }
         $data = input('data');
         $page = input("page");
+        $env_version = input('env_version') ?: 'release';
         $key = ($data);
 
         $wechat_data = WechatDataModel::where("key", $key)->where("project", $this->token)->where("page", $page)->find();
@@ -184,7 +185,7 @@ class wxa extends create
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            $sav = $this->oss_operation($key, $fileName, $wxa, $data, $page, $oss_path);
+            $sav = $this->oss_operation($key, $env_version, $fileName, $wxa, $data, $page, $oss_path);
             \Ret::Success(0, $sav);
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
