@@ -193,7 +193,7 @@ class dp extends CommonController
                 $getId3 = new getID3();
                 $ana = $getId3->analyze($info->getPathname());
                 if (!empty($ana["error"])) {
-                    return $this->uploadError($from, $ana['error'][0], $callback);
+                    return $this->uploadError($from, "无法解析视频：" . $ana['error'][0], $callback);
                 }
                 $duration = $ana["playtime_seconds"];
                 $bitrate = $ana["bitrate"];
