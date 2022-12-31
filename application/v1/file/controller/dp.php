@@ -190,14 +190,15 @@ class dp extends CommonController
             case "avi":
             case "mp4":
             case "aac":
-            $getId3 = new getID3();
-            $ana = $getId3->analyze($info->getPathname());
-            echo json_encode($ana);
-            exit();
-            $duration = $ana["playtime_seconds"];
-            $bitrate = $ana["bitrate"];
-            $duration_str = $ana["playtime_string"];
-            break;
+                $getId3 = new getID3();
+                $ana = $getId3->analyze($info->getPathname());
+                if (!empty($ana["error"])) {
+                    return $this->uploadError($from, $ana['error'][0], $callback);
+                }
+                $duration = $ana["playtime_seconds"];
+                $bitrate = $ana["bitrate"];
+                $duration_str = $ana["playtime_string"];
+                break;
 
             case "png":
             case "jpg":
@@ -205,8 +206,8 @@ class dp extends CommonController
             case "bmp":
             case "gif":
             case "tiff":
-            $getId3 = new getID3();
-            $ana = $getId3->analyze($info->getPathname());
+                $getId3 = new getID3();
+                $ana = $getId3->analyze($info->getPathname());
                 $width = $ana["video"]["resolution_x"];
                 $height = $ana["video"]["resolution_y"];
                 $bitrate = $ana["video"]["bits_per_sample"];
