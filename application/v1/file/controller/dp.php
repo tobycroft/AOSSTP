@@ -192,10 +192,12 @@ class dp extends CommonController
             case "aac":
             $getId3 = new getID3();
             $ana = $getId3->analyze($info->getPathname());
-                $duration = $ana["playtime_seconds"];
-                $bitrate = $ana["bitrate"];
-                $duration_str = $ana["playtime_string"];
-                break;
+            print_r($ana);
+            exit();
+            $duration = $ana["playtime_seconds"];
+            $bitrate = $ana["bitrate"];
+            $duration_str = $ana["playtime_string"];
+            break;
 
             case "png":
             case "jpg":
