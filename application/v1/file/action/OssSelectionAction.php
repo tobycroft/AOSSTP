@@ -10,7 +10,10 @@ class OssSelectionAction
     {
         switch ($proc["oss_type"]) {
             case 'aliyun':
-                $oss = OssAliyunModel::where("tag", $proc["oss_tag"]);
+                $oss = OssAliyunModel::where("tag", $proc["oss_tag"])->find();
+                if ($oss) {
+                    return $proc;
+                }
                 break;
 
             case 'tencent':
