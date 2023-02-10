@@ -3,6 +3,7 @@
 namespace app\v1\excel\controller;
 
 
+use app\v1\file\action\OssSelectionAction;
 use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
@@ -28,6 +29,7 @@ class index extends CommonController
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
         }
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
 
     }
 

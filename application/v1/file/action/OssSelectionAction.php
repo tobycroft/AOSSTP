@@ -6,13 +6,13 @@ use app\v1\file\model\OssAliyunModel;
 
 class OssSelectionAction
 {
-    public function App_find_byProc(mixed $proc)
+    public static function App_find_byProc(mixed $proc)
     {
         switch ($proc["oss_type"]) {
             case 'aliyun':
                 $oss = OssAliyunModel::where("tag", $proc["oss_tag"])->find();
                 if ($oss) {
-                    return $proc;
+                    return array_merge($proc, $oss);
                 }
                 break;
 
@@ -22,5 +22,6 @@ class OssSelectionAction
             default:
                 break;
         }
+        return $proc;
     }
 }

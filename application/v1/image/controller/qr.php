@@ -2,6 +2,7 @@
 
 namespace app\v1\image\controller;
 
+use app\v1\file\action\OssSelectionAction;
 use app\v1\image\action\QRImageWithLogo;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
@@ -30,6 +31,7 @@ class qr extends CommonController
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
         }
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
     }
 
     public function png(Request $request)

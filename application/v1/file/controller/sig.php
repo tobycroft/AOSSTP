@@ -2,6 +2,7 @@
 
 namespace app\v1\file\controller;
 
+use app\v1\file\action\OssSelectionAction;
 use app\v1\project\model\ProjectModel;
 use Ret;
 use think\Request;
@@ -21,6 +22,7 @@ class sig
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
         }
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
     }
 
     public function get(Request $request)

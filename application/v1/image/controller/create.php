@@ -3,6 +3,7 @@
 namespace app\v1\image\controller;
 
 
+use app\v1\file\action\OssSelectionAction;
 use app\v1\image\action\DataAction;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
@@ -37,6 +38,7 @@ class create extends CommonController
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
         }
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
     }
 
     public function canvas(Request $request)

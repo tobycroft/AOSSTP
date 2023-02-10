@@ -4,6 +4,7 @@
 namespace app\v1\file\controller;
 
 
+use app\v1\file\action\OssSelectionAction;
 use app\v1\file\model\AttachmentChunkModel;
 use app\v1\project\model\ProjectModel;
 use Ret;
@@ -31,6 +32,7 @@ class chunk extends dp
         if (!$proc) {
             return $this->uploadError($from, "项目不可用");
         }
+        $proc = OssSelectionAction::App_find_byProc($proc);
 
         $file = request()->file('file');
         if ($file) {
