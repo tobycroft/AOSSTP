@@ -9,6 +9,7 @@ use BaseController\CommonController;
 use OSS\AliyunOSS;
 use OSS\Core\OssException;
 use PHPImageWorkshop\ImageWorkshop;
+use Ret;
 use SendFile\SendFile;
 use think\Exception;
 use think\facade\Response;
@@ -34,7 +35,7 @@ class create extends CommonController
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::Fail(401, null, '项目不可用');
+            Ret::Fail(401, null, '项目不可用');
         }
     }
 

@@ -9,7 +9,6 @@
 namespace app\v1\project\model;
 
 
-
 use think\Db;
 
 class ProjectModel extends Db

@@ -7,6 +7,7 @@ use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
+use Ret;
 use think\facade\Response;
 use think\Request;
 
@@ -27,7 +28,7 @@ class qr extends CommonController
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::Fail(401, null, '项目不可用');
+            Ret::Fail(401, null, '项目不可用');
         }
     }
 

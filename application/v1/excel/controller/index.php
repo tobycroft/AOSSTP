@@ -7,6 +7,7 @@ use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Ret;
 use think\facade\Validate;
 use think\Request;
 
@@ -25,8 +26,7 @@ class index extends CommonController
         }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
-            \Ret::Fail(400, null, '项目不可用');
-            return;
+            Ret::Fail(401, null, '项目不可用');
         }
 
     }
