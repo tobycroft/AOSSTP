@@ -28,7 +28,7 @@
     "chillerlan/php-qrcode": "^4.3",
     "ext-gd": "*",
     "khanamiryan/qrcode-detector-decoder": "^2.0",
-    "ext-redis": "*"
+    "flc/dysms": "^1.0"
   },
   "autoload": {
     "psr-4": {
