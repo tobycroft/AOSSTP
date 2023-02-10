@@ -12,7 +12,7 @@ class OssSelectionAction
             case 'aliyun':
                 $oss = OssAliyunModel::where("tag", $proc["oss_tag"])->find();
                 if ($oss) {
-                    return array_merge($proc, $oss);
+                    return array_merge($proc, $oss->toArray());
                 }
                 break;
 
