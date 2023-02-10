@@ -31,6 +31,7 @@ class chunk extends dp
         if (!$proc) {
             return $this->uploadError($from, "项目不可用");
         }
+
         $file = request()->file('file');
         if ($file) {
             $name = input('name');
