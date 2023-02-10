@@ -2,6 +2,9 @@
 
 namespace app\v1\sms\action;
 
+use Flc\Dysms\Client;
+use Flc\Dysms\Request\SendSms;
+
 class AliyunAction
 {
     public static function Send()
@@ -12,7 +15,7 @@ class AliyunAction
         ];
 
         $client = new Client($config);
-        $sendSms = new SendSms;
+        $sendSms = new SendSms();
         $sendSms->setPhoneNumbers('1500000000');
         $sendSms->setSignName('叶子坑');
         $sendSms->setTemplateCode('SMS_77670013');
