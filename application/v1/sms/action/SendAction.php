@@ -4,13 +4,14 @@ namespace app\v1\sms\action;
 
 use app\v1\sms\model\SmsAliyunModel;
 use app\v1\sms\model\SmsLcModel;
+use app\v1\sms\model\SmsTencentModel;
 use app\v1\sms\struct\SendStdErr;
 
 class SendAction
 {
 
     //AutoSend:返回错误
-    public static function AutoSend($proc, $phone, $param): SendStdErr|null
+    public static function AutoSend($proc, $quhao, $phone, $param): SendStdErr|null
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
@@ -21,7 +22,10 @@ class SendAction
                 break;
 
             case "tencent":
-                \Ret::Fail(408, null, '1');
+                $data = SmsTencentModel::where('tag', $proc['sms_tag'])->findOrEmpty();
+                if ($data) {
+                    return TencentSmsAction::Send($proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $param, $data['sign'], $data['tplid']);
+                }
                 break;
 
             case "ihuyi":

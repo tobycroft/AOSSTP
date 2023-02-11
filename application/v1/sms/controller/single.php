@@ -32,9 +32,9 @@ class single extends CommonController
     public function push(Request $request)
     {
         $phone = Input::Post("phone");
-        $quhao = Input::Post("quhao");
+        $quhao = Input::PostInt("quhao");
         $text = Input::Post("text");
-        if ($std = SendAction::AutoSend($this->proc, $phone, $text)) {
+        if ($std = SendAction::AutoSend($this->proc, $quhao, $phone, $text)) {
             Ret::Success($std->getCode(), $std->getData(), $std->getError());
         } else {
             Ret::Fail(406, null, "短信平台未选择");
