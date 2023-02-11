@@ -45,7 +45,7 @@ class Input
     public static function PostInt(string $name, bool $must_have = true): int
     {
 //        echo Request::post($name);
-        echo Request::has($name . "/d");
+        echo Request::has($name);
         if (!Request::has($name) && $must_have) {
             Ret::Fail(400, null, "Input-Post-Int:[" . $name . "]");
         }
