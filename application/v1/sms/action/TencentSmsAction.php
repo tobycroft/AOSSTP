@@ -21,10 +21,11 @@ class TencentSmsAction
     public static function Send(mixed $type, $tag, $appid, $appkey, int $quhao, string|array $phone, string $text, $smsSign, $templateId): SendStdErr
     {
         var_dump($text);
-//        try {
-        $ssender = new SmsSingleSender($appid, $appkey);
         $params = json_decode($text, 1);
         var_dump($params);
+//        try {
+        $ssender = new SmsSingleSender($appid, $appkey);
+
         $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
         $ret = json_decode($result);
         echo $result;
