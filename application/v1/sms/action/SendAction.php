@@ -16,7 +16,7 @@ class SendAction
             case "aliyun":
                 $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($data) {
-                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $param, $data['sign'], $data['tpcode']);
+                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $param, $data['tpcode'], $data['sign']);
                 }
                 break;
 
