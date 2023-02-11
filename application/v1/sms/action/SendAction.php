@@ -16,7 +16,7 @@ class SendAction
                     $aliyun["accesskey"];
                     $aliyun["sign"];
                     $aliyun["tpcode"];
-                    return AliyunAction::Send($aliyun['accessid'], $aliyun['accesskey'], $aliyun['sign'], $aliyun['tpcode'], $phone, $param);
+                    var_dump(AliyunAction::Send($aliyun['accessid'], $aliyun['accesskey'], $aliyun['sign'], $aliyun['tpcode'], $phone, $param));
                 }
                 break;
 
