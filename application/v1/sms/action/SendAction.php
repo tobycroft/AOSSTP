@@ -19,6 +19,7 @@ class SendAction
                 if ($data) {
                     return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
                 }
+                \Ret::Fail(408, null, '未找到aliyun平台对应模板');
                 break;
 
             case "tencent":
@@ -26,6 +27,7 @@ class SendAction
                 if ($data) {
                     return TencentSmsAction::Send($proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $text, $data['sign'], $data['tplid']);
                 }
+                \Ret::Fail(408, null, '未找到tencent平台对应模板');
                 break;
 
             case "ihuyi":
@@ -45,6 +47,7 @@ class SendAction
                         return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
                     }
                 }
+                \Ret::Fail(408, null, '未找到LC平台对应模板');
                 break;
 
             default:
