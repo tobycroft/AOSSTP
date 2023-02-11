@@ -9,9 +9,9 @@ class Send
     {
         //普通发送示例：
         $time_stamp = getmicrotime();
-//发送的URL
+        //发送的URL
         $url = 'http://47.97.21.146:9090/sms/Service/group';
-//发送数据
+        //发送数据
         $data = [];
         $data['mch_id'] = $mch_id;                      //账号唯一标识
         $data['contents'] = $contents;                         //发送内容
@@ -20,12 +20,12 @@ class Send
         $data['time_stamp'] = $time_stamp;              //请求时间戳（13位）
         $data['sign'] = strtoupper(md5($mch_id . '&' . $time_stamp . '&' . $key)); //签名
 
-//$data['send_time'] = '';                        //预设发送时间（可不传）
-//$data['notify_url'] = '';                       //推送通知地址（可不传）
-//$data['user_data'] = '';                        //自定义数据，只能由1-50个数字或字母组成（可不传）
-//CURL请求
+        //$data['send_time'] = '';                        //预设发送时间（可不传）
+        //$data['notify_url'] = '';                       //推送通知地址（可不传）
+        //$data['user_data'] = '';                        //自定义数据，只能由1-50个数字或字母组成（可不传）
+        //CURL请求
         $back = $this->post($url, $data);
-//输出结果
+        //输出结果
         echo $back;
     }
 
@@ -61,34 +61,34 @@ class Send
     public function code($mch_id, $key, $phone_num, $code, $sign, $tpcode)
     {
 
-//验证码/有变量模版发送示例：
-//发送前请先添加短信模版
+        //验证码/有变量模版发送示例：
+        //发送前请先添加短信模版
         $time_stamp = getmicrotime();
         $url = 'http://47.97.21.146:9090/sms/Service/codemsg';  //发送的URL
 
-//发送数据
+        //发送数据
         $data = [];
         $data['mch_id'] = $mch_id;  //账号唯一标识
         $data['phone_num'] = $phone_num; //手机号码，只能发送一个
         $data['tga_id'] = $sign;   //短信签名ID
         $data['tmp_id'] = $tpcode;   //短信模版ID
 
-//有带替换参数的通知短信或推广短信示例
-//$arr = ['替换数据1','替换数据2','替换数据3','替换数据4'];   //多变量示例
-//$data['contents'] = json_encode($arr);
+        //有带替换参数的通知短信或推广短信示例
+        //$arr = ['替换数据1','替换数据2','替换数据3','替换数据4'];   //多变量示例
+        //$data['contents'] = json_encode($arr);
 
-////验证码示例
+        ////验证码示例
         $arr = [$code];
         $data['contents'] = json_encode($arr);  //模版替换内容以JONS的格式传送
 
         $data['time_stamp'] = $time_stamp;  //请求时间戳（13位）
         $data['sign'] = strtoupper(md5($mch_id . '&' . $time_stamp . '&' . $key)); //签名
-//$data['send_time'] = '';  //预设发送时间（可不传）
-//$data['notify_url'] = ''; //推送通知地址（可不传）
-//$data['user_data'] = '';  //自定义数据，只能由1-50个数字或字母组成（可不传）
-//CURL请求
+        //$data['send_time'] = '';  //预设发送时间（可不传）
+        //$data['notify_url'] = ''; //推送通知地址（可不传）
+        //$data['user_data'] = '';  //自定义数据，只能由1-50个数字或字母组成（可不传）
+        //CURL请求
         $back = $this->post($url, $data);
-//输出结果
+        //输出结果
         echo $back;
     }
 
