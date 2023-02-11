@@ -9,7 +9,7 @@ class SendAction
 {
 
     //AutoSend:返回错误
-    public static function AutoSend($proc, $phone, $param): SendStdErr
+    public static function AutoSend($proc, $phone, $param): SendStdErr|null
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
@@ -39,5 +39,6 @@ class SendAction
                 \Ret::Fail(408, null, "项目没有对应的短信方案或模板");
                 break;
         }
+        return null;
     }
 }
