@@ -6,6 +6,7 @@ use app\v1\log\model\LogSmsModel;
 use app\v1\sms\struct\SendStdErr;
 use LCSms\Send;
 
+//jj项目
 class LcAction
 {
     public static function SendText($type, $tag, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
