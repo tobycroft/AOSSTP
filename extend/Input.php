@@ -44,17 +44,12 @@ class Input
     public static function PostInt(string $name, bool $must_have = true): int
     {
 //        echo Request::post($name);
-        echo request()->has($name, null, 'intval');
-        if (!Request::has($name, null, 'intval') && $must_have) {
-            Ret::Fail(400, null, "Input-Post-Int:[" . $name . "]");
-        }
-        $in = intval(request()->post($name . '/d'));
-        if ($in) {
+        if ($in = Request::post($name, null, 'intval') && $must_have) {
             return $in;
         } else {
-            Ret::Fail(400, null, 'Input-Post-Json:[' . $name . '] should be json string');
+            Ret::Fail(400, null, 'Input-Post-Int:[' . $name . ']');
+            return 0;
         }
-        return 0;
     }
 
     public static function PostJson(string $name, bool $must_have = true): array
