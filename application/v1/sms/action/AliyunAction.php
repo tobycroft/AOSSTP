@@ -39,7 +39,11 @@ class AliyunAction
                 'success' => $success,
                 'error' => false,
             ]);
-            return $ret
+            if ($success) {
+                return null;
+            } else {
+                return $ret['Message'];
+            }
         } catch (Exception $e) {
             LogSmsModel::create([
                 "oss_type" => $type,
@@ -47,11 +51,11 @@ class AliyunAction
                 "phone" => $phone,
                 "text" => $text,
                 "log" => $e->getMessage(),
+                "raw" => $e->getTraceAsString(),
                 'success' => false,
                 'error' => true,
             ]);
             return $e->getMessage();
         }
-        return null;
     }
 }
