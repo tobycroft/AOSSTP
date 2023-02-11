@@ -15,7 +15,7 @@ class SendAction
             case "aliyun":
                 $aliyun = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($aliyun) {
-                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $aliyun['accessid'], $aliyun['accesskey'], $aliyun['sign'], $aliyun['tpcode'], $phone, $param);
+                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $aliyun['accessid'], $aliyun['accesskey'], $phone, $param, $aliyun['sign'], $aliyun['tpcode']);
                 }
                 break;
 
@@ -32,8 +32,8 @@ class SendAction
                 break;
 
             case "lc":
-                \Ret::Fail(408, null, '4');
-                break;
+
+            break;
 
             default:
                 \Ret::Fail(408, null, "项目没有对应的短信方案或模板");

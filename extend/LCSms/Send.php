@@ -5,7 +5,7 @@ namespace LCSms;
 class Send
 {
 
-    public function full_text($mch_id, $key, $phone_nums, $contents, $sign)
+    public static function full_text($mch_id, $key, $phone_nums, $contents, $sign): array
     {
         //普通发送示例：
         $time_stamp = getmicrotime();
@@ -24,41 +24,13 @@ class Send
         //$data['notify_url'] = '';                       //推送通知地址（可不传）
         //$data['user_data'] = '';                        //自定义数据，只能由1-50个数字或字母组成（可不传）
         //CURL请求
-        $back = $this->post($url, $data);
+        $back = self::post($url, $data);;
         //输出结果
-        echo $back;
+        return json_decode($back, 1);
     }
 
-    public function post($url, $postData, $option = FALSE)
-    {
-        if (!is_array($postData)) {
-            return FALSE;
-        }
-        //初始化curl
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);    //>设置请求地址
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //>设置为返回请求内容
 
-        if ($option) {
-            //>默认以数组发送,当option = TRUR则以key=value&key=value的形式发送
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); //>设置HEADER
-            $postData = http_build_query($postData);
-        }
-
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-
-        if (!(strpos($url, 'https') === FALSE)) {
-            //>设置SSLs
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        }
-        $res = curl_exec($ch);  //>运行curl
-        curl_close($ch);        //>关闭curl
-        return $res;
-    }
-
-    public function code($mch_id, $key, $phone_num, $code, $sign, $tpcode)
+    public static function code($mch_id, $key, $phone_num, $code, $sign, $tpcode): array
     {
 
         //验证码/有变量模版发送示例：
@@ -87,14 +59,44 @@ class Send
         //$data['notify_url'] = ''; //推送通知地址（可不传）
         //$data['user_data'] = '';  //自定义数据，只能由1-50个数字或字母组成（可不传）
         //CURL请求
-        $back = $this->post($url, $data);
+        $back = self::post($url, $data);
         //输出结果
-        echo $back;
+        return json_decode($back, 1);
     }
 
-    public function getmicrotime()
+    protected static function getmicrotime()
     {
         list($t1, $t2) = explode(' ', microtime());
         return (float)sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
     }
+
+    protected static function post($url, $postData, $option = FALSE)
+    {
+        if (!is_array($postData)) {
+            return FALSE;
+        }
+        //初始化curl
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);    //>设置请求地址
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //>设置为返回请求内容
+
+        if ($option) {
+            //>默认以数组发送,当option = TRUR则以key=value&key=value的形式发送
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); //>设置HEADER
+            $postData = http_build_query($postData);
+        }
+
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+        if (!(strpos($url, 'https') === FALSE)) {
+            //>设置SSLs
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
+        $res = curl_exec($ch);  //>运行curl
+        curl_close($ch);        //>关闭curl
+        return $res;
+    }
+
 }
