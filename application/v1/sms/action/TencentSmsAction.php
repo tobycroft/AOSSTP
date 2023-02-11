@@ -18,30 +18,30 @@ use TencentCloud\Sms\V20210111\SmsClient;
 
 class TencentSmsAction
 {
-    public static function Send(mixed $type, $tag, $appid, $appkey, int $quhao, string|array $phone, mixed $text, $smsSign, $templateId): SendStdErr
+    public static function Send(mixed $type, $tag, $appid, $appkey, int $quhao, string|array $phone, string $text, $smsSign, $templateId): SendStdErr
     {
 //        try {
-            $ssender = new SmsSingleSender($appid, $appkey);
-            $params = json_decode($text, 1);
+        $ssender = new SmsSingleSender($appid, $appkey);
+        $params = json_decode($text, 1);
         var_dump($params);
         $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
-            $ret = json_decode($result);
-            echo $result;
-            var_dump($ret);
-            $success = false;
-            if (intval($ret->result) == 0) {
-                $success = true;
-            }
-            LogSmsModel::create([
-                'oss_type' => $type,
-                'oss_tag' => $tag,
-                'phone' => $phone,
-                'text' => $text,
-                'raw' => $result,
-                'log' => $ret->errmsg,
-                'success' => $success,
-                'error' => false,
-            ]);
+        $ret = json_decode($result);
+        echo $result;
+        var_dump($ret);
+        $success = false;
+        if (intval($ret->result) == 0) {
+            $success = true;
+        }
+        LogSmsModel::create([
+            'oss_type' => $type,
+            'oss_tag' => $tag,
+            'phone' => $phone,
+            'text' => $text,
+            'raw' => $result,
+            'log' => $ret->errmsg,
+            'success' => $success,
+            'error' => false,
+        ]);
         if ($success) {
             return new SendStdErr(0, null, $ret->errmsg);
         } else {
