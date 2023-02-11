@@ -1,19 +1,75 @@
 <?php
 
+use think\facade\Request;
+
 class Input
 {
-    public static function Post(string $name, $must_have = true, bool $xss = false): string
+    public static function Post(string $name, bool $must_have = true, bool $xss = false): string
     {
-        if (!\think\facade\Request::has($name) && $must_have) {
+        if (!Request::has($name) && $must_have) {
             Ret::Fail(400, null, "Input-Post:[" . $name . "]");
         }
-        $in = request()->post($name);
+        $in = strval(request()->post($name));
         if ($xss) {
             return removeXSS($in);
         } else {
             return $in;
         }
     }
+
+    public static function PostFloat(string $name, bool $must_have = true): float
+    {
+        if (!Request::has($name . "/f") && $must_have) {
+            Ret::Fail(400, null, "Input-Post-Float:[" . $name . "]");
+        }
+        $in = floatval(request()->post($name . '/f'));
+        if ($in) {
+            return $in;
+        } else {
+            return 0;
+        }
+    }
+
+    public static function PostBool(string $name, bool $must_have = true): bool
+    {
+        if (!Request::has($name . "/b") && $must_have) {
+            Ret::Fail(400, null, "Input-Post-Bool:[" . $name . "]");
+        }
+        $in = boolval(request()->post($name . '/b'));
+        if ($in) {
+            return $in;
+        }
+        return false;
+    }
+
+    public static function PostInt(string $name, bool $must_have = true): int
+    {
+        if (!Request::has($name . "/d") && $must_have) {
+            Ret::Fail(400, null, "Input-Post-Int:[" . $name . "]");
+        }
+        $in = intval(request()->post($name . '/d'));
+        if ($in) {
+            return $in;
+        } else {
+            Ret::Fail(400, null, 'Input-Post-Json:[' . $name . '] should be json string');
+        }
+        return 0;
+    }
+
+    public static function PostJson(string $name, bool $must_have = true): array
+    {
+        if (!Request::has($name) && $must_have) {
+            Ret::Fail(400, null, 'Input-Post-Json:[' . $name . ']');
+        }
+        $in = strval(request()->post($name));
+        if ($json = json_decode($in, true)) {
+            return $json;
+        } else {
+            Ret::Fail(400, null, 'Input-Post-Json:[' . $name . '] should be json string');
+            return [];
+        }
+    }
+
 }
 
 function removeXSS($data)
