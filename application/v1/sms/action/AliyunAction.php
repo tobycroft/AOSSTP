@@ -5,7 +5,6 @@ namespace app\v1\sms\action;
 use app\v1\log\model\LogSmsModel;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
-use think\Exception;
 
 class AliyunAction
 {
@@ -44,7 +43,7 @@ class AliyunAction
             } else {
                 return $ret['Message'];
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             LogSmsModel::create([
                 "oss_type" => $type,
                 "oss_tag" => $tag,
