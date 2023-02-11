@@ -8,7 +8,7 @@ class Send
     public static function full_text($mch_id, $key, $phone_nums, $contents, $sign): array
     {
         //普通发送示例：
-        $time_stamp = getmicrotime();
+        $time_stamp = self::getmicrotime();
         //发送的URL
         $url = 'http://47.97.21.146:9090/sms/Service/group';
         //发送数据
@@ -35,7 +35,7 @@ class Send
 
         //验证码/有变量模版发送示例：
         //发送前请先添加短信模版
-        $time_stamp = getmicrotime();
+        $time_stamp = self::getmicrotime();
         $url = 'http://47.97.21.146:9090/sms/Service/codemsg';  //发送的URL
 
         //发送数据
