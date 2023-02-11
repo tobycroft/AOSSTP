@@ -24,7 +24,7 @@ class single extends CommonController
         }
         $ts = Input::PostInt('ts');
         $sign = Input::Post('sign');
-        if (md5($this->token . $ts) != $sign) {
+        if (md5($this->proc['code'] . $ts) != $sign) {
             Ret::Fail(401, null, '签名不正确，加密方式为小写MD5(token+ts)');
         }
     }
