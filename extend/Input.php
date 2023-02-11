@@ -43,8 +43,8 @@ class Input
 
     public static function PostInt(string $name, bool $must_have = true): int
     {
-        $in = Request::post($name);
-        var_dump(intval($in));
+        $in = Request::post($name, null, 'int');
+        var_dump(($in));
         var_dump(is_int($in));
         if (!$in && $must_have) {
             Ret::Fail(400, null, 'Input-Post-Int:[' . $name . ']');
