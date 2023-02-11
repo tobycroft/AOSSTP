@@ -25,7 +25,7 @@ class AliyunAction
 //        $sendSms->setOutId('demo');
             $ret = $client->execute($sendSms);
             $success = false;
-            if (strtolower($ret['Code']) == "OK") {
+            if (strtolower($ret->Code) == "ok") {
                 $success = true;
             }
             LogSmsModel::create([
