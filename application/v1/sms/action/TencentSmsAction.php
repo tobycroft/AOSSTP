@@ -26,8 +26,6 @@ class TencentSmsAction
         $params = json_decode($text, 1);
         $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
         $ret = json_decode($result);
-        echo $result;
-        var_dump($ret);
         $success = false;
         if (intval($ret->result) == 0) {
             $success = true;
