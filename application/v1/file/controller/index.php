@@ -3,6 +3,7 @@
 namespace app\v1\file\controller;
 
 
+use app\v1\file\action\OssSelectionAction;
 use app\v1\file\model\AttachmentModel;
 use getID3;
 use OSS\AliyunOSS;
@@ -13,6 +14,15 @@ use think\Request;
 
 class index extends search
 {
+
+
+    public function initialize()
+    {
+
+        parent::initialize();
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
+
+    }
 
     public function index()
     {
