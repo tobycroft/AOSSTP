@@ -31,6 +31,8 @@ class single extends CommonController
     public function push(Request $request)
     {
         $phone = Input::Post("phone");
-//        SendAction::AutoSend($this->proc, $phone, $param);
+        $quhao = Input::Post("quhao");
+        $text = Input::Post("text");
+        SendAction::AutoSend($this->proc, $phone, $text);
     }
 }
