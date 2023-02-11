@@ -3,12 +3,13 @@
 namespace app\v1\sms\action;
 
 use app\v1\log\model\LogSmsModel;
+use app\v1\sms\struct\SendStdErr;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
 
 class AliyunAction
 {
-    public static function Send($type, $tag, $accessid, $accesskey, $sign, $tpcode, $phone, $text): string|null
+    public static function Send($type, $tag, $accessid, $accesskey, $sign, $tpcode, $phone, $text): SendStdErr
     {
         $config = [
             'accessKeyId' => $accessid,
@@ -39,9 +40,9 @@ class AliyunAction
                 'error' => false,
             ]);
             if ($success) {
-                return null;
+                return new SendStdErr(0, null, $ret->Message);
             } else {
-                return $ret['Message'];
+                return new SendStdErr(200, null, $ret->Message);
             }
         } catch (\Throwable $e) {
             LogSmsModel::create([
@@ -54,7 +55,7 @@ class AliyunAction
                 'success' => false,
                 'error' => true,
             ]);
-            return $e->getMessage();
+            return new SendStdErr(500, null, $e->getMessage());
         }
     }
 }
