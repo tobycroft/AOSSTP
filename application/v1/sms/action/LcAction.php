@@ -32,7 +32,7 @@ class LcAction
             if ($success) {
                 return new SendStdErr(0, null, $ret['msg']);
             } else {
-                return new SendStdErr(200, null, $ret['msg']);
+                return new SendStdErr(200, $ret, $ret['msg']);
 
             }
         } catch (\Throwable $e) {
