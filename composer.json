@@ -29,7 +29,7 @@
     "ext-gd": "*",
     "khanamiryan/qrcode-detector-decoder": "^2.0",
     "flc/dysms": "^1.0",
-    "tencentcloud/sms": "^3.0"
+    "qcloudsms/qcloudsms_php": "^0.1.4"
   },
   "autoload": {
     "psr-4": {
