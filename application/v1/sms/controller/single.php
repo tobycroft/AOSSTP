@@ -3,6 +3,7 @@
 namespace app\v1\sms\controller;
 
 use app\v1\project\model\ProjectModel;
+use app\v1\sms\action\SendAction;
 use BaseController\CommonController;
 use Input;
 use Ret;
@@ -33,6 +34,6 @@ class single extends CommonController
         $phone = Input::Post("phone");
         $quhao = Input::Post("quhao");
         $text = Input::Post("text");
-        SendAction::AutoSend($this->proc, $phone, $text);
+        echo SendAction::AutoSend($this->proc, $phone, $text);
     }
 }
