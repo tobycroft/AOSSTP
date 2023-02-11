@@ -9,11 +9,10 @@ class Input
         if (!Request::has($name) && $must_have) {
             Ret::Fail(400, null, "Input-Post:[" . $name . "]");
         }
-        $in = strval(request()->post($name, '', 'strip_tags'));
         if ($xss) {
-            return removeXSS($in);
+            return strval(request()->post($name, '', 'strip_tags'));
         } else {
-            return $in;
+            return strval(request()->post($name));
         }
     }
 
@@ -45,8 +44,8 @@ class Input
     public static function PostInt(string $name, bool $must_have = true): int
     {
 //        echo Request::post($name);
-        echo Request::has($name . '/d');
-        if (!Request::has($name) && $must_have) {
+        echo Request::has($name, null, 'intval');
+        if (!Request::has($name, null, 'intval') && $must_have) {
             Ret::Fail(400, null, "Input-Post-Int:[" . $name . "]");
         }
         $in = intval(request()->post($name . '/d'));
