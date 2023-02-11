@@ -20,7 +20,7 @@ class TencentSmsAction
 {
     public static function Send(mixed $type, $tag, $appid, $appkey, int $quhao, string|array $phone, mixed $text, $smsSign, $templateId): SendStdErr
     {
-        try {
+//        try {
             $ssender = new SmsSingleSender($appid, $appkey);
             $params = json_decode($text, 1);
             $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
@@ -41,23 +41,23 @@ class TencentSmsAction
                 'success' => $success,
                 'error' => false,
             ]);
-            if ($success) {
-                return new SendStdErr(0, null, $ret->errmsg);
-            } else {
-                return new SendStdErr(200, $result, $ret->errmsg);
-            }
-        } catch (\Exception $e) {
-            LogSmsModel::create([
-                'oss_type' => $type,
-                'oss_tag' => $tag,
-                'phone' => $phone,
-                'text' => $text,
-                'log' => $e->getMessage(),
-                'raw' => $e->getTraceAsString(),
-                'success' => false,
-                'error' => true,
-            ]);
-            return new SendStdErr(500, null, $e->getMessage());
+        if ($success) {
+            return new SendStdErr(0, null, $ret->errmsg);
+        } else {
+            return new SendStdErr(200, $result, $ret->errmsg);
         }
+//        } catch (\Exception $e) {
+//            LogSmsModel::create([
+//                'oss_type' => $type,
+//                'oss_tag' => $tag,
+//                'phone' => $phone,
+//                'text' => $text,
+//                'log' => $e->getMessage(),
+//                'raw' => $e->getTraceAsString(),
+//                'success' => false,
+//                'error' => true,
+//            ]);
+//            return new SendStdErr(500, null, $e->getMessage());
+//        }
     }
 }

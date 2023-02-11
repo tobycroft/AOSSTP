@@ -11,20 +11,20 @@ class SendAction
 {
 
     //AutoSend:返回错误
-    public static function AutoSend($proc, $quhao, $phone, $param): SendStdErr|null
+    public static function AutoSend($proc, $quhao, $phone, $text): SendStdErr|null
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
                 $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($data) {
-                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $param, $data['sign'], $data['tpcode']);
+                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
                 }
                 break;
 
             case "tencent":
                 $data = SmsTencentModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return TencentSmsAction::Send($proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $param, $data['sign'], $data['tplid']);
+                    return TencentSmsAction::Send($proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $text, $data['sign'], $data['tplid']);
                 }
                 break;
 
@@ -39,7 +39,7 @@ class SendAction
             case "lc":
                 $data = SmsLcModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $param, $data['sign'], $data['tpcode']);
+                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
                 }
                 break;
 
