@@ -4,7 +4,7 @@ namespace app\v1\sms\action;
 
 use app\v1\log\model\LogSmsModel;
 use app\v1\sms\struct\SendStdErr;
-use Qcloud\Sms\SmsSingleSender;
+use Qcloud\Sms\SmsSingleSenderFix;
 use TencentCloud\Common\Credential;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
@@ -22,7 +22,8 @@ class TencentSmsAction
     {
 
 //        try {
-        $ssender = new SmsSingleSender($appid, $appkey);
+
+        $ssender = new SmsSingleSenderFix($appid, $appkey);
         $params = json_decode($text, 1);
         $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
         $ret = json_decode($result);
