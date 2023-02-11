@@ -9,11 +9,11 @@ use LCSms\Send;
 //jj-proj
 class LcAction
 {
-    public static function SendText($type, $tag, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
+    public static function SendText($type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
     {
 
         try {
-            $ret = Send::full_text($mch_id, $key, $phone, $text, $sign);
+            $ret = Send::full_text($reverse_addr, $mch_id, $key, $phone, $text, $sign);
             $success = false;
             if (strtolower($ret["code"]) == '00000') {
                 $success = true;
@@ -48,11 +48,11 @@ class LcAction
         }
     }
 
-    public static function SendCode($type, $tag, $mch_id, $key, $phone, $text, $sign, $tpcode): SendStdErr
+    public static function SendCode($reverse_addr, $type, $tag, $mch_id, $key, $phone, $text, $sign, $tpcode): SendStdErr
     {
 
         try {
-            $ret = Send::code($mch_id, $key, $phone, $text, $sign, $tpcode);
+            $ret = Send::code($reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode);
             $success = false;
             if (strtolower($ret["code"]) == '00000') {
                 $success = true;

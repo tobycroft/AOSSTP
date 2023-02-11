@@ -5,12 +5,12 @@ namespace LCSms;
 class Send
 {
 
-    public static function full_text($mch_id, $key, $phone_nums, $contents, $sign): array
+    public static function full_text($reverse_addr, $mch_id, $key, $phone_nums, $contents, $sign): array
     {
         //普通发送示例：
         $time_stamp = self::getmicrotime();
         //发送的URL
-        $url = 'http://sms.lc.familyeducation.org.cn/sms/Service/group';
+        $url = $reverse_addr . '/sms/Service/group';
         //发送数据
         $data = [];
         $data['mch_id'] = $mch_id;                      //账号唯一标识
@@ -30,13 +30,13 @@ class Send
     }
 
 
-    public static function code($mch_id, $key, $phone_num, $code, $sign, $tpcode): array
+    public static function code($reverse_addr, $mch_id, $key, $phone_num, $code, $sign, $tpcode): array
     {
 
         //验证码/有变量模版发送示例：
         //发送前请先添加短信模版
         $time_stamp = self::getmicrotime();
-        $url = 'http://sms.lc.familyeducation.org.cn/sms/Service/codemsg';  //发送的URL
+        $url = $reverse_addr . '/sms/Service/codemsg';  //发送的URL
 
         //发送数据
         $data = [];
