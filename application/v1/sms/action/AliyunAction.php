@@ -6,7 +6,6 @@ use app\v1\log\model\LogSmsModel;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
 use think\Exception;
-use think\facade\Log;
 
 class AliyunAction
 {
@@ -26,15 +25,19 @@ class AliyunAction
             $sendSms->setTemplateParam(json_decode($text, 320));
 //        $sendSms->setOutId('demo');
             $ret = $client->execute($sendSms);
+            $success = false;
+            if (strtolower($ret['Code']) == "OK") {
+                $success = true;
+            }
             LogSmsModel::create([
                 'oss_type' => $type,
                 'oss_tag' => $tag,
                 'phone' => $phone,
                 'text' => $text,
                 'log' => json_encode($ret, 320),
-                'success' => false,
+                'success' => $success,
+                'error' => false,
             ]);
-            Log::debug($ret);
         } catch (Exception $e) {
             LogSmsModel::create([
                 "oss_type" => $type,
@@ -43,6 +46,7 @@ class AliyunAction
                 "text" => $text,
                 "log" => $e->getMessage(),
                 'success' => false,
+                'error' => true,
             ]);
         }
 
