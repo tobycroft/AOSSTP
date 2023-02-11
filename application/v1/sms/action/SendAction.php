@@ -17,7 +17,8 @@ class SendAction
                 break;
 
             case "tencent":
-                break;
+
+            break;
 
             case "ihuyi":
                 break;
