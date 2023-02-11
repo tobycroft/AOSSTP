@@ -8,7 +8,7 @@ use think\facade\Log;
 
 class AliyunAction
 {
-    public static function Send($accessid, $accesskey, $sign, $tpcode, $phone, $param)
+    public static function Send($accessid, $accesskey, $sign, $tpcode, $phone, $text)
     {
         $config = [
             'accessKeyId' => $accessid,
@@ -20,7 +20,7 @@ class AliyunAction
         $sendSms->setPhoneNumbers($phone);
         $sendSms->setSignName($sign);
         $sendSms->setTemplateCode($tpcode);
-        $sendSms->setTemplateParam($param);
+        $sendSms->setTemplateParam(json_decode($text, 320));
 //        $sendSms->setOutId('demo');
         $ret = $client->execute($sendSms);
         Log::debug($ret);
