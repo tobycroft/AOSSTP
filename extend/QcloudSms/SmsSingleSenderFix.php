@@ -3,6 +3,8 @@
 namespace QcloudSms;
 
 
+use Qcloud\Sms\SmsSenderUtil;
+
 /**
  * 单发短信类
  *
