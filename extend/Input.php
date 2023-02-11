@@ -5,7 +5,7 @@ class Input
     public static function Post(string $name, $must_have = true, bool $xss = false): string
     {
         if (!\think\facade\Request::has($name) && $must_have) {
-            Ret::Fail(400, null, "Input-Post:" . $name);
+            Ret::Fail(400, null, "Input-Post:[" . $name . "]");
         }
         $in = request()->post($name);
         if ($xss) {
