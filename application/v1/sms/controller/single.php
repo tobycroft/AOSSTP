@@ -8,7 +8,7 @@ use Input;
 use Ret;
 use think\Request;
 
-class send extends CommonController
+class single extends CommonController
 {
 
     public mixed $token;
@@ -27,7 +27,7 @@ class send extends CommonController
 
     }
 
-    public function send(Request $request)
+    public function push(Request $request)
     {
         $phone = Input::Post("phone");
 //        SendAction::AutoSend($this->proc, $phone, $param);
