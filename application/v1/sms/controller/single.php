@@ -23,8 +23,9 @@ class single extends CommonController
         }
         $ts = Input::Post('ts');
         $sign = Input::Post('ts');
-        $name = Input::Post('name');
-
+        if (md5($this->token . $ts) != $sign) {
+            Ret::Fail(401, null, '签名不正确，加密方式为小写MD5(token+ts)');
+        }
     }
 
     public function push(Request $request)
