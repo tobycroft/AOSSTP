@@ -34,6 +34,10 @@ class single extends CommonController
         $phone = Input::Post("phone");
         $quhao = Input::Post("quhao");
         $text = Input::Post("text");
-        SendAction::AutoSend($this->proc, $phone, $text);
+        if ($err = SendAction::AutoSend($this->proc, $phone, $text)) {
+            Ret::Fail(200, null, $err);
+        } else {
+            Ret::Success();
+        }
     }
 }
