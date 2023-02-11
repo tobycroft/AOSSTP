@@ -43,12 +43,15 @@ class Input
 
     public static function PostInt(string $name, bool $must_have = true): int
     {
-//        echo Request::post($name);
-        if ($in = Request::post($name, null, 'intval') && $must_have) {
-            return $in;
-        } else {
+        $in = Request::post($name, null);
+        if (!$in && $must_have) {
             Ret::Fail(400, null, 'Input-Post-Int:[' . $name . ']');
             return 0;
+        } elseif (is_integer($in)) {
+            Ret::Fail(400, null, 'Input-Post-Int:[' . $name . '] is not integer');
+            return 0;
+        } else {
+            return intval($in);
         }
     }
 
