@@ -9,7 +9,7 @@ class Input
         if (!Request::has($name) && $must_have) {
             Ret::Fail(400, null, "Input-Post:[" . $name . "]");
         }
-        $in = strval(request()->post($name));
+        $in = strval(request()->post($name, '', 'strip_tags'));
         if ($xss) {
             return removeXSS($in);
         } else {
