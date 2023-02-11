@@ -4,10 +4,11 @@ namespace app\v1\sms\action;
 
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
+use think\facade\Log;
 
 class AliyunAction
 {
-    public static function Send($accessid, $accesskey, $sign, $tpcode, $phone, array $param)
+    public static function Send($accessid, $accesskey, $sign, $tpcode, $phone, $param)
     {
         $config = [
             'accessKeyId' => $accessid,
@@ -21,7 +22,8 @@ class AliyunAction
         $sendSms->setTemplateCode($tpcode);
         $sendSms->setTemplateParam($param);
 //        $sendSms->setOutId('demo');
-
-        return $client->execute($sendSms);
+        $ret = $client->execute($sendSms);
+        Log::debug($ret);
+        return $ret;
     }
 }
