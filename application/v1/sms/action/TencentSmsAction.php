@@ -26,9 +26,9 @@ class TencentSmsAction
             $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
             $ret = json_decode($result);
             echo $result;
-
+            var_dump($ret);
             $success = false;
-            if (strtolower($ret->ActionStatus) == 'ok') {
+            if (intval($ret->result) == 0) {
                 $success = true;
             }
             LogSmsModel::create([
@@ -36,17 +36,17 @@ class TencentSmsAction
                 'oss_tag' => $tag,
                 'phone' => $phone,
                 'text' => $text,
-                'raw' => json_encode($ret, 320),
-                'log' => $ret->Message,
+                'raw' => $result,
+                'log' => $ret->errmsg,
                 'success' => $success,
                 'error' => false,
             ]);
             if ($success) {
-                return new SendStdErr(0, null, $ret->Message);
+                return new SendStdErr(0, null, $ret->errmsg);
             } else {
-                return new SendStdErr(200, null, $ret->Message);
+                return new SendStdErr(200, $result, $ret->errmsg);
             }
-        } catch (TencentCloudSDKException $e) {
+        } catch (\Exception $e) {
             LogSmsModel::create([
                 'oss_type' => $type,
                 'oss_tag' => $tag,
