@@ -45,7 +45,7 @@ class Input
     {
         $in = Request::post($name);
         var_dump($in);
-        echo is_integer($in);
+        var_dump(is_integer($in));
         if (!$in && $must_have) {
             Ret::Fail(400, null, 'Input-Post-Int:[' . $name . ']');
             return 0;
