@@ -4,7 +4,7 @@ namespace app\v1\sms\action;
 
 use app\v1\log\model\LogSmsModel;
 use app\v1\sms\struct\SendStdErr;
-use Qcloud\Sms\SmsSingleSenderFix;
+use QcloudSms\SmsSingleSenderFix;
 use TencentCloud\Common\Credential;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
