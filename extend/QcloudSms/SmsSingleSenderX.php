@@ -1,6 +1,6 @@
 <?php
 
-namespace Qcloud\Sms;
+namespace QcloudSms;
 
 
 /**
