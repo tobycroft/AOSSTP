@@ -16,7 +16,7 @@ class single extends CommonController
 
     public function initialize()
     {
-        echo input("name");
+        echo input("name/d");
         $this->token = Input::PostInt('name');
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
