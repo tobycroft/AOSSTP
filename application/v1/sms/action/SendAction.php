@@ -6,29 +6,32 @@ use app\v1\sms\model\SmsAliyunModel;
 
 class SendAction
 {
-    public static function AutoSend($proc, $phone, $param): bool
+
+    //AutoSend:返回错误
+    public static function AutoSend($proc, $phone, $param): string|null
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
                 $aliyun = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($aliyun) {
-                    var_dump(AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $aliyun['accessid'], $aliyun['accesskey'], $aliyun['sign'], $aliyun['tpcode'], $phone, $param));
+                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $aliyun['accessid'], $aliyun['accesskey'], $aliyun['sign'], $aliyun['tpcode'], $phone, $param);
                 }
-
                 break;
 
-            case
-            "tencent":
-
+            case "tencent":
+                \Ret::Fail(408, null, '1');
                 break;
 
             case "ihuyi":
+                \Ret::Fail(408, null, '2');
                 break;
 
             case "zz253":
+                \Ret::Fail(408, null, '3');
                 break;
 
             case "lc":
+                \Ret::Fail(408, null, '4');
                 break;
 
             default:
