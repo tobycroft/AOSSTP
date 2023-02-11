@@ -6,7 +6,7 @@ use app\v1\sms\model\SmsAliyunModel;
 
 class SendAction
 {
-    public static function AutoSend($proc, $phone, $param)
+    public static function AutoSend($proc, $phone, $param): bool
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
@@ -14,11 +14,13 @@ class SendAction
                 if ($aliyun) {
                     var_dump(AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $aliyun['accessid'], $aliyun['accesskey'], $aliyun['sign'], $aliyun['tpcode'], $phone, $param));
                 }
+
                 break;
 
-            case "tencent":
+            case
+            "tencent":
 
-            break;
+                break;
 
             case "ihuyi":
                 break;

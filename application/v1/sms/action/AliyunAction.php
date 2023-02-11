@@ -9,7 +9,7 @@ use think\Exception;
 
 class AliyunAction
 {
-    public static function Send($type, $tag, $accessid, $accesskey, $sign, $tpcode, $phone, $text)
+    public static function Send($type, $tag, $accessid, $accesskey, $sign, $tpcode, $phone, $text): string|null
     {
         $config = [
             'accessKeyId' => $accessid,
@@ -34,10 +34,12 @@ class AliyunAction
                 'oss_tag' => $tag,
                 'phone' => $phone,
                 'text' => $text,
-                'log' => json_encode($ret, 320),
+                'raw' => json_encode($ret, 320),
+                'log' => $ret["Message"],
                 'success' => $success,
                 'error' => false,
             ]);
+            return $ret
         } catch (Exception $e) {
             LogSmsModel::create([
                 "oss_type" => $type,
@@ -48,8 +50,8 @@ class AliyunAction
                 'success' => false,
                 'error' => true,
             ]);
+            return $e->getMessage();
         }
-
-        return $ret;
+        return null;
     }
 }
