@@ -18,34 +18,35 @@ class Input
 
     public static function PostFloat(string $name, bool $must_have = true): float
     {
-        if (!Request::has($name . "/f") && $must_have) {
-            Ret::Fail(400, null, "Input-Post-Float:[" . $name . "]");
-        }
-        $in = floatval(request()->post($name . '/f'));
-        if ($in) {
-            return $in;
-        } else {
+        $in = Request::post($name, null, 'float');
+        if (!$in && $must_have) {
+            Ret::Fail(400, null, 'Input-Post-Float:[' . $name . ']');
             return 0;
+        } elseif (is_float($in)) {
+            Ret::Fail(400, null, 'Input-Post-Float:[' . $name . '] is not float');
+            return 0;
+        } else {
+            return $in;
         }
     }
 
     public static function PostBool(string $name, bool $must_have = true): bool
     {
-        if (!Request::has($name . "/b") && $must_have) {
-            Ret::Fail(400, null, "Input-Post-Bool:[" . $name . "]");
-        }
-        $in = boolval(request()->post($name . '/b'));
-        if ($in) {
+        $in = Request::post($name, null, 'bool');
+        if (!$in && $must_have) {
+            Ret::Fail(400, null, 'Input-Post-Bool:[' . $name . ']');
+            return 0;
+        } elseif (is_bool($in)) {
+            Ret::Fail(400, null, 'Input-Post-Bool:[' . $name . '] is not boolean');
+            return 0;
+        } else {
             return $in;
         }
-        return false;
     }
 
     public static function PostInt(string $name, bool $must_have = true): int
     {
         $in = Request::post($name, null, 'int');
-        var_dump(($in));
-        var_dump(is_int($in));
         if (!$in && $must_have) {
             Ret::Fail(400, null, 'Input-Post-Int:[' . $name . ']');
             return 0;
