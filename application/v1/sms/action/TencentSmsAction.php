@@ -5,12 +5,7 @@ namespace app\v1\sms\action;
 use app\v1\log\model\LogSmsModel;
 use app\v1\sms\struct\SendStdErr;
 use QcloudSms\SmsSingleSenderFix;
-use TencentCloud\Common\Credential;
-use TencentCloud\Common\Exception\TencentCloudSDKException;
-use TencentCloud\Common\Profile\ClientProfile;
-use TencentCloud\Common\Profile\HttpProfile;
-use TencentCloud\Sms\V20210111\Models\SendSmsRequest;
-use TencentCloud\Sms\V20210111\SmsClient;
+
 
 // 导入要请求接口对应的Request类
 
