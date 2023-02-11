@@ -23,9 +23,7 @@ class TencentSmsAction
 
 //        try {
         $ssender = new SmsSingleSender($appid, $appkey);
-        var_dump($text);
         $params = json_decode($text, 1);
-        var_dump($params);
         $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
         $ret = json_decode($result);
         echo $result;
