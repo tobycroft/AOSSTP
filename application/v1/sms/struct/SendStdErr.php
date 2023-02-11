@@ -4,8 +4,8 @@ namespace app\v1\sms\struct;
 
 class SendStdErr
 {
-    public int $code;
-    public mixed $data = [];
+    protected int $code;
+    protected mixed $data = [];
     protected string|null $error = null;
 
     public function __construct(int $code, $data = [], $error = null)
@@ -13,6 +13,11 @@ class SendStdErr
         $this->code = $code;
         $this->data = $data;
         $this->error = $error;
+    }
+
+    public function getCode()
+    {
+        return $this->code;
     }
 
     public function getData()

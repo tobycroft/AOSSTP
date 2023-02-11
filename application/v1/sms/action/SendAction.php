@@ -3,12 +3,13 @@
 namespace app\v1\sms\action;
 
 use app\v1\sms\model\SmsAliyunModel;
+use app\v1\sms\struct\SendStdErr;
 
 class SendAction
 {
 
     //AutoSend:返回错误
-    public static function AutoSend($proc, $phone, $param): string|null
+    public static function AutoSend($proc, $phone, $param): SendStdErr
     {
         switch ($proc["sms_type"]) {
             case "aliyun":

@@ -34,10 +34,10 @@ class single extends CommonController
         $phone = Input::Post("phone");
         $quhao = Input::Post("quhao");
         $text = Input::Post("text");
-        if ($err = SendAction::AutoSend($this->proc, $phone, $text)) {
-            Ret::Fail(200, null, $err);
+        if ($std = SendAction::AutoSend($this->proc, $phone, $text)) {
+            Ret::Success($std->getCode(), $std->getData(), $std->getError());
         } else {
-            Ret::Success();
+            Ret::Fail(406, null, "短信平台未选择");
         }
     }
 }
