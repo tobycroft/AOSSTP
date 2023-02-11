@@ -16,7 +16,7 @@ class SendAction
             case "aliyun":
                 $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($data) {
-                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $param, $data['tpcode'], $data['sign']);
+                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $param, $data['sign'], $data['tpcode']);
                 }
                 break;
 
@@ -35,7 +35,7 @@ class SendAction
             case "lc":
                 $data = SmsLcModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['mch_id'], $data['key'], $phone, $param, $data['sign'], $data['tpcode']);
+                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['mch_id'], $data['key'], $phone, $param, $data['tpcode'], $data['sign'],);
                 }
                 break;
 
