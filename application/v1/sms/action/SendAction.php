@@ -31,7 +31,9 @@ class SendAction
 
             case "lc":
                 break;
+
             default:
+                \Ret::Fail(408, null, "项目没有对应的短信方案或模板");
                 break;
         }
     }
