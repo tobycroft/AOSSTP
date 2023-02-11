@@ -46,7 +46,7 @@ class Input
     {
 //        echo Request::post($name);
         echo Request::has($name . "/d");
-        if (!Request::has($name . "/d") && $must_have) {
+        if (!Request::has($name) && $must_have) {
             Ret::Fail(400, null, "Input-Post-Int:[" . $name . "]");
         }
         $in = intval(request()->post($name . '/d'));
