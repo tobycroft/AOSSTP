@@ -3,6 +3,7 @@
 namespace app\v1\sms\action;
 
 use app\v1\sms\model\SmsAliyunModel;
+use app\v1\sms\model\SmsLcModel;
 use app\v1\sms\struct\SendStdErr;
 
 class SendAction
@@ -13,9 +14,9 @@ class SendAction
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
-                $aliyun = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
-                if ($aliyun) {
-                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $aliyun['accessid'], $aliyun['accesskey'], $phone, $param, $aliyun['sign'], $aliyun['tpcode']);
+                $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
+                if ($data) {
+                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $param, $data['sign'], $data['tpcode']);
                 }
                 break;
 
@@ -32,8 +33,11 @@ class SendAction
                 break;
 
             case "lc":
-
-            break;
+                $data = SmsLcModel::where('tag', $proc['sms_tag'])->findOrEmpty();
+                if ($data) {
+                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['mch_id'], $data['key'], $phone, $param, $data['sign'], $data['tpcode']);
+                }
+                break;
 
             default:
                 \Ret::Fail(408, null, "项目没有对应的短信方案或模板");
