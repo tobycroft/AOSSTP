@@ -25,7 +25,6 @@ class AliyunAction
             $sendSms->setTemplateParam(json_decode($text, 320));
 //        $sendSms->setOutId('demo');
             $ret = $client->execute($sendSms);
-            var_dump($ret);
             $success = false;
             if (strtolower($ret->Code) == "ok") {
                 $success = true;
