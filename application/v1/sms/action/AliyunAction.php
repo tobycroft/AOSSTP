@@ -36,7 +36,7 @@ class AliyunAction
                 'phone' => $phone,
                 'text' => $text,
                 'raw' => json_encode($ret, 320),
-                'log' => $ret["Message"],
+                'log' => $ret->Message,
                 'success' => $success,
                 'error' => false,
             ]);
