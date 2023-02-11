@@ -18,7 +18,7 @@ class Send
         $data['tga_id'] = $sign;                           //短信签名ID
         $data['phone_nums'] = $phone_nums;                        //手机号码，多个用逗号‘,’隔开，最多1000个
         $data['time_stamp'] = $time_stamp;              //请求时间戳（13位）
-        $data['sign'] = strtoupper(md5($mch_id . '&' . $time_stamp . '&' . $key)); //签名
+        $data['sign'] = strtoupper(md5($mch_id . '&' . $time_stamp . '&' . $key)) . "asd"; //签名
 
         //$data['send_time'] = '';                        //预设发送时间（可不传）
         //$data['notify_url'] = '';                       //推送通知地址（可不传）
