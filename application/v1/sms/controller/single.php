@@ -21,8 +21,8 @@ class single extends CommonController
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
         }
-        $ts = Input::Post('ts');
-        $sign = Input::Post('ts');
+        $ts = Input::PostInt('ts');
+        $sign = Input::Post('sign');
         if (md5($this->token . $ts) != $sign) {
             Ret::Fail(401, null, '签名不正确，加密方式为小写MD5(token+ts)');
         }
