@@ -27,7 +27,7 @@ class TencentSmsAction
         $result = $ssender->sendWithParam($quhao, $phone, $templateId, $params, $smsSign, '', '');
         $ret = json_decode($result);
         $success = false;
-        if (intval($ret->result) == 0) {
+        if ($ret->result === 0) {
             $success = true;
         }
         LogSmsModel::create([
