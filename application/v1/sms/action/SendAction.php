@@ -39,7 +39,11 @@ class SendAction
             case "lc":
                 $data = SmsLcModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+                    if (count($text) <= 6) {
+                        return LcAction::SendCode($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+                    } else {
+                        return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+                    }
                 }
                 break;
 
