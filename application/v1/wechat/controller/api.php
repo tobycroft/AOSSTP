@@ -21,6 +21,7 @@ class api
         $project = \Input::Get("project");
         $signature = \Input::Get("signature");
         $timestamp = \Input::Get('timestamp');
+        $echostr = \Input::Get('echostr');
         $nonce = \Input::Get('nonce');
         $data = WechatModel::where("project", $project)->find();
         if (!$data) {
@@ -33,7 +34,7 @@ class api
         $tmpStr = sha1($tmpStr);
 
         if ($tmpStr == $signature) {
-            echo 1;
+            echo $echostr;
         } else {
             echo 0;
         }
