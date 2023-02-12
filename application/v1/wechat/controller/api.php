@@ -16,6 +16,7 @@ class api extends info
 
     public function initialize()
     {
+        parent::initialize();
         $this->token = $this->wechat['token'];
 
         //微信验证
