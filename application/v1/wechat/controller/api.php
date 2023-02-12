@@ -77,16 +77,26 @@ class api extends search
             case "voice":
                 break;
 
-            case "text":
+            case "video":
                 break;
 
-            case "text":
+            case "shortvideo":
                 break;
 
-            case "text":
+            case "location":
                 break;
 
-            case "text":
+            case "link":
+                break;
+
+            case "event":
+                switch ($data["Event"]) {
+                    case "subscribe":
+                        break;
+
+                    case "unsubscribe":
+                        break;
+                }
                 break;
 
 
