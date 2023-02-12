@@ -7,46 +7,66 @@ use Wechat\WechatRet\Template\UniformSend;
 class KefuMessage extends Miniprogram
 {
 
-    public static function custom_send(string $access_token, $touser, $msgtype, $content, $media_id, $thumb_media_id, $title, $description): UniformSend
+    public string $access_token;
+
+    protected array $send = [];
+
+    public function __construct(string $access_token, $touser)
     {
-        $send = [
-            'touser' => $touser,
-            'msgtype' => $msgtype,
+        $this->access_token = $access_token;
+        $this->send['touser'] = $touser;
+    }
+
+    public function text($content)
+    {
+        $this->send['msgtype'] = __FUNCTION__;
+        $this->send[__FUNCTION__] = [
+            "content" => $content
         ];
-        switch ($msgtype) {
-            case "text":
-                $send[$msgtype] = [
-                    'content' => $content
-                ];
-                break;
+    }
 
-            case "image":
-            case "voice":
-                $send[$msgtype] = [
-                    'media_id' => $media_id
-                ];
-                break;
+    public function image($media_id)
+    {
+        $this->send['msgtype'] = __FUNCTION__;
+        $this->send[__FUNCTION__] = [
+            'media_id' => $media_id
+        ];
+    }
 
-            case "video":
-                $send[$msgtype] = [
-                    'media_id' => $media_id,
-                    'thumb_media_id' => $thumb_media_id,
-                    'title' => $title,
-                    'description' => $description,
-                ];
-                break;
+    public function voice($media_id)
+    {
+        $this->send['msgtype'] = __FUNCTION__;
+        $this->send[__FUNCTION__] = [
+            'media_id' => $media_id
+        ];
+    }
 
+    public function video($media_id, $thumb_media_id, $title, $description)
+    {
+        $this->send['msgtype'] = __FUNCTION__;
+        $this->send[__FUNCTION__] = [
+            'media_id' => $media_id,
+            'thumb_media_id' => $thumb_media_id,
+            'title' => $title,
+            'description' => $description,
+        ];
+    }
 
-        }
-        if (!empty($miniprogram_struct)) {
-            $send['miniprogram'] = [
-                'appid' => $miniprogram_struct->appid,
-                'pagepath' => $miniprogram_struct->pagepath,
-            ];
-        }
-        if (!empty($client_msg_id)) {
-            $send['client_msg_id'] = $client_msg_id;
-        }
+    public function music($title, $description, $musicurl, $hqmusicurl, $thumb_media_id)
+    {
+        $this->send['msgtype'] = __FUNCTION__;
+        $this->send[__FUNCTION__] = [
+            'title' => $title,
+            'description' => $description,
+            'musicurl' => $musicurl,
+            'hqmusicurl' => $hqmusicurl,
+            'thumb_media_id' => $thumb_media_id,
+        ];
+    }
+
+    public function custom_send($msgtype, $content, $media_id, $thumb_media_id, $title, $description): UniformSend
+    {
+
         return new UniformSend(raw_post(self::$Base . self::$message_send,
             [
                 'access_token' => $access_token,
