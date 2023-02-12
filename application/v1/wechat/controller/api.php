@@ -37,10 +37,8 @@ class api extends search
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode($tmpArr);
         $tmpStr = sha1($tmpStr);
-        if ($tmpStr == $this->signature) {
-            echo $this->echostr;
-        } else {
-            echo 0;
+        if ($tmpStr != $this->signature) {
+            Ret::Fail(403);
         }
     }
 
