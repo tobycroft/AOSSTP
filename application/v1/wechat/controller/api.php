@@ -22,7 +22,6 @@ class api
         $signature = \Input::Get("signature");
         $timestamp = \Input::Get('timestamp');
         $nonce = \Input::Get('nonce');
-        var_dump(request()->get());
         $data = WechatModel::where("project", $project)->find();
         if (!$data) {
             \Ret::Fail(401, $project, "项目不可用");
