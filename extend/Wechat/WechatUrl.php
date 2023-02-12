@@ -26,4 +26,7 @@ class WechatUrl
         return self::$getAccessToken;
     }
 
+
+    //客服消息
+    protected static string $message_send = '/cgi-bin/message/custom/send';
 }
