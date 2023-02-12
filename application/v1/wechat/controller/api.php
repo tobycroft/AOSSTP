@@ -68,11 +68,33 @@ class api extends search
         $json = json_decode(json_encode($data), 1);
         $json['project'] = $this->proc['project'];
         switch ($data['MsgType']) {
+            case "text":
+                break;
+
+            case "image":
+                break;
+
+            case "voice":
+                break;
+
+            case "text":
+                break;
+
+            case "text":
+                break;
+
+            case "text":
+                break;
+
+            case "text":
+                break;
+
+
             default:
                 WechatMessageModel::create($json);
                 break;
         }
-
+        echo "success";
     }
 
 
