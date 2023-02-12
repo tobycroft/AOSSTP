@@ -12,7 +12,8 @@ class push
         $tag = \Input::Get("tag");
         $data = HookModel::where("tag", $tag)->getData();
         if ($data) {
-            $push = [];
+            $rets = [];
+            $status = [];
             foreach ($data as $datum) {
                 switch ($data['mode']) {
                     case 'aapanel':
@@ -21,23 +22,25 @@ class push
                             'access_key' => $data['key'],
                         ];
                         $ret = HookAction::raw_post($path, $query);
+                        $rets[$data['remark']] = $ret;
                         if ($ret) {
-                            $push[$data["remark"]] = $ret;
+                            $status[$data["remark"]] = "success";
                         } else {
-                            \Ret::Fail(200, $ret);
+                            $status[$data['remark']] = 'fail';
                         }
                         break;
 
                     default:
                         $ret = HookAction::raw_post($data['url']);
+                        $rets[$data['remark']] = $ret;
                         if ($ret) {
-                            $push[$data['remark']] = $ret;
+                            $status[$data['remark']] = 'success';
                         } else {
-                            \Ret::Fail(200, $ret);
+                            $status[$data['remark']] = 'fail';
                         }
                         break;
                 }
-                \Ret::Success(0, $push);
+                \Ret::Success(0, $rets);
             }
         } else {
             \Ret::Fail(404, null, "未找到项目");
