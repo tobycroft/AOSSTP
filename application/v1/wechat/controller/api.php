@@ -2,14 +2,12 @@
 
 namespace app\v1\wechat\controller;
 
-use app\v1\file\controller\search;
 use app\v1\log\model\LogWebModel;
 use app\v1\wechat\model\WechatMessageModel;
-use app\v1\wechat\model\WechatModel;
 use Input;
 use Ret;
 
-class api extends search
+class api extends info
 {
     protected $signature;
 
@@ -18,13 +16,7 @@ class api extends search
 
     public function initialize()
     {
-        $project = Input::Get('token');
-        $data = WechatModel::where('token', $project)->find();
-        if (!$data) {
-            Ret::Fail(401, $project, '项目不可用');
-        }
-        $this->token = $data['token'];
-        $this->proc = $data;
+        $this->token = $this->wechat['token'];
 
         //微信验证
         $in = Input::Raw();
@@ -63,7 +55,7 @@ class api extends search
         $xmltext = Input::Raw();
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
         $json = json_decode(json_encode($data), 1);
-        $json['project'] = $this->proc['project'];
+        $json['project'] = $this->wechat['project'];
         switch ($data['MsgType']) {
             case "text":
 

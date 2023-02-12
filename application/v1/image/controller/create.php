@@ -7,6 +7,7 @@ use app\v1\file\action\OssSelectionAction;
 use app\v1\image\action\DataAction;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
+use Input;
 use OSS\AliyunOSS;
 use OSS\Core\OssException;
 use PHPImageWorkshop\ImageWorkshop;
@@ -30,10 +31,7 @@ class create extends CommonController
     {
         set_time_limit(0);
         parent::initialize();
-        $this->token = input('get.token');
-        if (!$this->token) {
-            \Ret::Fail(401, null, 'token');
-        }
+        $this->token = Input::Get("token");
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
@@ -44,13 +42,13 @@ class create extends CommonController
     public function canvas(Request $request)
     {
         if (!$request->has("width")) {
-            \Ret::Fail(400, null, "width");
+            Ret::Fail(400, null, "width");
         }
         if (!$request->has("height")) {
-            \Ret::Fail(400, null, "height");
+            Ret::Fail(400, null, "height");
         }
         if (!$request->has("background")) {
-            \Ret::Fail(400, null, "background");
+            Ret::Fail(400, null, "background");
         }
         $this->width = input("width");
         $this->height = input("height");
@@ -65,7 +63,7 @@ class create extends CommonController
                 $layer = $layer_class->handle();
                 $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
             } catch (Exception $e) {
-                \Ret::Fail(300, null, $e->getMessage());
+                Ret::Fail(300, null, $e->getMessage());
             }
         }
         $image = $document->getResult($this->background);
@@ -77,13 +75,13 @@ class create extends CommonController
     public function file(Request $request)
     {
         if (!$request->has("width")) {
-            \Ret::Fail(400, null, "width");
+            Ret::Fail(400, null, "width");
         }
         if (!$request->has("height")) {
-            \Ret::Fail(400, null, "height");
+            Ret::Fail(400, null, "height");
         }
         if (!$request->has("background")) {
-            \Ret::Fail(400, null, "background");
+            Ret::Fail(400, null, "background");
         }
         $this->width = input("width");
         $this->height = input("height");
@@ -98,7 +96,7 @@ class create extends CommonController
                 $layer = $layer_class->handle();
                 $document->addLayer(1, $layer, $layer_class->x, $layer_class->y, $layer_class->position);
             } catch (Exception $e) {
-                \Ret::Fail(300, null, $e->getMessage());
+                Ret::Fail(300, null, $e->getMessage());
             }
         }
         $crypt = [
@@ -129,10 +127,10 @@ class create extends CommonController
                 $oss = new AliyunOSS($this->proc);
                 $ret = $oss->uploadFile($this->proc['bucket'], $fileName, $path_name);
             } catch (OssException $e) {
-                \Ret::Fail(200, null, $e->getMessage());
+                Ret::Fail(200, null, $e->getMessage());
             }
             if (empty($ret->getData()["info"]["url"])) {
-                \Ret::Fail(300, null, "OSS不正常");
+                Ret::Fail(300, null, "OSS不正常");
             }
             if ($this->proc['main_type'] == 'oss') {
                 $sav = $this->proc['url'] . '/' . $fileName;
@@ -142,7 +140,7 @@ class create extends CommonController
                 unlink($path_name);
             }
         }
-        \Ret::Success(0, $sav);
+        Ret::Success(0, $sav);
     }
 
 }
