@@ -15,7 +15,7 @@ class XMLParse
      */
     public function extract($xmltext)
     {
-        libxml_disable_entity_loader(true);
+//        libxml_disable_entity_loader(true);
         try {
             $xml = new DOMDocument();
             $xml->loadXML($xmltext);
