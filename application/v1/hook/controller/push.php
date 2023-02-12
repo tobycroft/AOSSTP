@@ -10,7 +10,7 @@ class push
     public function single()
     {
         $tag = \Input::Post("tag");
-        $data = HookModel::where("tag", $tag)->findOrEmpty();
+        $data = HookModel::where("tag", $tag)->find();
         if ($data) {
             switch ($data["mode"]) {
                 case "aapanel":
