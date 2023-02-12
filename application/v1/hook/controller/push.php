@@ -15,28 +15,28 @@ class push
             $rets = [];
             $status = [];
             foreach ($data as $datum) {
-                switch ($data['mode']) {
+                switch ($datum['mode']) {
                     case 'aapanel':
-                        $path = $data['method'] . '://' . $data['domain'] . '/hook';
+                        $path = $datum['method'] . '://' . $datum['domain'] . '/hook';
                         $query = [
-                            'access_key' => $data['key'],
+                            'access_key' => $datum['key'],
                         ];
                         $ret = HookAction::raw_post($path, $query);
-                        $rets[$data['remark']] = $ret;
+                        $rets[$datum['remark']] = $ret;
                         if ($ret) {
-                            $status[$data["remark"]] = "success";
+                            $status[$datum["remark"]] = "success";
                         } else {
-                            $status[$data['remark']] = 'fail';
+                            $status[$datum['remark']] = 'fail';
                         }
                         break;
 
                     default:
-                        $ret = HookAction::raw_post($data['url']);
-                        $rets[$data['remark']] = $ret;
+                        $ret = HookAction::raw_post($datum['url']);
+                        $rets[$datum['remark']] = $ret;
                         if ($ret) {
-                            $status[$data['remark']] = 'success';
+                            $status[$datum['remark']] = 'success';
                         } else {
-                            $status[$data['remark']] = 'fail';
+                            $status[$datum['remark']] = 'fail';
                         }
                         break;
                 }
