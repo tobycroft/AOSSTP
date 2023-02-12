@@ -25,7 +25,7 @@ class api
 
         $data = WechatModel::where("project", $project)->find();
         if (!$data) {
-            \Ret::Fail(401, null, "项目不可用");
+            \Ret::Fail(401, $project, "项目不可用");
         }
 
         $tmpArr = array($data['token'], $timestamp, $nonce);
