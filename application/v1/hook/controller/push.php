@@ -10,7 +10,7 @@ class push
     public function single()
     {
         $tag = \Input::Get("tag");
-        $data = HookModel::where("tag", $tag)->get();
+        $data = HookModel::where("tag", $tag)->select();
         if ($data) {
             $rets = [];
             $status = [];
@@ -55,7 +55,7 @@ class push
         if (!isset($payload['repository']['name'])) {
             \Ret::Fail(400, null, "未找到repository-name字段");
         }
-        $data = HookModel::where('tag', $payload["repository"]["name"])->get();
+        $data = HookModel::where('tag', $payload["repository"]["name"])->select();
         if ($data) {
             $rets = [];
             $status = [];
