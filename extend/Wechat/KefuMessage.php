@@ -64,7 +64,7 @@ class KefuMessage extends Miniprogram
         ];
     }
 
-    public function custom_send($msgtype, $content, $media_id, $thumb_media_id, $title, $description): UniformSend
+    public function send(): UniformSend
     {
 
         return new UniformSend(raw_post(self::$Base . self::$message_send,
