@@ -2,8 +2,8 @@
 
 namespace app\v1\hook\controller;
 
+use app\v1\hook\action\HookAction;
 use app\v1\hook\model\HookModel;
-use function Wechat\raw_post;
 
 class push
 {
@@ -18,7 +18,7 @@ class push
                     $query = [
                         "access_key" => $data["key"],
                     ];
-                    $ret = raw_post($path, $query,);
+                    $ret = HookAction::raw_post($path, $query);
                     if ($ret) {
                         \Ret::Success(0, $ret);
                     } else {
@@ -27,7 +27,7 @@ class push
                     break;
 
                 default:
-                    $ret = raw_post($data['url']);
+                    $ret = HookAction::raw_post($data['url']);
                     if ($ret) {
                         \Ret::Success(0, $ret);
                     } else {
