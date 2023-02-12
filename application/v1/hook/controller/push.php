@@ -20,6 +20,7 @@ class push
                         $path = $datum['method'] . '://' . $datum['domain'] . '/hook';
                         $query = [
                             'access_key' => $datum['key'],
+                            'param' => $datum['param'],
                         ];
                         $ret = HookAction::raw_post($path, $query);
                         $rets[$datum['remark']] = $ret;
@@ -65,6 +66,7 @@ class push
                         $path = $datum['method'] . '://' . $datum['domain'] . '/hook';
                         $query = [
                             'access_key' => $datum['key'],
+                            'param' => $datum['param'],
                         ];
                         $ret = HookAction::raw_post($path, $query);
                         $rets[$datum['remark']] = $ret;
