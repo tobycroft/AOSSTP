@@ -52,8 +52,6 @@ class api extends search
 
     public function recv()
     {
-
-
         if (request()->isGet()) {
             $this->verify();
         } else {
