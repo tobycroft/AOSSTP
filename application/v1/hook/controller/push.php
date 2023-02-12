@@ -24,7 +24,7 @@ class push
                         $ret = HookAction::raw_post($path, $query);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
-                            $status[$datum["remark"]] = "success";
+//                            $status[$datum["remark"]] = "success";
                         } else {
                             $status[$datum['remark']] = 'fail';
                         }
@@ -34,13 +34,13 @@ class push
                         $ret = HookAction::raw_post($datum['url']);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
-                            $status[$datum['remark']] = 'success';
+//                            $status[$datum['remark']] = 'success';
                         } else {
                             $status[$datum['remark']] = 'fail';
                         }
                         break;
                 }
-                \Ret::Success(0, $rets, join(',', $status));
+                \Ret::Success(0, $rets, 'success:' . count($data) . ',fail:' . count($status));
             }
         } else {
             \Ret::Fail(404, null, "未找到项目");
@@ -69,7 +69,7 @@ class push
                         $ret = HookAction::raw_post($path, $query);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
-                            $status[$datum['remark']] = 'success';
+//                            $status[$datum['remark']] = 'success';
                         } else {
                             $status[$datum['remark']] = 'fail';
                         }
@@ -79,13 +79,13 @@ class push
                         $ret = HookAction::raw_post($datum['url']);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
-                            $status[$datum['remark']] = 'success';
+//                            $status[$datum['remark']] = 'success';
                         } else {
                             $status[$datum['remark']] = 'fail';
                         }
                         break;
                 }
-                \Ret::Success(0, $rets, join(',', $status));
+                \Ret::Success(0, $rets, 'success:' . count($data) . ',fail:' . count($status));
             }
         } else {
             \Ret::Fail(404, null, '未找到项目');
