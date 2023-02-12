@@ -50,7 +50,7 @@ class push
     //http://upload.tuuz.cc:8000/v1/hook/push/github
     public function github()
     {
-        echo input("repository");
+        echo input("payload");
         return;
         $tag = \Input::Get('tag');
         $data = HookModel::where('tag', $tag)->getData();
