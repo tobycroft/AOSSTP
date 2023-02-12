@@ -65,7 +65,7 @@ class api extends search
         $xmltext = Input::Raw();
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
 //        echo json_encode($data);
-        $aaa = $data->children("ToUserName");
+        $aaa = $data->children("ToUserName")->getName();
         var_dump($aaa);
 //        switch ($data['MsgType']) {
 //            default:
