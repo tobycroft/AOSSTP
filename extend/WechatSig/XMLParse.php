@@ -2,6 +2,9 @@
 
 namespace WechatSig;
 
+
+use DOMDocument;
+
 class XMLParse
 {
 
