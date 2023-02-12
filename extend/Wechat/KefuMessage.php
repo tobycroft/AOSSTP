@@ -69,9 +69,9 @@ class KefuMessage extends Miniprogram
 
         return new UniformSend(raw_post(self::$Base . self::$message_send,
             [
-                'access_token' => $access_token,
+                'access_token' => $this->access_token,
             ],
-            $send
+            $this->send
         ));
     }
 }
