@@ -7,7 +7,7 @@ class api
 
     public static function recv()
     {
-        var_dump(request()->input());
+        var_dump(request()->post());
 //        $in = \Input::Raw();
 //        WechatMessage::create([
 //            "raw" => $in
