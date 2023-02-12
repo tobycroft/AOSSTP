@@ -9,7 +9,7 @@ class push
 {
     public function single()
     {
-        $tag = \Input::Post("tag");
+        $tag = \Input::Get("tag");
         $data = HookModel::where("tag", $tag)->find();
         if ($data) {
             switch ($data["mode"]) {
