@@ -48,7 +48,7 @@ class api extends search
         $index = [];
         $data = simplexml_load_string($xmltext)
         var_dump($data);
-        var_dump($index);
+//        var_dump($index);
 //        LogWebModel::create([
 //            'get' => json_encode(request()->get()),
 //            'post' => json_encode(request()->post()),
