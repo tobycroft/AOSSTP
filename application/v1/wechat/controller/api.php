@@ -46,7 +46,7 @@ class api extends search
         $parser = xml_parser_create();
         $data = [];
         $index = [];
-        $data = xml_parse_into_struct($parser, $xmltext, $data, $index);
+        $data = simplexml_load_string($xmltext)
         var_dump($data);
         var_dump($index);
 //        LogWebModel::create([
