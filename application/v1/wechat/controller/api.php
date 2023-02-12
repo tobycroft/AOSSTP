@@ -64,7 +64,7 @@ class api extends search
 
         $xmltext = Input::Raw();
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
-        echo json_encode($data);
+//        echo json_encode($data);
 
 //        var_dump($index);
 //        LogWebModel::create([
