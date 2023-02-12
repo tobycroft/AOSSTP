@@ -18,15 +18,7 @@ class api extends search
 
     public function recv()
     {
-        //微信验证
-        $in = \Input::Raw();
-        LogWebModel::create([
-            'get' => json_encode(request()->get()),
-            'post' => json_encode(request()->post()),
-            'raw' => $in,
-            'header' => json_encode(request()->header()),
-            'method' => request()->method(),
-        ]);
+
 
         $project = \Input::Get('project');
         $data = WechatModel::where('project', $project)->find();
@@ -44,14 +36,30 @@ class api extends search
 
     public function post()
     {
+
         $xmltext = \Input::Raw();
         $parse = new XMLParse();
-        $parse->extract($xmltext);
+        $msg = $parse->extract($xmltext);
+        LogWebModel::create([
+            'get' => json_encode(request()->get()),
+            'post' => json_encode(request()->post()),
+            'raw' => json_encode($msg, 320),
+            'header' => json_encode(request()->header()),
+            'method' => request()->method(),
+        ]);
     }
 
     public function get()
     {
-
+        //微信验证
+        $in = \Input::Raw();
+        LogWebModel::create([
+            'get' => json_encode(request()->get()),
+            'post' => json_encode(request()->post()),
+            'raw' => $in,
+            'header' => json_encode(request()->header()),
+            'method' => request()->method(),
+        ]);
 
         $signature = \Input::Get('signature');
         $timestamp = \Input::Get('timestamp');
