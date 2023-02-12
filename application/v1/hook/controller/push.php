@@ -27,6 +27,12 @@ class push
                     break;
 
                 default:
+                    $ret = raw_post($data['url']);
+                    if ($ret) {
+                        \Ret::Success(0, $ret);
+                    } else {
+                        \Ret::Fail(200, $ret);
+                    }
                     break;
             }
         } else {
