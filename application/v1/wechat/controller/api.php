@@ -5,7 +5,6 @@ namespace app\v1\wechat\controller;
 use app\v1\file\controller\search;
 use app\v1\log\model\LogWebModel;
 use app\v1\wechat\model\WechatModel;
-use WechatSig\XMLParse;
 
 class api extends search
 {
@@ -44,15 +43,16 @@ class api extends search
     {
 
         $xmltext = \Input::Raw();
-        $parse = new XMLParse();
-        $msg = $parse->extract($xmltext);
-        LogWebModel::create([
-            'get' => json_encode(request()->get()),
-            'post' => json_encode(request()->post()),
-            'raw' => json_encode($msg, 320),
-            'header' => json_encode(request()->header()),
-            'method' => request()->method(),
-        ]);
+        $parser = new \XMLParser();
+        $data = xml_parse($parser, $xmltext);
+        var_dump($data);
+//        LogWebModel::create([
+//            'get' => json_encode(request()->get()),
+//            'post' => json_encode(request()->post()),
+//            'raw' => json_encode($msg, 320),
+//            'header' => json_encode(request()->header()),
+//            'method' => request()->method(),
+//        ]);
     }
 
     public function verify()
