@@ -19,6 +19,14 @@ class api extends search
 
     public function initialize()
     {
+        $project = Input::Get('project');
+        $data = WechatModel::where('project', $project)->find();
+        if (!$data) {
+            Ret::Fail(401, $project, '项目不可用');
+        }
+        $this->token = $data['token'];
+        $this->proc = $data;
+
         //微信验证
         $in = Input::Raw();
         LogWebModel::create([
@@ -44,13 +52,6 @@ class api extends search
 
     public function recv()
     {
-        $project = Input::Get('project');
-        $data = WechatModel::where('project', $project)->find();
-        if (!$data) {
-            Ret::Fail(401, $project, '项目不可用');
-        }
-        $this->token = $data["token"];
-        $this->proc = $data;
 
 
         if (request()->isGet()) {
