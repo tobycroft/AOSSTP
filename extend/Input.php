@@ -84,6 +84,11 @@ class Input
         }
     }
 
+    public static function Raw(string $name, bool $must_have = true, bool $xss = false): string
+    {
+        return request()->getInput();
+    }
+
 }
 
 function removeXSS($data)
