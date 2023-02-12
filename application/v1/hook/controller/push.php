@@ -40,7 +40,7 @@ class push
                         }
                         break;
                 }
-                \Ret::Success(0, $rets, $status);
+                \Ret::Success(0, $rets, join(',', $status));
             }
         } else {
             \Ret::Fail(404, null, "未找到项目");
@@ -85,7 +85,7 @@ class push
                         }
                         break;
                 }
-                \Ret::Success(0, $rets, $status);
+                \Ret::Success(0, $rets, join(',', $status));
             }
         } else {
             \Ret::Fail(404, null, '未找到项目');
