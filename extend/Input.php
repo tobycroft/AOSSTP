@@ -77,7 +77,7 @@ class Input
         if (!Request::has($name) && $must_have) {
             Ret::Fail(400, null, 'Input-Post:[' . $name . ']');
         }
-        return strval(request()->get($name));
+        return request()->get($name);
     }
 
     public static function Raw(): string
