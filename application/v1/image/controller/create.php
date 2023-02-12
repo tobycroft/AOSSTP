@@ -36,11 +36,11 @@ class create extends CommonController
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
         }
-        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
     }
 
     public function canvas(Request $request)
     {
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
         if (!$request->has("width")) {
             Ret::Fail(400, null, "width");
         }
@@ -74,6 +74,7 @@ class create extends CommonController
 
     public function file(Request $request)
     {
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
         if (!$request->has("width")) {
             Ret::Fail(400, null, "width");
         }
