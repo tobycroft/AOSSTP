@@ -34,13 +34,13 @@ class api extends search
         $this->token = $data["token"];
         $this->proc = $data;
         if (request()->isGet()) {
-            $this->get();
+            $this->verify();
         } else {
-            $this->post();
+            $this->message();
         }
     }
 
-    public function post()
+    public function message()
     {
 
         $xmltext = \Input::Raw();
@@ -55,7 +55,7 @@ class api extends search
         ]);
     }
 
-    public function get()
+    public function verify()
     {
 
 
