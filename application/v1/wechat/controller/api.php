@@ -78,10 +78,7 @@ class api extends search
 
     public function verify()
     {
-
         echo Input::Get('echostr');
-
-
     }
 
 }
