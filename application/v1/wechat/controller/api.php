@@ -55,7 +55,7 @@ class api extends search
 //        var_dump($data);
 //        var_dump($index);
 
-        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS | LIBXML_NOBLANKS | LIBXML_NOEMPTYTAG | LIBXML_NSCLEAN | LIBXML_COMPACT);
+        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS | LIBXML_NOENT | LIBXML_NOEMPTYTAG | LIBXML_NSCLEAN | LIBXML_NONET | LIBXML_NOXMLDECL);
         print_r($data);
 
 //        var_dump($index);
