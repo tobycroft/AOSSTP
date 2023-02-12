@@ -11,7 +11,7 @@ class push
     {
         $tag = \Input::Post("tag");
         $data = HookModel::where("tag", $tag)->find();
-        if ($data) {
+        if (!$data->isEmpty()) {
             switch ($data["mode"]) {
                 case "aapanel":
                     $path = $data["method"] . "://" . $data["domain"] . "/hook?access_key=" . $data["key"];
