@@ -10,12 +10,14 @@ class api
 
     public static function recv()
     {
+
         $in = \Input::Raw();
         LogWebModel::create([
             "get" => json_encode(request()->get()),
             "post" => json_encode(request()->post()),
             "raw" => json_encode(request()->getInput()),
             "header" => json_encode(request()->header()),
+            "method" => request()->method(),
         ]);
 
         $project = \Input::Get("project");
