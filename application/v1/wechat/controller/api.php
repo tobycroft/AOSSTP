@@ -44,7 +44,7 @@ class api extends search
 
     public function post()
     {
-        $in = \Input::Raw();
+        $xmltext = \Input::Raw();
         $parse = new XMLParse();
         $parse->extract($xmltext);
     }
