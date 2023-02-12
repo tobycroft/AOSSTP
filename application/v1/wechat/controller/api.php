@@ -5,6 +5,8 @@ namespace app\v1\wechat\controller;
 use app\v1\file\controller\search;
 use app\v1\log\model\LogWebModel;
 use app\v1\wechat\model\WechatModel;
+use Input;
+use Ret;
 
 class api extends search
 {
@@ -13,7 +15,7 @@ class api extends search
     public function initialize()
     {
         //微信验证
-        $in = \Input::Raw();
+        $in = Input::Raw();
         LogWebModel::create([
             'get' => json_encode(request()->get()),
             'post' => json_encode(request()->post()),
@@ -25,10 +27,10 @@ class api extends search
 
     public function recv()
     {
-        $project = \Input::Get('project');
+        $project = Input::Get('project');
         $data = WechatModel::where('project', $project)->find();
         if (!$data) {
-            \Ret::Fail(401, $project, '项目不可用');
+            Ret::Fail(401, $project, '项目不可用');
         }
         $this->token = $data["token"];
         $this->proc = $data;
@@ -42,11 +44,11 @@ class api extends search
     public function message()
     {
 
-        $xmltext = \Input::Raw();
+        $xmltext = Input::Raw();
         $parser = xml_parser_create();
         $data = [];
         $index = [];
-        $data = simplexml_load_string($xmltext);
+        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA);
         var_dump($data);
 //        var_dump($index);
 //        LogWebModel::create([
@@ -62,10 +64,10 @@ class api extends search
     {
 
 
-        $signature = \Input::Get('signature');
-        $timestamp = \Input::Get('timestamp');
-        $echostr = \Input::Get('echostr');
-        $nonce = \Input::Get('nonce');
+        $signature = Input::Get('signature');
+        $timestamp = Input::Get('timestamp');
+        $echostr = Input::Get('echostr');
+        $nonce = Input::Get('nonce');
 
 
         $tmpArr = array($this->token, $timestamp, $nonce);
