@@ -6,7 +6,7 @@ use Input;
 use Ret;
 use Wechat\KefuMessage;
 
-class message extends info
+class message extends offiaccount
 {
 
     public function initialize()
