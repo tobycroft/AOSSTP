@@ -34,6 +34,7 @@ class api extends search
             \Ret::Fail(401, $project, '项目不可用');
         }
         $this->token = $data["token"];
+        $this->proc = $data;
         if (request()->isGet()) {
             $this->get();
         } else {
