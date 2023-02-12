@@ -48,6 +48,7 @@ class api extends search
         $index = [];
         $data = xml_parse_into_struct($parser, $xmltext, $data, $index);
         var_dump($data);
+        var_dump($index);
 //        LogWebModel::create([
 //            'get' => json_encode(request()->get()),
 //            'post' => json_encode(request()->post()),
