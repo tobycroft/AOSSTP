@@ -65,15 +65,17 @@ class api extends search
         $xmltext = Input::Raw();
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
         echo json_encode($data);
+        $aaa = $data->getNamespaces("ToUserName");
+        echo $aaa;
+//        switch ($data['MsgType']) {
+//            default:
+//                WechatMessageModel::create([
+//                    'project' => $this->proc["project"],
+//                    'ToUserName' => $data["ToUserName"],
+//                ]);
+//                break;
+//        }
 
-//        var_dump($index);
-//        LogWebModel::create([
-//            'get' => json_encode(request()->get()),
-//            'post' => json_encode(request()->post()),
-//            'raw' => json_encode($msg, 320),
-//            'header' => json_encode(request()->header()),
-//            'method' => request()->method(),
-//        ]);
     }
 
 
