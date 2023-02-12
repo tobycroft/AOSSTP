@@ -33,9 +33,9 @@ class api
         $tmpStr = sha1($tmpStr);
 
         if ($tmpStr == $signature) {
-            echo true;
+            echo 1;
         } else {
-            echo false;
+            echo 0;
         }
     }
 }
