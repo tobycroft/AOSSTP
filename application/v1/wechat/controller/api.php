@@ -4,6 +4,7 @@ namespace app\v1\wechat\controller;
 
 use app\v1\file\controller\search;
 use app\v1\log\model\LogWebModel;
+use app\v1\wechat\model\WechatMessageModel;
 use app\v1\wechat\model\WechatModel;
 use Input;
 use Ret;
@@ -64,17 +65,13 @@ class api extends search
 
         $xmltext = Input::Raw();
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
-//        echo json_encode($data);
-        $aaa = $data->children("ToUserName")->getName();
-        var_dump($aaa);
-//        switch ($data['MsgType']) {
-//            default:
-//                WechatMessageModel::create([
-//                    'project' => $this->proc["project"],
-//                    'ToUserName' => $data["ToUserName"],
-//                ]);
-//                break;
-//        }
+        $json = json_decode(json_encode($data), 1);
+        $json['project'] = $this->proc['project'];
+        switch ($data['MsgType']) {
+            default:
+                WechatMessageModel::create($json);
+                break;
+        }
 
     }
 
