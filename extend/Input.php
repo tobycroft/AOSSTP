@@ -72,6 +72,18 @@ class Input
         }
     }
 
+    public static function Get(string $name, bool $must_have = true, bool $xss = false): string
+    {
+        if (!Request::has($name) && $must_have) {
+            Ret::Fail(400, null, 'Input-Post:[' . $name . ']');
+        }
+        if ($xss) {
+            return strval(request()->get($name, '', 'strip_tags'));
+        } else {
+            return strval(request()->get($name));
+        }
+    }
+
 }
 
 function removeXSS($data)
