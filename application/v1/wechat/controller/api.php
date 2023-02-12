@@ -15,7 +15,6 @@ class api extends search
     protected $signature;
 
     protected $timestamp;
-    protected $echostr;
     protected $nonce;
 
     public function initialize()
