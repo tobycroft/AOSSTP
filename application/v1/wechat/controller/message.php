@@ -22,7 +22,7 @@ class message extends offiaccount
         $kefu->text($content);
         $ret = $kefu->send();
         if ($ret->isSuccess()) {
-            Ret::Success();
+            Ret::Success(0, $ret->response, $ret->getError());
         } else {
             Ret::Fail(200, $ret->response, $ret->getError());
         }
