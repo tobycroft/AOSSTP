@@ -18,8 +18,6 @@ class api extends search
 
     public function recv()
     {
-
-
         $project = \Input::Get('project');
         $data = WechatModel::where('project', $project)->find();
         if (!$data) {
@@ -52,14 +50,14 @@ class api extends search
     public function get()
     {
         //微信验证
-        $in = \Input::Raw();
-        LogWebModel::create([
-            'get' => json_encode(request()->get()),
-            'post' => json_encode(request()->post()),
-            'raw' => $in,
-            'header' => json_encode(request()->header()),
-            'method' => request()->method(),
-        ]);
+//        $in = \Input::Raw();
+//        LogWebModel::create([
+//            'get' => json_encode(request()->get()),
+//            'post' => json_encode(request()->post()),
+//            'raw' => $in,
+//            'header' => json_encode(request()->header()),
+//            'method' => request()->method(),
+//        ]);
 
         $signature = \Input::Get('signature');
         $timestamp = \Input::Get('timestamp');
@@ -67,7 +65,7 @@ class api extends search
         $nonce = \Input::Get('nonce');
 
 
-        $tmpArr = array($data['token'], $timestamp, $nonce);
+        $tmpArr = array($this->token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode($tmpArr);
         $tmpStr = sha1($tmpStr);
@@ -79,27 +77,4 @@ class api extends search
         }
     }
 
-    public function verify()
-    {
-        $project = \Input::Get('project');
-        $signature = \Input::Get('signature');
-        $timestamp = \Input::Get('timestamp');
-        $echostr = \Input::Get('echostr');
-        $nonce = \Input::Get('nonce');
-        $data = WechatModel::where('project', $project)->find();
-        if (!$data) {
-            \Ret::Fail(401, $project, '项目不可用');
-        }
-
-        $tmpArr = array($data['token'], $timestamp, $nonce);
-        sort($tmpArr, SORT_STRING);
-        $tmpStr = implode($tmpArr);
-        $tmpStr = sha1($tmpStr);
-
-        if ($tmpStr == $signature) {
-            echo $echostr;
-        } else {
-            echo 0;
-        }
-    }
 }
