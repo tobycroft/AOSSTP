@@ -43,7 +43,7 @@ class api extends search
     {
 
         $xmltext = \Input::Raw();
-        $parser = new \XMLParser();
+        $parser = xml_parser_create();
         $data = xml_parse($parser, $xmltext);
         var_dump($data);
 //        LogWebModel::create([
