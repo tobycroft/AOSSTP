@@ -44,7 +44,8 @@ class api extends search
 
         $xmltext = \Input::Raw();
         $parser = xml_parser_create();
-        $data = xml_parse($parser, $xmltext);
+        $data = [];
+        $data = xml_parse_into_struct($parser, $xmltext, $data);
         var_dump($data);
 //        LogWebModel::create([
 //            'get' => json_encode(request()->get()),
