@@ -2,7 +2,7 @@
 
 namespace app\v1\wechat\controller;
 
-use app\v1\wechat\model\WechatMessage;
+use app\v1\log\model\LogWebModel;
 
 class api
 {
@@ -10,8 +10,11 @@ class api
     public static function recv()
     {
         $in = \Input::Raw();
-        WechatMessage::create([
-            "raw" => json_encode(request()->get()) . ',' . json_encode(request()->post()) . ',' . $in
+        LogWebModel::create([
+            "get" => json_encode(request()->get()),
+            "post" => json_encode(request()->post()),
+            "raw" => json_encode(request()->getInput()),
+            "header" => json_encode(request()->header()),
         ]);
     }
 }
