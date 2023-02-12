@@ -14,7 +14,7 @@ class push
         if ($data) {
             switch ($data["mode"]) {
                 case "aapanel":
-                    $path = $data["method"] . "://" . $data["domain"] . "/hook?access_key=" . $data["key"];
+                    $path = $data["method"] . "://" . $data["domain"] . "/hook";
                     $query = [
                         "access_key" => $data["key"],
                     ];
