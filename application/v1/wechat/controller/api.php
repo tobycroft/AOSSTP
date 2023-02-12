@@ -5,33 +5,18 @@ namespace app\v1\wechat\controller;
 use app\v1\file\controller\search;
 use app\v1\log\model\LogWebModel;
 use app\v1\wechat\model\WechatModel;
+use WechatSig\XMLParse;
 
 class api extends search
 {
 
 
+    public function initialize()
+    {
+
+    }
+
     public function recv()
-    {
-        $project = \Input::Get('project');
-        $data = WechatModel::where('project', $project)->find();
-        if (!$data) {
-            \Ret::Fail(401, $project, '项目不可用');
-        }
-
-        if (request()->isGet()) {
-            $this->get();
-        } else {
-            $this->post();
-        }
-    }
-
-    public function post()
-    {
-        $in = \Input::Raw();
-
-    }
-
-    public function get()
     {
         //微信验证
         $in = \Input::Raw();
@@ -42,6 +27,30 @@ class api extends search
             'header' => json_encode(request()->header()),
             'method' => request()->method(),
         ]);
+
+        $project = \Input::Get('project');
+        $data = WechatModel::where('project', $project)->find();
+        if (!$data) {
+            \Ret::Fail(401, $project, '项目不可用');
+        }
+        $this->token = $data["token"];
+        if (request()->isGet()) {
+            $this->get();
+        } else {
+            $this->post();
+        }
+    }
+
+    public function post()
+    {
+        $in = \Input::Raw();
+        $parse = new XMLParse();
+        $parse->extract($xmltext);
+    }
+
+    public function get()
+    {
+
 
         $signature = \Input::Get('signature');
         $timestamp = \Input::Get('timestamp');
