@@ -11,7 +11,7 @@ class api
     {
         $in = \Input::Raw();
         WechatMessage::create([
-            "raw" => json_encode(request()->post()) . "," . $in
+            "raw" => json_encode(request()->get()) . ',' . json_encode(request()->post()) . ',' . $in
         ]);
     }
 }
