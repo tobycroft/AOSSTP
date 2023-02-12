@@ -8,26 +8,31 @@ use app\v1\wechat\model\WechatModel;
 class api
 {
 
-    public static function recv()
+    public function recv()
     {
 
+
+    }
+
+    public function get()
+    {
         $in = \Input::Raw();
         LogWebModel::create([
-            "get" => json_encode(request()->get()),
-            "post" => json_encode(request()->post()),
-            "raw" => $in,
-            "header" => json_encode(request()->header()),
-            "method" => request()->method(),
+            'get' => json_encode(request()->get()),
+            'post' => json_encode(request()->post()),
+            'raw' => $in,
+            'header' => json_encode(request()->header()),
+            'method' => request()->method(),
         ]);
 
-        $project = \Input::Get("project");
-        $signature = \Input::Get("signature");
+        $project = \Input::Get('project');
+        $signature = \Input::Get('signature');
         $timestamp = \Input::Get('timestamp');
         $echostr = \Input::Get('echostr');
         $nonce = \Input::Get('nonce');
-        $data = WechatModel::where("project", $project)->find();
+        $data = WechatModel::where('project', $project)->find();
         if (!$data) {
-            \Ret::Fail(401, $project, "项目不可用");
+            \Ret::Fail(401, $project, '项目不可用');
         }
 
         $tmpArr = array($data['token'], $timestamp, $nonce);
