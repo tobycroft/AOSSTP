@@ -10,12 +10,21 @@ class api
 
     public function recv()
     {
+        if (request()->isGet()) {
+            $this->get();
+        } else {
+            $this->post();
+        }
+    }
 
+    public function post()
+    {
 
     }
 
     public function get()
     {
+        //微信验证
         $in = \Input::Raw();
         LogWebModel::create([
             'get' => json_encode(request()->get()),
