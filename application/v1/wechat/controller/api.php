@@ -55,7 +55,7 @@ class api extends search
 //        var_dump($data);
 //        var_dump($index);
 
-        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA + LIBXML_NOBLANKS + LIBXML_NOBLANKS);
+        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA + LIBXML_NOBLANKS + LIBXML_NOEMPTYTAG);
         echo json_encode($data, 320);
 
 //        var_dump($index);
