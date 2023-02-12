@@ -13,7 +13,15 @@ class api extends search
 
     public function initialize()
     {
-
+        //微信验证
+        $in = \Input::Raw();
+        LogWebModel::create([
+            'get' => json_encode(request()->get()),
+            'post' => json_encode(request()->post()),
+            'raw' => $in,
+            'header' => json_encode(request()->header()),
+            'method' => request()->method(),
+        ]);
     }
 
     public function recv()
@@ -49,15 +57,7 @@ class api extends search
 
     public function get()
     {
-        //微信验证
-//        $in = \Input::Raw();
-//        LogWebModel::create([
-//            'get' => json_encode(request()->get()),
-//            'post' => json_encode(request()->post()),
-//            'raw' => $in,
-//            'header' => json_encode(request()->header()),
-//            'method' => request()->method(),
-//        ]);
+
 
         $signature = \Input::Get('signature');
         $timestamp = \Input::Get('timestamp');
