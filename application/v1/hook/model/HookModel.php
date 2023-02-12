@@ -8,5 +8,4 @@ class HookModel extends Model
 {
     protected $table = 'ao_hook';
 
-
 }
