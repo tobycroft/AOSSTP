@@ -12,6 +12,12 @@ class api extends search
 {
 
 
+    protected $signature;
+
+    protected $timestamp;
+    protected $echostr;
+    protected $nonce;
+
     public function initialize()
     {
         //微信验证
@@ -23,6 +29,20 @@ class api extends search
             'header' => json_encode(request()->header()),
             'method' => request()->method(),
         ]);
+
+        $this->signature = Input::Get('signature');
+        $this->timestamp = Input::Get('timestamp');
+        $this->nonce = Input::Get('nonce');
+
+        $tmpArr = array($this->token, $this->timestamp, $this->nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
+        if ($tmpStr == $this->signature) {
+            echo $this->echostr;
+        } else {
+            echo 0;
+        }
     }
 
     public function recv()
@@ -34,6 +54,8 @@ class api extends search
         }
         $this->token = $data["token"];
         $this->proc = $data;
+
+
         if (request()->isGet()) {
             $this->verify();
         } else {
@@ -45,16 +67,6 @@ class api extends search
     {
 
         $xmltext = Input::Raw();
-//        $parser = xml_parser_create();
-//        xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
-//        xml_parser_set_option($parser, LIBXML_NOCDATA, LIBXML_NOCDATA);
-//        xml_parser_get_option($parser, LIBXML_NOCDATA);
-//        $data = [];
-//        $index = [];
-//        xml_parse_into_struct($parser, $xmltext, $data, $index);
-//        var_dump($data);
-//        var_dump($index);
-
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
         echo json_encode($data);
 
@@ -68,26 +80,13 @@ class api extends search
 //        ]);
     }
 
+
     public function verify()
     {
 
-
-        $signature = Input::Get('signature');
-        $timestamp = Input::Get('timestamp');
-        $echostr = Input::Get('echostr');
-        $nonce = Input::Get('nonce');
+        echo Input::Get('echostr');
 
 
-        $tmpArr = array($this->token, $timestamp, $nonce);
-        sort($tmpArr, SORT_STRING);
-        $tmpStr = implode($tmpArr);
-        $tmpStr = sha1($tmpStr);
-
-        if ($tmpStr == $signature) {
-            echo $echostr;
-        } else {
-            echo 0;
-        }
     }
 
 }
