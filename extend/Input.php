@@ -79,9 +79,9 @@ class Input
             return "";
         }
         if ($xss) {
-            return strval(request()->post($name, '', 'strip_tags'));
+            return strval(request()->get($name, '', 'strip_tags'));
         } else {
-            return strval(request()->post($name));
+            return strval(request()->get($name));
         }
     }
 
