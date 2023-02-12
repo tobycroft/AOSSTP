@@ -76,6 +76,7 @@ class Input
     {
         if (!Request::has($name) && $must_have) {
             Ret::Fail(400, null, 'Input-Post:[' . $name . ']');
+            return "";
         }
         if ($xss) {
             return strval(request()->post($name, '', 'strip_tags'));
