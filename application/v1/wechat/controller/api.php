@@ -45,16 +45,18 @@ class api extends search
     {
 
         $xmltext = Input::Raw();
-        $parser = xml_parser_create();
-        xml_parser_get_option($parser, LIBXML_NOCDATA);
-        $data = [];
-        $index = [];
-        xml_parse_into_struct($parser, $xmltext, $data, $index);
-        var_dump($data);
-        var_dump($index);
+//        $parser = xml_parser_create();
+//        xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
+//        xml_parser_set_option($parser, LIBXML_NOCDATA, LIBXML_NOCDATA);
+//        xml_parser_get_option($parser, LIBXML_NOCDATA);
+//        $data = [];
+//        $index = [];
+//        xml_parse_into_struct($parser, $xmltext, $data, $index);
+//        var_dump($data);
+//        var_dump($index);
 
-//        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA);
-//        echo json_encode($data, 320);
+        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA + LIBXML_NOBLANKS);
+        echo json_encode($data, 320);
 
 //        var_dump($index);
 //        LogWebModel::create([
