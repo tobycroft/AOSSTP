@@ -18,8 +18,8 @@ class api extends search
 
     public function initialize()
     {
-        $project = Input::Get('project');
-        $data = WechatModel::where('project', $project)->find();
+        $project = Input::Get('token');
+        $data = WechatModel::where('token', $project)->find();
         if (!$data) {
             Ret::Fail(401, $project, '项目不可用');
         }
