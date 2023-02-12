@@ -49,7 +49,7 @@ class api extends search
         $data = [];
         $index = [];
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA);
-        echo json_encode($data);
+        echo json_encode($data, 320);
 //        var_dump($index);
 //        LogWebModel::create([
 //            'get' => json_encode(request()->get()),
