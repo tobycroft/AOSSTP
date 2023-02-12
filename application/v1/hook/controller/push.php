@@ -50,10 +50,12 @@ class push
     //http://upload.tuuz.cc:8000/v1/hook/push/github
     public function github()
     {
-        echo input("payload");
-        return;
-        $tag = \Input::Get('tag');
-        $data = HookModel::where('tag', $tag)->getData();
+        $in = \Input::Post('payload');
+        $payload = json_decode($in, 1);
+        if (!isset($payload['repository']['name'])) {
+            \Ret::Fail(400, null, "未找到repository-name字段");
+        }
+        $data = HookModel::where('tag', $payload["repository"]["name"])->getData();
         if ($data) {
             $rets = [];
             $status = [];
