@@ -15,7 +15,7 @@ class UniformSend
     {
         $this->response = $json;
         $data = json_decode($json, 1);
-        if (isset($data['errmsg'])) {
+        if (isset($data['errmsg']) && isset($data['errcode'])) {
             $this->error = $data['errmsg'];
             $this->errcode = $data['errcode'];
         } else {
@@ -25,7 +25,7 @@ class UniformSend
 
     public function isSuccess()
     {
-        if (isset($this->error)) {
+        if (isset($this->error) && $this->errcode !== 0) {
             return false;
         } else {
             return true;
