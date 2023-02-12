@@ -84,7 +84,7 @@ class Input
         }
     }
 
-    public static function Raw(string $name, bool $must_have = true, bool $xss = false): string
+    public static function Raw(): string
     {
         return request()->getInput();
     }
