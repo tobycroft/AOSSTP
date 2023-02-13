@@ -114,7 +114,6 @@ class api extends info
 
                     default:
                         return "fail";
-                        break;
 
                 }
                 break;
