@@ -32,6 +32,9 @@ class chunk extends dp
         if (!$proc) {
             return $this->uploadError($from, "项目不可用");
         }
+        if ($proc['type'] == 'none') {
+            return $this->uploadError($from, '本项目没有存储权限');
+        }
         $proc = OssSelectionAction::App_find_byProc($proc);
 
         $file = request()->file('file');
