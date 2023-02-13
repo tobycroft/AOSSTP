@@ -4,10 +4,13 @@ namespace Wechat\WechatRet\Offi;
 
 class GetUnlimited
 {
-    public $response;
-    public $ticket;
-    public $expire_seconds;
-    public $url;
+    public string $response;
+    public string $ticket;
+    public int $expire_seconds;
+    public string $url;
+    public mixed $image;
+    const ticket_url = ' "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="';
+
     protected int $errcode = 0;
     private $error;
 
@@ -31,6 +34,16 @@ class GetUnlimited
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function download_image()
+    {
+        if ($this->isSuccess()) {
+            $this->image = file_get_contents(self::ticket_url . $this->ticket);
         }
     }
 

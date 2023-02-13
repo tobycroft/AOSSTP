@@ -239,8 +239,6 @@ class offiaccount extends info
             }
         }
         $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, "testscene");
-        var_dump($wxa);
-        return;
         $real_path = $this->path_prefix . 'wechat/' . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
         $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
@@ -249,6 +247,7 @@ class offiaccount extends info
         }
         if ($wxa->isSuccess()) {
             //取回图片
+            $wxa->download_image();
             if (!file_put_contents($fileName, $wxa->image)) {
                 Ret::Fail(400, null, '文件写入失败');
             }
