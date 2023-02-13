@@ -21,7 +21,7 @@ class create extends CommonController
 {
 
 
-    public mixed $token;
+    public null|string $token;
     public mixed $proc;
     protected int $width;
     protected int $height;
@@ -31,7 +31,9 @@ class create extends CommonController
     {
         set_time_limit(0);
         parent::initialize();
-        $this->token = Input::Get("token");
+        if (!$this->token) {
+            $this->token = Input::Get('token');
+        }
         $this->proc = ProjectModel::api_find_token($this->token);
         if (!$this->proc) {
             Ret::Fail(401, null, '项目不可用');
