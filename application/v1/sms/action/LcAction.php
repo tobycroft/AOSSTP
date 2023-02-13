@@ -52,39 +52,39 @@ class LcAction
     public static function SendCode($reverse_addr, $type, $tag, $mch_id, $key, $phone, array|string $text, string $sign, $tpcode): SendStdErr
     {
 
-//        try {
-        $ret = Send::code($reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode);
-        $success = false;
-        if (strtolower($ret["code"]) == '00000') {
-            $success = true;
-        }
+        try {
+            $ret = Send::code($reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode);
+            $success = false;
+            if (strtolower($ret["code"]) == '00000') {
+                $success = true;
+            }
 
-        LogSmsModel::create([
+            LogSmsModel::create([
                 'oss_type' => $type,
                 'oss_tag' => $tag,
                 'phone' => $phone,
                 'text' => $text,
-            'raw' => json_encode($ret, 320),
-            'log' => $ret['msg'],
-            'success' => $success,
-            'error' => false,
-        ]);
-        if ($success) {
-            return new SendStdErr(0, null, $ret['msg']);
-        } else {
-            return new SendStdErr(200, null, $ret['msg']);
+                'raw' => json_encode($ret, 320),
+                'log' => $ret['msg'],
+                'success' => $success,
+                'error' => false,
+            ]);
+            if ($success) {
+                return new SendStdErr(0, null, $ret['msg']);
+            } else {
+                return new SendStdErr(200, null, $ret['msg']);
+            }
+        } catch (Throwable $e) {
+            LogSmsModel::create(["oss_type" => $type,
+                "oss_tag" => $tag,
+                "phone" => $phone,
+                "text" => $text,
+                "log" => $e->getMessage(),
+                "raw" => $e->getTraceAsString(),
+                'success' => false,
+                'error' => true,]);
+            return new SendStdErr(500, null, $e->getMessage());
         }
-//        } catch (\Throwable $e) {
-//            LogSmsModel::create(["oss_type" => $type,
-//                "oss_tag" => $tag,
-//                "phone" => $phone,
-//                "text" => $text,
-//                "log" => $e->getMessage(),
-//                "raw" => $e->getTraceAsString(),
-//                'success' => false,
-//                'error' => true,]);
-//            return new SendStdErr(500, null, $e->getMessage());
-//        }
     }
 
 }
