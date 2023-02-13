@@ -125,14 +125,17 @@ class api extends info
 //                WechatMessageModel::create($json);
                 break;
         }
-        try {
-            raw_post($this->wechat['message_url'], null, $create_data->toArray());
-        } catch (Throwable $e) {
-            LoggerErrModel::create([
-                "project" => $this->proc['project'],
-                "log" => $e->getTraceAsString(),
-                "discript" => $e->getMessage(),
-            ]);
+        if (!empty($this->wechat['message_url'])) {
+            try {
+
+                raw_post($this->wechat['message_url'], null, $create_data->toArray());
+            } catch (Throwable $e) {
+                LoggerErrModel::create([
+                    'project' => $this->proc['project'],
+                    'log' => $e->getTraceAsString(),
+                    'discript' => $e->getMessage(),
+                ]);
+            }
         }
 //        echo json_encode($create_data, 320);
         echo "success";
