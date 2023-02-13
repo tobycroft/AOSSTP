@@ -21,7 +21,7 @@ class create extends CommonController
 {
 
 
-    public mixed $token;
+    public null|string $token = null;
     public mixed $proc;
     protected int $width;
     protected int $height;
