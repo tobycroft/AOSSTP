@@ -137,6 +137,7 @@ class api extends info
 
         if (!empty($this->wechat['message_url'])) {
             try {
+                unset($data["raw"]);
                 raw_post($this->wechat['message_url'], [], $data);
                 $create_data->is_send = 1;
                 $create_data->save();
