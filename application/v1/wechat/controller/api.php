@@ -61,7 +61,10 @@ class api extends info
         $xml_data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
         $data = json_decode(json_encode($xml_data), 1);
         $data['project'] = $this->wechat['project'];
+
         $create_data = WechatMessageModel::create($data);
+
+
         $openid = $data["FromUserName"];
         $wechat_user = WechatUserModel::where("openid", $openid)->find();
         if (!$wechat_user) {
@@ -125,10 +128,13 @@ class api extends info
 //                WechatMessageModel::create($json);
                 break;
         }
+
+
         if (!empty($this->wechat['message_url'])) {
             try {
-
                 raw_post($this->wechat['message_url'], null, $create_data->toArray());
+                $create_data->is_send = 1;
+                $create_data->save();
             } catch (Throwable $e) {
                 LoggerErrModel::create([
                     'project' => $this->proc['project'],
