@@ -64,7 +64,7 @@ class api extends info
         if (!$wechat_user) {
             WechatUserModel::create([
                 'project' => $this->wechat['project'],
-                'openid' => $json['openid'],
+                'openid' => $openid,
             ]);
         }
         switch ($data['MsgType']) {
