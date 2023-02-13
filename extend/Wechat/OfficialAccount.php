@@ -158,7 +158,7 @@ class OfficialAccount extends Miniprogram
             ],
             [
                 'expire_seconds' => '2592000',
-                'action_name' => 'QR_SCENE',
+                'action_name' => 'QR_STR_SCENE',
                 'action_info' => [
                     'scene' => [
                         'scene_str' => $scene
@@ -176,7 +176,7 @@ class OfficialAccount extends Miniprogram
                 'access_token' => $access_token
             ],
             [
-                'action_name' => 'QR_LIMIT_SCENE',
+                'action_name' => 'QR_LIMIT_STR_SCENE',
                 'action_info' => $scene,
             ]
         ));
