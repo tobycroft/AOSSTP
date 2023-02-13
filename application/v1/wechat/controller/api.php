@@ -116,6 +116,10 @@ class api extends info
                     case "VIEW":
                         break;
 
+                    default:
+                        return "fail";
+                        break;
+
                 }
                 break;
 
