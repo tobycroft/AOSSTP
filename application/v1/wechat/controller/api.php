@@ -94,10 +94,12 @@ class api extends info
                 switch ($data["Event"]) {
                     case "subscribe":
                         WechatUserModel::where("openid", $openid)->data("is_suscribe", 1)->update();
+                        echo "fas";
                         break;
 
                     case "unsubscribe":
                         WechatUserModel::where('openid', $openid)->data('is_suscribe', 0)->update();
+                        echo 'fsas';
                         break;
 
                     case "SCAN":
