@@ -62,7 +62,7 @@ class api extends info
         $encode_data = json_encode($xml_data);
         $data = json_decode($encode_data, 1);
         $data['project'] = $this->wechat['project'];
-        $data['raw'] = $xmltext;
+        $data['raw'] = $encode_data;
         $create_data = WechatMessageModel::create($data);
 
 
