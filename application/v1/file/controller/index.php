@@ -25,19 +25,14 @@ class index extends search
 
     }
 
-    public function index()
-    {
-        dump(config('aliyun.'));
-    }
-
     public function up(Request $request)
     {
+        if ($this->proc['type'] == 'none') {
+            Ret::Fail(400, null, '本项目没有存储权限');
+        }
         $file = $request->file('file');
         if ($file) {
             try {
-                if ($this->proc["type"] == "none") {
-                    Ret::Fail(400, null, '本项目没有存储权限');
-                }
                 $this->upload_file($request);
             } catch (Exception $e) {
                 Ret::Fail(400, $e->getMessage(), $e->getMessage());
