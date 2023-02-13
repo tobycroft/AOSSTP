@@ -124,7 +124,7 @@ class api extends info
                 break;
         }
 //        raw_post($this->wechat["message_url"], null,)
-        echo json_encode($create_data, 320);
+//        echo json_encode($create_data, 320);
         echo "success";
     }
 
