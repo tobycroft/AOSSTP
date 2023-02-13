@@ -165,5 +165,19 @@ class OfficialAccount extends Miniprogram
     }
 
 
+    public static function getQrSceneLimit(string $access_token, $scene): GetUnlimited
+    {
+        return new GetUnlimited(raw_post(self::$Base . self::$getQrScene,
+            [
+                'access_token' => $access_token
+            ],
+            [
+                'action_name' => 'QR_LIMIT_SCENE',
+                'action_info' => $scene,
+            ]
+        ));
+    }
+
+
 }
 
