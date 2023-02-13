@@ -222,9 +222,6 @@ class offiaccount extends info
 
     public function unlimited_file(Request $request)
     {
-        if (!$request->has('data')) {
-            Ret::Fail(400, null, 'data');
-        }
         $data = Input::Post("data");
 
         $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, $data);
@@ -241,10 +238,7 @@ class offiaccount extends info
 
     public function unlimited_raw(Request $request)
     {
-        if (!$request->has('data')) {
-            Ret::Fail(400, null, 'data');
-        }
-        $data = input('data');
+        $data = Input::Post('data');
 
         $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, 'testscene');
         $real_path = $this->path_prefix . 'wechat/' . $this->token;
