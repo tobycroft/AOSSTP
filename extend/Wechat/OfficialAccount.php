@@ -160,7 +160,9 @@ class OfficialAccount extends Miniprogram
                 'expire_seconds' => '2592000',
                 'action_name' => 'QR_SCENE',
                 'action_info' => [
-                    'scene' => $scene
+                    'scene' => [
+                        'scene_str' => $scene
+                    ]
                 ],
             ]
         ));
