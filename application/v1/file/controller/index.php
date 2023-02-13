@@ -5,6 +5,7 @@ namespace app\v1\file\controller;
 
 use app\v1\file\action\OssSelectionAction;
 use app\v1\file\model\AttachmentModel;
+use Exception;
 use getID3;
 use OSS\AliyunOSS;
 use OSS\Core\OssException;
@@ -34,8 +35,11 @@ class index extends search
         $file = $request->file('file');
         if ($file) {
             try {
+                if ($this->proc["type"] == "none") {
+                    Ret::Fail(400, null, '本项目没有存储权限');
+                }
                 $this->upload_file($request);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Ret::Fail(400, $e->getMessage(), $e->getMessage());
             }
         } else {
@@ -218,7 +222,7 @@ class index extends search
         if ($file) {
             try {
                 $this->upload_file($request, 1);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Ret::Fail(400, $e->getMessage(), $e->getMessage());
             }
         } else {
@@ -237,7 +241,7 @@ class index extends search
                 Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Ret::Fail(400, $e->getMessage(), $e->getMessage());
         }
     }
@@ -254,7 +258,7 @@ class index extends search
                 Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Ret::Fail(400, $e->getMessage(), $e->getMessage());
         }
     }

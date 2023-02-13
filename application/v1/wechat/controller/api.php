@@ -4,6 +4,7 @@ namespace app\v1\wechat\controller;
 
 use app\v1\log\model\LogWebModel;
 use app\v1\wechat\model\WechatMessageModel;
+use app\v1\wechat\model\WechatUserModel;
 use Input;
 use Ret;
 
@@ -58,6 +59,16 @@ class api extends info
         $json = json_decode(json_encode($data), 1);
         $json['project'] = $this->wechat['project'];
         WechatMessageModel::create($json);
+        $openid = $json["FromUserName"];
+        $wechat_user = WechatUserModel::where("openid", $openid)->find();
+        if (!$wechat_user) {
+            WechatUserModel::create([
+                'project' => $this->wechat['project'],
+                'openid' => $this->wechat['openid'],
+                'is_suscribe' => $this->wechat['is_suscribe'],
+                'project' => $this->wechat['project'],
+            ])
+        }
         switch ($data['MsgType']) {
             case "text":
                 break;
