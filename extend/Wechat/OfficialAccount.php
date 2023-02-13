@@ -4,11 +4,11 @@ namespace Wechat;
 
 use miniprogram_struct;
 use Wechat\WechatRet\GetAccessToken;
+use Wechat\WechatRet\Offi\GetUnlimited;
 use Wechat\WechatRet\Template\TemplateSend;
 use Wechat\WechatRet\Template\UniformSend;
 use Wechat\WechatRet\UserGet;
 use Wechat\WechatRet\UserInfo;
-use Wechat\WechatRet\WxaCode\GetUnlimited;
 use Wechat\WechatRet\WxaCode\OffiAccessToken;
 
 class OfficialAccount extends Miniprogram
