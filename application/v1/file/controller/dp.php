@@ -124,6 +124,9 @@ class dp extends CommonController
         if (!$proc) {
             return $this->uploadError($from, "项目不可用");
         }
+        if ($this->proc['type'] == 'none') {
+            Ret::Fail(400, null, '本项目没有存储权限');
+        }
         $proc = OssSelectionAction::App_find_byProc($proc);
 
         // 获取附件数据
