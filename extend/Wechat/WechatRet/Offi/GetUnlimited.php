@@ -6,6 +6,7 @@ class GetUnlimited
 {
     public string $response;
     public string $ticket;
+    public string $ticket_url;
     public int $expire_seconds;
     public string $url;
     public mixed $image;
@@ -22,6 +23,7 @@ class GetUnlimited
             $this->ticket = $data["ticket"];
             $this->expire_seconds = $data["expire_seconds"];
             $this->url = $data["url"];
+            $this->ticket_url = self::ticket_url . $this->ticket;
         } else {
             $this->error = $data['errmsg'];
             $this->errcode = $data['errcode'];
@@ -43,7 +45,7 @@ class GetUnlimited
     public function download_image()
     {
         if ($this->isSuccess()) {
-            $this->image = file_get_contents(self::ticket_url . $this->ticket);
+            $this->image = file_get_contents($this->ticket_url);
         }
     }
 
