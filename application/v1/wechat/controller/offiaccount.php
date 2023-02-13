@@ -4,6 +4,7 @@ namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\qr;
 use app\v1\wechat\action\AccessTokenAction;
+use Input;
 use miniprogram_struct;
 use Ret;
 use think\cache\driver\Redis;
@@ -224,9 +225,9 @@ class offiaccount extends info
         if (!$request->has('data')) {
             Ret::Fail(400, null, 'data');
         }
-        $data = input('data');
+        $data = Input::Post("data");
 
-        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, "testscene");
+        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, $data);
         $real_path = $this->path_prefix . 'wechat/' . $this->token;
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
