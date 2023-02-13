@@ -67,7 +67,7 @@ class api extends info
                 'openid' => $this->wechat['openid'],
                 'is_suscribe' => $this->wechat['is_suscribe'],
                 'project' => $this->wechat['project'],
-            ])
+            ]);
         }
         switch ($data['MsgType']) {
             case "text":
