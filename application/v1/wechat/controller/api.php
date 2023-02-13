@@ -56,11 +56,11 @@ class api extends info
     public function message()
     {
         $xmltext = Input::Raw();
-        $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
-        $json = json_decode(json_encode($data), 1);
-        $json['project'] = $this->wechat['project'];
-        WechatMessageModel::create($json);
-        $openid = $json["FromUserName"];
+        $xml_data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
+        $data = json_decode(json_encode($xml_data), 1);
+        $data['project'] = $this->wechat['project'];
+        WechatMessageModel::create($data);
+        $openid = $data["FromUserName"];
         $wechat_user = WechatUserModel::where("openid", $openid)->find();
         if (!$wechat_user) {
             WechatUserModel::create([
@@ -94,12 +94,10 @@ class api extends info
                 switch ($data["Event"]) {
                     case "subscribe":
                         WechatUserModel::where("openid", $openid)->data("is_suscribe", 1)->update();
-                        echo "fas";
                         break;
 
                     case "unsubscribe":
                         WechatUserModel::where('openid', $openid)->data('is_suscribe', 0)->update();
-                        echo 'fsas';
                         break;
 
                     case "SCAN":
