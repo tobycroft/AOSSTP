@@ -42,11 +42,11 @@ class SendAction
             case "lc":
                 $data = SmsLcModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    if (strlen($text) <= 6) {
-                        return LcAction::SendCode($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
-                    } else {
-                        return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
-                    }
+//                    if (strlen($text) <= 6) {
+//                        return LcAction::SendCode($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+//                    } else {
+                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+//                    }
                 }
                 Ret::Fail(408, null, '未找到LC平台对应模板');
                 break;
