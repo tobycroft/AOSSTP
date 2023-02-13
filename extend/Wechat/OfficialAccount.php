@@ -152,7 +152,7 @@ class OfficialAccount extends Miniprogram
 
     public static function getQrSceneUnlimit(string $access_token, $scene): GetUnlimited
     {
-        return new GetUnlimited(raw_post(self::$Base . self::$getUnlimited,
+        return new GetUnlimited(raw_post(self::$Base . self::$getQrScene,
             [
                 'access_token' => $access_token
             ],

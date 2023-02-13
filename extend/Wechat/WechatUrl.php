@@ -29,4 +29,8 @@ class WechatUrl
 
     //客服消息
     protected static string $message_send = '/cgi-bin/message/custom/send';
+
+    //offi
+    protected static string $getQrScene = '/cgi-bin/qrcode/create';
+
 }
