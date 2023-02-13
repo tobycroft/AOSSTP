@@ -22,14 +22,13 @@ class index extends search
 
         parent::initialize();
         $this->proc = OssSelectionAction::App_find_byProc($this->proc);
-
+        if ($this->proc['type'] == 'none') {
+            Ret::Fail(400, null, '本项目没有存储权限');
+        }
     }
 
     public function up(Request $request)
     {
-        if ($this->proc['type'] == 'none') {
-            Ret::Fail(400, null, '本项目没有存储权限');
-        }
         $file = $request->file('file');
         if ($file) {
             try {
@@ -213,6 +212,7 @@ class index extends search
 
     public function upfull(Request $request)
     {
+
         $file = $request->file('file');
         if ($file) {
             try {
