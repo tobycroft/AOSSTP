@@ -6,6 +6,8 @@ use app\v1\image\controller\qr;
 use app\v1\wechat\action\AccessTokenAction;
 use app\v1\wechat\model\WechatDataModel;
 use miniprogram_struct;
+use OSS\AliyunOSS;
+use OSS\Core\OssException;
 use Ret;
 use think\cache\driver\Redis;
 use think\Request;
@@ -237,20 +239,56 @@ class offiaccount extends info
             }
         }
         $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, "testscene");
-        var_dump($wxa->isSuccess());
-//        $real_path = $this->path_prefix . 'wechat/' . $this->token;
-//        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
-//        $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
-//        if (!is_dir($real_path)) {
-//            mkdir($real_path, 0755, true);
-//        }
-//        if ($wxa->isSuccess()) {
-//            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
-//            Ret::Success(0, $sav, $env_version . '-from_cache');
-//        } else {
-//            $this->ac->auto_error_code($wxa->getErrcode());
-//            Ret::Fail(300, $wxa->response, $wxa->getError());
-//        }
+        var_dump($wxa);
+        return;
+        $real_path = $this->path_prefix . 'wechat/' . $this->token;
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+        $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+        if (!is_dir($real_path)) {
+            mkdir($real_path, 0755, true);
+        }
+        if ($wxa->isSuccess()) {
+            //取回图片
+            if (!file_put_contents($fileName, $wxa->image)) {
+                Ret::Fail(400, null, '文件写入失败');
+            }
+            if ($this->proc['type'] == 'local' || $this->proc['type'] == 'all') {
+                if ($this->proc['main_type'] == 'local') {
+                    $sav = $this->proc['url'] . '/wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+                }
+            }
+            if ($this->proc['type'] == 'oss' || $this->proc['type'] == 'all') {
+                try {
+                    $oss = new AliyunOSS($this->proc);
+                    $ret = $oss->uploadFile($this->proc['bucket'], 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg', $fileName);
+                    if (empty($ret->getData()['info']['url'])) {
+                        Ret::Fail(300, null, 'OSS不正常');
+                        return '';
+                    }
+                } catch (OssException $e) {
+                    Ret::Fail(200, null, $e->getMessage());
+                    return '';
+                }
+                if ($this->proc['main_type'] == 'oss') {
+                    $sav = $this->proc['url'] . '/wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+                }
+            }
+            WechatDataModel::where('project', $this->token)->where('key', $md5)->delete();
+            if (!WechatDataModel::create([
+                'project' => $this->token,
+                'key' => $md5,
+                'val' => $data,
+                'page' => $page,
+                'path' => $oss_path,
+                'env_version' => $env_version,
+            ])) {
+                Ret::Fail(500, null);
+            }
+            Ret::Success(0, $sav, $env_version . '-from_cache');
+        } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
     }
 
 
