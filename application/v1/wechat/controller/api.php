@@ -3,10 +3,12 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\log\model\LogWebModel;
+use app\v1\logger\model\LoggerErrModel;
 use app\v1\wechat\model\WechatMessageModel;
 use app\v1\wechat\model\WechatUserModel;
 use Input;
 use Ret;
+use Throwable;
 
 class api extends info
 {
@@ -123,7 +125,15 @@ class api extends info
 //                WechatMessageModel::create($json);
                 break;
         }
-        raw_post($this->wechat["message_url"], null, $create_data);
+        try {
+            raw_post($this->wechat['message_url'], null, $create_data->toArray());
+        } catch (Throwable $e) {
+            LoggerErrModel::create([
+                "project" => $this->proc['project'],
+                "log" => $e->getTraceAsString(),
+                "discript" => $e->getMessage(),
+            ]);
+        }
 //        echo json_encode($create_data, 320);
         echo "success";
     }
