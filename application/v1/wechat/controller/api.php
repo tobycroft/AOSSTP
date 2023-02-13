@@ -59,7 +59,8 @@ class api extends info
     {
         $xmltext = Input::Raw();
         $xml_data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
-        $data = json_decode(json_encode($xml_data), 1);
+        $encode_data = json_encode($xml_data);
+        $data = json_decode($encode_data, 1);
         $data['project'] = $this->wechat['project'];
         $data['raw'] = $xmltext;
         $create_data = WechatMessageModel::create($data);
