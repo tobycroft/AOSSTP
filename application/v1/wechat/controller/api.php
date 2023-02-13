@@ -57,9 +57,9 @@ class api extends info
         $data = simplexml_load_string($xmltext, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
         $json = json_decode(json_encode($data), 1);
         $json['project'] = $this->wechat['project'];
+        WechatMessageModel::create($json);
         switch ($data['MsgType']) {
             case "text":
-
                 break;
 
             case "image":
@@ -105,9 +105,10 @@ class api extends info
 
 
             default:
-                WechatMessageModel::create($json);
+//                WechatMessageModel::create($json);
                 break;
         }
+
         echo "success";
     }
 
