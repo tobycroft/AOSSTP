@@ -4,8 +4,12 @@ namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\qr;
 use app\v1\wechat\action\AccessTokenAction;
+use app\v1\wechat\model\WechatDataModel;
+use miniprogram_struct;
+use Ret;
 use think\cache\driver\Redis;
 use think\Request;
+use Wechat\Miniprogram;
 use Wechat\OfficialAccount;
 
 class offiaccount extends info
@@ -29,47 +33,47 @@ class offiaccount extends info
     public function user_list(Request $request)
     {
         if (!$request->has('next_openid')) {
-            \Ret::Fail(400, null, 'next_openid');
+            Ret::Fail(400, null, 'next_openid');
         }
         $next_openid = input('next_openid');
 
         $wxa = OfficialAccount::userlist($this->access_token, "");
         if ($wxa->isSuccess()) {
-            \Ret::Success(0, $wxa->openid);
+            Ret::Success(0, $wxa->openid);
         } else {
             $this->ac->auto_error_code($wxa->getErrcode());
-            \Ret::Fail(300, $wxa->response, $wxa->getError());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 
     public function user_info(Request $request)
     {
         if (!$openid = input('openid')) {
-            \Ret::Fail(400, null, 'openid');
+            Ret::Fail(400, null, 'openid');
         }
 
         $wxa = OfficialAccount::userinfo($this->access_token, $openid);
         if ($wxa->isSuccess()) {
-            \Ret::Success(0, $wxa->getData());
+            Ret::Success(0, $wxa->getData());
         } else {
             $this->ac->auto_error_code($wxa->getErrcode());
-            \Ret::Fail(300, $wxa->response, $wxa->getError());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 
     public function openid_url()
     {
         if (!$redirect_uri = input('redirect_uri')) {
-            \Ret::Fail(400, null, 'redirect_uri');
+            Ret::Fail(400, null, 'redirect_uri');
         }
         if (!$response_type = input('response_type')) {
-            \Ret::Fail(400, null, 'response_type');
+            Ret::Fail(400, null, 'response_type');
         }
         if (!$scope = input('scope')) {
-            \Ret::Fail(400, null, 'scope');
+            Ret::Fail(400, null, 'scope');
         }
         if (!$state = input('state')) {
-            \Ret::Fail(400, null, 'state');
+            Ret::Fail(400, null, 'state');
         }
         $png = input('png');
         $appid = $this->appid;
@@ -79,7 +83,7 @@ class offiaccount extends info
             $qr = new qr();
             $qr->qr_png($combine);
         } else {
-            \Ret::Success(0, $combine);
+            Ret::Success(0, $combine);
         }
 
     }
@@ -94,114 +98,114 @@ class offiaccount extends info
     public function openid_aquire(Request $request)
     {
         if (!$request->has('code')) {
-            \Ret::Fail(400, null, 'code');
+            Ret::Fail(400, null, 'code');
         }
         $code = input('code');
 
         $wxa = OfficialAccount::user_getOpenid($this->appid, $this->appsecret, $code, "authorization_code");
         if ($wxa->isSuccess()) {
-            \Ret::Success(0, $wxa->openid);
+            Ret::Success(0, $wxa->openid);
         } else {
             $this->ac->auto_error_code($wxa->getErrcode());
-            \Ret::Fail(300, $wxa->response, $wxa->getError());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 
     public function uniform_send()
     {
         if (!$openid = input('openid')) {
-            \Ret::Fail(400, null, 'openid');
+            Ret::Fail(400, null, 'openid');
         }
         if (!$template_id = input('template_id')) {
-            \Ret::Fail(400, null, 'template_id');
+            Ret::Fail(400, null, 'template_id');
         }
         if (!$url = input('url')) {
-            \Ret::Fail(400, null, 'url');
+            Ret::Fail(400, null, 'url');
         }
         if (!$data = input('data')) {
-            \Ret::Fail(400, null, 'data');
+            Ret::Fail(400, null, 'data');
         }
         $wxa = OfficialAccount::uniform_send($this->access_token, $openid, $template_id, $url, $data);
         if ($wxa->isSuccess()) {
-            \Ret::Success(0, $wxa->getData());
+            Ret::Success(0, $wxa->getData());
         } else {
             $this->ac->auto_error_code($wxa->getErrcode());
-            \Ret::Fail(300, $wxa->response, $wxa->getError());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 
     public function template_send()
     {
         if (!$openid = input('openid')) {
-            \Ret::Fail(400, null, 'openid');
+            Ret::Fail(400, null, 'openid');
         }
         if (!$template_id = input('template_id')) {
-            \Ret::Fail(400, null, 'template_id');
+            Ret::Fail(400, null, 'template_id');
         }
         if (!$data = input('data')) {
-            \Ret::Fail(400, null, 'data');
+            Ret::Fail(400, null, 'data');
         }
         if (!$url = input('url')) {
-            \Ret::Fail(400, null, 'url');
+            Ret::Fail(400, null, 'url');
         }
         $client_msg_id = input('client_msg_id');
         $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $data, $url, null, $client_msg_id);
         if ($wxa->isSuccess()) {
-            \Ret::Success(0, $wxa->getData());
+            Ret::Success(0, $wxa->getData());
         } else {
             $this->ac->auto_error_code($wxa->getErrcode());
-            \Ret::Fail(300, $wxa->response, $wxa->getError());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 
     public function template_send_miniprogram()
     {
         if (!$openid = input('openid')) {
-            \Ret::Fail(400, null, 'openid');
+            Ret::Fail(400, null, 'openid');
         }
         if (!$template_id = input('template_id')) {
-            \Ret::Fail(400, null, 'template_id');
+            Ret::Fail(400, null, 'template_id');
         }
         if (!$data = input('data')) {
-            \Ret::Fail(400, null, 'data');
+            Ret::Fail(400, null, 'data');
         }
         if (!$url = input('url')) {
-            \Ret::Fail(400, null, 'url');
+            Ret::Fail(400, null, 'url');
         }
         if (!$miniprogram = input('miniprogram')) {
-            \Ret::Fail(400, null, 'miniprogram');
+            Ret::Fail(400, null, 'miniprogram');
         }
         $client_msg_id = input('client_msg_id');
         $miniprogram = json_decode($miniprogram);
-        $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $data, $url, new \miniprogram_struct($miniprogram->appid, $miniprogram->pagepath), $client_msg_id);
+        $wxa = OfficialAccount::template_send($this->access_token, $openid, $template_id, $data, $url, new miniprogram_struct($miniprogram->appid, $miniprogram->pagepath), $client_msg_id);
         if ($wxa->isSuccess()) {
-            \Ret::Success(0, $wxa->getData());
+            Ret::Success(0, $wxa->getData());
         } else {
             $this->ac->auto_error_code($wxa->getErrcode());
-            \Ret::Fail(300, $wxa->response, $wxa->getError());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
         }
     }
 
     public function template_push_more()
     {
         if (!$openids = input('openids')) {
-            \Ret::Fail(400, null, 'openids');
+            Ret::Fail(400, null, 'openids');
         }
         if (!$template_id = input('template_id')) {
-            \Ret::Fail(400, null, 'template_id');
+            Ret::Fail(400, null, 'template_id');
         }
         if (!$url = input('url')) {
-            \Ret::Fail(400, null, 'url');
+            Ret::Fail(400, null, 'url');
         }
         if (!$data = input('data')) {
-            \Ret::Fail(400, null, 'data');
+            Ret::Fail(400, null, 'data');
         }
 //        $redis = new \Redis();
         $rhan = new Redis();
         $redis = $rhan->handler();
         $ids = json_decode($openids, 1);
         if (count($ids) < 1) {
-            \Ret::Fail(400, null, "openids should contains more than 1");
+            Ret::Fail(400, null, "openids should contains more than 1");
         }
         foreach ($ids as $id) {
             $redis->lPush("__offiaccountpush__", json_encode(
@@ -214,6 +218,40 @@ class offiaccount extends info
                 )
             );
         }
-        \Ret::Success(0);
+        Ret::Success(0);
     }
+
+    public function unlimited_file(Request $request)
+    {
+        if (!$request->has('data')) {
+            Ret::Fail(400, null, 'data');
+        }
+        $data = input('data');
+        $page = input('page');
+        $env_version = input('env_version') ?: 'release';
+        $md5 = md5($data . $page . $env_version);
+
+        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
+        if (!empty($wechat_data)) {
+            if (file_exists($this->path_prefix . $wechat_data['path'])) {
+                Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data['path'], $env_version . '-from_cache');
+            }
+        }
+        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
+        $real_path = $this->path_prefix . 'wechat/' . $this->token;
+        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+        $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+        if (!is_dir($real_path)) {
+            mkdir($real_path, 0755, true);
+        }
+        if ($wxa->isSuccess()) {
+            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
+            Ret::Success(0, $sav, $env_version . '-from_cache');
+        } else {
+            $this->ac->auto_error_code($wxa->getErrcode());
+            Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
+    }
+
+
 }

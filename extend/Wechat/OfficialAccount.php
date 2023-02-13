@@ -2,11 +2,13 @@
 
 namespace Wechat;
 
+use miniprogram_struct;
 use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\Template\TemplateSend;
 use Wechat\WechatRet\Template\UniformSend;
 use Wechat\WechatRet\UserGet;
 use Wechat\WechatRet\UserInfo;
+use Wechat\WechatRet\WxaCode\GetUnlimited;
 use Wechat\WechatRet\WxaCode\OffiAccessToken;
 
 class OfficialAccount extends Miniprogram
@@ -63,7 +65,7 @@ class OfficialAccount extends Miniprogram
         ));
     }
 
-    public static function template_send(string $access_token, $touser, $template_id, $data, $url, \miniprogram_struct $miniprogram_struct = null, $client_msg_id = null): TemplateSend
+    public static function template_send(string $access_token, $touser, $template_id, $data, $url, miniprogram_struct $miniprogram_struct = null, $client_msg_id = null): TemplateSend
     {
         $send = [
             'touser' => $touser,
@@ -145,6 +147,21 @@ class OfficialAccount extends Miniprogram
     public static function message_template(string $access_token, $openid, $template_id)
     {
 
+    }
+
+
+    public static function getQrSceneUnlimit(string $access_token, $scene): GetUnlimited
+    {
+        return new GetUnlimited(raw_post(self::$Base . self::$getUnlimited,
+            [
+                'access_token' => $access_token
+            ],
+            [
+                'expire_seconds' => '2592000',
+                'action_name' => 'QR_SCENE',
+                'action_info' => $scene,
+            ]
+        ));
     }
 
 
