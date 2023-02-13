@@ -141,7 +141,7 @@ class api extends info
                 $create_data->save();
             } catch (Throwable $e) {
                 LoggerErrModel::create([
-                    'project' => $this->proc['project'],
+                    'project' => $this->proc['token'],
                     'log' => $e->getTraceAsString(),
                     'discript' => $e->getMessage(),
                 ]);
