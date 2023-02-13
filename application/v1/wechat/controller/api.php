@@ -106,7 +106,9 @@ class api extends info
                         break;
 
                     case "SCAN":
-                        WechatUserModel::where('openid', $openid)->data('is_suscribe', 1)->update();
+                        if ($wechat_user["is_suscribe"] == 0) {
+                            WechatUserModel::where('openid', $openid)->data('is_suscribe', 1)->update();
+                        }
                         break;
 
                     case "LOCATION":
