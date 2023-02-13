@@ -12,7 +12,7 @@ class SendAction
 {
 
     //AutoSend:返回错误
-    public static function AutoSend($proc, $quhao, $phone, $text): SendStdErr|null
+    public static function AutoSend($proc, $quhao, $phone, string $text): SendStdErr|null
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
