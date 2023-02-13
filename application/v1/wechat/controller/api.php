@@ -68,9 +68,10 @@ class api extends info
         $openid = $data["FromUserName"];
         $wechat_user = WechatUserModel::where("openid", $openid)->find();
         if (!$wechat_user) {
-            WechatUserModel::create([
+            $wechat_user = WechatUserModel::create([
                 'project' => $this->wechat['project'],
                 'openid' => $openid,
+                'is_suscribe' => 1,
             ]);
         }
         switch ($data['MsgType']) {
