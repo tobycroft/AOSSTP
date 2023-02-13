@@ -9,7 +9,6 @@ use miniprogram_struct;
 use Ret;
 use think\cache\driver\Redis;
 use think\Request;
-use Wechat\Miniprogram;
 use Wechat\OfficialAccount;
 
 class offiaccount extends info
@@ -237,7 +236,7 @@ class offiaccount extends info
                 Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data['path'], $env_version . '-from_cache');
             }
         }
-        $wxa = Miniprogram::getWxaCodeUnlimit($this->access_token, $md5, $page, 400, $env_version);
+        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, $md5, $page, 400, $env_version);
         $real_path = $this->path_prefix . 'wechat/' . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
         $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
