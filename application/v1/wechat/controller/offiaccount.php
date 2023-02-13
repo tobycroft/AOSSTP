@@ -233,7 +233,7 @@ class offiaccount extends info
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            Ret::Success(0, $wxa->ticket, 'from_remote');
+            Ret::Success(0, $wxa->ticket_url, 'from_remote');
         } else {
             Ret::Fail(300, $wxa->response, $wxa->getError());
         }
