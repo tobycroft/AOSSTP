@@ -240,7 +240,7 @@ class offiaccount extends info
     {
         $data = Input::Post('data');
 
-        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, 'testscene');
+        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, $data);
         $real_path = $this->path_prefix . 'wechat/' . $this->token;
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
