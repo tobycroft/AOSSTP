@@ -4,7 +4,6 @@ namespace app\v1\wechat\controller;
 
 use app\v1\image\controller\qr;
 use app\v1\wechat\action\AccessTokenAction;
-use app\v1\wechat\model\WechatDataModel;
 use miniprogram_struct;
 use Ret;
 use think\cache\driver\Redis;
@@ -245,34 +244,13 @@ class offiaccount extends info
             Ret::Fail(400, null, 'data');
         }
         $data = input('data');
-        $page = input('page');
-        $env_version = input('env_version') ?: 'release';
-        $md5 = md5($data . $page . $env_version);
 
-        $wechat_data = WechatDataModel::where('key', $md5)->where('project', $this->token)->where('page', $page)->where('env_version', $env_version)->find();
-        if (!empty($wechat_data)) {
-            if (file_exists($this->path_prefix . $wechat_data['path'])) {
-                Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data['path'], $env_version . '-from_cache');
-            }
-        }
-        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, "testscene");
+        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, 'testscene');
         $real_path = $this->path_prefix . 'wechat/' . $this->token;
-        $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
         if (!is_dir($real_path)) {
             mkdir($real_path, 0755, true);
         }
         if ($wxa->isSuccess()) {
-            WechatDataModel::where('project', $this->token)->where('key', $md5)->delete();
-            if (!WechatDataModel::create([
-                'project' => $this->token,
-                'key' => $md5,
-                'val' => $data,
-                'page' => $page,
-                'path' => $oss_path,
-                'env_version' => $env_version,
-            ])) {
-                Ret::Fail(500, null);
-            }
             $this->redirect($wxa->ticket_url, 302);
         } else {
             Ret::Fail(300, $wxa->response, $wxa->getError());
