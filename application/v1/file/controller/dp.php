@@ -8,6 +8,7 @@ use app\v1\file\model\AttachmentModel;
 use app\v1\project\model\ProjectModel;
 use BaseController\CommonController;
 use getID3;
+use Input;
 use OSS\AliyunOSS;
 use OSS\Core\OssException;
 use Ret;
@@ -48,7 +49,7 @@ class dp extends CommonController
     {
         set_time_limit(0);
         parent::initialize();
-        $this->token = input('get.token');
+        $this->token = Input::Get("token");
         if (!$this->token) {
             Ret::Fail(401, null, 'token');
         }
