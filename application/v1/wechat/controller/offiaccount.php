@@ -237,19 +237,20 @@ class offiaccount extends info
             }
         }
         $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, "testscene");
-        $real_path = $this->path_prefix . 'wechat/' . $this->token;
-        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
-        $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
-        if (!is_dir($real_path)) {
-            mkdir($real_path, 0755, true);
-        }
-        if ($wxa->isSuccess()) {
-            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
-            Ret::Success(0, $sav, $env_version . '-from_cache');
-        } else {
-            $this->ac->auto_error_code($wxa->getErrcode());
-            Ret::Fail(300, $wxa->response, $wxa->getError());
-        }
+        var_dump($wxa);
+//        $real_path = $this->path_prefix . 'wechat/' . $this->token;
+//        $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+//        $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
+//        if (!is_dir($real_path)) {
+//            mkdir($real_path, 0755, true);
+//        }
+//        if ($wxa->isSuccess()) {
+//            $sav = $this->oss_operation($md5, $env_version, $fileName, $wxa, $data, $page, $oss_path);
+//            Ret::Success(0, $sav, $env_version . '-from_cache');
+//        } else {
+//            $this->ac->auto_error_code($wxa->getErrcode());
+//            Ret::Fail(300, $wxa->response, $wxa->getError());
+//        }
     }
 
 
