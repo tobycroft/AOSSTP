@@ -236,7 +236,7 @@ class offiaccount extends info
                 Ret::Success(0, $this->proc['url'] . DIRECTORY_SEPARATOR . $wechat_data['path'], $env_version . '-from_cache');
             }
         }
-        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, $md5, $page, 400, $env_version);
+        $wxa = OfficialAccount::getQrSceneUnlimit($this->access_token, "testscene");
         $real_path = $this->path_prefix . 'wechat/' . $this->token;
         $fileName = $real_path . DIRECTORY_SEPARATOR . $md5 . '.jpg';
         $oss_path = 'wechat/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.jpg';
