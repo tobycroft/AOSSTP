@@ -9,7 +9,7 @@ class GetUnlimited
     public int $expire_seconds;
     public string $url;
     public mixed $image;
-    const ticket_url = ' "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket="';
+    const ticket_url = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=';
 
     protected int $errcode = 0;
     private $error;
