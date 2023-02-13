@@ -14,11 +14,12 @@ class api extends info
 
     protected $timestamp;
     protected $nonce;
+    protected $wechat_token;
 
     public function initialize()
     {
         parent::initialize();
-        $this->token = $this->wechat['token'];
+        $this->wechat_token = $this->wechat['token'];
 
         //微信验证
         $in = Input::Raw();
@@ -34,7 +35,7 @@ class api extends info
         $this->timestamp = Input::Get('timestamp');
         $this->nonce = Input::Get('nonce');
 
-        $tmpArr = array($this->token, $this->timestamp, $this->nonce);
+        $tmpArr = array($this->wechat_token, $this->timestamp, $this->nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode($tmpArr);
         $tmpStr = sha1($tmpStr);
