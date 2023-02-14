@@ -60,7 +60,7 @@ class Send
         //$data['user_data'] = '';  //自定义数据，只能由1-50个数字或字母组成（可不传）
         //CURL请求
         $back = self::post($url, $data);
-        var_dump($back);
+//        var_dump($back);
         //输出结果
         return json_decode($back, 1);
     }
