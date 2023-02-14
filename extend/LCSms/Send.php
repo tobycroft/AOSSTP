@@ -2,6 +2,8 @@
 
 namespace LCSms;
 
+use think\Exception;
+
 class Send
 {
 
@@ -71,6 +73,9 @@ class Send
         return (float)sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
     }
 
+    /**
+     * @throws Exception
+     */
     protected static function post($url, $postData, $option = FALSE)
     {
         if (!is_array($postData)) {
@@ -98,6 +103,9 @@ class Send
         }
         $res = curl_exec($ch);  //>运行curl
         curl_close($ch);        //>关闭curl
+        if (empty($res)) {
+            throw new Exception('政务云短信平台超时或空返回');
+        }
         return $res;
     }
 
