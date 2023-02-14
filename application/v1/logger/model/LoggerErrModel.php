@@ -16,7 +16,7 @@ class LoggerErrModel extends Model
 
     public $table = 'ao_logger_err';
 
-    public function Api_insert($project, $log, $discript)
+    public static function Api_insert($project, $log, $discript)
     {
         self::create([
             'project' => $project,
