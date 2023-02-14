@@ -104,7 +104,7 @@ class Send
         $res = curl_exec($ch);  //>运行curl
         curl_close($ch);        //>关闭curl
         if (empty($res)) {
-            throw new Exception('政务云短信平台超时或空返回');
+            throw new Exception('政务云短信平台超时或无返回');
         }
         return $res;
     }
