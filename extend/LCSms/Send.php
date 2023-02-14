@@ -101,12 +101,19 @@ class Send
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         }
-        $res = curl_exec($ch);  //>运行curl
-        curl_close($ch);        //>关闭curl
-        if (empty($res)) {
-            throw new Exception('政务云短信平台超时或无返回');
+        $response = curl_exec($ch);  //>运行curl
+        if ($response === false) {
+            if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
+                throw new Exception('政务云短信平台超时');
+            }
         }
-        return $res;
+        if (empty($response)) {
+            if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
+                throw new Exception('政务云短信平台无返回');
+            }
+        }
+        curl_close($ch);        //>关闭curl
+        return $response;
     }
 
 }
