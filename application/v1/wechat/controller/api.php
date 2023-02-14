@@ -7,6 +7,7 @@ use app\v1\logger\model\LoggerErrModel;
 use app\v1\wechat\model\WechatMessageModel;
 use app\v1\wechat\model\WechatUserModel;
 use Input;
+use Net;
 use Ret;
 use Throwable;
 
@@ -138,7 +139,7 @@ class api extends info
         if (!empty($this->wechat['message_url'])) {
             try {
                 unset($data["raw"]);
-                raw_post($this->wechat['message_url'], [], $data);
+                Net::PostJson($this->wechat['message_url'], [], $data);
                 $create_data->is_send = 1;
                 $create_data->save();
             } catch (Throwable $e) {
@@ -159,24 +160,4 @@ class api extends info
         echo Input::Get('echostr');
     }
 
-}
-
-function raw_post(string $base_url, array $query = [], array $postData = [])
-{
-    $send_url = $base_url;
-    if (!empty($query)) {
-        $send_url .= '?' . http_build_query($query);
-    }
-    $headers = array('Content-type: application/json;charset=UTF-8', 'Accept: application/json', 'Cache-Control: no-cache', 'Pragma: no-cache');
-    $postData = json_encode($postData, 320);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $send_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 3000);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
 }
