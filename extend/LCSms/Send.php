@@ -88,7 +88,7 @@ class Send
         }
 
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
         if (!(strpos($url, 'https') === FALSE)) {
