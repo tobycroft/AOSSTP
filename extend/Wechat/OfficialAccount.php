@@ -3,6 +3,7 @@
 namespace Wechat;
 
 use miniprogram_struct;
+use Net;
 use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\Offi\GetUnlimited;
 use Wechat\WechatRet\Template\TemplateSend;
@@ -17,7 +18,7 @@ class OfficialAccount extends Miniprogram
     public static function getAccessToken(string $appid, $secret, $grant_type = "client_credential"): GetAccessToken
     {
         return new GetAccessToken(
-            raw_post(self::$Base . self::$getAccessToken,
+            Net::PostJson(self::$Base . self::$getAccessToken,
                 [
                     "appid" => $appid,
                     "secret" => $secret,
@@ -29,7 +30,7 @@ class OfficialAccount extends Miniprogram
 
     public static function userlist(string $access_token, $next_openid): UserGet
     {
-        return new UserGet(raw_post(self::$Base . self::$user_get,
+        return new UserGet(Net::PostJson(self::$Base . self::$user_get,
             [
                 "access_token" => $access_token,
                 "next_openid" => $next_openid,
@@ -39,7 +40,7 @@ class OfficialAccount extends Miniprogram
 
     public static function userinfo(string $access_token, $openid): UserInfo
     {
-        return new UserInfo(raw_post(self::$Base . self::$user_info,
+        return new UserInfo(Net::PostJson(self::$Base . self::$user_info,
             [
                 "access_token" => $access_token,
                 "openid" => $openid,
@@ -49,7 +50,7 @@ class OfficialAccount extends Miniprogram
 
     public static function uniform_send(string $access_token, $touser, $template_id, $url, $data): UniformSend
     {
-        return new UniformSend(raw_post(self::$Base . self::$uniform_send,
+        return new UniformSend(Net::PostJson(self::$Base . self::$uniform_send,
             [
                 "access_token" => $access_token,
             ],
@@ -82,7 +83,7 @@ class OfficialAccount extends Miniprogram
         if (!empty($client_msg_id)) {
             $send['client_msg_id'] = $client_msg_id;
         }
-        return new TemplateSend(raw_post(self::$Base . self::$template_send,
+        return new TemplateSend(Net::PostJson(self::$Base . self::$template_send,
             [
                 "access_token" => $access_token,
             ],
@@ -93,7 +94,7 @@ class OfficialAccount extends Miniprogram
     //user_getOpenid:获取用户openid
     public static function user_getOpenid(string $appid, $secret, $code, $grant_type): OffiAccessToken
     {
-        return new OffiAccessToken(raw_post(self::$Base . self::$offi_access_token,
+        return new OffiAccessToken(Net::PostJson(self::$Base . self::$offi_access_token,
             [
                 'appid' => $appid,
                 'secret' => $secret,
@@ -152,7 +153,7 @@ class OfficialAccount extends Miniprogram
 
     public static function getQrSceneUnlimit(string $access_token, $scene): GetUnlimited
     {
-        return new GetUnlimited(raw_post(self::$Base . self::$getQrScene,
+        return new GetUnlimited(Net::PostJson(self::$Base . self::$getQrScene,
             [
                 'access_token' => $access_token
             ],
@@ -171,7 +172,7 @@ class OfficialAccount extends Miniprogram
 
     public static function getQrSceneLimit(string $access_token, $scene): GetUnlimited
     {
-        return new GetUnlimited(raw_post(self::$Base . self::$getQrScene,
+        return new GetUnlimited(Net::PostJson(self::$Base . self::$getQrScene,
             [
                 'access_token' => $access_token
             ],

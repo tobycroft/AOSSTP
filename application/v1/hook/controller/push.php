@@ -2,14 +2,16 @@
 
 namespace app\v1\hook\controller;
 
-use app\v1\hook\action\HookAction;
 use app\v1\hook\model\HookModel;
+use Input;
+use Net;
+use Ret;
 
 class push
 {
     public function single()
     {
-        $tag = \Input::Get("tag");
+        $tag = Input::Get("tag");
         $data = HookModel::where("tag", $tag)->select();
         if ($data) {
             $rets = [];
@@ -22,7 +24,7 @@ class push
                             'access_key' => $datum['key'],
                             'param' => $datum['param'],
                         ];
-                        $ret = HookAction::raw_post($path, $query);
+                        $ret = Net::PostJson($path, $query);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum["remark"]] = "success";
@@ -32,7 +34,7 @@ class push
                         break;
 
                     default:
-                        $ret = HookAction::raw_post($datum['url']);
+                        $ret = Net::PostJson($datum['url']);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum['remark']] = 'success';
@@ -41,20 +43,20 @@ class push
                         }
                         break;
                 }
-                \Ret::Success(0, $rets, 'total:' . count($data) . ',fail:' . count($status));
+                Ret::Success(0, $rets, 'total:' . count($data) . ',fail:' . count($status));
             }
         } else {
-            \Ret::Fail(404, null, "未找到项目");
+            Ret::Fail(404, null, "未找到项目");
         }
     }
 
     //http://upload.tuuz.cc:8000/v1/hook/push/github
     public function github()
     {
-        $in = \Input::Post('payload');
+        $in = Input::Post('payload');
         $payload = json_decode($in, 1);
         if (!isset($payload['repository']['name'])) {
-            \Ret::Fail(400, null, "未找到repository-name字段");
+            Ret::Fail(400, null, "未找到repository-name字段");
         }
         $data = HookModel::where('tag', $payload["repository"]["name"])->select();
         if ($data) {
@@ -68,7 +70,7 @@ class push
                             'access_key' => $datum['key'],
                             'param' => $datum['param'],
                         ];
-                        $ret = HookAction::raw_post($path, $query);
+                        $ret = Net::PostJson($path, $query);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum['remark']] = 'success';
@@ -78,7 +80,7 @@ class push
                         break;
 
                     default:
-                        $ret = HookAction::raw_post($datum['url']);
+                        $ret = Net::PostJson($datum['url']);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum['remark']] = 'success';
@@ -87,10 +89,10 @@ class push
                         }
                         break;
                 }
-                \Ret::Success(0, $rets, 'total:' . count($data) . ',fail:' . count($status));
+                Ret::Success(0, $rets, 'total:' . count($data) . ',fail:' . count($status));
             }
         } else {
-            \Ret::Fail(404, null, '未找到项目');
+            Ret::Fail(404, null, '未找到项目');
         }
     }
 }

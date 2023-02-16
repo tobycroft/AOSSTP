@@ -2,6 +2,7 @@
 
 namespace Wechat;
 
+use Net;
 use Wechat\WechatRet\Template\UniformSend;
 
 class KefuMessage extends Miniprogram
@@ -67,7 +68,7 @@ class KefuMessage extends Miniprogram
     public function send(): UniformSend
     {
 
-        return new UniformSend(raw_post(self::$Base . self::$message_send,
+        return new UniformSend(Net::PostJson(self::$Base . self::$message_send,
             [
                 'access_token' => $this->access_token,
             ],

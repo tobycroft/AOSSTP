@@ -2,6 +2,7 @@
 
 namespace Wechat;
 
+use Net;
 use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\WxaCode\GenerateScheme;
 use Wechat\WechatRet\WxaCode\GetUnlimited;
@@ -20,7 +21,7 @@ class Miniprogram extends WechatUrl
     public static function getAccessToken(string $appid, $secret, $grant_type = "client_credential"): GetAccessToken
     {
         return new GetAccessToken(
-            raw_post(self::$Base . self::$getAccessToken,
+            Net::PostJson(self::$Base . self::$getAccessToken,
                 [
                     "appid" => $appid,
                     "secret" => $secret,
@@ -32,7 +33,7 @@ class Miniprogram extends WechatUrl
 
     public static function getWxaCodeUnlimit(string $access_token, $scene, $page, $width, $env_version = "release"): GetUnlimited
     {
-        return new GetUnlimited(raw_post(self::$Base . self::$getUnlimited,
+        return new GetUnlimited(Net::PostJson(self::$Base . self::$getUnlimited,
             [
                 "access_token" => $access_token
             ],
@@ -47,7 +48,7 @@ class Miniprogram extends WechatUrl
 
     public static function jscode2session(string $appid, $secret, $js_code, $grant_type): Jscode2Session
     {
-        return new Jscode2Session(raw_post(self::$Base . self::$jscode2session,
+        return new Jscode2Session(Net::PostJson(self::$Base . self::$jscode2session,
             [
                 "appid" => $appid,
                 "secret" => $secret,
@@ -59,7 +60,7 @@ class Miniprogram extends WechatUrl
 
     public static function getuserphonenumber(string $access_token, $code): GetUserPhoneNumber
     {
-        return new GetUserPhoneNumber(raw_post(self::$Base . self::$getuserphonenumber,
+        return new GetUserPhoneNumber(Net::PostJson(self::$Base . self::$getuserphonenumber,
             [
                 "access_token" => $access_token
             ],
@@ -71,7 +72,7 @@ class Miniprogram extends WechatUrl
 
     public static function generatescheme(string $access_token, $path, $query, bool $is_expire = true, int $expire_interval = 179): GenerateScheme
     {
-        return new GenerateScheme(raw_post(self::$Base . self::$generatescheme,
+        return new GenerateScheme(Net::PostJson(self::$Base . self::$generatescheme,
             [
                 "access_token" => $access_token
             ],
@@ -87,24 +88,4 @@ class Miniprogram extends WechatUrl
         ));
     }
 
-
-}
-
-function raw_post(string $base_url, array $query = [], array $postData = [])
-{
-    $send_url = $base_url;
-    if (!empty($query)) {
-        $send_url .= '?' . http_build_query($query);
-    }
-    $headers = array('Content-type: application/json;charset=UTF-8', 'Accept: application/json', 'Cache-Control: no-cache', 'Pragma: no-cache');
-    $postData = json_encode($postData, 320);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $send_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
 }
