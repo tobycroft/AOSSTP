@@ -6,6 +6,6 @@ class log
 {
     public function upload()
     {
-        
+        echo 123;
     }
 }
