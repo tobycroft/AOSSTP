@@ -11,12 +11,18 @@ class log
     {
         $in = Input::Raw();
         LogWebModel::create([
-            'get' => json_encode(request()->get()),
-            'post' => json_encode(request()->post()),
+            'get' => json_encode(request()->get(), 320),
+            'post' => json_encode(request()->post(), 320),
             'raw' => $in,
-            'header' => json_encode(request()->header()),
+            'header' => json_encode(request()->header(), 320),
             'method' => request()->method(),
         ]);
         echo 123;
+    }
+
+    public function time()
+    {
+        $time = Input::PostInt("time");
+
     }
 }
