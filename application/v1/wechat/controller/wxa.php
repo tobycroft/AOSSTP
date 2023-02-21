@@ -2,6 +2,7 @@
 
 namespace app\v1\wechat\controller;
 
+use app\v1\file\action\OssSelectionAction;
 use app\v1\image\controller\create;
 use app\v1\wechat\action\AccessTokenAction;
 use app\v1\wechat\model\WechatDataModel;
@@ -28,6 +29,7 @@ class wxa extends create
     public function initialize()
     {
         parent::initialize();
+        $this->proc = OssSelectionAction::App_find_byProc($this->proc);
         $this->wechat = WechatModel::where("project", $this->token)->find();
         if (!$this->wechat) {
             \Ret::Fail(404, null, "未找到项目");
