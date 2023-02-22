@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
+    "php": "8.0",
     "topthink/framework": "^5.1",
     "phpoffice/phpspreadsheet": "^1.23",
     "aliyuncs/oss-sdk-php": "^2.5",
@@ -28,6 +28,7 @@
     "chillerlan/php-qrcode": "^4.3",
     "ext-fileinfo": "*",
     "ext-gd": "*",
+    "khanamiryan/qrcode-detector-decoder": "2.0.1",
     "flc/dysms": "^1.0",
     "qcloudsms/qcloudsms_php": "^0.1.4",
     "ext-libxml": "*"
