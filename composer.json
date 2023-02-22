@@ -28,7 +28,7 @@
     "chillerlan/php-qrcode": "^4.3",
     "ext-fileinfo": "*",
     "ext-gd": "*",
-    "khanamiryan/qrcode-detector-decoder": "2.0.2",
+    "khanamiryan/qrcode-detector-decoder": "^2.0.1",
     "flc/dysms": "^1.0",
     "qcloudsms/qcloudsms_php": "^0.1.4",
     "ext-libxml": "*"
