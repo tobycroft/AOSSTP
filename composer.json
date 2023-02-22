@@ -26,7 +26,6 @@
     "topthink/think-image": "^1.0",
     "picqer/php-barcode-generator": "^2.2",
     "chillerlan/php-qrcode": "^4.3",
-    "ext-fileinfo": "*",
     "ext-gd": "*",
     "khanamiryan/qrcode-detector-decoder": "2.0.0",
     "flc/dysms": "^1.0",
