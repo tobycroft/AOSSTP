@@ -6,6 +6,11 @@ use app\v1\image\controller\create;
 use app\v1\lcic\model\LcicModel;
 use Ret;
 use TencentCloud\Common\Credential;
+use TencentCloud\Common\Exception\TencentCloudSDKException;
+use TencentCloud\Common\Profile\ClientProfile;
+use TencentCloud\Common\Profile\HttpProfile;
+use TencentCloud\Lcic\V20220817\LcicClient;
+use TencentCloud\Lcic\V20220817\Models\RegisterUserRequest;
 use think\Request;
 
 class info extends create
