@@ -5,6 +5,7 @@ namespace app\v1\lcic\controller;
 use app\v1\image\controller\create;
 use app\v1\lcic\model\LcicModel;
 use Ret;
+use TencentCloud\Common\Credential;
 use think\Request;
 
 class info extends create
