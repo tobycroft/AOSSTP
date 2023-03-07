@@ -12,7 +12,7 @@ use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Lcic\V20220817\LcicClient;
 use TencentCloud\Lcic\V20220817\Models\RegisterUserRequest;
 use think\Request;
-
+require_once 'vendor/autoload.php';
 class info extends create
 {
 
