@@ -6,7 +6,6 @@ use app\v1\image\controller\create;
 use app\v1\lcic\model\LcicModel;
 use Ret;
 use think\Request;
-use function app\v1\wechat\controller\input;
 
 class info extends create
 {
