@@ -31,7 +31,8 @@
     "flc/dysms": "^1.0",
     "qcloudsms/qcloudsms_php": "^0.1.4",
     "ext-libxml": "*",
-    "tencentcloud/tencentcloud-sdk-php": "^3.0"
+    "tencentcloud/tencentcloud-sdk-php": "^3.0",
+    "guzzlehttp/guzzle": "^7.5"
   },
   "autoload": {
     "psr-4": {
