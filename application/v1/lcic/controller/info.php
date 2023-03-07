@@ -17,7 +17,9 @@ class info extends create
 {
 
     public string|null $appid;
-    public string|null $appsecret;
+    public string|null $secretid;
+    public string|null $secretkey;
+    
     public string|null $access_token;
 
     protected mixed $wechat;
