@@ -31,9 +31,7 @@
     "flc/dysms": "^1.0",
     "qcloudsms/qcloudsms_php": "^0.1.4",
     "ext-libxml": "*",
-    "guzzlehttp/guzzle": "^7.5",
-    "tencentcloud/common": "*",
-    "tencentcloud/lcic" : "*"
+    "guzzlehttp/guzzle": "^7.5"
   },
   "autoload": {
     "psr-4": {
