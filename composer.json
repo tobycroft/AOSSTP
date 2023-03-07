@@ -30,7 +30,8 @@
     "khanamiryan/qrcode-detector-decoder": "^2.0",
     "flc/dysms": "^1.0",
     "qcloudsms/qcloudsms_php": "^0.1.4",
-    "ext-libxml": "*"
+    "ext-libxml": "*",
+    "tencentcloud/lcic": "^3.0"
   },
   "autoload": {
     "psr-4": {
