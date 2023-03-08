@@ -4,6 +4,9 @@ class Ret
 {
     public static function Success(int $code = 0, mixed $data = [], string $echo = ''): void
     {
+        if ($data === null) {
+            $data = [];
+        }
         header('Content-type: application/json');
         if (empty($echo)) {
             switch ($code) {
