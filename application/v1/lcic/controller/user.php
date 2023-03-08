@@ -87,6 +87,7 @@ class user extends create
             // 输出json格式的字符串回包
 //            print_r($resp->toJsonString());
             LcicUserModel::create([
+                "project" => $this->token,
                 "OriginId" => $OriginId,
                 "Name" => $Name,
                 "Avatar" => $Avatar,
@@ -102,8 +103,11 @@ class user extends create
     public function modify()
     {
         $Name = \Input::Post('Name');
-        $UserId = \Input::Post('UserId');
+        $OriginId = \Input::Post('OriginId');
         $Avatar = \Input::Post('Avatar');
+        LcicUserModel::find([
+            "OriginId" => $OriginId
+        ])
         try {
             // 实例化一个请求对象,每个接口都会对应一个request对象
             $req = new ModifyUserProfileRequest();
