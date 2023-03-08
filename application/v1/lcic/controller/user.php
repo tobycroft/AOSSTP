@@ -56,9 +56,9 @@ class user extends create
                 $clientProfile = new ClientProfile();
                 $clientProfile->setHttpProfile($this->httpProfile);
             }
-            if (!isset($this->client)) {
-//                $this->client = new LcicClient($this->cred, '', $this->clientProfile);
-            }
+//            if (!isset($this->client)) {
+            $this->client = new LcicClient($this->cred, '', $this->clientProfile);
+//            }
         } catch (TencentCloudSDKException $e) {
             Ret::Fail($e->getCode(), $e->getErrorCode(), $e->getMessage());
         }
