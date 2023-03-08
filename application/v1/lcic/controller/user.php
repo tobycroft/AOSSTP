@@ -57,7 +57,6 @@ class user extends create
                 $clientProfile->setHttpProfile($this->httpProfile);
 //            }
 //            if (!isset($this->client)) {
-            $this->client = new LcicClient($this->cred, '', $this->clientProfile);
 //            }
         } catch (TencentCloudSDKException $e) {
             Ret::Fail($e->getCode(), $e->getErrorCode(), $e->getMessage());
@@ -70,6 +69,8 @@ class user extends create
         $OriginId = \Input::Post("OriginId");
         $Avatar = \Input::Post("Avatar");
         try {
+            $this->client = new LcicClient($this->cred, '', $this->clientProfile);
+
             $req = new RegisterUserRequest();
 
             $params = array(
