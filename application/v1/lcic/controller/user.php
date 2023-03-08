@@ -45,7 +45,7 @@ class user extends create
         $this->secretkey = $this->wechat['secretkey'];
         $this->sdkappid = $this->wechat['sdkappid'];
         try {
-            if (!isset($this->cred)) {
+            if (!($this->cred)) {
                 $this->cred = new Credential($this->secretid, $this->secretkey);
             }
             if (!$this->httpProfile) {
