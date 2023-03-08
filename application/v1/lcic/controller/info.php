@@ -41,7 +41,7 @@ class info extends create
     public function create()
     {
         $Name = \Input::Post("Name");
-        $SdkAppId = \Input::Post("SdkAppId");
+        $SdkAppId = \Input::PostInt("SdkAppId");
         $OriginId = \Input::Post("OriginId");
         $Avatar = \Input::Post("Avatar");
         try {
