@@ -45,18 +45,18 @@ class user extends create
         $this->secretkey = $this->wechat['secretkey'];
         $this->sdkappid = $this->wechat['sdkappid'];
         try {
-            if (!($this->cred)) {
+            if (!isset($this->cred)) {
                 $this->cred = new Credential($this->secretid, $this->secretkey);
             }
-            if (!$this->httpProfile) {
+            if (!isset($this->httpProfile)) {
                 $this->httpProfile = new HttpProfile();
                 $this->httpProfile->setEndpoint('lcic.tencentcloudapi.com');
             }
-            if (!$this->clientProfile) {
+            if (!isset($this->clientProfile)) {
                 $clientProfile = new ClientProfile();
                 $clientProfile->setHttpProfile($this->httpProfile);
             }
-            if (!$this->client) {
+            if (!isset($this->client)) {
                 $this->client = new LcicClient($this->cred, '', $this->clientProfile);
             }
         } catch (TencentCloudSDKException $e) {
