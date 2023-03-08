@@ -76,7 +76,7 @@ class info extends create
             // 输出json格式的字符串回包
             print_r($resp->toJsonString());
         } catch (TencentCloudSDKException $e) {
-            echo $e;
+            Ret::Fail($e->getCode(), $e->getTraceAsString(), $e->getMessage());
         }
     }
 
