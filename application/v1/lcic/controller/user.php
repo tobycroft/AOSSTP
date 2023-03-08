@@ -77,7 +77,7 @@ class user extends create
             $params = array(
                 'Name' => $Name,
                 'SdkAppId' => $this->sdkappid,
-                'OriginId' => $OriginId,
+//                'OriginId' => $OriginId,
                 'Avatar' => $Avatar,
             );
             $req->fromJsonString(json_encode($params));
