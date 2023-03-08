@@ -77,7 +77,7 @@ class info extends create
 //            print_r($resp->toJsonString());
             Ret::Success(0,$resp->toJsonString(),$resp->getToken());
         } catch (TencentCloudSDKException $e) {
-            Ret::Fail($e->getCode(), $e->getTraceAsString(), $e->getMessage());
+            Ret::Fail($e->getCode(), $e->getMessage(), $e->getMessage());
         }
     }
 
