@@ -9,7 +9,6 @@ use TencentCloud\Common\Credential;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
-use TencentCloud\Lcic\V20220817\LcicClient;
 use TencentCloud\Lcic\V20220817\Models\BatchRegisterRequest;
 use TencentCloud\Lcic\V20220817\Models\ModifyUserProfileRequest;
 use TencentCloud\Lcic\V20220817\Models\RegisterUserRequest;
@@ -57,7 +56,7 @@ class user extends create
                 $clientProfile->setHttpProfile($this->httpProfile);
             }
             if (!isset($this->client)) {
-                $this->client = new LcicClient($this->cred, '', $this->clientProfile);
+//                $this->client = new LcicClient($this->cred, '', $this->clientProfile);
             }
         } catch (TencentCloudSDKException $e) {
             Ret::Fail($e->getCode(), $e->getErrorCode(), $e->getMessage());
