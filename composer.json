@@ -31,7 +31,8 @@
     "qcloudsms/qcloudsms_php": "^0.1.4",
     "ext-libxml": "*",
     "guzzlehttp/guzzle": "^7.5",
-    "tencentcloud/tencentcloud-sdk-php": "^3.0"
+    "tencentcloud/tencentcloud-sdk-php": "^3.0",
+    "symfony/deprecation-contracts": "^3.2"
   },
   "autoload": {
     "psr-4": {
