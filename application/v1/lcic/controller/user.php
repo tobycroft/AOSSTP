@@ -46,8 +46,6 @@ class user extends create
         $this->sdkappid = $this->wechat['sdkappid'];
         try {
             if (!isset($this->cred)) {
-                echo "123";
-                exit();
                 $this->cred = new Credential($this->secretid, $this->secretkey);
             }
             if (!isset($this->httpProfile)) {
