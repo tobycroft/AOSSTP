@@ -4,6 +4,7 @@ namespace app\v1\lcic\controller;
 
 use app\v1\image\controller\create;
 use app\v1\lcic\model\LcicModel;
+use app\v1\lcic\model\LcicUserModel;
 use Ret;
 use TencentCloud\Common\Credential;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
@@ -85,7 +86,7 @@ class user extends create
 
             // 输出json格式的字符串回包
 //            print_r($resp->toJsonString());
-            LcicModel::
+            LcicUserModel::
             Ret::Success(0, $resp->toJsonString(), $resp->getToken());
         } catch (TencentCloudSDKException $e) {
             Ret::Fail(500, $e->getErrorCode(), $e->getMessage());

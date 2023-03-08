@@ -5,16 +5,3 @@ thinkphp
 .env
 .DS_Store
 /composer.lock
-/public/upload/
-/vendor/topthink/
-/vendor/bin/
-/vendor/chillerlan/
-/vendor/composer/
-/vendor/flc/
-/vendor/james-heinrich/
-/vendor/maennchen/
-/vendor/markbaker/
-/vendor/myclabs/
-/vendor/picqer/
-/vendor/psr/
-/vendor/sybio/
