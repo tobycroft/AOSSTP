@@ -105,9 +105,9 @@ class user extends create
         $Name = \Input::Post('Name');
         $OriginId = \Input::Post('OriginId');
         $Avatar = \Input::Post('Avatar');
-        LcicUserModel::find([
+        $UserId = LcicUserModel::where([
             "OriginId" => $OriginId
-        ])
+        ])->value("UserId");
         try {
             // 实例化一个请求对象,每个接口都会对应一个request对象
             $req = new ModifyUserProfileRequest();
