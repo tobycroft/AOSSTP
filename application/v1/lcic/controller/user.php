@@ -85,6 +85,7 @@ class user extends create
 
             // 输出json格式的字符串回包
 //            print_r($resp->toJsonString());
+            LcicModel::
             Ret::Success(0, $resp->toJsonString(), $resp->getToken());
         } catch (TencentCloudSDKException $e) {
             Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
