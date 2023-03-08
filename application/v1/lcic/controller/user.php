@@ -11,7 +11,6 @@ use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Lcic\V20220817\LcicClient;
-use TencentCloud\Lcic\V20220817\Models\BatchRegisterRequest;
 use TencentCloud\Lcic\V20220817\Models\ModifyUserProfileRequest;
 use TencentCloud\Lcic\V20220817\Models\RegisterUserRequest;
 
@@ -126,44 +125,6 @@ class user extends create
             Ret::Success(0, $resp->toJsonString());
         } catch (TencentCloudSDKException $e) {
             Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
-        }
-    }
-
-    public function create_more()
-    {
-        $Name = \Input::Post("Name");
-        $SdkAppId = \Input::PostInt("SdkAppId");
-        $OriginId = \Input::Post("OriginId");
-        $Avatar = \Input::Post("Avatar");
-        try {
-            $req = new BatchRegisterRequest();
-
-            $params = array(
-                'Users' => array(
-                    array(
-                        'SdkAppId' => 3471043,
-                        'Name' => 'test',
-                        'OriginId' => '1',
-                        'Avatar' => '1'
-                    ),
-                    array(
-                        'SdkAppId' => 3471043,
-                        'Name' => 'test',
-                        'OriginId' => '1',
-                        'Avatar' => '1'
-                    )
-                )
-            );
-            $req->fromJsonString(json_encode($params));
-
-            // 返回的resp是一个BatchRegisterResponse的实例，与请求对象对应
-            $resp = $this->client->BatchRegister($req);
-
-            // 输出json格式的字符串回包
-            print_r($resp->toJsonString());
-            $resp->getUsers();
-        } catch (TencentCloudSDKException $e) {
-            echo $e;
         }
     }
 
