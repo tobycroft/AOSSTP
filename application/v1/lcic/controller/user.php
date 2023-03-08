@@ -60,7 +60,7 @@ class user extends create
                 $this->client = new LcicClient($this->cred, '', $this->clientProfile);
             }
         } catch (TencentCloudSDKException $e) {
-            Ret::Fail($e->getCode(), $e->getErrorCode(), $e->getMessage());
+            Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ class user extends create
 //            print_r($resp->toJsonString());
             Ret::Success(0, $resp->toJsonString(), $resp->getToken());
         } catch (TencentCloudSDKException $e) {
-            Ret::Fail($e->getCode(), $e->getErrorCode(), $e->getMessage());
+            Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
         }
     }
 
