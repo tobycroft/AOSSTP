@@ -11,7 +11,7 @@ use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
 use TencentCloud\Lcic\V20220817\LcicClient;
 use TencentCloud\Lcic\V20220817\Models\RegisterUserRequest;
-use think\Request;
+
 
 class info extends create
 {
@@ -38,13 +38,13 @@ class info extends create
         $this->access_token = $this->wechat['access_token'];
     }
 
-    public function create(Request $request)
+    public function create()
     {
         try {
             // 实例化一个认证对象，入参需要传入腾讯云账户 SecretId 和 SecretKey，此处还需注意密钥对的保密
             // 代码泄露可能会导致 SecretId 和 SecretKey 泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议采用更安全的方式来使用密钥，请参见：https://cloud.tencent.com/document/product/1278/85305
             // 密钥可前往官网控制台 https://console.cloud.tencent.com/cam/capi 进行获取
-            $cred = new Credential($this->secretid, $this->secretkey);
+            $cred = new Credential('SecretId', 'SecretKey');
             // 实例化一个http选项，可选的，没有特殊需求可以跳过
             $httpProfile = new HttpProfile();
             $httpProfile->setEndpoint('lcic.tencentcloudapi.com');
@@ -59,7 +59,10 @@ class info extends create
             $req = new RegisterUserRequest();
 
             $params = array(
-                'Name' => '1'
+                'Name' => 'user1',
+                'SdkAppId' => 3471043,
+                'OriginId' => '1',
+                'Avatar' => 'https://i0.hdslb.com/bfs/face/1abcaae40fec03c2e71e7b2f642f4c3a75425153.jpg'
             );
             $req->fromJsonString(json_encode($params));
 
