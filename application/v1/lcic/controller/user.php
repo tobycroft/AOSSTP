@@ -93,17 +93,16 @@ class user extends create
     public function modify()
     {
         $Name = \Input::Post('Name');
-        $SdkAppId = \Input::PostInt('SdkAppId');
-        $OriginId = \Input::Post('OriginId');
+        $UserId = \Input::Post('UserId');
         $Avatar = \Input::Post('Avatar');
         try {
             // 实例化一个请求对象,每个接口都会对应一个request对象
             $req = new ModifyUserProfileRequest();
 
             $params = array(
-                'UserId' => '1',
-                'Nickname' => 'test',
-                'Avatar' => '123'
+                'UserId' => $UserId,
+                'Nickname' => $Name,
+                'Avatar' => $Avatar
             );
             $req->fromJsonString(json_encode($params));
 
