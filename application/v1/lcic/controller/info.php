@@ -40,6 +40,10 @@ class info extends create
 
     public function create()
     {
+        $Name = \Input::Post("Name");
+        $SdkAppId = \Input::Post("SdkAppId");
+        $OriginId = \Input::Post("OriginId");
+        $Avatar = \Input::Post("Avatar");
         try {
             // 实例化一个认证对象，入参需要传入腾讯云账户 SecretId 和 SecretKey，此处还需注意密钥对的保密
             // 代码泄露可能会导致 SecretId 和 SecretKey 泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议采用更安全的方式来使用密钥，请参见：https://cloud.tencent.com/document/product/1278/85305
@@ -59,10 +63,10 @@ class info extends create
             $req = new RegisterUserRequest();
 
             $params = array(
-                'Name' => 'user1',
-                'SdkAppId' => 3471043,
-                'OriginId' => '1',
-                'Avatar' => 'https://i0.hdslb.com/bfs/face/1abcaae40fec03c2e71e7b2f642f4c3a75425153.jpg'
+                'Name' => $Name,
+                'SdkAppId' => $SdkAppId,
+                'OriginId' => $OriginId,
+                'Avatar' => $Avatar,
             );
             $req->fromJsonString(json_encode($params));
 
