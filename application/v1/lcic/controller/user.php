@@ -30,7 +30,7 @@ class user extends create
     protected HttpProfile $httpProfile;
     protected ClientProfile $clientProfile;
 
-    protected mixed $client;
+    protected LcicClient $client;
 
 
     public function initialize()
