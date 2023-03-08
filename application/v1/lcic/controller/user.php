@@ -30,6 +30,8 @@ class user extends create
     protected mixed $httpProfile;
     protected mixed $clientProfile;
 
+    protected mixed $client;
+
 
     public function initialize()
     {
@@ -42,18 +44,24 @@ class user extends create
         $this->secretid = $this->wechat['secretid'];
         $this->secretkey = $this->wechat['secretkey'];
         $this->access_token = $this->wechat['access_token'];
-        if (!$this->cred) {
-            $this->cred = new Credential($this->secretid, $this->secretkey);
+        try {
+            if (!$this->cred) {
+                $this->cred = new Credential($this->secretid, $this->secretkey);
+            }
+            if (!$this->httpProfile) {
+                $this->httpProfile = new HttpProfile();
+                $this->httpProfile->setEndpoint('lcic.tencentcloudapi.com');
+            }
+            if (!$this->clientProfile) {
+                $clientProfile = new ClientProfile();
+                $clientProfile->setHttpProfile($this->httpProfile);
+            }
+            if (!$this->client) {
+                $this->client = new LcicClient($this->cred, '', $this->clientProfile);
+            }
+        } catch (TencentCloudSDKException $e) {
+            Ret::Fail($e->getCode(), $e->getErrorCode(), $e->getMessage());
         }
-        if (!$this->httpProfile) {
-            $this->httpProfile = new HttpProfile();
-            $this->httpProfile->setEndpoint('lcic.tencentcloudapi.com');
-        }
-        if (!$this->clientProfile) {
-            $clientProfile = new ClientProfile();
-            $clientProfile->setHttpProfile($this->httpProfile);
-        }
-
     }
 
     public function create()
@@ -68,11 +76,8 @@ class user extends create
             // 密钥可前往官网控制台 https://console.cloud.tencent.com/cam/capi 进行获取
             // 实例化一个http选项，可选的，没有特殊需求可以跳过
 
-
             // 实例化一个client选项，可选的，没有特殊需求可以跳过
-
             // 实例化要请求产品的client对象,clientProfile是可选的
-            $client = new LcicClient($this->cred, '', $this->clientProfile);
 
             // 实例化一个请求对象,每个接口都会对应一个request对象
             $req = new RegisterUserRequest();
