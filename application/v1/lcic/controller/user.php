@@ -26,9 +26,9 @@ class user extends create
 
     protected mixed $wechat;
 
-    protected mixed $cred;
-    protected mixed $httpProfile;
-    protected mixed $clientProfile;
+    protected Credential $cred;
+    protected HttpProfile $httpProfile;
+    protected ClientProfile $clientProfile;
 
     protected mixed $client;
 
