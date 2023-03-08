@@ -52,10 +52,10 @@ class user extends create
                 $this->httpProfile = new HttpProfile();
                 $this->httpProfile->setEndpoint('lcic.tencentcloudapi.com');
             }
-            if (!isset($this->clientProfile)) {
+//            if (!isset($this->clientProfile)) {
                 $clientProfile = new ClientProfile();
                 $clientProfile->setHttpProfile($this->httpProfile);
-            }
+//            }
 //            if (!isset($this->client)) {
             $this->client = new LcicClient($this->cred, '', $this->clientProfile);
 //            }
