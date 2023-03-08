@@ -22,7 +22,7 @@ class user extends create
     public string|null $secretid;
     public string|null $secretkey;
 
-    public string|null $access_token;
+    public int|null $sdkappid;
 
     protected mixed $wechat;
 
@@ -43,7 +43,7 @@ class user extends create
         $this->appid = $this->wechat['appid'];
         $this->secretid = $this->wechat['secretid'];
         $this->secretkey = $this->wechat['secretkey'];
-        $this->access_token = $this->wechat['access_token'];
+        $this->sdkappid = $this->wechat['sdkappid'];
         try {
             if (!$this->cred) {
                 $this->cred = new Credential($this->secretid, $this->secretkey);
@@ -67,7 +67,6 @@ class user extends create
     public function create()
     {
         $Name = \Input::Post("Name");
-        $SdkAppId = \Input::PostInt("SdkAppId");
         $OriginId = \Input::Post("OriginId");
         $Avatar = \Input::Post("Avatar");
         try {
@@ -75,7 +74,7 @@ class user extends create
 
             $params = array(
                 'Name' => $Name,
-                'SdkAppId' => $SdkAppId,
+                'SdkAppId' => $this->sdkappid,
                 'OriginId' => $OriginId,
                 'Avatar' => $Avatar,
             );
