@@ -9,6 +9,7 @@ use TencentCloud\Common\Credential;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Common\Profile\ClientProfile;
 use TencentCloud\Common\Profile\HttpProfile;
+use TencentCloud\Lcic\V20220817\LcicClient;
 use TencentCloud\Lcic\V20220817\Models\BatchRegisterRequest;
 use TencentCloud\Lcic\V20220817\Models\ModifyUserProfileRequest;
 use TencentCloud\Lcic\V20220817\Models\RegisterUserRequest;
@@ -25,11 +26,11 @@ class user extends create
 
     protected mixed $wechat;
 
-    protected mixed $cred;
-    protected mixed $httpProfile;
-    protected mixed $clientProfile;
+    protected Credential $cred;
+    protected HttpProfile $httpProfile;
+    protected ClientProfile $clientProfile;
 
-    protected mixed $client;
+    protected LcicClient $client;
 
 
     public function initialize()
