@@ -180,7 +180,7 @@ class user extends create
             $resp = $this->client->LoginUser($req);
             LcicUserModel::where([
                 'project' => $this->token,
-                'OriginId' => $OriginId,
+                'UserId' => $user_id,
             ])->update([
                 'Token' => $resp->getToken(),
                 'UserId' => $resp->getUserId(),
