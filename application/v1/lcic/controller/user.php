@@ -159,8 +159,8 @@ class user extends create
         $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)
             ->where("change_date < current_timestamp()")
             ->field('UserId,Token')
-            ->find();
-        if (strtotime($user['change_date'] < time())) {
+            ->findOrEmpty();
+        if ($user->isEmpty()) {
             try {
                 $req = new LoginUserRequest();
                 $params = array(
