@@ -95,7 +95,7 @@ class user extends create
                     'UserId' => $resp->getUserId(),
                     'Token' => $resp->getToken(),
                 ]);
-                Ret::Success(0, $resp->getToken(), $resp);
+                Ret::Success(0, $resp, $resp->getToken());
             } catch (TencentCloudSDKException $e) {
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
@@ -137,7 +137,7 @@ class user extends create
             $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->find();
 
             // 输出json格式的字符串回包
-            Ret::Success(0, $user["Token"], $user);
+            Ret::Success(0, $user->toArray(), $user["Token"]);
         } catch (TencentCloudSDKException $e) {
             Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
         }
