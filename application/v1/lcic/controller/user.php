@@ -157,7 +157,6 @@ class user extends create
             if (strtotime($user['change_date'] < time())) {
                 try {
                     $req = new LoginUserRequest();
-
                     $params = array(
                         'UserId' => $user['UserId']
                     );
