@@ -137,7 +137,7 @@ class user extends create
             $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->column("UserId,Token");
 
             // 输出json格式的字符串回包
-            Ret::Success(0, $user->toArray(), $user["Token"]);
+            Ret::Success(0, $user, $user["Token"]);
         } catch (TencentCloudSDKException $e) {
             Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
         }
