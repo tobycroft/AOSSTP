@@ -71,7 +71,7 @@ class user extends create
         $Name = \Input::Post("Name");
         $OriginId = \Input::Post("OriginId");
         $Avatar = \Input::Post("Avatar");
-        $user = LcicUserModel::where("project", $this->token)->where("OriginId", $OriginId)->find();
+        $user = LcicUserModel::where("project", $this->token)->where("OriginId", $OriginId)->findOrEmpty();
         if ($user->isEmpty()) {
             try {
                 $req = new RegisterUserRequest();
