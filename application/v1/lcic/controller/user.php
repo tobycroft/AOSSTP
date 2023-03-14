@@ -131,7 +131,7 @@ class user extends create
                 "project" => $this->token,
                 "OriginId" => $OriginId,
             ])->update([
-                'Nickname' => $Name,
+                'Name' => $Name,
                 'Avatar' => $Avatar,
             ]);
             // 输出json格式的字符串回包
