@@ -176,7 +176,6 @@ class user extends create
                 } catch (TencentCloudSDKException $e) {
                     Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
                 }
-
             } else {
                 Ret::Success(0, $user, $user["Token"]);
             }
