@@ -134,7 +134,7 @@ class user extends create
                 'Name' => $Name,
                 'Avatar' => $Avatar,
             ]);
-            $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->find();
+            $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->column("UserId,Token");
 
             // 输出json格式的字符串回包
             Ret::Success(0, $user->toArray(), $user["Token"]);
