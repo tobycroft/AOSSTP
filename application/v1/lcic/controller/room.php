@@ -6,6 +6,7 @@ use app\v1\lcic\model\LcicUserModel;
 use Ret;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Lcic\V20220817\Models\CreateRoomRequest;
+use TencentCloud\Lcic\V20220817\Models\ModifyRoomRequest;
 
 
 class room extends user
@@ -42,6 +43,34 @@ class room extends user
             );
             $req->fromJsonString(json_encode($params));
             $resp = $this->client->CreateRoom($req);
+
+            // 输出json格式的字符串回包
+            Ret::Success(0, $resp, $resp->getRoomId());
+        } catch (TencentCloudSDKException $e) {
+            Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
+        }
+    }
+
+    public function modify()
+    {
+        try {
+            $req = new ModifyRoomRequest();
+
+            $params = array(
+                'Name' => 'sadsdasd',
+                'StartTime' => 1234212,
+                'EndTime' => 12312314,
+                'TeacherId' => 'dsaswdadqdqwdqwdwqdw',
+                'SdkAppId' => 123123,
+                'Resolution' => 1,
+                'MaxMicNumber' => 16,
+                'AutoMic' => 0,
+                'AudioQuality' => 0,
+                'SubType' => 'videodoc',
+                'DisableRecord' => 1
+            );
+            $req->fromJsonString(json_encode($params));
+            $resp = $this->client->ModifyRoom($req);
 
             // 输出json格式的字符串回包
             Ret::Success(0, $resp, $resp->getRoomId());
