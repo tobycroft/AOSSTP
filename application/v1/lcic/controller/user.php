@@ -165,12 +165,14 @@ class user extends create
                 ->findOrEmpty();
             if ($user->isEmpty()) {
                 $this->create();
+            } else {
+                $user_id = $user["UserId"];
             }
         }
         try {
             $req = new LoginUserRequest();
             $params = array(
-                'UserId' => $user['UserId']
+                'UserId' => $user_id,
             );
             $req->fromJsonString(json_encode($params));
 
