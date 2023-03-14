@@ -178,11 +178,12 @@ class user extends create
                     'UserId' => $resp->getUserId(),
                     'change_date' => date('Y-m-d H:i:s', time() + 86400 * 6),
                 ]);
+                Ret::Success(0, $resp, $resp["Token"]);
             } catch (TencentCloudSDKException $e) {
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
         } else {
+            Ret::Success(0, $user, $user["Token"]);
         }
-
-
     }
+}
