@@ -3,6 +3,7 @@
 namespace app\v1\wechat\controller;
 
 use app\v1\wechat\model\WechatModel;
+use Input;
 
 class ticket extends wxa
 {
@@ -33,9 +34,9 @@ class ticket extends wxa
 
     public function signature()
     {
-        $noncestr = input("noncestr") ?: \Ret::Fail(400, null, 'noncestr');
-        $timestamp = input('timestamp') ?: \Ret::Fail(400, null, 'timestamp');
-        $url = input('url') ?: \Ret::Fail(400, null, 'url');
+        $noncestr = Input::Post("noncestr");
+        $timestamp = Input::Post("timestamp");
+        $url = Input::Post("url");
         $post = [
             'noncestr' => $noncestr,
             'jsapi_ticket' => $this->wechat['ticket'],
