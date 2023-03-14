@@ -71,32 +71,38 @@ class user extends create
         $Name = \Input::Post("Name");
         $OriginId = \Input::Post("OriginId");
         $Avatar = \Input::Post("Avatar");
-        try {
-            $req = new RegisterUserRequest();
+        $user = LcicUserModel::where("project", $this->token)->where("OriginId", $OriginId)->find();
+        if ($user->isEmpty()) {
+            try {
+                $req = new RegisterUserRequest();
 
-            $params = array(
-                'Name' => $Name,
-                'SdkAppId' => $this->sdkappid,
+                $params = array(
+                    'Name' => $Name,
+                    'SdkAppId' => $this->sdkappid,
 //                'OriginId' => $OriginId,
-                'Avatar' => $Avatar,
-            );
-            $req->fromJsonString(json_encode($params));
-            $resp = $this->client->RegisterUser($req);
+                    'Avatar' => $Avatar,
+                );
+                $req->fromJsonString(json_encode($params));
+                $resp = $this->client->RegisterUser($req);
 
-            // 输出json格式的字符串回包
+                // 输出json格式的字符串回包
 //            print_r($resp->toJsonString());
-            LcicUserModel::create([
-                "project" => $this->token,
-                "OriginId" => $OriginId,
-                "Name" => $Name,
-                "Avatar" => $Avatar,
-                "UserId" => $resp->getUserId(),
-                "Token" => $resp->getToken(),
-            ]);
-            Ret::Success(0, $resp->toJsonString(), $resp->getToken());
-        } catch (TencentCloudSDKException $e) {
-            Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
+                LcicUserModel::create([
+                    'project' => $this->token,
+                    'OriginId' => $OriginId,
+                    'Name' => $Name,
+                    'Avatar' => $Avatar,
+                    'UserId' => $resp->getUserId(),
+                    'Token' => $resp->getToken(),
+                ]);
+                Ret::Success(0, $resp->toJsonString(), $resp->getToken());
+            } catch (TencentCloudSDKException $e) {
+                Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
+            }
+        } else {
+            $this->modify();
         }
+
     }
 
     public function modify()
