@@ -158,7 +158,8 @@ class user extends create
     public function login()
     {
         $OriginId = \Input::Post('OriginId');
-        $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)
+        $user = LcicUserModel::where('project', $this->token)
+            ->where('OriginId', $OriginId)
             ->where("change_date < current_timestamp()")
             ->field('UserId,Token')
             ->findOrEmpty();
