@@ -148,7 +148,7 @@ class user extends create
             } catch (TencentCloudSDKException $e) {
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
-        } else if (strtotime($user["change_date"] < time())) {
+        } else if (strtotime($user["change_date"]) < time()) {
             $this->login();
         } else {
             Ret::Success(0, $user, $user["Token"]);
