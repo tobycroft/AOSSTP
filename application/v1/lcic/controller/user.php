@@ -127,7 +127,6 @@ class user extends create
             try {
                 // 实例化一个请求对象,每个接口都会对应一个request对象
                 $req = new ModifyUserProfileRequest();
-
                 $params = array(
                     'UserId' => $user['UserId'],
                     'Nickname' => $Name,
@@ -144,43 +143,46 @@ class user extends create
                     'Name' => $Name,
                     'Avatar' => $Avatar,
                 ]);
-                $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)
-                    ->field('UserId,Token')
-                    ->find();
-
                 // 输出json格式的字符串回包
                 Ret::Success(0, $user, $user['Token']);
             } catch (TencentCloudSDKException $e) {
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
         } else {
-            if (strtotime($user->change_date < time())) {
-                try {
-                    $req = new LoginUserRequest();
-                    $params = array(
-                        'UserId' => $user['UserId']
-                    );
-                    $req->fromJsonString(json_encode($params));
-
-                    // 返回的resp是一个LoginUserResponse的实例，与请求对象对应
-                    $resp = $this->client->LoginUser($req);
-                    LcicUserModel::where([
-                        'project' => $this->token,
-                        'OriginId' => $OriginId,
-                    ])->update([
-                        'Token' => $resp->getToken(),
-                        'UserId' => $resp->getUserId(),
-                        'change_date' => date('Y-m-d H:i:s', time() + 86400 * 6),
-                    ]);
-                } catch (TencentCloudSDKException $e) {
-                    Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
-                }
-            } else {
-                Ret::Success(0, $user, $user["Token"]);
-            }
+            $this->login();
         }
-
     }
 
+    public function login()
+    {
+        $OriginId = \Input::Post('OriginId');
+        $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)
+            ->where("change_date < current_timestamp()")
+            ->field('UserId,Token')
+            ->find();
+        if (strtotime($user['change_date'] < time())) {
+            try {
+                $req = new LoginUserRequest();
+                $params = array(
+                    'UserId' => $user['UserId']
+                );
+                $req->fromJsonString(json_encode($params));
 
-}
+                // 返回的resp是一个LoginUserResponse的实例，与请求对象对应
+                $resp = $this->client->LoginUser($req);
+                LcicUserModel::where([
+                    'project' => $this->token,
+                    'OriginId' => $OriginId,
+                ])->update([
+                    'Token' => $resp->getToken(),
+                    'UserId' => $resp->getUserId(),
+                    'change_date' => date('Y-m-d H:i:s', time() + 86400 * 6),
+                ]);
+            } catch (TencentCloudSDKException $e) {
+                Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
+            }
+        } else {
+        }
+
+
+    }
