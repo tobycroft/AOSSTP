@@ -6,6 +6,7 @@ use app\v1\lcic\model\LcicUserModel;
 use Ret;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Lcic\V20220817\Models\CreateRoomRequest;
+use TencentCloud\Lcic\V20220817\Models\DeleteRoomRequest;
 use TencentCloud\Lcic\V20220817\Models\ModifyRoomRequest;
 
 
@@ -57,6 +58,7 @@ class room extends user
             $req = new ModifyRoomRequest();
 
             $params = array(
+                'RoomId' => 123,
                 'Name' => 'sadsdasd',
                 'StartTime' => 1234212,
                 'EndTime' => 12312314,
@@ -71,6 +73,24 @@ class room extends user
             );
             $req->fromJsonString(json_encode($params));
             $resp = $this->client->ModifyRoom($req);
+
+            // 输出json格式的字符串回包
+            Ret::Success(0, $resp, $resp->getRoomId());
+        } catch (TencentCloudSDKException $e) {
+            Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
+        }
+    }
+
+    public function delete()
+    {
+        try {
+            $req = new DeleteRoomRequest();
+
+            $params = array(
+                'RoomId' => 123,
+            );
+            $req->fromJsonString(json_encode($params));
+            $resp = $this->client->DeleteRoom($req);
 
             // 输出json格式的字符串回包
             Ret::Success(0, $resp, $resp->getRoomId());
