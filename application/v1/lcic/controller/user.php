@@ -119,7 +119,7 @@ class user extends create
         $Avatar = \Input::Post('Avatar');
         $user = LcicUserModel::where("project", $this->token)
             ->where("OriginId", $OriginId)
-            ->field('UserId,Token,change_date')
+            ->field('Name,UserId,Token,change_date')
             ->findOrEmpty();
         if ($user->isEmpty()) {
             $this->create();
