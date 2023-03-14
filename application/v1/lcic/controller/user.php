@@ -115,37 +115,42 @@ class user extends create
         $Name = \Input::Post('Name');
         $OriginId = \Input::Post('OriginId');
         $Avatar = \Input::Post('Avatar');
-        $UserId = LcicUserModel::where([
-            "project" => $this->token,
-            "OriginId" => $OriginId,
-        ])->value("UserId");
-        try {
-            // 实例化一个请求对象,每个接口都会对应一个request对象
-            $req = new ModifyUserProfileRequest();
+        $user = LcicUserModel::where("project", $this->token)
+            ->where("OriginId", $OriginId)
+            ->where("Name", $Name)
+            ->where("Avatar", $Avatar)
+            ->where("change_date < CURRENT_TIMESTAMP()")
+            ->findOrEmpty();
+        if ($user->isEmpty()) {
+            try {
+                // 实例化一个请求对象,每个接口都会对应一个request对象
+                $req = new ModifyUserProfileRequest();
 
-            $params = array(
-                'UserId' => $UserId,
-                'Nickname' => $Name,
-                'Avatar' => $Avatar,
-            );
-            $req->fromJsonString(json_encode($params));
+                $params = array(
+                    'UserId' => $user['UserId'],
+                    'Nickname' => $Name,
+                    'Avatar' => $Avatar,
+                );
+                $req->fromJsonString(json_encode($params));
 
-            // 返回的resp是一个ModifyUserProfileResponse的实例，与请求对象对应
-            $resp = $this->client->ModifyUserProfile($req);
-            LcicUserModel::where([
-                "project" => $this->token,
-                "OriginId" => $OriginId,
-            ])->update([
-                'Name' => $Name,
-                'Avatar' => $Avatar,
-            ]);
-            $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->field('UserId,Token')->find();
+                // 返回的resp是一个ModifyUserProfileResponse的实例，与请求对象对应
+                $resp = $this->client->ModifyUserProfile($req);
+                LcicUserModel::where([
+                    'project' => $this->token,
+                    'OriginId' => $OriginId,
+                ])->update([
+                    'Name' => $Name,
+                    'Avatar' => $Avatar,
+                ]);
+                $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->field('UserId,Token')->find();
 
-            // 输出json格式的字符串回包
-            Ret::Success(0, $user, $user["Token"]);
-        } catch (TencentCloudSDKException $e) {
-            Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
+                // 输出json格式的字符串回包
+                Ret::Success(0, $user, $user['Token']);
+            } catch (TencentCloudSDKException $e) {
+                Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
+            }
         }
+
     }
 
 
