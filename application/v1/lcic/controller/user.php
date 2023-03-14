@@ -144,7 +144,7 @@ class user extends create
                     'Avatar' => $Avatar,
                 ]);
                 // 输出json格式的字符串回包
-                Ret::Success(0, $user->findOrEmpty(), $user['Token']);
+                Ret::Success(0, $user->field("UserId,Token")->findOrEmpty(), $user['Token']);
             } catch (TencentCloudSDKException $e) {
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
