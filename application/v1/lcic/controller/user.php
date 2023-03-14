@@ -111,7 +111,8 @@ class user extends create
         $OriginId = \Input::Post('OriginId');
         $Avatar = \Input::Post('Avatar');
         $UserId = LcicUserModel::where([
-            "OriginId" => $OriginId
+            "project" => $this->token,
+            "OriginId" => $OriginId,
         ])->value("UserId");
         try {
             // 实例化一个请求对象,每个接口都会对应一个request对象
