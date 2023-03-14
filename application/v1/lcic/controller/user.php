@@ -70,7 +70,6 @@ class user extends create
     public function auto()
     {
         $OriginId = \Input::Post('OriginId');
-        echo $this->token;
         $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->findOrEmpty();
         if ($user->isEmpty()) {
             $this->create();
