@@ -154,7 +154,7 @@ class user extends create
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
         } else {
-            if (strtotime($user['change_date'] < time())) {
+            if (strtotime($user->change_date < time())) {
                 try {
                     $req = new LoginUserRequest();
                     $params = array(
