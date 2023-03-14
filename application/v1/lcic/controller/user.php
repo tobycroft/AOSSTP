@@ -72,7 +72,6 @@ class user extends create
         $OriginId = \Input::Post('OriginId');
         $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->findOrEmpty();
         if ($user->isEmpty()) {
-            echo "123";
             $this->create();
         } else {
             $this->modify();
