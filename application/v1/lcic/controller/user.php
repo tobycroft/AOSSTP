@@ -95,7 +95,7 @@ class user extends create
                     'UserId' => $resp->getUserId(),
                     'Token' => $resp->getToken(),
                 ]);
-                Ret::Success(0, $resp->toJsonString(), $resp->getToken());
+                Ret::Success(0, $resp->getToken(), $resp);
             } catch (TencentCloudSDKException $e) {
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
