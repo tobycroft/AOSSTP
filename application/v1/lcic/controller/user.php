@@ -121,13 +121,19 @@ class user extends create
             $params = array(
                 'UserId' => $UserId,
                 'Nickname' => $Name,
-                'Avatar' => $Avatar
+                'Avatar' => $Avatar,
             );
             $req->fromJsonString(json_encode($params));
 
             // 返回的resp是一个ModifyUserProfileResponse的实例，与请求对象对应
             $resp = $this->client->ModifyUserProfile($req);
-
+            LcicUserModel::where([
+                "project" => $this->token,
+                "OriginId" => $OriginId,
+            ])->update([
+                'Nickname' => $Name,
+                'Avatar' => $Avatar,
+            ]);
             // 输出json格式的字符串回包
             Ret::Success(0, $resp->toJsonString());
         } catch (TencentCloudSDKException $e) {
