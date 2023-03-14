@@ -134,10 +134,10 @@ class user extends create
                 'Name' => $Name,
                 'Avatar' => $Avatar,
             ]);
-            $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->findOrEmpty();
+            $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->value("Token");
 
             // 输出json格式的字符串回包
-            Ret::Success(0, $user->toArray());
+            Ret::Success(0, $user);
         } catch (TencentCloudSDKException $e) {
             Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
         }
