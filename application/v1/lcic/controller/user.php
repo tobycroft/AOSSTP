@@ -119,11 +119,11 @@ class user extends create
         $Avatar = \Input::Post('Avatar');
         $user = LcicUserModel::where("project", $this->token)
             ->where("OriginId", $OriginId)
-            ->where("Name", $Name)
-            ->where("Avatar", $Avatar)
             ->field('UserId,Token,change_date')
             ->findOrEmpty();
         if ($user->isEmpty()) {
+            $this->create();
+        } elseif ($user["Name"] != $Name || $user["Avatar"] != $Avatar) {
             try {
                 // 实例化一个请求对象,每个接口都会对应一个request对象
                 $req = new ModifyUserProfileRequest();
