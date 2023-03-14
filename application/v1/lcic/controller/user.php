@@ -121,7 +121,7 @@ class user extends create
             ->where("OriginId", $OriginId)
             ->where("Name", $Name)
             ->where("Avatar", $Avatar)
-            ->field('UserId,Token')
+            ->field('UserId,Token,change_date')
             ->findOrEmpty();
         if ($user->isEmpty()) {
             try {
@@ -144,12 +144,14 @@ class user extends create
                     'Avatar' => $Avatar,
                 ]);
                 // 输出json格式的字符串回包
-                Ret::Success(0, $user, $user['Token']);
+                Ret::Success(0, $user->findOrEmpty(), $user['Token']);
             } catch (TencentCloudSDKException $e) {
                 Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
             }
-        } else {
+        } else if (strtotime($user["change_date"] < time())) {
             $this->login();
+        } else {
+            Ret::Success(0, $user, $user["Token"]);
         }
     }
 
