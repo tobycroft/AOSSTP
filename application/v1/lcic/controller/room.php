@@ -65,6 +65,7 @@ class room extends user
 
     public function modify()
     {
+        $RoomId = Input::PostInt('RoomId');
         $Name = Input::PostInt('Name');
         $TeacherId = Input::PostInt('TeacherId');
         $StartTime = Input::PostInt('StartTime');
@@ -79,7 +80,7 @@ class room extends user
         try {
             $req = new ModifyRoomRequest();
             $params = array(
-                'RoomId' => 123,
+                'RoomId' => $RoomId,
                 'Name' => $Name,
                 'StartTime' => $StartTime,
                 'EndTime' => $EndTime,
