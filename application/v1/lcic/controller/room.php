@@ -71,7 +71,8 @@ class room extends user
                 'AutoMic' => 0,
                 'AudioQuality' => 0,
                 'SubType' => 'videodoc',
-                'DisableRecord' => 1
+                'DisableRecord' => 1,
+                'RoomId' => $resp->getRoomId(),
             ]);
             // 输出json格式的字符串回包
             Ret::Success(0, $resp, $resp->getRoomId());
