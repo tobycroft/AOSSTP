@@ -31,6 +31,9 @@ class room extends user
         $StartTime = Input::PostInt("StartTime");
         $EndTime = Input::PostInt("EndTime");
         $user = LcicUserModel::where('project', $this->token)->where(['OriginId' => $TeacherId])->findOrEmpty();
+        if ($user->isEmpty()) {
+            Ret::Fail(404, null, "教师用户不存在，请先添加");
+        }
         try {
             $req = new CreateRoomRequest();
 
@@ -38,7 +41,7 @@ class room extends user
                 'Name' => 'sadsdasd',
                 'StartTime' => $StartTime,
                 'EndTime' => $EndTime,
-                'TeacherId' => $TeacherId,
+                'TeacherId' => $,
                 'SdkAppId' => $this->sdkappid,
                 'Resolution' => 1,
                 'MaxMicNumber' => 16,
