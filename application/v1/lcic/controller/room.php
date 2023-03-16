@@ -39,7 +39,6 @@ class room extends user
         }
         try {
             $req = new CreateRoomRequest();
-
             $params = array(
                 'Name' => 'sadsdasd',
                 'StartTime' => $StartTime,
