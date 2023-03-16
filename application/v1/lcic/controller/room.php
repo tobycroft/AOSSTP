@@ -33,7 +33,7 @@ class room extends user
     public function create()
     {
         $Name = Input::Post("Name");
-        $TeacherId = Input::PostInt("TeacherId");
+        $TeacherId = Input::Post("TeacherId");
         $StartTime = Input::PostInt("StartTime");
         $EndTime = Input::PostInt("EndTime");
         $user = LcicUserModel::where('project', $this->token)->where(['OriginId' => $TeacherId])->findOrEmpty();
