@@ -41,7 +41,7 @@ class room extends user
                 'Name' => 'sadsdasd',
                 'StartTime' => $StartTime,
                 'EndTime' => $EndTime,
-                'TeacherId' => $,
+                'TeacherId' => $user["UserId"],
                 'SdkAppId' => $this->sdkappid,
                 'Resolution' => 1,
                 'MaxMicNumber' => 16,
