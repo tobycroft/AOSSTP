@@ -3,6 +3,7 @@
 namespace app\v1\lcic\controller;
 
 use app\v1\lcic\model\LcicUserModel;
+use Input;
 use Ret;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
 use TencentCloud\Lcic\V20220817\Models\CreateRoomRequest;
@@ -15,7 +16,7 @@ class room extends user
 
     public function auto()
     {
-        $OriginId = \Input::Post('OriginId');
+        $OriginId = Input::Post('OriginId');
         $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->findOrEmpty();
         if ($user->isEmpty()) {
             $this->create();
@@ -26,15 +27,21 @@ class room extends user
 
     public function create()
     {
+        $TeacherId = Input::PostInt("TeacherId");
+        $StartTime = Input::PostInt("StartTime");
+        $EndTime = Input::PostInt("EndTime");
+        $user = LcicUserModel::where('project', $this->token)->where(['OriginId' => $TeacherId, "UserId" => $TeacherId], null, "or")->findOrEmpty();
+        var_dump($user);
+        exit();
         try {
             $req = new CreateRoomRequest();
 
             $params = array(
                 'Name' => 'sadsdasd',
-                'StartTime' => 1234212,
-                'EndTime' => 12312314,
-                'TeacherId' => 'dsaswdadqdqwdqwdwqdw',
-                'SdkAppId' => 123123,
+                'StartTime' => $StartTime,
+                'EndTime' => $EndTime,
+                'TeacherId' => $TeacherId,
+                'SdkAppId' => $this->sdkappid,
                 'Resolution' => 1,
                 'MaxMicNumber' => 16,
                 'AutoMic' => 0,
