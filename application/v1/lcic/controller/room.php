@@ -3,6 +3,7 @@
 namespace app\v1\lcic\controller;
 
 use app\v1\lcic\model\LcicUserModel;
+use app\v1\lcic\model\LclcRoomModel;
 use Input;
 use Ret;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
@@ -16,8 +17,12 @@ class room extends user
 
     public function auto()
     {
-        $OriginId = Input::Post('OriginId');
-        $user = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->findOrEmpty();
+        $Name = Input::PostInt('Name');
+        $TeacherId = Input::PostInt('TeacherId');
+        $OriginId = Input::Post('TeacherId');
+        $StartTime = Input::PostInt('StartTime');
+        $EndTime = Input::PostInt('EndTime');
+        $user = LcicUserModel::where('project', $this->token)->where(['OriginId' => $TeacherId])->findOrEmpty();
         if ($user->isEmpty()) {
             $this->create();
         } else {
@@ -55,7 +60,19 @@ class room extends user
             );
             $req->fromJsonString(json_encode($params));
             $resp = $this->client->CreateRoom($req);
-
+            LclcRoomModel::create([
+                'Name' => $Name,
+                'StartTime' => $StartTime,
+                'EndTime' => $EndTime,
+                'TeacherId' => $user['UserId'],
+                'SdkAppId' => $this->sdkappid,
+                'Resolution' => 1,
+                'MaxMicNumber' => 16,
+                'AutoMic' => 0,
+                'AudioQuality' => 0,
+                'SubType' => 'videodoc',
+                'DisableRecord' => 1
+            ]);
             // 输出json格式的字符串回包
             Ret::Success(0, $resp, $resp->getRoomId());
         } catch (TencentCloudSDKException $e) {
