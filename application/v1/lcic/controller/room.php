@@ -107,8 +107,8 @@ class room extends user
 
     public function modify()
     {
+        $Name = Input::Post('Name');
         $RoomId = Input::PostInt('RoomId');
-        $Name = Input::PostInt('Name');
         $TeacherId = Input::PostInt('TeacherId');
         $StartTime = Input::PostInt('StartTime');
         $EndTime = Input::PostInt('EndTime');
