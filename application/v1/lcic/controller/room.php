@@ -32,7 +32,7 @@ class room extends user
 
     public function create()
     {
-        $Name = Input::PostInt("Name");
+        $Name = Input::Post("Name");
         $TeacherId = Input::PostInt("TeacherId");
         $StartTime = Input::PostInt("StartTime");
         $EndTime = Input::PostInt("EndTime");
