@@ -34,8 +34,8 @@ class room extends user
         if ($user->isEmpty()) {
             Ret::Fail(404, null, "教师用户不存在，请先添加");
         }
-        if ($StartTime - $EndTime > 18000) {
-            $EndTime = $StartTime + 18000;
+        if ($StartTime - $EndTime >= 18000) {
+            $EndTime = $StartTime + 18000 - 1;
         }
         try {
             $req = new CreateRoomRequest();
