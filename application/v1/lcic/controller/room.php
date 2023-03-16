@@ -30,7 +30,7 @@ class room extends user
         }
     }
 
-    public function loginurl()
+    public function link()
     {
         $OriginId = Input::Post('OriginId');
         $TeacherId = Input::Post('TeacherId');
