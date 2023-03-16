@@ -2,8 +2,8 @@
 
 namespace app\v1\lcic\controller;
 
+use app\v1\lcic\model\LcicRoomModel;
 use app\v1\lcic\model\LcicUserModel;
-use app\v1\lcic\model\LclcRoomModel;
 use Input;
 use Ret;
 use TencentCloud\Common\Exception\TencentCloudSDKException;
@@ -42,6 +42,16 @@ class room extends user
         if ($teacher->isEmpty()) {
             Ret::Fail(404, null, "老师还未绑定，请先绑定老师");
         }
+        $room = LcicRoomModel::where("project", $this->token)
+            ->where("TeacherId", $teacher["UserId"])
+            ->where("EndTime", ">", time())
+            ->order("StartTime asc")
+            ->findOrFail();
+        if ($room->isEmpty()) {
+            Ret::Fail(404, null, '没有正在运行的房间');
+        }
+        $url = $this->url($student["UserId"], $student["Token"], $classid);
+        Ret::Success(0, $url, $url);
     }
 
     public function create()
@@ -74,7 +84,7 @@ class room extends user
             );
             $req->fromJsonString(json_encode($params));
             $resp = $this->client->CreateRoom($req);
-            LclcRoomModel::create([
+            LcicRoomModel::create([
                 'Name' => $Name,
                 'StartTime' => $StartTime,
                 'EndTime' => $EndTime,
