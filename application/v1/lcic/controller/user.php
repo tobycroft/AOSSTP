@@ -78,6 +78,11 @@ class user extends create
         }
     }
 
+    protected function url($userid, $token, $classid)
+    {
+        return "https://class.qcloudclass.com/1.7.2/index.html?userid=$userid&token=$token&classid=$classid";
+    }
+
     public function create()
     {
         $Name = \Input::Post("Name");
