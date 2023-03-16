@@ -30,6 +30,20 @@ class room extends user
         }
     }
 
+    public function loginurl()
+    {
+        $OriginId = Input::Post('OriginId');
+        $TeacherId = Input::Post('TeacherId');
+        $student = LcicUserModel::where('project', $this->token)->where('OriginId', $OriginId)->findOrEmpty();
+        if ($student->isEmpty()) {
+            Ret::Fail(404, null, "学生还未绑定，请先绑定老师");
+        }
+        $teacher = LcicUserModel::where('project', $this->token)->where('OriginId', $TeacherId)->findOrEmpty();
+        if ($teacher->isEmpty()) {
+            Ret::Fail(404, null, "老师还未绑定，请先绑定老师");
+        }
+    }
+
     public function create()
     {
         $Name = Input::Post("Name");
