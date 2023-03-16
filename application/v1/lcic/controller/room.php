@@ -27,6 +27,7 @@ class room extends user
 
     public function create()
     {
+        $Name = Input::PostInt("Name");
         $TeacherId = Input::PostInt("TeacherId");
         $StartTime = Input::PostInt("StartTime");
         $EndTime = Input::PostInt("EndTime");
@@ -40,7 +41,7 @@ class room extends user
         try {
             $req = new CreateRoomRequest();
             $params = array(
-                'Name' => 'sadsdasd',
+                'Name' => $Name,
                 'StartTime' => $StartTime,
                 'EndTime' => $EndTime,
                 'TeacherId' => $user["UserId"],
@@ -64,16 +65,26 @@ class room extends user
 
     public function modify()
     {
+        $Name = Input::PostInt('Name');
+        $TeacherId = Input::PostInt('TeacherId');
+        $StartTime = Input::PostInt('StartTime');
+        $EndTime = Input::PostInt('EndTime');
+        $user = LcicUserModel::where('project', $this->token)->where(['OriginId' => $TeacherId])->findOrEmpty();
+        if ($user->isEmpty()) {
+            Ret::Fail(404, null, '教师用户不存在，请先添加');
+        }
+        if ($EndTime - $StartTime > 18000) {
+            $EndTime = $StartTime + 18000;
+        }
         try {
             $req = new ModifyRoomRequest();
-
             $params = array(
                 'RoomId' => 123,
-                'Name' => 'sadsdasd',
-                'StartTime' => 1234212,
-                'EndTime' => 12312314,
-                'TeacherId' => 'dsaswdadqdqwdqwdwqdw',
-                'SdkAppId' => 123123,
+                'Name' => $Name,
+                'StartTime' => $StartTime,
+                'EndTime' => $EndTime,
+                'TeacherId' => $user['UserId'],
+                'SdkAppId' => $this->sdkappid,
                 'Resolution' => 1,
                 'MaxMicNumber' => 16,
                 'AutoMic' => 0,
