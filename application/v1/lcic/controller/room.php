@@ -139,7 +139,7 @@ class room extends user
             $resp = $this->client->ModifyRoom($req);
 
             // 输出json格式的字符串回包
-            Ret::Success(0, $resp, $resp->getRoomId());
+            Ret::Success(0, $resp, $resp->getRequestId());
         } catch (TencentCloudSDKException $e) {
             Ret::Fail(500, $e->getErrorCode(), $e->getMessage());
         }
