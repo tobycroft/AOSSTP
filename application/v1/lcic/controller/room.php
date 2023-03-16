@@ -30,7 +30,7 @@ class room extends user
         $TeacherId = Input::PostInt("TeacherId");
         $StartTime = Input::PostInt("StartTime");
         $EndTime = Input::PostInt("EndTime");
-        $user = LcicUserModel::where('project', $this->token)->whereOr(['OriginId' => $TeacherId, "UserId" => $TeacherId])->findOrEmpty();
+        $user = LcicUserModel::where('project', $this->token)->where(['OriginId' => $TeacherId])->findOrEmpty();
         echo $user->getLastSql();
         var_dump($user);
         exit();
