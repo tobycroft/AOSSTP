@@ -50,8 +50,13 @@ class room extends user
         if ($room->isEmpty()) {
             Ret::Fail(404, null, '没有正在运行的房间');
         }
-        $url = $this->url($student["UserId"], $student["Token"], $room["RoomId"]);
-        Ret::Success(0, $url, $url);
+        $weburl = $this->weburl($student["UserId"], $student["Token"], $room["RoomId"]);
+        $pcurl = $this->pcurl($student["UserId"], $student["Token"], $room["RoomId"]);
+
+        Ret::Success(0, [
+            "web" => $weburl,
+            "pc" => $pcurl,
+        ], $weburl);
     }
 
     public function create()

@@ -78,9 +78,14 @@ class user extends create
         }
     }
 
-    protected function url($userid, $token, $classid)
+    protected function weburl($userid, $token, $classid)
     {
         return "https://class.qcloudclass.com/1.7.2/index.html?userid=$userid&token=$token&classid=$classid";
+    }
+
+    protected function pcurl($userid, $token, $classid)
+    {
+        return "tcic://class.qcloudclass.com/1.7.2/class.html?userid=$userid&token=$token&classid=$classid";
     }
 
     public function create()
