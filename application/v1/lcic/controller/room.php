@@ -169,15 +169,15 @@ class room extends user
 
     public function delete()
     {
+        $RoomId = Input::PostInt('RoomId');
         try {
             $req = new DeleteRoomRequest();
-
             $params = array(
-                'RoomId' => 123,
+                'RoomId' => $RoomId,
             );
             $req->fromJsonString(json_encode($params));
             $resp = $this->client->DeleteRoom($req);
-
+            LcicUserModel::where("RoomId", $RoomId)->delete();
             // 输出json格式的字符串回包
             Ret::Success(0, $resp, $resp->getRoomId());
         } catch (TencentCloudSDKException $e) {
