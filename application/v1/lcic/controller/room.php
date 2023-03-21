@@ -42,7 +42,7 @@ class room extends user
         if ($teacher->isEmpty()) {
             Ret::Fail(404, null, "老师还未绑定，请先绑定老师");
         }
-        $room = LcicRoomModels::where("project", $this->token)
+        $room = LcicRoomModel::where("project", $this->token)
             ->where("TeacherId", $teacher["UserId"])
             ->where("EndTime", ">", time())
             ->order("StartTime asc")
