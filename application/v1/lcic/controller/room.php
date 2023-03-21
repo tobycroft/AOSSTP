@@ -151,7 +151,6 @@ class room extends user
                         'StartTime' => $StartTime,
                         'EndTime' => $EndTime,
                         'TeacherId' => $user['UserId'],
-                        'SdkAppId' => $this->sdkappid,
                         'Resolution' => 1,
                         'MaxMicNumber' => 16,
                         'AutoMic' => 0,
