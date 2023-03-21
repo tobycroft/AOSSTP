@@ -143,7 +143,21 @@ class room extends user
             );
             $req->fromJsonString(json_encode($params));
             $resp = $this->client->ModifyRoom($req);
-
+            LcicRoomModel::where("project", $this->token)
+                ->where("RoomId", $RoomId)
+                ->data([
+                    'Name' => $Name,
+                    'StartTime' => $StartTime,
+                    'EndTime' => $EndTime,
+                    'TeacherId' => $user['UserId'],
+                    'SdkAppId' => $this->sdkappid,
+                    'Resolution' => 1,
+                    'MaxMicNumber' => 16,
+                    'AutoMic' => 0,
+                    'AudioQuality' => 0,
+                    'SubType' => 'videodoc',
+                    'DisableRecord' => 1])
+                ->update();
             // 输出json格式的字符串回包
             Ret::Success(0, $resp, $RoomId);
         } catch (TencentCloudSDKException $e) {
