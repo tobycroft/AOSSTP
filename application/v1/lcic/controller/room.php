@@ -75,7 +75,6 @@ class room extends user
         try {
             $req = new CreateRoomRequest();
             $params = array(
-                "project" => $this->token,
                 'Name' => $Name,
                 'StartTime' => $StartTime,
                 'EndTime' => $EndTime,
