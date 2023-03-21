@@ -91,6 +91,7 @@ class room extends user
             $req->fromJsonString(json_encode($params));
             $resp = $this->client->CreateRoom($req);
             LcicRoomModel::create([
+                'project' => $this->token,
                 'Name' => $Name,
                 'StartTime' => $StartTime,
                 'EndTime' => $EndTime,
