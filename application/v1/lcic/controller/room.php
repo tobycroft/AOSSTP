@@ -46,7 +46,7 @@ class room extends user
             ->where("TeacherId", $teacher["UserId"])
             ->where("EndTime", ">", time())
             ->order("StartTime asc")
-            ->findOrFail();
+            ->findOrEmpty();
         if ($room->isEmpty()) {
             Ret::Fail(404, null, '没有正在运行的房间');
         }
