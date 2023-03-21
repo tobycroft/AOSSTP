@@ -8,5 +8,4 @@ class LcicRoomModel extends Model
 {
     protected $table = 'ao_lcic_room';
 
-
 }
