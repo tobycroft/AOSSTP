@@ -218,7 +218,7 @@ class index extends search
             try {
                 $this->upload_file($request, 1);
             } catch (Exception $e) {
-                Ret::Fail(400, $e->getMessage(), $e->getMessage());
+                Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
             }
         } else {
             Ret::Fail(400, null, "请上传binary文件");
@@ -237,7 +237,7 @@ class index extends search
 //            $this->upload_base64($request, 1, 1);
             }
         } catch (Exception $e) {
-            Ret::Fail(400, $e->getMessage(), $e->getMessage());
+            Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
         }
     }
 
@@ -254,7 +254,7 @@ class index extends search
 //            $this->upload_base64($request, 1, 1);
             }
         } catch (Exception $e) {
-            Ret::Fail(400, $e->getMessage(), $e->getMessage());
+            Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
         }
     }
 
