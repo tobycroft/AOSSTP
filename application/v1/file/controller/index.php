@@ -34,7 +34,7 @@ class index extends search
             try {
                 $this->upload_file($request);
             } catch (Exception $e) {
-                Ret::Fail(400, $e->getMessage(), $e->getMessage());
+                Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
             }
         } else {
             Ret::Fail(400, null, "请上传binary文件");
