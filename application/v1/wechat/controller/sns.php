@@ -4,6 +4,7 @@ namespace app\v1\wechat\controller;
 
 use think\Request;
 use Wechat\Miniprogram;
+use Wechat\OfficialAccount;
 
 class sns extends wxa
 {
@@ -25,6 +26,19 @@ class sns extends wxa
             ]);
         } else {
             \Ret::Fail(300, $wxa->response, $wxa->getError());
+        }
+    }
+
+
+    public function auth()
+    {
+        $access_token = Input::Post('access_token');
+        $openid = Input::Post('openid');
+        $auth = OfficialAccount::snsAuth($access_token, $openid);
+        if ($auth->isSuccess()) {
+            Ret::Success();
+        } else {
+            Ret::Fail($auth->getErrcode(), $auth->response, $auth->getError());
         }
     }
 
