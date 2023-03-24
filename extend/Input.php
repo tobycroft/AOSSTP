@@ -6,7 +6,7 @@ class Input
 {
     public static function Post(string $name, bool $must_have = true, bool $xss = false): string
     {
-        if (!Request::has($name) && $must_have) {
+        if (!Request::has($name, "post") && $must_have) {
             Ret::Fail(400, null, "Input-Post:[" . $name . "]");
         }
         if ($xss) {
@@ -74,7 +74,7 @@ class Input
 
     public static function Get(string $name, bool $must_have = true, bool $xss = false): string
     {
-        if (!Request::has($name) && $must_have) {
+        if (!Request::has($name, "get") && $must_have) {
             Ret::Fail(400, null, 'Input-Post:[' . $name . ']');
             return "";
         }
@@ -82,6 +82,15 @@ class Input
             return strval(request()->get($name, '', 'strip_tags'));
         } else {
             return strval(request()->get($name));
+        }
+    }
+
+    public static function Combi(string $name, bool $must_have = true, bool $xss = false): string
+    {
+        if (Request::has($name, "post")) {
+            return self::Post($name, $must_have, $xss);
+        } else {
+            return self::Get($name, $must_have, $xss);
         }
     }
 

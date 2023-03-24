@@ -8,7 +8,6 @@ use Input;
 use miniprogram_struct;
 use Ret;
 use think\cache\driver\Redis;
-use think\Request;
 use Wechat\OfficialAccount;
 
 class offiaccount extends info
@@ -29,12 +28,9 @@ class offiaccount extends info
         }
     }
 
-    public function user_list(Request $request)
+    public function user_list()
     {
-        if (!$request->has('next_openid')) {
-            Ret::Fail(400, null, 'next_openid');
-        }
-        $next_openid = input('next_openid');
+        $next_openid = Input::Post("next_openid");
 
         $wxa = OfficialAccount::userlist($this->access_token, "");
         if ($wxa->isSuccess()) {
@@ -45,7 +41,7 @@ class offiaccount extends info
         }
     }
 
-    public function user_info(Request $request)
+    public function user_info()
     {
         if (!$openid = input('openid')) {
             Ret::Fail(400, null, 'openid');
@@ -94,7 +90,7 @@ class offiaccount extends info
         echo $code, $state;
     }
 
-    public function openid_aquire(Request $request)
+    public function openid_aquire()
     {
         if (!$request->has('code')) {
             Ret::Fail(400, null, 'code');
@@ -220,7 +216,7 @@ class offiaccount extends info
         Ret::Success(0);
     }
 
-    public function unlimited_file(Request $request)
+    public function unlimited_file()
     {
         $data = Input::Post("data");
 
