@@ -191,8 +191,6 @@ class OfficialAccount extends Miniprogram
                 'access_token' => $access_token,
                 'openid' => $openid,
             ],
-            [
-            ]
         ));
     }
 
