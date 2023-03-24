@@ -55,19 +55,10 @@ class offiaccount extends info
 
     public function openid_url()
     {
-        if (!$redirect_uri = input('redirect_uri')) {
-            Ret::Fail(400, null, 'redirect_uri');
-        }
-        if (!$response_type = input('response_type')) {
-            Ret::Fail(400, null, 'response_type');
-        }
-        if (!$scope = input('scope')) {
-            Ret::Fail(400, null, 'scope');
-        }
+        $redirect_uri = Input::Combi("redirect_uri");
+        $response_type = Input::Combi("response_type");
         $scope = Input::Combi("scope");
-        if (!$state = input('state')) {
-            Ret::Fail(400, null, 'state');
-        }
+        $state = Input::Combi("state");
         $png = input('png');
         $appid = $this->appid;
         $redirect_uri = urlencode($redirect_uri);
