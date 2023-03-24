@@ -6,6 +6,7 @@ use miniprogram_struct;
 use Net;
 use Wechat\WechatRet\GetAccessToken;
 use Wechat\WechatRet\Offi\GetUnlimited;
+use Wechat\WechatRet\Offi\SnsAuth;
 use Wechat\WechatRet\Template\TemplateSend;
 use Wechat\WechatRet\Template\UniformSend;
 use Wechat\WechatRet\UserGet;
@@ -179,6 +180,18 @@ class OfficialAccount extends Miniprogram
             [
                 'action_name' => 'QR_LIMIT_STR_SCENE',
                 'action_info' => $scene,
+            ]
+        ));
+    }
+
+    public static function snsAuth(string $access_token, $openid): SnsAuth
+    {
+        return new SnsAuth(Net::PostJson(self::$Base . self::$getQrScene,
+            [
+                'access_token' => $access_token,
+                'openid' => $openid,
+            ],
+            [
             ]
         ));
     }
