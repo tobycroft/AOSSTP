@@ -64,6 +64,7 @@ class offiaccount extends info
         if (!$scope = input('scope')) {
             Ret::Fail(400, null, 'scope');
         }
+        $scope = Input::Combi("scope");
         if (!$state = input('state')) {
             Ret::Fail(400, null, 'state');
         }
