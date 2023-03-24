@@ -30,7 +30,7 @@ class offiaccount extends info
 
     public function user_list()
     {
-        $next_openid = Input::Post("next_openid");
+        $next_openid = Input::Combi("next_openid");
 
         $wxa = OfficialAccount::userlist($this->access_token, "");
         if ($wxa->isSuccess()) {
@@ -43,10 +43,7 @@ class offiaccount extends info
 
     public function user_info()
     {
-        if (!$openid = input('openid')) {
-            Ret::Fail(400, null, 'openid');
-        }
-
+        $openid = Input::Combi("openid");
         $wxa = OfficialAccount::userinfo($this->access_token, $openid);
         if ($wxa->isSuccess()) {
             Ret::Success(0, $wxa->getData());
@@ -92,10 +89,7 @@ class offiaccount extends info
 
     public function openid_aquire()
     {
-        if (!$request->has('code')) {
-            Ret::Fail(400, null, 'code');
-        }
-        $code = input('code');
+        $code = Input::Combi("code");
 
         $wxa = OfficialAccount::user_getOpenid($this->appid, $this->appsecret, $code, "authorization_code");
         if ($wxa->isSuccess()) {
