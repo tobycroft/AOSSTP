@@ -236,7 +236,7 @@ class offiaccount extends info
         }
     }
 
-    public function unlimited_raw(Request $request)
+    public function unlimited_raw()
     {
         $data = Input::Post('data');
 
@@ -252,5 +252,16 @@ class offiaccount extends info
         }
     }
 
+    public function sns_auth()
+    {
+        $access_token = Input::Post("access_token");
+        $openid = Input::Post("openid");
+        $auth = OfficialAccount::snsAuth($access_token, $openid);
+        if ($auth->isSuccess()) {
+            Ret::Success();
+        } else {
+            Ret::Fail($auth->getErrcode(), $auth->response, $auth->getError());
+        }
+    }
 
 }
