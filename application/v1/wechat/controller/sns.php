@@ -2,6 +2,7 @@
 
 namespace app\v1\wechat\controller;
 
+use Input;
 use think\Request;
 use Wechat\Miniprogram;
 use Wechat\OfficialAccount;
