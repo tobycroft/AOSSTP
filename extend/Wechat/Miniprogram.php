@@ -40,6 +40,7 @@ class Miniprogram extends WechatUrl
             [
                 "scene" => $scene,
                 "page" => $page,
+                'check_path' => false,
                 "width" => $width,
                 "env_version" => $env_version,
             ]
