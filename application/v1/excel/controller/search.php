@@ -35,6 +35,9 @@ class search extends index
             if (!$file) {
                 \Ret::Fail(200, null, '远程数据取回失败');
             }
+            if (!file_exists('./upload/excel/' . $this->token)) {
+                mkdir('./upload/excel/' . $this->token, 0755, true);
+            }
             $savname = './upload/excel/' . $this->token . DIRECTORY_SEPARATOR . $md5 . '.' . $file_info['ext'];
             if (!file_put_contents($savname, $file)) {
                 \Ret::Fail(300, null, "远程数据写入失败");
