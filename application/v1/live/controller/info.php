@@ -37,7 +37,7 @@ class info extends create
         }
     }
 
-    public function get_url()
+    public function create()
     {
         $title = \Input::Post("title");
         $url = GetPushUrl::getPushUrl($this->tencent["domain"], $title, $this->tencent["apikey"]);
