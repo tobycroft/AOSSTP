@@ -7,6 +7,7 @@ use app\v1\live\action\GetPushUrl;
 use app\v1\live\model\LiveAliyunModel;
 use app\v1\live\model\LiveModel;
 use app\v1\live\model\LiveTencentModel;
+use Input;
 use Ret;
 
 class info extends create
@@ -48,8 +49,8 @@ class info extends create
 
     public function create()
     {
-        $title = \Input::Post("title");
-        $datetime = \Input::PostDateTime("datetime");
+        $title = Input::Post("title");
+        $datetime = Input::PostDateTime("datetime");
         $url = GetPushUrl::getPushUrl($this->tencent["domain"], $title, $this->tencent["apikey"], $datetime);
         Ret::Success(0, $url);
     }
