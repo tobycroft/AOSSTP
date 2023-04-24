@@ -30,14 +30,14 @@ class info extends create
             case "tencent":
                 $this->tencent = LiveTencentModel::where("tag", $this->live["tag"])->find();
                 if (!$this->tencent) {
-                    Ret::Fail(404, null, '未找到腾讯模版');
+                    Ret::Fail(404, null, '未找到腾讯方案');
                 }
                 break;
 
             case "aliyun":
                 $this->aliyun = LiveAliyunModel::where('tag', $this->live['tag'])->find();
                 if (!$this->aliyun) {
-                    Ret::Fail(404, null, '未找到腾讯模版');
+                    Ret::Fail(404, null, '未找到阿里方案');
                 }
                 break;
 
