@@ -59,7 +59,7 @@ class info extends create
     {
         $title = Input::Post("title");
         $datetime = date(DATE_RFC3339, time() + 86400);
-        $url = GetPushUrl::getAll($this->tencent["domain"], $title, $this->tencent["apikey"], $datetime);
+        $url = GetPushUrl::getAll($this->tencent["domain"], $this->tencent["play_domain"], $title, $this->tencent["apikey"], $this->tencent["play_key"], $datetime);
         Ret::Success(0, $url);
     }
 

@@ -2,6 +2,7 @@
 
 namespace app\v1\live\action;
 
+use app\v1\live\struct\AllUrl;
 use app\v1\live\struct\PushUrl;
 
 class GetPushUrl
@@ -12,9 +13,9 @@ class GetPushUrl
         return $push->rtmp;
     }
 
-    public static function getAll($domain, $streamName, $key, $time): PushUrl
+    public static function getAll($domain, $play_domain, $streamName, $push_key, $play_key, $time): AllUrl
     {
-        return new PushUrl($domain, $streamName, $key, $time);
+        return new AllUrl($domain, $play_domain, $streamName, $push_key, $play_key, $time);
     }
 
 }
