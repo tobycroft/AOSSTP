@@ -65,9 +65,8 @@ class Input
             Ret::Fail(400, null, 'Input-Post-DateTime:[' . $name . ']');
             return 0;
         } else {
-            if ($time = strtotime($in)) {
-                echo $time;
-                exit();
+            $time = strtotime($in);
+            if ($time) {
                 return $time;
             } else {
                 Ret::Fail(400, null, 'Input-Post-DateTime:[' . $name . '] is not DateTime');
