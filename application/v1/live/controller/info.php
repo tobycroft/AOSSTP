@@ -55,5 +55,13 @@ class info extends create
         Ret::Success(0, $url);
     }
 
+    public function create_all()
+    {
+        $title = Input::Post("title");
+        $datetime = Input::PostDateTime("datetime");
+        $url = GetPushUrl::getAll($this->tencent["domain"], $title, $this->tencent["apikey"], $datetime);
+        Ret::Success(0, $url);
+    }
+
 
 }
