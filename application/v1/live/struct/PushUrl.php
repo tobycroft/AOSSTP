@@ -16,7 +16,6 @@ class PushUrl
     public function __construct($domain, $streamName, $key, $time)
     {
         $txTime = strtoupper(base_convert(strtotime($time), 10, 16));
-//            txSecret = MD5( KEY + streamName + txTime )
         $txSecret = md5($key . $streamName . $txTime);
         $ext_str = '?' . http_build_query(array(
                 'txSecret' => $txSecret,
