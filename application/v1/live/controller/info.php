@@ -52,6 +52,7 @@ class info extends create
         $title = Input::Post("title");
         $datetime = Input::PostDateTime("datetime");
         echo $datetime;
+        echo strtotime($datetime);
         $url = GetPushUrl::getPushUrl($this->tencent["domain"], $title, $this->tencent["apikey"], $datetime);
         Ret::Success(0, $url);
     }
