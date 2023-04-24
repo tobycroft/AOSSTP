@@ -63,5 +63,10 @@ class info extends create
         Ret::Success(0, $url);
     }
 
+    public function play_url()
+    {
+
+    }
+
 
 }
