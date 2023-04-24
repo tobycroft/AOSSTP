@@ -14,8 +14,7 @@ class GetPushUrl
 
     public static function getAll($domain, $streamName, $key, $time): PushUrl
     {
-        $push = new PushUrl($domain, $streamName, $key, $time);
-        return $push;
+        return new PushUrl($domain, $streamName, $key, $time);
     }
 
 }
