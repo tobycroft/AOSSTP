@@ -21,7 +21,6 @@ class PlayUrl
     public function __construct($domain, $play_domain, $streamName, $push_key, $play_key, $time)
     {
         $txTime = strtoupper(base_convert(strtotime($time), 10, 16));
-//            txSecret = MD5( KEY + streamName + txTime )
         $txPushSecret = md5($push_key . $streamName . $txTime);
         $txPlaySecret = md5($play_key . $streamName . $txTime);
         $push_str = '?' . http_build_query(array(
