@@ -61,7 +61,9 @@ class Input
     public static function PostDateTime(string $name, bool $must_have = true): int
     {
         $in = Request::post($name);
-        if (!Request::has($name, 'post') && $must_have) {
+        echo $in;
+        exit();
+        if (!$in && $must_have) {
             if ($time = strtotime($in)) {
                 return $time;
             } else {
