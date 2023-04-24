@@ -49,7 +49,8 @@ class info extends create
     public function create()
     {
         $title = \Input::Post("title");
-        $url = GetPushUrl::getPushUrl($this->tencent["domain"], $title, $this->tencent["apikey"]);
+        $datetime = \Input::PostDateTime("datetime");
+        $url = GetPushUrl::getPushUrl($this->tencent["domain"], $title, $this->tencent["apikey"], $datetime);
         Ret::Success(0, $url);
     }
 

@@ -58,6 +58,22 @@ class Input
         }
     }
 
+    public static function PostDateTime(string $name, bool $must_have = true): int
+    {
+        $in = Request::post($name);
+        if (!$in && $must_have) {
+            if ($time = strtotime($in)) {
+                return $time;
+            } else {
+                Ret::Fail(400, null, 'Input-Post-DateTime:[' . $name . '] is not DateTime');
+                return 0;
+            }
+        } else {
+            Ret::Fail(400, null, 'Input-Post-DateTime:[' . $name . ']');
+            return 0;
+        }
+    }
+
     public static function PostJson(string $name, bool $must_have = true): array
     {
         if (!Request::has($name) && $must_have) {
