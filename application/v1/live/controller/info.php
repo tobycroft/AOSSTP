@@ -4,6 +4,7 @@ namespace app\v1\live\controller;
 
 use app\v1\image\controller\create;
 use app\v1\live\action\GetPushUrl;
+use app\v1\live\model\LiveAliyunModel;
 use app\v1\live\model\LiveModel;
 use app\v1\live\model\LiveTencentModel;
 use Ret;
@@ -27,14 +28,14 @@ class info extends create
         }
         switch ($this->live["platform"]) {
             case "tencent":
-                $this->tencent = LiveTencentModel::where("tag", $this->live["platform"])->find();
+                $this->tencent = LiveTencentModel::where("tag", $this->live["tag"])->find();
                 if (!$this->tencent) {
                     Ret::Fail(404, null, '未找到腾讯模版');
                 }
                 break;
 
             case "aliyun":
-                $this->aliyun = LiveTencentModel::where('tag', $this->live['platform'])->find();
+                $this->aliyun = LiveAliyunModel::where('tag', $this->live['tag'])->find();
                 if (!$this->aliyun) {
                     Ret::Fail(404, null, '未找到腾讯模版');
                 }
