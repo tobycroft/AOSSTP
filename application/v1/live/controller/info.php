@@ -1,6 +1,6 @@
 <?php
 
-namespace app\v1\txlive\controller;
+namespace app\v1\live\controller;
 
 use app\v1\image\controller\create;
 use app\v1\live\action\GetPushUrl;
