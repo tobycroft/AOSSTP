@@ -58,19 +58,19 @@ class Input
         }
     }
 
-    public static function PostDateTime(string $name, bool $must_have = true): int
+    public static function PostDateTime(string $name, bool $must_have = true): string|null
     {
         $in = Request::post($name);
         if (!$in && $must_have) {
             Ret::Fail(400, null, 'Input-Post-DateTime:[' . $name . ']');
-            return 0;
+            return null;
         } else {
             $time = strtotime($in);
             if ($time) {
-                return $time;
+                return date(DATE_RFC3339, $time);
             } else {
                 Ret::Fail(400, null, 'Input-Post-DateTime:[' . $name . '] is not DateTime');
-                return 0;
+                return null;
             }
         }
     }
