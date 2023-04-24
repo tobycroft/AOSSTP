@@ -2,7 +2,7 @@
 
 namespace app\v1\live\struct;
 
-class PlayUrl
+class AllUrl
 {
     public string $rtmp = '';
     public string $domain = '';
