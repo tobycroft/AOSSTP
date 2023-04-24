@@ -10,8 +10,7 @@ class GetUrl
 {
     public static function getPushUrl($domain, $streamName, $key = null, $time = null)
     {
-        $push = new PushUrl($domain, $streamName, $key, $time);
-        return $push->rtmp;
+        return new PushUrl($domain, $streamName, $key, $time);
     }
 
     public static function getAll($domain, $play_domain, $streamName, $push_key, $play_key, $time): AllUrl
