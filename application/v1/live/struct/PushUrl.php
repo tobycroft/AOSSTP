@@ -23,7 +23,7 @@ class PushUrl
                 'txTime' => $txTime
             ));
         $this->domain = $domain;
-        $this->obs_server = $domain . '/live/';
+        $this->obs_server = 'rtmp://' . $domain . '/live/';
         $this->stream_code = $streamName . (isset($ext_str) ? $ext_str : '');
         $this->rtmp = 'rtmp://' . $this->domain . '/live/' . $this->stream_code;
         $this->rtmp_over_srt = 'rtmp://' . $this->domain . ':3570/live/' . $this->stream_code;
