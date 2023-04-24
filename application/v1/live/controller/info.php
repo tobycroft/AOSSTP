@@ -58,7 +58,7 @@ class info extends create
     public function create_all()
     {
         $title = Input::Post("title");
-        $datetime = Input::PostDateTime("datetime");
+        $datetime = date(DATE_RFC3339, time() + 86400);
         $url = GetPushUrl::getAll($this->tencent["domain"], $title, $this->tencent["apikey"], $datetime);
         Ret::Success(0, $url);
     }
