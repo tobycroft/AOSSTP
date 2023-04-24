@@ -7,6 +7,6 @@ use think\Model;
 class LiveTencentModel extends Model
 {
 
-    protected $table = 'ao_live_model';
+    protected $table = 'ao_live_tencent';
 
 }
