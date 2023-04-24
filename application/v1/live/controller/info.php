@@ -26,7 +26,7 @@ class info extends create
         }
         switch ($this->live["platform"]) {
             case "tencent":
-                $this->tencent = LiveTencentModel::where("tag", $this->live["platform"])->findOrEmpty();
+                $this->tencent = LiveTencentModel::where("tag", $this->live["platform"])->find();
                 if (!$this->tencent) {
                     Ret::Fail(404, null, '未找到腾讯模版');
                 }
