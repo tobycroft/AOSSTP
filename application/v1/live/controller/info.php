@@ -13,6 +13,7 @@ class info extends create
 
 
     protected mixed $tencent;
+    protected mixed $aliyun;
 
     protected mixed $live;
 
@@ -28,6 +29,13 @@ class info extends create
             case "tencent":
                 $this->tencent = LiveTencentModel::where("tag", $this->live["platform"])->find();
                 if (!$this->tencent) {
+                    Ret::Fail(404, null, '未找到腾讯模版');
+                }
+                break;
+
+            case "aliyun":
+                $this->aliyun = LiveTencentModel::where('tag', $this->live['platform'])->find();
+                if (!$this->aliyun) {
                     Ret::Fail(404, null, '未找到腾讯模版');
                 }
                 break;
