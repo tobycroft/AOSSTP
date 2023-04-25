@@ -59,7 +59,7 @@ class room extends create
     {
         $title = Input::Post("title");
         $datetime = date(DATE_RFC3339, time() + 86400);
-        $url = GetUrl::getAll($this->tencent["domain"], $this->tencent["play_domain"], $title, $this->tencent["apikey"], $this->tencent["play_key"], $datetime);
+        $url = GetUrl::getAll($this->tencent["domain"], $this->tencent["play_domain"], $title, $this->tencent["moban"], $this->tencent["apikey"], $this->tencent["play_key"], $datetime);
         Ret::Success(0, $url);
     }
 
@@ -67,7 +67,7 @@ class room extends create
     {
         $title = Input::Post('title');
         $datetime = date(DATE_RFC3339, time() + 86400);
-        $url = GetUrl::getPlayUrl($this->tencent['play_domain'], $title, $this->tencent['play_key'], $datetime);
+        $url = GetUrl::getPlayUrl($this->tencent['play_domain'], $title, $this->tencent['moban'], $this->tencent['play_key'], $datetime);
         Ret::Success(0, $url);
     }
 
