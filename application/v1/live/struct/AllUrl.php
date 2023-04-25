@@ -18,7 +18,7 @@ class AllUrl
     public string $play_rtmp = "";
 
 
-    public function __construct($domain, $play_domain, $streamName, $push_key, $play_key, $time)
+    public function __construct($domain, $play_domain, $streamName, $moban, $push_key, $play_key, $time)
     {
         $txTime = strtoupper(base_convert(strtotime($time), 10, 16));
         $txPushSecret = md5($push_key . $streamName . $txTime);
