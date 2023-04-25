@@ -21,8 +21,8 @@ class PlayUrl
             ));
         if (!empty($moban)) $streamName .= '_' . $moban;
         $this->play_domain = $play_domain;
-        $this->play_flv = '' . $this->play_domain . '/live/' . $streamName . '.flv?' . $play_str;
-        $this->play_hls = '' . $this->play_domain . '/live/' . $streamName . '.m3u8?' . $play_str;
-        $this->play_rtmp = 'rtmp://' . $this->play_domain . '/live/' . $streamName . '.m3u8?' . $play_str;
+        $this->play_flv = '' . $this->play_domain . '/live/' . $streamName . '.flv' . $play_str;
+        $this->play_hls = '' . $this->play_domain . '/live/' . $streamName . '.m3u8' . $play_str;
+        $this->play_rtmp = 'rtmp://' . $this->play_domain . '/live/' . $streamName . '.m3u8' . $play_str;
     }
 }
