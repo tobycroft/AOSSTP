@@ -8,7 +8,7 @@ use app\v1\live\struct\PushUrl;
 
 class GetUrl
 {
-    public static function getPushUrl($domain, $streamName, $key, $time)
+    public static function getPushUrl($domain, $streamName, $key, $time): PushUrl
     {
         return new PushUrl($domain, $streamName, $key, $time);
     }
