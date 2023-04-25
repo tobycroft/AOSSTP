@@ -39,6 +39,7 @@ class AllUrl
         $this->rtmp_over_srt = 'rtmp://' . $this->domain . ':3570/live/' . $this->stream_code;
         $this->srt = 'srt://' . $this->domain . ':9000?streamid=#!::h=' . $this->domain . ',r=live/' . $streamName . ',txSecret=' . $txPushSecret . ',txTime=' . $txTime;
         $this->webrtc = 'webrtc://' . $this->domain . '/live/' . $this->stream_code;
+        if (!empty($moban)) $streamName .= '_' . $moban;
         $this->play_flv = '//' . $this->play_domain . '/live/' . $streamName . '.flv?' . $play_str;
         $this->play_hls = '//' . $this->play_domain . '/live/' . $streamName . '.m3u8?' . $play_str;
         $this->play_rtmp = 'rtmp://' . $this->play_domain . '/live/' . $streamName . '.m3u8?' . $play_str;

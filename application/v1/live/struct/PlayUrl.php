@@ -11,7 +11,7 @@ class PlayUrl
     public string $play_rtmp = "";
 
 
-    public function __construct($play_domain, $streamName, $play_key, $time)
+    public function __construct($play_domain, $streamName, $moban, $play_key, $time)
     {
         $txTime = strtoupper(base_convert(strtotime($time), 10, 16));
         $txPlaySecret = md5($play_key . $streamName . $txTime);
@@ -19,6 +19,7 @@ class PlayUrl
                 'txSecret' => $txPlaySecret,
                 'txTime' => $txTime
             ));
+        if (!empty($moban)) $streamName .= '_' . $moban;
         $this->play_domain = $play_domain;
         $this->play_flv = '//' . $this->play_domain . '/live/' . $streamName . '.flv?' . $play_str;
         $this->play_hls = '//' . $this->play_domain . '/live/' . $streamName . '.m3u8?' . $play_str;

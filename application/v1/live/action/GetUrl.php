@@ -8,19 +8,19 @@ use app\v1\live\struct\PushUrl;
 
 class GetUrl
 {
-    public static function getPushUrl($domain, $streamName, $key = null, $time = null)
+    public static function getPushUrl($domain, $streamName, $key, $time)
     {
         return new PushUrl($domain, $streamName, $key, $time);
     }
 
-    public static function getAll($domain, $play_domain, $streamName, $push_key, $play_key, $time): AllUrl
+    public static function getAll($domain, $play_domain, $streamName, $moban, $push_key, $play_key, $time): AllUrl
     {
-        return new AllUrl($domain, $play_domain, $streamName, $push_key, $play_key, $time);
+        return new AllUrl($domain, $play_domain, $streamName, $moban, $push_key, $play_key, $time);
     }
 
-    public static function getPlayUrl($play_domain, $streamName, $play_key, $time): PlayUrl
+    public static function getPlayUrl($play_domain, $streamName, $moban, $play_key, $time): PlayUrl
     {
-        return new PlayUrl($play_domain, $streamName, $play_key, $time);
+        return new PlayUrl($play_domain, $streamName, $moban, $play_key, $time);
     }
 
 }
