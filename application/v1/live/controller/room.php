@@ -10,7 +10,7 @@ use app\v1\live\model\LiveTencentModel;
 use Input;
 use Ret;
 
-class info extends create
+class room extends create
 {
 
 
