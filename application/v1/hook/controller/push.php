@@ -2,6 +2,7 @@
 
 namespace app\v1\hook\controller;
 
+use app\v1\hook\model\HookLogModel;
 use app\v1\hook\model\HookModel;
 use Input;
 use Net;
@@ -71,6 +72,12 @@ class push
                             'param' => $datum['param'],
                         ];
                         $ret = Net::PostJson($path, $query);
+                        HookLogModel::create([
+                            "tag" => $this->$payload['repository']['name'],
+                            'success' => true,
+                            'url' => $path . '?' . http_build_query($query),
+                            'recv' => $ret,
+                        ]);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum['remark']] = 'success';
@@ -81,6 +88,12 @@ class push
 
                     default:
                         $ret = Net::PostJson($datum['url']);
+                        HookLogModel::create([
+                            'tag' => $this->$payload['repository']['name'],
+                            'success' => true,
+                            'url' => $path . '?' . http_build_query($query),
+                            'recv' => $ret,
+                        ]);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum['remark']] = 'success';
