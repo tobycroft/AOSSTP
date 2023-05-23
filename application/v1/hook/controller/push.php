@@ -72,33 +72,49 @@ class push
                             'param' => $datum['param'],
                         ];
                         $ret = Net::PostJson($path, $query);
-                        HookLogModel::create([
-                            "tag" => $this->$payload['repository']['name'],
-                            'success' => true,
-                            'url' => $path . '?' . http_build_query($query),
-                            'recv' => $ret,
-                        ]);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum['remark']] = 'success';
+                            HookLogModel::create([
+                                'tag' => $datum['tag'],
+                                'remark' => $datum['remark'],
+                                'success' => true,
+                                'url' => $path . '?' . http_build_query($query),
+                                'recv' => $ret,
+                            ]);
                         } else {
                             $status[$datum['remark']] = 'fail';
+                            HookLogModel::create([
+                                'tag' => $datum['tag'],
+                                'remark' => $datum['remark'],
+                                'success' => false,
+                                'url' => $path . '?' . http_build_query($query),
+                                'recv' => $ret,
+                            ]);
                         }
                         break;
 
                     default:
                         $ret = Net::PostJson($datum['url']);
-                        HookLogModel::create([
-                            'tag' => $this->$payload['repository']['name'],
-                            'success' => true,
-                            'url' => $path . '?' . http_build_query($query),
-                            'recv' => $ret,
-                        ]);
                         $rets[$datum['remark']] = $ret;
                         if ($ret) {
 //                            $status[$datum['remark']] = 'success';
+                            HookLogModel::create([
+                                'tag' => $datum['tag'],
+                                'remark' => $datum['remark'],
+                                'success' => true,
+                                'url' => $datum['url'],
+                                'recv' => $ret,
+                            ]);
                         } else {
                             $status[$datum['remark']] = 'fail';
+                            HookLogModel::create([
+                                'tag' => $datum['tag'],
+                                'remark' => $datum['remark'],
+                                'success' => false,
+                                'url' => $datum['url'],
+                                'recv' => $ret,
+                            ]);
                         }
                         break;
                 }
