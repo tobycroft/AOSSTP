@@ -118,8 +118,8 @@ class push
                         }
                         break;
                 }
-                Ret::Success(0, $rets, 'total:' . count($data) . ',fail:' . count($status));
             }
+            Ret::Success(0, $rets, 'total:' . count($data) . ',fail:' . count($status));
         } else {
             Ret::Fail(404, null, '未找到项目');
         }
