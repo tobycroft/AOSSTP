@@ -12,8 +12,10 @@ class index extends CommonController
     public function index()
     {
         $rsa = new Rsa();
+        $time1 = microtime();
         $sign = $rsa->createSign("test");
-        \Ret::Success(0, $sign, $rsa->digest("test"));
+        $time2 = microtime();
+        \Ret::Success(0, $sign, $time1 - $time2);
 
     }
 }
