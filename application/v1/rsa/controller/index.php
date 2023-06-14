@@ -13,7 +13,7 @@ class index extends CommonController
     {
         $rsa = new Rsa();
         $sign = $rsa->createSign("test");
-        \Ret::Success(0, $sign);
+        \Ret::Success(0, $sign, $rsa->digest("test"));
 
     }
 }

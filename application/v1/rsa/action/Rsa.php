@@ -46,6 +46,15 @@ Bz9nL+D3IDx5NGoowAzpTOfRUZEAlK3ZbmBHqVvXi+GKNiLummdB
         return openssl_sign(openssl_digest($data, 'sha256'), $sign, self::getPrivateKey(), OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
     }
 
+    public function digest($data = '')
+    {
+        if (!is_string($data)) {
+            return null;
+        }
+        return openssl_digest($data, 'sha256');
+    }
+
+
     /**
      * 获取私钥
      * @return bool|resource
