@@ -19,12 +19,7 @@ MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCr8KAg7d7oSVXCH1S4xrxNrqKPD5Nr
         if (!is_string($data)) {
             return null;
         }
-        return openssl_sign(
-            $data,
-            $sign,
-            self::getPrivateKey(),
-            OPENSSL_ALGO_SHA256
-        ) ? base64_encode($sign) : null;
+        openssl_sign(openssl_digest($data, 'sha256'), $sign, self::getPrivateKey(), OPENSSL_ALGO_SHA256) ? base64_encode($sign) : null;
     }
 
     /**
