@@ -13,7 +13,7 @@ class index extends CommonController
     {
         $rsa = new Rsa();
         $time1 = microtime();
-        $sign = $rsa->createSign("test");
+        $sign = $rsa->sign("test");
         $time2 = microtime();
         \Ret::Success(0, $sign, $time1 - $time2);
 
