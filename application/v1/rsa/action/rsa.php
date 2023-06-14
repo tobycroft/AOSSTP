@@ -90,8 +90,3 @@ Bz9nL+D3IDx5NGoowAzpTOfRUZEAlK3ZbmBHqVvXi+GKNiLummdB
         return openssl_pkey_get_public($publicKey);
     }
 }
-
-作者：新亮笔记
-链接：https://juejin.cn/post/6844903477248786440
-来源：稀土掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
