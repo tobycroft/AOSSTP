@@ -65,7 +65,10 @@ class index extends CommonController
 
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save('./upload/excel/' . $this->token . '/tempfile/' . md5($data) . ".xlsx");
+        $savename = './upload/excel/' . $this->token . '/tempfile/' . md5(json_encode($data)) . '.xlsx';
+        $writer->save($savename);
+
+        Ret::Success(0, $savename);
     }
 
     public function index(Request $request)
