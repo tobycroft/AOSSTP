@@ -52,6 +52,22 @@ class index extends CommonController
         $writer->save('php://output');
     }
 
+    public function create_file()
+    {
+        $data = \Input::PostJson("data");
+
+        # 实例化 Spreadsheet 对象
+        $spreadsheet = new Spreadsheet();
+
+        # 获取活动工作薄
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->fromArray($data);
+
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('./upload/excel/' . $this->token . '/tempfile/' . md5($data) . ".xlsx");
+    }
+
     public function index(Request $request)
     {
         $file = $request->file("file");
