@@ -68,10 +68,10 @@ class index extends CommonController
         if (!file_exists('./upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR)) {
             mkdir('./upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR, 0755, true);
         }
-        $savename = './upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR . md5(json_encode($data)) . '.xlsx';
-        $writer->save($savename);
+        $savename = md5(json_encode($data)) . '.xlsx';
+        $writer->save('./upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR . $savename);
 
-        Ret::Success(0, $this->proc["url"] . $savename);
+        Ret::Success(0, $this->proc["url"] . '/upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR . $savename);
     }
 
     public function index(Request $request)
