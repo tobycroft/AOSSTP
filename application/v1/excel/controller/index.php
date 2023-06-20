@@ -37,34 +37,19 @@ class index extends CommonController
 
     public function create()
     {
-        $data = \Input::Post("data");
+        $data = \Input::PostJson("data");
 
         # 实例化 Spreadsheet 对象
         $spreadsheet = new Spreadsheet();
 
         # 获取活动工作薄
         $sheet = $spreadsheet->getActiveSheet();
+        $sheet->fromArray($data);
 
-        # 获取单元格
-        $cellA = $sheet->getCell('A1');
-
-        # 设置单元格值
-        $cellA->setValue('欧阳克');
-
-        # 获取单元格
-        $cellB = $sheet->getCellByColumnAndRow(1, 2);
-
-        # 设置单元格值
-        $cellB->setValue('黄蓉');
-
-        # 获取设置单元格，链式操作
-        $sheet->getCell('A3')->setValue('郭靖');
-        $sheet->getCellByColumnAndRow(1, 4)->setValue('杨康');
-
-        # Xlsx类 将电子表格保存到文件
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save('./upload/excel/' . $this->token . '/tempfile/' . time() . ".xlsx");
+//        $writer->save('./upload/excel/' . $this->token . '/tempfile/' . time() . ".xlsx");
+        $writer->save('php://output');
     }
 
     public function index(Request $request)
