@@ -65,6 +65,9 @@ class index extends CommonController
 
 
         $writer = new Xlsx($spreadsheet);
+        if (!file_exists('./upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR)) {
+            mkdir('./upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR);
+        }
         $savename = './upload/excel/tempfile/' . $this->token . DIRECTORY_SEPARATOR . md5(json_encode($data)) . '.xlsx';
         $writer->save($savename);
 
