@@ -59,7 +59,7 @@ class Net
      * @param $send_url
      * @return bool|string
      */
-    public static function PostFile($real_path, $send_url): string|bool
+    public static function PostFile($send_url, $real_path): string|bool
     {
         $postData = [
             'file' => new CURLFile(realpath($real_path))
