@@ -41,7 +41,7 @@
     header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS", true);
     header("Access-Control-Allow-Headers: *", true);
     if (\think\facade\Request::isOptions()) {
-        return;
+        return false;
     }
     return \think\facade\Request::url();
 });
@@ -53,7 +53,7 @@
     header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS", true);
     header("Access-Control-Allow-Headers: *", true);
     if (\think\facade\Request::isOptions()) {
-        return;
+        return false;
     }
     return 'AOSS is a private host oss platform! To use this platform plz contact oss@tuuz.cc!';
 });
