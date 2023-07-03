@@ -217,18 +217,22 @@ class index extends search
 
     public function upfull(Request $request)
     {
-
-        $file = $request->file('file');
-        if ($file) {
-            try {
-                $this->upload_file($request, 1);
-            } catch (Exception $e) {
-                Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
-            }
-        } else {
-            Ret::Fail(400, null, "请上传binary文件");
+        try {
+            $file = $request->file('file');
+            if ($file) {
+                try {
+                    $this->upload_file($request, 1);
+                } catch (Exception $e) {
+                    Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
+                }
+            } else {
+                Ret::Fail(400, null, '请上传binary文件');
 //            $this->upload_base64($request, 1);
+            }
+        } catch (\Throwable $e) {
+            Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
         }
+
     }
 
     public function up_ue(Request $request)
