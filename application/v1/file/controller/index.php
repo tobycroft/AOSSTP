@@ -11,8 +11,8 @@ use OSS\AliyunOSS;
 use OSS\Core\OssException;
 use Ret;
 use SendFile\SendFile;
-use think\exception\ThrowableError;
 use think\Request;
+use Throwable;
 
 class index extends search
 {
@@ -42,7 +42,7 @@ class index extends search
                 Ret::Fail(400, null, '请上传binary文件');
 //            $this->upload_base64($request);
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
         }
 
@@ -230,7 +230,7 @@ class index extends search
                 Ret::Fail(400, null, '请上传binary文件');
 //            $this->upload_base64($request, 1);
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
         }
 
@@ -246,7 +246,7 @@ class index extends search
                 Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
             }
-        } catch (ThrowableError $e) {
+        } catch (Throwable $e) {
             Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
         }
     }
@@ -263,7 +263,7 @@ class index extends search
                 Ret::Fail(400, null, "请上传binary文件");
 //            $this->upload_base64($request, 1, 1);
             }
-        } catch (ThrowableError $e) {
+        } catch (Exception $e) {
             Ret::Fail(400, $e->getTraceAsString(), $e->getMessage());
         }
     }
