@@ -23,6 +23,7 @@
     if (\think\facade\Request::isOptions()) {
         return false;
     }
+    return true;
 });
 
 
