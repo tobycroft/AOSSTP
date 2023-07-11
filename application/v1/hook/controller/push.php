@@ -59,7 +59,9 @@ class push
         if (!isset($payload['repository']['name'])) {
             Ret::Fail(400, null, "未找到repository-name字段");
         }
-        $data = HookModel::where('tag', $payload["repository"]["name"])->where("status", 1)->select();
+        $ref = explode('/', $payload['ref']);
+        $branch = end($ref);
+        $data = HookModel::where('tag', $payload["repository"]["name"])->where("status", 1)->where("branch", $branch)->select();
         if ($data) {
             $rets = [];
             $status = [];
