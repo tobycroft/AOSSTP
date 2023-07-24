@@ -7,7 +7,6 @@ use app\v1\sms\action\SendAction;
 use BaseController\CommonController;
 use Input;
 use Ret;
-use think\Request;
 
 class single extends CommonController
 {
@@ -29,7 +28,7 @@ class single extends CommonController
         }
     }
 
-    public function push(Request $request)
+    public function push()
     {
         $phone = Input::Post("phone");
         $quhao = Input::PostInt("quhao");
