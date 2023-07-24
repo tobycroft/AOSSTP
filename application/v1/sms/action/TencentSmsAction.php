@@ -13,7 +13,7 @@ use QcloudSms\SmsSingleSenderFix;
 
 class TencentSmsAction
 {
-    public static function Send(mixed $type, $tag, $appid, $appkey, int $quhao, string|array $phone, string $text, $smsSign, $templateId): SendStdErr
+    public static function Send(string $ip, mixed $type, $tag, $appid, $appkey, int $quhao, string|array $phone, string $text, $smsSign, $templateId): SendStdErr
     {
 
 //        try {
@@ -32,6 +32,7 @@ class TencentSmsAction
             'phone' => $phone,
             'text' => $text,
             'raw' => $result,
+            'ip' => $ip,
             'log' => $ret->errmsg,
             'success' => $success,
             'error' => false,

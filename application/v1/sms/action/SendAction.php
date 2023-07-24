@@ -12,13 +12,13 @@ class SendAction
 {
 
     //AutoSend:返回错误
-    public static function AutoSend($proc, $quhao, $phone, string $text): SendStdErr|null
+    public static function AutoSend($proc, $quhao, $phone, string $text, $ip): SendStdErr|null
     {
         switch ($proc["sms_type"]) {
             case "aliyun":
                 $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($data) {
-                    return AliyunAction::Send($proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
+                    return AliyunAction::Send($ip, $proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
                 }
                 Ret::Fail(408, null, '未找到aliyun平台对应模板');
                 break;
@@ -26,7 +26,7 @@ class SendAction
             case "tencent":
                 $data = SmsTencentModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return TencentSmsAction::Send($proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $text, $data['sign'], $data['tplid']);
+                    return TencentSmsAction::Send($ip, $proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $text, $data['sign'], $data['tplid']);
                 }
                 Ret::Fail(408, null, '未找到tencent平台对应模板');
                 break;

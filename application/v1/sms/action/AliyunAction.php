@@ -9,7 +9,7 @@ use Flc\Dysms\Request\SendSms;
 
 class AliyunAction
 {
-    public static function Send($type, $tag, $accessid, $accesskey, $phone, $text, $sign, $tpcode): SendStdErr
+    public static function Send($ip, $type, $tag, $accessid, $accesskey, $phone, $text, $sign, $tpcode): SendStdErr
     {
         $config = [
             'accessKeyId' => $accessid,
@@ -35,6 +35,7 @@ class AliyunAction
                 'phone' => $phone,
                 'text' => $text,
                 'raw' => json_encode($ret, 320),
+                'ip' => $ip,
                 'log' => $ret->Message,
                 'success' => $success,
                 'error' => false,
@@ -50,6 +51,7 @@ class AliyunAction
                 "oss_tag" => $tag,
                 "phone" => $phone,
                 "text" => $text,
+                'ip' => $ip,
                 "log" => $e->getMessage(),
                 "raw" => $e->getTraceAsString(),
                 'success' => false,
