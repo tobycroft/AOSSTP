@@ -34,7 +34,7 @@ class single extends CommonController
         $phone = Input::Post("phone");
         $quhao = Input::PostInt("quhao");
         $text = Input::Post("text");
-        $ip = Input::Post("ip", false);
+        $ip = Input::Post("ip");
         if (strlen($phone) < 6) {
             Ret::Fail(400, null, '手机号长度不正确');
         }
