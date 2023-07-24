@@ -43,4 +43,20 @@ class single extends CommonController
             Ret::Fail(406, null, "短信平台未选择");
         }
     }
+
+    public function push_verify()
+    {
+        $phone = Input::Post('phone');
+        $quhao = Input::PostInt('quhao');
+        $text = Input::Post('text');
+        $ip = Input::Post('ip');
+        if (strlen($phone) < 6) {
+            Ret::Fail(400, null, '手机号长度不正确');
+        }
+        if ($std = SendAction::AutoSend($this->proc, $quhao, $phone, $text, $ip)) {
+            Ret::Success($std->getCode(), $std->getData(), $std->getError());
+        } else {
+            Ret::Fail(406, null, '短信平台未选择');
+        }
+    }
 }
