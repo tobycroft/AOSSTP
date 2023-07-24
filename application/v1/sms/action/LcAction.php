@@ -10,7 +10,7 @@ use Throwable;
 //jj-proj
 class LcAction
 {
-    public static function SendText($type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
+    public static function SendText($ip, $type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
     {
 
         try {
@@ -26,6 +26,7 @@ class LcAction
                 'phone' => $phone,
                 'text' => $text,
                 'raw' => json_encode($ret, 320),
+                'ip' => $ip,
                 'log' => $ret['msg'],
                 'success' => $success,
                 'error' => false,
@@ -41,6 +42,7 @@ class LcAction
                 "oss_tag" => $tag,
                 "phone" => $phone,
                 "text" => $text,
+                'ip' => $ip,
                 "log" => $e->getMessage(),
                 "raw" => $e->getTraceAsString(),
                 'success' => false,

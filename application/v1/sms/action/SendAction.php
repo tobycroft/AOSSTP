@@ -45,7 +45,7 @@ class SendAction
 //                    if (strlen($text) <= 6) {
 //                        return LcAction::SendCode($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
 //                    } else {
-                    return LcAction::SendText($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+                    return LcAction::SendText($ip, $proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
 //                    }
                 }
                 Ret::Fail(408, null, '未找到LC平台对应模板');
