@@ -18,6 +18,7 @@ class Send
         $data['destMobiles'] = $destMobiles;                        //手机号码，多个用逗号‘,’隔开，最多1000个
         $data['sign'] = strtoupper(md5($content . $password)); //签名
 //        exit();
+
         $back = self::post($url, $data);
         echo $back;
         exit();
@@ -34,6 +35,7 @@ class Send
         if (!is_array($postData)) {
             return FALSE;
         }
+        echo json_encode($postData);
         //初始化curl
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
