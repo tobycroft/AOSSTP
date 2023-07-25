@@ -4,17 +4,17 @@ namespace app\v1\sms\action;
 
 use app\v1\log\model\LogSmsModel;
 use app\v1\sms\struct\SendStdErr;
-use LCSms\Send;
 use Throwable;
+use WlwxSMS\Send;
 
 //jj-proj
 class WlwxAction
 {
-    public static function SendText($ip, $type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
+    public static function SendText($ip, $type, $tag, $password, $cust_code, $contents, $destMobiles): SendStdErr
     {
 
         try {
-            $ret = Send::full_text($reverse_addr, $mch_id, $key, $phone, $text, $sign);
+            $ret = Send::full_text($password, $cust_code, $contents, $destMobiles);
             $success = false;
             if (strtolower($ret["code"]) == '00000') {
                 $success = true;
@@ -23,8 +23,8 @@ class WlwxAction
             LogSmsModel::create([
                 'oss_type' => $type,
                 'oss_tag' => $tag,
-                'phone' => $phone,
-                'text' => $text,
+                'phone' => $destMobiles,
+                'text' => $contents,
                 'raw' => json_encode($ret, 320),
                 'ip' => $ip,
                 'log' => $ret['msg'],
@@ -40,8 +40,8 @@ class WlwxAction
         } catch (Throwable $e) {
             LogSmsModel::create(["oss_type" => $type,
                 "oss_tag" => $tag,
-                "phone" => $phone,
-                "text" => $text,
+                "phone" => $destMobiles,
+                "text" => $contents,
                 'ip' => $ip,
                 "log" => $e->getMessage(),
                 "raw" => $e->getTraceAsString(),
