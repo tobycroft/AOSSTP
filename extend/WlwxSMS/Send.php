@@ -37,16 +37,14 @@ class Send
         }
         //初始化curl
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);    //>设置请求地址
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //>设置为返回请求内容
-
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); //>设置HEADER
-
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData, 1));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $response = curl_exec($ch);  //>运行curl
         if ($response === false) {
             if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
