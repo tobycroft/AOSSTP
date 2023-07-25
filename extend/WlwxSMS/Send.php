@@ -28,7 +28,7 @@ class Send
     /**
      * @throws Exception
      */
-    protected static function post($url, $postData, $option = FALSE)
+    protected static function post($url, $postData)
     {
         if (!is_array($postData)) {
             return FALSE;
