@@ -19,7 +19,6 @@ class Send
         $data['sign'] = strtoupper(md5($content . $password)); //签名
         echo json_encode($data);
         exit();
-
         $back = self::post($url, $data);
         //输出结果
         return json_decode($back, 1);
