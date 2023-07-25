@@ -38,7 +38,7 @@ class Send
 
         if ($option) {
             //>默认以数组发送,当option = TRUR则以key=value&key=value的形式发送
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); //>设置HEADER
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); //>设置HEADER
             $postData = http_build_query($postData);
         }
 
