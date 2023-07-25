@@ -7,16 +7,16 @@ use think\Exception;
 class Send
 {
 
-    public static function full_text($password, $cust_code, $contents, $destMobiles): array
+    public static function full_text($password, $cust_code, $content, $destMobiles): array
     {
         //发送的URL
         $url = 'https://smsapp.wlwx.com/sendSms';
         //发送数据
         $data = [];
         $data['cust_code'] = $cust_code;                      //账号唯一标识
-        $data['content'] = $contents;                         //发送内容
-        $data['phone_nums'] = $destMobiles;                        //手机号码，多个用逗号‘,’隔开，最多1000个
-        $data['sign'] = strtoupper(md5($contents . $password)); //签名
+        $data['contents'] = $content;                         //发送内容
+        $data['destMobiles'] = $destMobiles;                        //手机号码，多个用逗号‘,’隔开，最多1000个
+        $data['sign'] = strtoupper(md5($content . $password)); //签名
         echo json_encode($data);
         exit();
         $back = self::post($url, $data);
