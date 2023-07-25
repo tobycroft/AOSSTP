@@ -52,42 +52,10 @@ class WlwxAction
         }
     }
 
-    public static function SendCode($reverse_addr, $type, $tag, $mch_id, $key, $phone, array|string $text, string $sign, $tpcode): SendStdErr
+    public static function SendCode($ip, $type, $tag, $code, $password, $cust_code, $content, $destMobiles): SendStdErr
     {
-
-        try {
-            $ret = Send::code($reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode);
-            $success = false;
-            if (strtolower($ret["code"]) == '00000') {
-                $success = true;
-            }
-
-            LogSmsModel::create([
-                'oss_type' => $type,
-                'oss_tag' => $tag,
-                'phone' => $phone,
-                'text' => $text,
-                'raw' => json_encode($ret, 320),
-                'log' => $ret['respMsg'],
-                'success' => $success,
-                'error' => false,
-            ]);
-            if ($success) {
-                return new SendStdErr(0, null, $ret['respMsg']);
-            } else {
-                return new SendStdErr(200, null, $ret['respMsg']);
-            }
-        } catch (Throwable $e) {
-            LogSmsModel::create(["oss_type" => $type,
-                "oss_tag" => $tag,
-                "phone" => $phone,
-                "text" => $text,
-                "log" => $e->getMessage(),
-                "raw" => $e->getTraceAsString(),
-                'success' => false,
-                'error' => true,]);
-            return new SendStdErr(500, null, $e->getMessage());
-        }
+        $content = str_replace('{$code}', $code, $content);
+        return self::SendText($ip, $type, $tag, $password, $cust_code, $content, $destMobiles);
     }
 
 }
