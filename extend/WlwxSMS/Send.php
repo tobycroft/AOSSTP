@@ -17,6 +17,8 @@ class Send
         $data['content'] = $contents;                         //发送内容
         $data['phone_nums'] = $destMobiles;                        //手机号码，多个用逗号‘,’隔开，最多1000个
         $data['sign'] = strtoupper(md5($contents . $password)); //签名
+        echo json_encode($data);
+        exit();
         $back = self::post($url, $data);
         //输出结果
         return json_decode($back, 1);
