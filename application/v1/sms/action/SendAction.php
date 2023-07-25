@@ -5,6 +5,7 @@ namespace app\v1\sms\action;
 use app\v1\sms\model\SmsAliyunModel;
 use app\v1\sms\model\SmsLcModel;
 use app\v1\sms\model\SmsTencentModel;
+use app\v1\sms\model\SmsWlwxModel;
 use app\v1\sms\struct\SendStdErr;
 use Ret;
 
@@ -54,6 +55,10 @@ class SendAction
 
             case "wlwx":
                 //https://smsapp.wlwx.com/sendSms
+                $data = SmsWlwxModel::where('tag', $proc['sms_tag'])->findOrEmpty();
+                if ($data) {
+                    return WlwxAction::SendText($ip, $proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+                }
                 break;
 
             default:
