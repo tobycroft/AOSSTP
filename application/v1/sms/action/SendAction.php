@@ -14,6 +14,7 @@ class SendAction
     //AutoSend:返回错误
     public static function AutoSend($proc, $quhao, $phone, string $text, $ip): SendStdErr|null
     {
+        //'none','aliyun','tencent','ihuyi','zz253','lc','wlwx'
         switch ($proc["sms_type"]) {
             case "aliyun":
                 $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
@@ -49,6 +50,10 @@ class SendAction
 //                    }
                 }
                 Ret::Fail(408, null, '未找到LC平台对应模板');
+                break;
+
+            case "wlwx":
+                //https://smsapp.wlwx.com/sendSms
                 break;
 
             default:
