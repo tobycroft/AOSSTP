@@ -28,14 +28,14 @@ class WlwxAction
                 'text' => $content,
                 'raw' => json_encode($ret, 320),
                 'ip' => $ip,
-                'log' => $ret['msg'],
+                'log' => $ret['respMsg'],
                 'success' => $success,
                 'error' => false,
             ]);
             if ($success) {
-                return new SendStdErr(0, null, $ret['msg']);
+                return new SendStdErr(0, null, $ret['respMsg']);
             } else {
-                return new SendStdErr(200, $ret, $ret['msg']);
+                return new SendStdErr(200, $ret, $ret['respMsg']);
 
             }
         } catch (Throwable $e) {
@@ -68,14 +68,14 @@ class WlwxAction
                 'phone' => $phone,
                 'text' => $text,
                 'raw' => json_encode($ret, 320),
-                'log' => $ret['msg'],
+                'log' => $ret['respMsg'],
                 'success' => $success,
                 'error' => false,
             ]);
             if ($success) {
-                return new SendStdErr(0, null, $ret['msg']);
+                return new SendStdErr(0, null, $ret['respMsg']);
             } else {
-                return new SendStdErr(200, null, $ret['msg']);
+                return new SendStdErr(200, null, $ret['respMsg']);
             }
         } catch (Throwable $e) {
             LogSmsModel::create(["oss_type" => $type,
