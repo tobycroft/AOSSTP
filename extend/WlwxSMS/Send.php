@@ -30,10 +30,10 @@ class Send
     /**
      * @throws Exception
      */
-    protected static function post($url, $postData)
+    protected static function post($url, mixed $postData)
     {
-        if (!is_array($postData)) {
-            return FALSE;
+        if (is_array($postData)) {
+            $postData = json_encode($postData);
         }
         echo json_encode($postData);
         //初始化curl
@@ -43,7 +43,7 @@ class Send
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $response = curl_exec($ch);  //>运行curl
