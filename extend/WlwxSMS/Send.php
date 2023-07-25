@@ -43,16 +43,16 @@ class Send
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
         $response = curl_exec($ch);  //>运行curl
-        if ($response === false) {
-            if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
-                throw new Exception('云短信平台超时');
-            }
-        }
-        if (empty($response)) {
-            if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
-                throw new Exception('短信平台无返回');
-            }
-        }
+//        if ($response === false) {
+//            if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
+//                throw new Exception('云短信平台超时');
+//            }
+//        }
+//        if (empty($response)) {
+//            if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
+//                throw new Exception('短信平台无返回');
+//            }
+//        }
         curl_close($ch);        //>关闭curl
         return $response;
     }
