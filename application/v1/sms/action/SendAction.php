@@ -57,7 +57,7 @@ class SendAction
                 //https://smsapp.wlwx.com/sendSms
                 $data = SmsWlwxModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return WlwxAction::SendText($ip, $proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+                    return WlwxAction::SendText($ip, $proc['sms_type'], $proc['sms_tag'], $data["password"], $data["cust_code"], $data["template"], $phone);
                 }
                 break;
 
