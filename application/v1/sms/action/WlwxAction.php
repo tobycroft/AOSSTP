@@ -16,7 +16,7 @@ class WlwxAction
         try {
             $ret = Send::full_text($password, $cust_code, $contents, $destMobiles);
             $success = false;
-            if (strtolower($ret["code"]) == '00000') {
+            if (strtolower($ret["respCode"]) == '0') {
                 $success = true;
             }
 
