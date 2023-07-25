@@ -20,6 +20,8 @@ class Send
         $json = json_encode($data);
 //        exit();
         $back = self::post($url, $json);
+        echo $back;
+        exit();
         //输出结果
         return json_decode($back, 1);
     }
