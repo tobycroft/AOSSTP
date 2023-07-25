@@ -38,7 +38,7 @@ class Send
         curl_setopt($ch, CURLOPT_URL, $url);    //>设置请求地址
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //>设置为返回请求内容
 
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POST, 0);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
