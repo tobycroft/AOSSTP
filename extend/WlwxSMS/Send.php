@@ -10,7 +10,7 @@ class Send
     public static function full_text($password, $cust_code, $content, $destMobiles): array
     {
         //发送的URL
-        $url = 'https://smsapp.wlwx.com/sendSms';
+        $url = 'http://smsapp.wlwx.com/sendSms';
         //发送数据
         $data = [];
         $data['cust_code'] = $cust_code;                      //账号唯一标识
