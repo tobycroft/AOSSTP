@@ -16,7 +16,7 @@ class Send
         $data['cust_code'] = $cust_code;                      //账号唯一标识
         $data['content'] = $content;                         //发送内容
         $data['destMobiles'] = $destMobiles;                        //手机号码，多个用逗号‘,’隔开，最多1000个
-        $data['sign'] = strtoupper(md5($content . $password)); //签名
+//        $data['sign'] = strtoupper(md5($content . $password)); //签名
 //        echo json_encode($data);
 //        exit();
         $back = self::post($url, $data);
