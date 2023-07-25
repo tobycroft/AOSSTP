@@ -46,11 +46,11 @@ class Send
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
-        if (!(strpos($url, 'https') === FALSE)) {
-            //>设置SSLs
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        }
+//        if (!(strpos($url, 'https') === FALSE)) {
+//            //>设置SSLs
+//            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+//        }
         $response = curl_exec($ch);  //>运行curl
         if ($response === false) {
             if (curl_errno($ch) == CURLE_OPERATION_TIMEDOUT) {
