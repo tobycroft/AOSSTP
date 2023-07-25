@@ -31,7 +31,6 @@ class Send
         if (is_array($postData)) {
             $postData = json_encode($postData);
         }
-        echo json_encode($postData);
         //初始化curl
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
