@@ -16,6 +16,7 @@ class WlwxAction
         try {
             $ret = Send::full_text($password, $cust_code, $contents, $destMobiles);
             $success = false;
+            //1012 ins balance
             if (strtolower($ret["respCode"]) == '0') {
                 $success = true;
             }
