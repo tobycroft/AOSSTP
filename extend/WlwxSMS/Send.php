@@ -30,7 +30,7 @@ class Send
     /**
      * @throws Exception
      */
-    protected static function post($url, $postData, $option = FALSE)
+    protected static function post($url, $postData)
     {
         if (!is_array($postData)) {
             return FALSE;
@@ -40,18 +40,11 @@ class Send
         curl_setopt($ch, CURLOPT_URL, $url);    //>设置请求地址
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //>设置为返回请求内容
 
-        if ($option) {
-            //>默认以数组发送,当option = TRUR则以key=value&key=value的形式发送
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); //>设置HEADER
-            $postData = http_build_query($postData);
-        } else {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); //>设置HEADER
-
-        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json')); //>设置HEADER
 
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 5000);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData, 1));
 
         if (!(strpos($url, 'https') === FALSE)) {
             //>设置SSLs
