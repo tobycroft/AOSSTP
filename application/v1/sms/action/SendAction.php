@@ -17,7 +17,7 @@ class SendAction
     public static function AutoSend($proc, $quhao, $phone, string $text, $ip): SendStdErr|null
     {
         $black = SmsBlackListModel::where("name", $proc['name'])->where("phone", $phone)->findOrEmpty();
-        if ($black) {
+        if (!empty($black)) {
             Ret::Fail(403, null, "号码暂时进入黑名单");
         }
         //'none','aliyun','tencent','ihuyi','zz253','lc','wlwx'
