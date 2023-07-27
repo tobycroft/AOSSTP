@@ -16,7 +16,7 @@ class SendAction
     //AutoSend:返回错误
     public static function AutoSend($proc, $quhao, $phone, string $text, $ip): SendStdErr|null
     {
-        $black = SmsBlackListModel::where("name", $proc['name'])->where("phone", $phone)->find();
+        $black = SmsBlackListModel::where("name", $proc['name'])->where("phone", $phone)->findOrEmpty();
         if (!$black->isEmpty()) {
             Ret::Fail(403, null, "号码暂时进入黑名单");
         }
