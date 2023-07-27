@@ -3,6 +3,7 @@
 namespace app\v1\sms\action;
 
 use app\v1\log\model\LogSmsModel;
+use app\v1\sms\model\SmsBlackListModel;
 use app\v1\sms\struct\SendStdErr;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
@@ -28,6 +29,11 @@ class AliyunAction
             $success = false;
             if (strtolower($ret->Code) == "ok") {
                 $success = true;
+            } elseif ($ret->Code == "isv.BUSINESS_LIMIT_CONTROL") {
+                SmsBlackListModel::create([
+                    'name' => $name,
+                    'phone' => $phone,
+                ]);
             }
             LogSmsModel::create([
                 'name' => $name,
