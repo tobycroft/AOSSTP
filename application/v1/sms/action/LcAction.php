@@ -10,10 +10,11 @@ use Throwable;
 //jj-proj
 class LcAction
 {
-    public static function SendText($name, $ip, $type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
+    public static function SendText($proc, $ip, $type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
     {
 
         try {
+            $name = $proc['name'];
             $ret = Send::full_text($reverse_addr, $mch_id, $key, $phone, $text, $sign);
             $success = false;
             if (strtolower($ret["code"]) == '00000') {

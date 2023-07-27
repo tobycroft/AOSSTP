@@ -16,8 +16,8 @@ class AliyunAction
             'accessKeyId' => $accessid,
             'accessKeySecret' => $accesskey,
         ];
-        $name = $proc["name"];
         try {
+            $name = $proc['name'];
             $client = new Client($config);
             $sendSms = new SendSms();
             $sendSms->setPhoneNumbers($phone);

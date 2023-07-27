@@ -10,10 +10,11 @@ use WlwxSMS\Send;
 //jj-proj
 class WlwxAction
 {
-    public static function SendText($name, $ip, $type, $tag, $password, $cust_code, $content, $destMobiles): SendStdErr
+    public static function SendText($proc, $ip, $type, $tag, $password, $cust_code, $content, $destMobiles): SendStdErr
     {
 
         try {
+            $name = $proc['name'];
             $ret = Send::full_text($password, $cust_code, $content, $destMobiles);
             $success = false;
             //1012 ins balance
@@ -54,10 +55,10 @@ class WlwxAction
         }
     }
 
-    public static function SendCode($name, $ip, $type, $tag, $code, $password, $cust_code, $content, $destMobiles): SendStdErr
+    public static function SendCode($proc, $ip, $type, $tag, $code, $password, $cust_code, $content, $destMobiles): SendStdErr
     {
         $content = str_replace('{$code}', $code, $content);
-        return self::SendText($name, $ip, $type, $tag, $password, $cust_code, $content, $destMobiles);
+        return self::SendText($proc, $ip, $type, $tag, $password, $cust_code, $content, $destMobiles);
     }
 
 }
