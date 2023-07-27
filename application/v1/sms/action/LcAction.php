@@ -20,19 +20,24 @@ class LcAction
             if (strtolower($ret["code"]) == '00000') {
                 $success = true;
             }
-
-            LogSmsModel::create([
-                'name' => $name,
-                'oss_type' => $type,
-                'oss_tag' => $tag,
-                'phone' => $phone,
-                'text' => $text,
-                'raw' => json_encode($ret, 320),
-                'ip' => $ip,
-                'log' => $ret['msg'],
-                'success' => $success,
-                'error' => false,
-            ]);
+            $phones = explode(',', $phone);
+            $datas = [];
+            foreach ($phones as $p) {
+                $datas[] = [
+                    'name' => $name,
+                    'oss_type' => $type,
+                    'oss_tag' => $tag,
+                    'phone' => $p,
+                    'text' => $text,
+                    'raw' => json_encode($ret, 320),
+                    'ip' => $ip,
+                    'log' => $ret['msg'],
+                    'success' => $success,
+                    'error' => false,
+                ];
+            }
+            $log = new LogSmsModel();
+            $log->data($datas)->insertAll();
             if ($success) {
                 return new SendStdErr(0, null, $ret['msg']);
             } else {
