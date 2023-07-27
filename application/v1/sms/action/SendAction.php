@@ -4,6 +4,7 @@ namespace app\v1\sms\action;
 
 use app\v1\sms\model\SmsAliyunModel;
 use app\v1\sms\model\SmsBlackListModel;
+use app\v1\sms\model\SmsInterceptModel;
 use app\v1\sms\model\SmsLcModel;
 use app\v1\sms\model\SmsTencentModel;
 use app\v1\sms\model\SmsWlwxModel;
@@ -18,6 +19,12 @@ class SendAction
     {
         $black = SmsBlackListModel::where("phone", $phone)->find();
         if ($black) {
+            $intercept = SmsInterceptModel::where("phone", $phone)->find();
+            if ($intercept) {
+                SmsInterceptModel::where('phone', $phone)->setInc('num', 1);
+            } else {
+                SmsInterceptModel::create(['phone' => $phone, 'num' => 1]);
+            }
             Ret::Fail(403, null, "号码暂时进入黑名单");
         }
         //'none','aliyun','tencent','ihuyi','zz253','lc','wlwx'
