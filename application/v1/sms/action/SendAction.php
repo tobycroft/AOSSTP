@@ -20,7 +20,7 @@ class SendAction
             case "aliyun":
                 $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($data) {
-                    return AliyunAction::Send($ip, $proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
+                    return AliyunAction::Send($proc["name"], $ip, $proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
                 }
                 Ret::Fail(408, null, '未找到aliyun平台对应模板');
                 break;
@@ -28,7 +28,7 @@ class SendAction
             case "tencent":
                 $data = SmsTencentModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return TencentSmsAction::Send($ip, $proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $text, $data['sign'], $data['tplid']);
+                    return TencentSmsAction::Send($proc['name'], $ip, $proc['sms_type'], $proc['sms_tag'], $data['appid'], $data['appkey'], $quhao, $phone, $text, $data['sign'], $data['tplid']);
                 }
                 Ret::Fail(408, null, '未找到tencent平台对应模板');
                 break;
@@ -47,7 +47,7 @@ class SendAction
 //                    if (strlen($text) <= 6) {
 //                        return LcAction::SendCode($proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
 //                    } else {
-                    return LcAction::SendText($ip, $proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
+                    return LcAction::SendText($proc['name'], $ip, $proc['sms_type'], $proc['sms_tag'], $data['reverse_addr'], $data['mch_id'], $data['key'], $phone, $text, $data['sign'], $data['tpcode']);
 //                    }
                 }
                 Ret::Fail(408, null, '未找到LC平台对应模板');
@@ -57,7 +57,7 @@ class SendAction
                 //https://smsapp.wlwx.com/sendSms
                 $data = SmsWlwxModel::where('tag', $proc['sms_tag'])->findOrEmpty();
                 if ($data) {
-                    return WlwxAction::SendCode($ip, $proc['sms_type'], $proc['sms_tag'], $text, $data["password"], $data["cust_code"], $data["template"], $phone);
+                    return WlwxAction::SendCode($proc['name'], $ip, $proc['sms_type'], $proc['sms_tag'], $text, $data["password"], $data["cust_code"], $data["template"], $phone);
                 }
                 break;
 

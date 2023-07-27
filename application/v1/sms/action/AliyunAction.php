@@ -9,7 +9,7 @@ use Flc\Dysms\Request\SendSms;
 
 class AliyunAction
 {
-    public static function Send($ip, $type, $tag, $accessid, $accesskey, $phone, $text, $sign, $tpcode): SendStdErr
+    public static function Send($name, $ip, $type, $tag, $accessid, $accesskey, $phone, $text, $sign, $tpcode): SendStdErr
     {
         $config = [
             'accessKeyId' => $accessid,
@@ -30,6 +30,7 @@ class AliyunAction
                 $success = true;
             }
             LogSmsModel::create([
+                'name' => $name,
                 'oss_type' => $type,
                 'oss_tag' => $tag,
                 'phone' => $phone,
@@ -47,6 +48,7 @@ class AliyunAction
             }
         } catch (\Throwable $e) {
             LogSmsModel::create([
+                'name' => $name,
                 "oss_type" => $type,
                 "oss_tag" => $tag,
                 "phone" => $phone,

@@ -10,7 +10,7 @@ use Throwable;
 //jj-proj
 class LcAction
 {
-    public static function SendText($ip, $type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
+    public static function SendText($name, $ip, $type, $tag, $reverse_addr, $mch_id, $key, $phone, $text, $sign, $tpcode = null): SendStdErr
     {
 
         try {
@@ -21,6 +21,7 @@ class LcAction
             }
 
             LogSmsModel::create([
+                'name' => $name,
                 'oss_type' => $type,
                 'oss_tag' => $tag,
                 'phone' => $phone,
@@ -39,6 +40,7 @@ class LcAction
             }
         } catch (Throwable $e) {
             LogSmsModel::create(["oss_type" => $type,
+                'name' => $name,
                 "oss_tag" => $tag,
                 "phone" => $phone,
                 "text" => $text,

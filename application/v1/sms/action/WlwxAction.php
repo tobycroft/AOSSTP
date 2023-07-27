@@ -10,7 +10,7 @@ use WlwxSMS\Send;
 //jj-proj
 class WlwxAction
 {
-    public static function SendText($ip, $type, $tag, $password, $cust_code, $content, $destMobiles): SendStdErr
+    public static function SendText($name, $ip, $type, $tag, $password, $cust_code, $content, $destMobiles): SendStdErr
     {
 
         try {
@@ -22,6 +22,7 @@ class WlwxAction
             }
 
             LogSmsModel::create([
+                'name' => $name,
                 'oss_type' => $type,
                 'oss_tag' => $tag,
                 'phone' => $destMobiles,
@@ -40,6 +41,7 @@ class WlwxAction
             }
         } catch (Throwable $e) {
             LogSmsModel::create(["oss_type" => $type,
+                'name' => $name,
                 "oss_tag" => $tag,
                 "phone" => $destMobiles,
                 "text" => $content,
@@ -52,10 +54,10 @@ class WlwxAction
         }
     }
 
-    public static function SendCode($ip, $type, $tag, $code, $password, $cust_code, $content, $destMobiles): SendStdErr
+    public static function SendCode($name, $ip, $type, $tag, $code, $password, $cust_code, $content, $destMobiles): SendStdErr
     {
         $content = str_replace('{$code}', $code, $content);
-        return self::SendText($ip, $type, $tag, $password, $cust_code, $content, $destMobiles);
+        return self::SendText($name, $ip, $type, $tag, $password, $cust_code, $content, $destMobiles);
     }
 
 }
