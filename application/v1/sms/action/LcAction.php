@@ -23,6 +23,9 @@ class LcAction
             $phones = explode(',', $phone);
             $datas = [];
             foreach ($phones as $p) {
+                if (empty($p)) {
+                    continue;
+                }
                 $datas[] = [
                     'name' => $name,
                     'oss_type' => $type,
