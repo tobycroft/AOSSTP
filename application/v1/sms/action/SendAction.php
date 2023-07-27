@@ -3,6 +3,7 @@
 namespace app\v1\sms\action;
 
 use app\v1\sms\model\SmsAliyunModel;
+use app\v1\sms\model\SmsBlackListModel;
 use app\v1\sms\model\SmsLcModel;
 use app\v1\sms\model\SmsTencentModel;
 use app\v1\sms\model\SmsWlwxModel;
@@ -15,6 +16,10 @@ class SendAction
     //AutoSend:返回错误
     public static function AutoSend($proc, $quhao, $phone, string $text, $ip): SendStdErr|null
     {
+        $black = SmsBlackListModel::where("name", $proc['name'])->where("phone", $phone)->find();
+        if ($black) {
+            Ret::Fail(403, null, "号码暂时进入黑名单");
+        }
         //'none','aliyun','tencent','ihuyi','zz253','lc','wlwx'
         switch ($proc["sms_type"]) {
             case "aliyun":
