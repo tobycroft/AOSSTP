@@ -31,7 +31,7 @@ class AliyunAction
                 $success = true;
             } elseif ($ret->Code == "isv.BUSINESS_LIMIT_CONTROL") {
                 $count = LogSmsModel::where("phone", $phone)
-                    ->where("date>current_date")
+                    ->whereExp("date", ">current_date")
                     ->count();
                 if ($count > $proc["sms_limit"]) {
                     SmsBlackListModel::create([
