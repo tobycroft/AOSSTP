@@ -25,7 +25,7 @@ class SendAction
             case "aliyun":
                 $data = SmsAliyunModel::where("tag", $proc["sms_tag"])->findOrEmpty();
                 if ($data) {
-                    return AliyunAction::Send($proc["name"], $ip, $proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
+                    return AliyunAction::Send($proc, $ip, $proc['sms_type'], $proc['sms_tag'], $data['accessid'], $data['accesskey'], $phone, $text, $data['sign'], $data['tpcode']);
                 }
                 Ret::Fail(408, null, '未找到aliyun平台对应模板');
                 break;

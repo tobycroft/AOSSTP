@@ -10,13 +10,13 @@ use Flc\Dysms\Request\SendSms;
 
 class AliyunAction
 {
-    public static function Send($name, $ip, $type, $tag, $accessid, $accesskey, $phone, $text, $sign, $tpcode): SendStdErr
+    public static function Send($proc, $ip, $type, $tag, $accessid, $accesskey, $phone, $text, $sign, $tpcode): SendStdErr
     {
         $config = [
             'accessKeyId' => $accessid,
             'accessKeySecret' => $accesskey,
         ];
-
+        $name = $proc["name"];
         try {
             $client = new Client($config);
             $sendSms = new SendSms();
@@ -30,10 +30,15 @@ class AliyunAction
             if (strtolower($ret->Code) == "ok") {
                 $success = true;
             } elseif ($ret->Code == "isv.BUSINESS_LIMIT_CONTROL") {
-                SmsBlackListModel::create([
-                    'name' => $name,
-                    'phone' => $phone,
-                ]);
+                $count = LogSmsModel::where("phone", $phone)
+                    ->where("date>current_date")
+                    ->count();
+                if ($count > $proc["sms_limit"]) {
+                    SmsBlackListModel::create([
+                        'name' => $name,
+                        'phone' => $phone,
+                    ]);
+                }
             }
             LogSmsModel::create([
                 'name' => $name,
